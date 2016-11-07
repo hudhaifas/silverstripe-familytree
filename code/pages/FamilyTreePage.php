@@ -50,8 +50,11 @@ class FamilyTreePage_Controller
     public function init() {
         parent::init();
 
-//        Requirements::css("familytree/css/bootstrap.css");
-//        Requirements::css("familytree/css/familytree.css");
+        Requirements::css("familytree/css/jquery.jOrgChart.css");
+        Requirements::css("familytree/css/familytree.css");
+        Requirements::javascript("familytree/js/jquery.jOrgChart.js");
+        Requirements::javascript("familytree/js/dragscroll.js");
+        Requirements::javascript("familytree/js/script.js");
     }
 
     public function index(SS_HTTPRequest $request) {
