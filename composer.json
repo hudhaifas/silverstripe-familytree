@@ -1,0 +1,24 @@
+{
+    "name": "hudhaifas/silverstripe-familytree",
+    "description": "Family Tree module for the SilverStripe CMS.",
+    "type": "silverstripe-module",
+    "homepage": "https://github.com/hudhaifas/silverstripe-familytree",
+    "keywords": ["silverstripe", "family tree"],
+    "license": "MIT",
+    "authors": [
+        {
+            "name": "Hudhaifa Shatnawi",
+            "email": "me@hudhaifa.com"
+        }
+    ],
+    "support": {
+        "issues": "http://github.com/hudhaifas/silverstripe-familytree/issues"
+    },
+    "require": {
+        "silverstripe/cms": "~3.0",
+        "silverstripe/framework": "~3.0"
+    },
+    "extra": {
+        "installer-name": "familytree"
+    }
+}
