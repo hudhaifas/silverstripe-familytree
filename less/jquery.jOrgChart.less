@@ -1,0 +1,50 @@
+@tree-branches-color: #00420d;
+
+/* Basic styling */
+.jOrgChart {
+
+    /* Draw the lines */
+    .line {
+        height: 20px;
+        width: 4px;
+    }
+
+    .down {
+        background-color: @tree-branches-color;	
+        margin: 0px auto;
+    }
+
+    .top {
+        border-top: 2px solid @tree-branches-color;
+    }
+
+    .left {
+        border-right: 2px solid @tree-branches-color;
+    }
+
+    .right {
+        border-left: 2px solid @tree-branches-color;
+    }
+
+    table {
+        margin: 0 auto; /* or margin: 0 auto 0 auto */
+    }
+
+    /* node cell */
+    td {
+        text-align: center;
+        vertical-align: top;
+        padding: 0;
+    }
+
+    /* The node */
+    .node {
+        background-color: #35363B;
+        display: inline-block;
+        width: 80px;
+        height: 38px;
+        z-index: 10;
+        margin: 0 2px;
+        color: #fff;        
+    }
+}

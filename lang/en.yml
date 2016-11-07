@@ -1,0 +1,7 @@
+en:
+  FamilyTreeAdmin:
+    MENUTITLE: 'Family Tree'
+  Person:
+    PLURALNAME: 'Persons'
+    SINGULARNAME: 'Person'
+ 

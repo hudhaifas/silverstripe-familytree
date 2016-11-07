@@ -1,0 +1,6 @@
+ar:
+  FamilyTreeAdmin:
+    MENUTITLE: 'شجرة العائلة'
+  Person:
+    PLURALNAME: 'الأشخاص'
+    SINGULARNAME: 'الشخص'

@@ -1,0 +1,61 @@
+@tree-branches-color: black;
+
+.conatiner-fluid {
+    /*    height: 70vh;
+        background-color: #fff;*/
+
+    & > div {
+        padding: 5px;
+    }
+}
+
+#family-tree {
+    overflow: scroll;
+    height: 70vh;
+    background-color: #fff;
+
+    /* The node */
+    .node {
+        width: 80px;
+        height: 30px;
+        margin: 0 2px;
+
+        border: 1px solid transparent;
+        border-color: @tree-branches-color;
+        border-radius: .25rem;
+        box-shadow: inset 0 1px 1px rgba(0,0,0,.075);
+
+        &.male {
+            &, a {
+                background-color: #d9edf7;
+                color: #31708f;
+            }
+        }
+
+        &.female {
+            &, a {
+                background-color: #f2dede;
+                color: #a94442;
+            }
+        }
+
+        &.dead {
+            &, a {
+                background-color: #eee;
+                color: #485c66;
+            }
+        }
+
+        &.clan {
+            &, a {
+                background-color: #dff0d8;
+                color: #3c763d;
+            }
+        }
+
+        a {
+            cursor: help;
+            word-wrap: break-word;
+        }
+    }
+}

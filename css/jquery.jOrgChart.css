@@ -1,0 +1,42 @@
+/* Basic styling */
+.jOrgChart {
+  /* Draw the lines */
+  /* node cell */
+  /* The node */
+}
+.jOrgChart .line {
+  height: 20px;
+  width: 4px;
+}
+.jOrgChart .down {
+  background-color: #00420d;
+  margin: 0px auto;
+}
+.jOrgChart .top {
+  border-top: 2px solid #00420d;
+}
+.jOrgChart .left {
+  border-right: 2px solid #00420d;
+}
+.jOrgChart .right {
+  border-left: 2px solid #00420d;
+}
+.jOrgChart table {
+  margin: 0 auto;
+  /* or margin: 0 auto 0 auto */
+}
+.jOrgChart td {
+  text-align: center;
+  vertical-align: top;
+  padding: 0;
+}
+.jOrgChart .node {
+  background-color: #35363B;
+  display: inline-block;
+  width: 80px;
+  height: 38px;
+  z-index: 10;
+  margin: 0 2px;
+  color: #fff;
+}
+/*# sourceMappingURL=jquery.jOrgChart.css.map */
