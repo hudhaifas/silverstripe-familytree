@@ -64,33 +64,27 @@ class FamilyTreePage_Controller
         if ($id) {
             $root = DataObject::get_by_id('Person', (int) $id);
         } else {
-            $root = $this->getMainClans();
+            $root = $this->getRootClans();
         }
 
-        if ($root) {
+        $data = array(
+            'Clans' => $root,
+        );
+
+        if ($request->isAjax()) {
             return $this
-                            ->customise(array(
-                                'Clans' => $root,
-                            ))
-                            ->renderWith(array('FamilyTreePage', 'Page'));
-        } else {
-            return $this->httpError(404, 'No people could be found!');
+                            ->customise($data)
+                            ->renderWith('TheTree');
         }
+
+        return $data;
     }
 
     public function info() {
         $id = $this->getRequest()->param('ID');
         $person = DataObject::get_by_id('Person', (int) $id);
 
-        $info = <<<HTML
-                <b>{$person->Name}</b><br/>
-                {$person->getFullName()}
-HTML;
-
-//        return $info;
-        return $person->renderWith("PersonInfo");
-
-//        return 'Welcome Person';
+        return $person->renderWith("Side_Info");
     }
 
     public function getDBVersion() {
@@ -109,7 +103,7 @@ HTML;
         return DataObject::get_by_id('Person', (int) $id);
     }
 
-    public function getMainClans() {
+    public function getRootClans() {
         return Clan::get()->filter(array('FatherID' => 0));
     }
 
