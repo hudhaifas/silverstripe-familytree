@@ -8,7 +8,7 @@
 
     <!-- List group -->
     <ul id="collapse2" class="list-group panel-collapse collapse">
-        <% loop RootClans %>
+        <% loop Roots %>
         <li class="list-group-item"><a href="{$Link}" class="options-item">$Name</a></li>
         <% end_loop %>
     </ul>

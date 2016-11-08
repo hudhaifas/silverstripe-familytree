@@ -44,6 +44,7 @@ class Person
         'Father' => 'Male',
         'Mother' => 'Female',
         'Town' => 'Town',
+        'FamilyTreePage' => 'Page',
     );
     private static $has_many = array(
         'Sons' => 'Male',

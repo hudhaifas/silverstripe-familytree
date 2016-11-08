@@ -31,7 +31,23 @@
  */
 class FamilyTreePage
         extends Page {
-    
+
+    private static $has_many = array(
+        'Roots' => 'Person'
+    );
+
+    public function getCMSFields() {
+        $fields = parent::getCMSFields();
+        $fields->addFieldToTab('Root.Roots', GridField::create(
+                        'Roots', //
+                        'Roots', //
+                        $this->Roots(), //
+                        GridFieldConfig_RecordEditor::create() //
+        ));
+
+        return $fields;
+    }
+
 }
 
 class FamilyTreePage_Controller
@@ -64,11 +80,12 @@ class FamilyTreePage_Controller
         if ($id) {
             $root = DataObject::get_by_id('Person', (int) $id);
         } else {
-            $root = $this->getRootClans();
+            $root = $this->Roots()->first();
         }
 
         $data = array(
             'Clans' => $root,
+            'Title' => $root->Name,
         );
 
         if ($request->isAjax()) {
