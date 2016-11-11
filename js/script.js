@@ -4,13 +4,11 @@ jQuery(document).ready(function () {
 
 
 var showPerson = function (url) {
-    var param = '&ajax=1',
-            ajaxUrl = (url.indexOf(param) === -1) ?
-            url + '&ajax=1' :
-            url,
-            cleanUrl = url.replace(new RegExp(param + '$'), '');
+    var param = '&ajax=1';
+    var ajaxUrl = (url.indexOf(param) === -1) ? url + param : url;
+    var cleanUrl = url.replace(new RegExp(param + '$'), '');
 
-    $('.ajax-loader').show();
+    $('#tree-loader').show();
     $('#family-tree').html('');
 
     $.ajax(ajaxUrl)
@@ -24,7 +22,7 @@ var showPerson = function (url) {
                         cleanUrl
                         );
 
-                $('.ajax-loader').hide();
+                $('#tree-loader').hide();
             })
             .fail(function (xhr) {
                 alert('Error: ' + xhr.responseText);
@@ -37,27 +35,17 @@ var showPerson = function (url) {
  * @returns {undefined}
  */
 var updateInfo = function (url) {
-    var param = '&ajax=1',
-            ajaxUrl = (url.indexOf(param) === -1) ?
-            url + '&ajax=1' :
-            url,
-            cleanUrl = url.replace(new RegExp(param + '$'), '');
+    var param = '&ajax=1';
+    var ajaxUrl = (url.indexOf(param) === -1) ? url + param : url;
 
-    console.log('ajaxUrl: ' + ajaxUrl);
+    $('#info-loader').show();
+    $('#info-body').html('');
 
     $.ajax(ajaxUrl)
             .done(function (response) {
                 $("#panel-info").html(response);
-
-////                    $('.main').html(response);
-//                    $('html, body').animate({
-//                        scrollTop: $('.main').offset().top
-//                    });
-//                    window.history.pushState(
-//                            {url: cleanUrl},
-//                            document.title,
-//                            cleanUrl
-//                            );
+                registerLinks();
+                $('#info-loader').hide();
             })
             .fail(function (xhr) {
                 alert('Error: ' + xhr.responseText);
@@ -69,8 +57,25 @@ var initTree = function () {
         chartElement: '#family-tree'
     });
 
+    registerLinks();
+    $('#family-tree').dragScroll({});
+
+
+    window.onpopstate = function (e) {
+        console.log('e: ' + e);
+        if (e.state.url) {
+            console.log('onpopstate: ' + e.state.url);
+            showPerson(e.state.url);
+        } else {
+            e.preventDefault();
+        }
+    };
+};
+
+var registerLinks = function () {
     $(".node a").click(function (event) {
         event.preventDefault();
+
         url = $(this).attr('data-url');
         updateInfo(url);
     });
@@ -81,17 +86,4 @@ var initTree = function () {
         url = ($(this).attr('href'));
         showPerson(url);
     });
-
-//    reset();
-
-    window.onpopstate = function (e) {
-        console.log('e: ' + e);
-        if (e.state.url) {
-            console.log('URL: ' + e.state.url);
-//            showPerson(e.state.url);
-        } else {
-            e.preventDefault();
-        }
-    };
-
 };

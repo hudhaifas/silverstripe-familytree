@@ -62,6 +62,7 @@ class Person
         'Name',
         'Parents',
         'Mother.Name',
+        'Age',
     );
     public static $STATE_ALIVE = 1;
     public static $STATE_DEAD = 2;
