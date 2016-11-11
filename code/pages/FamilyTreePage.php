@@ -68,8 +68,10 @@ class FamilyTreePage_Controller
 
         Requirements::css("familytree/css/jquery.jOrgChart.css");
         Requirements::css("familytree/css/familytree.css");
+        
         Requirements::javascript("familytree/js/jquery.jOrgChart.js");
-        Requirements::javascript("familytree/js/dragscroll.js");
+        Requirements::javascript("familytree/js/jquery.dragscroll.js");
+//        Requirements::javascript("familytree/js/html2canvas.js");
         Requirements::javascript("familytree/js/script.js");
     }
 
@@ -85,7 +87,7 @@ class FamilyTreePage_Controller
 
         $data = array(
             'Clans' => $root,
-            'Title' => $root->Name,
+//            'Title' => $root->Name,
         );
 
         if ($request->isAjax()) {

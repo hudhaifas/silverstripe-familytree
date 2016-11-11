@@ -44,7 +44,7 @@ class Person
         'Father' => 'Male',
         'Mother' => 'Female',
         'Town' => 'Town',
-        'FamilyTreePage' => 'Page',
+        'Page' => 'FamilyTreePage',
     );
     private static $has_many = array(
         'Sons' => 'Male',
@@ -139,6 +139,18 @@ class Person
         return $name . ' ' . $this->Father()->getFullName();
     }
 
+    public function getAge() {
+        if ($this->DeathDate && $this->BirthDate) {
+            return $this->DeathDate - $this->BirthDate;
+        } else if ($this->BirthDate) {
+            $birth = new Date();
+            $birth->setValue($this->BirthDate);
+            return $birth->TimeDiff();
+        }
+
+        return null;
+    }
+
     public function getParents() {
         $person = $this;
         $name = '';
@@ -218,19 +230,6 @@ class Person
         if ($this->$field) {
             $this->$field = trim($this->$field);
         }
-    }
-
-    public function getAge() {
-        if ($this->DeathDate && $this->BirthDate) {
-            return $this->DeathDate - $this->BirthDate;
-        } else if ($this->BirthDate) {
-            $birth = new Date();
-            $birth->setValue($this->BirthDate);
-            return $birth->TimeDiff();
-        }
-
-
-        return null;
     }
 
     public function isAdult() {
