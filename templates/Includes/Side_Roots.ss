@@ -2,7 +2,7 @@
     <!-- Default panel contents -->
     <div class="panel-heading clearfix">
         <h4 class="panel-title pull-left">
-            <a data-toggle="collapse" href="#collapse2">Options</a>
+            <a data-toggle="collapse" href="#collapse2"><%t FamilyTree.ROOTS 'Roots' %></a>
         </h4>
 
         <div class="pull-right">

@@ -2,7 +2,7 @@
     <div class="col-sm-3">
         <div class="panel-group" id="accordion">
 
-            <% include Side_Options %>
+            <% include Side_Roots %>
 
             <div class="panel panel-default" id="panel-info">
                 <div class="panel-heading">

@@ -44,7 +44,10 @@ class BornDeadReport
 
     public function columns() {
         $fields = array(
-            'FullName' => 'Name',
+            'FullName' => array(
+                'title' => 'Name',
+                'formatting' => '<a href=\"admin/familytree/Person/EditForm/field/Person/item/{$ID}/edit\" title=\"Edit page\" target=\"_blank\">{$value}</a>'
+            ),
             'BirthDate' => 'Birth Date',
             'DeathDate' => 'Death Date',
             'Age' => 'Age',
