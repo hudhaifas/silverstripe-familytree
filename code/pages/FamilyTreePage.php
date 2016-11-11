@@ -68,6 +68,7 @@ class FamilyTreePage_Controller
 
         Requirements::css("familytree/css/jquery.jOrgChart.css");
         Requirements::css("familytree/css/familytree.css");
+        Requirements::css("familytree/css/familytree-rtl.css");
         
         Requirements::javascript("familytree/js/jquery.jOrgChart.js");
         Requirements::javascript("familytree/js/jquery.dragscroll.js");

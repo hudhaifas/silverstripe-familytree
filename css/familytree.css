@@ -40,24 +40,32 @@
   border-radius: .25rem;
   box-shadow: inset 0 1px 1px rgba(0, 0, 0, 0.075);
 }
+#family-tree .node.male {
+  background-color: #d9edf7;
+}
 #family-tree .node.male,
 #family-tree .node.male a {
-  background-color: #d9edf7;
   color: #31708f;
+}
+#family-tree .node.female {
+  background-color: #f2dede;
 }
 #family-tree .node.female,
 #family-tree .node.female a {
-  background-color: #f2dede;
   color: #a94442;
+}
+#family-tree .node.dead {
+  background-color: #eee;
 }
 #family-tree .node.dead,
 #family-tree .node.dead a {
-  background-color: #eee;
   color: #485c66;
+}
+#family-tree .node.clan {
+  background-color: #dff0d8;
 }
 #family-tree .node.clan,
 #family-tree .node.clan a {
-  background-color: #dff0d8;
   color: #3c763d;
 }
 #family-tree .node a {
