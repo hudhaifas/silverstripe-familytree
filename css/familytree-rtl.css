@@ -1,13 +1,4 @@
 /* Basic styling */
-.jOrgChart {
-  /* Draw the lines */
-  /* node cell */
-}
-.jOrgChart .line {
-  font-size: 10px;
-  height: 20px;
-  width: 4px;
-}
 .jOrgChart .left {
   border-left: 2px solid black;
   border-right: 0;
@@ -16,7 +7,12 @@
   border-left: 0;
   border-right: 2px solid black;
 }
-.jOrgChart td {
-  vertical-align: middle;
+.jOrgChart .node {
+  width: 80px;
+  height: 30px;
+  margin: 0 2px;
+}
+.jOrgChart .node a {
+  font-size: 12px;
 }
 /*# sourceMappingURL=familytree-rtl.css.map */

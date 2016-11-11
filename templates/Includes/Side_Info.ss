@@ -13,14 +13,14 @@
 <div id="collapse1" class="panel-collapse collapse in">
     <div class="panel-body">
         $FullName<br />
-        <% if BirthDate %>BirthDate: $BirthDate<br /><% end_if %>
-        <% if DeathDate %>DeathDate: $DeathDate<br /><% end_if %>
-        <% if Age %>Age: $Age<br /><% end_if %>
+        <% if BirthDate %><%t FamilyTree.BIRTHDATE 'Birth Date' %>: $BirthDate<br /><% end_if %>
+        <% if DeathDate %><%t FamilyTree.DEATHDATE 'Death Date' %>: $DeathDate<br /><% end_if %>
+        <% if Age %><%t FamilyTree.AGE 'Age' %>: $Age<br /><% end_if %>
 
         <% if Wife %>
         <hr />
 
-        <b>Spouse</b><br />
+        <b><%t FamilyTree.SPOUSE 'Spouse' %></b><br />
         $Wife.FullName<br />
         <% end_if %>
 

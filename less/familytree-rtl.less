@@ -3,13 +3,6 @@
 /* Basic styling */
 .jOrgChart {
 
-    /* Draw the lines */
-    .line {
-        font-size: 10px;
-        height: 20px;
-        width: 4px;
-    }
-
     .left {
         border-left: 2px solid @tree-branches-color;
         border-right: 0;
@@ -20,8 +13,13 @@
         border-right: 2px solid @tree-branches-color;
     }
 
-    /* node cell */
-    td {
-        vertical-align: middle;
+    .node {
+        width: 80px;
+        height: 30px;
+        margin: 0 2px;
+
+        a {
+            font-size: 12px;
+        }
     }
 }

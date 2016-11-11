@@ -4,3 +4,9 @@ ar:
   Person:
     PLURALNAME: 'الأشخاص'
     SINGULARNAME: 'الشخص'
+  FamilyTree:
+    BIRTHDATE: 'تاريخ الولادة'
+    DEATHDATE: 'تاريخ الوفاة'
+    AGE: 'العمر'
+    SPOUSE: 'الزوج'
+    
