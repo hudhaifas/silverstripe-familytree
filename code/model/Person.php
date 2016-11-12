@@ -262,10 +262,9 @@ class Person
     }
 
     public function getHtmlUI() {
-
         $html = <<<HTML
                 <li class="{$this->CSSClasses()}">
-                    <a href="#" title="{$this->getFullName()}" data-url="{$this->InfoLink()}">{$this->getPersonName()}</a>
+                    <a href="#" title="{$this->getFullName()}" data-url="{$this->InfoLink()}" class="info-item">{$this->getPersonName()}</a>
                     <ul>
                         {$this->getChildrenHtmlUI()}
                     </ul>
@@ -277,6 +276,10 @@ HTML;
 
     private function getChildrenHtmlUI() {
         $html = '';
+
+        if ($this->isFemale()) {
+            return $html;
+        }
 
         foreach ($this->getChildren() as $child) {
             $html .= $child->getHtmlUI();
@@ -370,7 +373,7 @@ HTML;
         foreach ($this->Sons() as $child) {
             switch ($state) {
                 case self::$STATE_ALIVE:
-                    $count += !$child->IsDead ? 1 : 0;
+                    $count +=!$child->IsDead ? 1 : 0;
                     break;
 
                 case self::$STATE_DEAD:

@@ -73,7 +73,7 @@ var initTree = function () {
 };
 
 var registerLinks = function () {
-    $(".node a").click(function (event) {
+    $("a.info-item").click(function (event) {
         event.preventDefault();
 
         url = $(this).attr('data-url');

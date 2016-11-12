@@ -35,6 +35,7 @@ class FamilyTreePage
     private static $has_many = array(
         'Roots' => 'Person'
     );
+    private static $icon = "familytree/images/familytree.png";
 
     public function getCMSFields() {
         $fields = parent::getCMSFields();
