@@ -261,38 +261,45 @@ class Person
         return $this->getTitle();
     }
 
-    public function getHtmlUI() {
+    public function getHtmlUI($showFemales = 1, $showFemalesSeed = 0) {
+        if (isset($_GET['f'])) {
+            $showFemales = $_GET['f'];
+        }
+
+        if (isset($_GET['fch'])) {
+            $showFemalesSeed = $_GET['fch'];
+        }
+
+        // Show only Male's children
+        if ($this->isFemale() && !$showFemales) {
+            return '';
+        }
+
         $html = <<<HTML
-                <li class="{$this->CSSClasses()}">
-                    <a href="#" title="{$this->getFullName()}" data-url="{$this->InfoLink()}" class="info-item">{$this->getPersonName()}</a>
-                    <ul>
-                        {$this->getChildrenHtmlUI()}
-                    </ul>
-                </li>
+            <li class="{$this->CSSClasses()}">
+                <a href="#" title="{$this->getFullName()}" data-url="{$this->InfoLink()}" class="info-item">{$this->getPersonName()}</a>
+                <ul>
+                    {$this->getChildrenHtmlUI($showFemales, $showFemalesSeed)}
+                </ul>
+            </li>
 HTML;
 
         return $html;
     }
 
-    private function getChildrenHtmlUI() {
+    private function getChildrenHtmlUI($showFemales = 1, $showFemalesSeed = 0) {
         $html = '';
 
-        if ($this->isFemale()) {
-            return $html;
+        if ($this->isFemale() && !$showFemalesSeed) {
+            return '';
         }
 
         foreach ($this->getChildren() as $child) {
-            $html .= $child->getHtmlUI();
+            $html .= $child->getHtmlUI($showFemales, $showFemalesSeed);
         }
 
 //        if ($this->Sons()->exists()) {
 //            foreach ($this->Sons()->sort('BirthDate ASC') as $child) {
-//                $html .= $child->getHtmlUI();
-//            }
-//        }
-//
-//        if ($this->Daughters()->exists()) {
-//            foreach ($this->Daughters()->sort('BirthDate ASC') as $child) {
 //                $html .= $child->getHtmlUI();
 //            }
 //        }
@@ -373,15 +380,16 @@ HTML;
         foreach ($this->Sons() as $child) {
             switch ($state) {
                 case self::$STATE_ALIVE:
-                    $count +=!$child->IsDead ? 1 : 0;
+                    $count +=!$child->IsDead && !$child->isClan() ? 1 : 0;
                     break;
 
                 case self::$STATE_DEAD:
-                    $count += $child->IsDead ? 1 : 0;
+                    $count += $child->IsDead && !$child->isClan() ? 1 : 0;
                     break;
 
                 default:
-                    $count++;
+//                    $count++;
+                    $count += !$child->isClan() ? 1 : 0;
                     break;
             }
         }
