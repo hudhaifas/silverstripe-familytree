@@ -14,7 +14,7 @@
 
     <div id="collapse1" class="list-group panel-collapse collapse in">
         <div class="panel-body">
-            <% loop Roots %>
+            <% loop Roots.Sort(Name, ASC) %>
             <li class="list-group-item"><a href="{$Link}" class="options-item">$Name</a></li>
             <% end_loop %>
         </div>
