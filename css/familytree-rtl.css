@@ -1,3 +1,11 @@
+.tree-container .tree-menu {
+  float: right;
+}
+.tree-container .tree-holder {
+  float: right;
+  padding-left: 0;
+  padding-right: 10px;
+}
 /* Basic styling */
 .jOrgChart .left {
   border-left: 2px solid black;

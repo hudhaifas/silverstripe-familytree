@@ -73,6 +73,7 @@ class FamilyTreePage_Controller
         
         Requirements::javascript("familytree/js/jquery.jOrgChart.js");
         Requirements::javascript("familytree/js/jquery.dragscroll.js");
+        Requirements::javascript("familytree/js/jquery.fullscreen.js");
 //        Requirements::javascript("familytree/js/html2canvas.js");
         Requirements::javascript("familytree/js/script.js");
     }

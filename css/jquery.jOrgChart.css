@@ -9,17 +9,17 @@
   width: 4px;
 }
 .jOrgChart .down {
-  background-color: #00420d;
+  background-color: black;
   margin: 0px auto;
 }
 .jOrgChart .top {
-  border-top: 2px solid #00420d;
+  border-top: 2px solid black;
 }
 .jOrgChart .left {
-  border-right: 2px solid #00420d;
+  border-right: 2px solid black;
 }
 .jOrgChart .right {
-  border-left: 2px solid #00420d;
+  border-left: 2px solid black;
 }
 .jOrgChart table {
   margin: 0 auto;

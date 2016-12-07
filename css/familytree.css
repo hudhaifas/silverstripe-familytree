@@ -1,3 +1,4 @@
+/*@tree-w: 0;*/
 .conatiner-fluid {
   /*    height: 70vh;
         background-color: #fff;*/
@@ -25,9 +26,35 @@
   margin-left: auto;
   margin-right: auto;
 }
+.tree-container {
+  /*background-color: aqua;*/
+  width: 96vw;
+  height: 98vh;
+  max-height: 98vh;
+  margin: 0 auto;
+}
+.tree-container .tree-menu {
+  /*background-color: brown;*/
+  float: left;
+  width: 25%;
+  height: 97vh;
+  max-height: 25%;
+}
+.tree-container .tree-menu .panel-group {
+  max-height: 25%;
+}
+.tree-container .tree-holder {
+  /*background-color: chartreuse;*/
+  float: left;
+  width: 75%;
+  height: 97vh;
+  max-height: 97vh;
+  padding-left: 10px;
+}
 #family-tree {
   overflow: scroll;
-  height: 70vh;
+  height: 97vh;
+  max-height: 97vh;
   background-color: #fff;
   /* The node */
 }

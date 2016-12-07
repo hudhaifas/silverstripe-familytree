@@ -1,2 +1,2 @@
 
-.jOrgChart .line{font-size:10px;height:20px;width:4px}.jOrgChart .left{border-left:2px solid black;border-right:0}.jOrgChart .right{border-left:0;border-right:2px solid black}.jOrgChart td{vertical-align:middle}
+.tree-container .tree-menu{float:right}.tree-container .tree-holder{float:right;padding-left:0;padding-right:10px}.jOrgChart .left{border-left:2px solid black;border-right:0}.jOrgChart .right{border-left:0;border-right:2px solid black}.jOrgChart .node{width:80px;height:30px;margin:0 2px}.jOrgChart .node a{font-size:12px}

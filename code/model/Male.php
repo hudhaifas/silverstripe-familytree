@@ -23,6 +23,7 @@
  *  OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
  * SOFTWARE.
  */
+
 /**
  *
  * @author Hudhaifa Shatnawi <hudhaifa.shatnawi@gmail.com>
@@ -41,6 +42,30 @@ class Male
 
     public function canCreate($member = null) {
         return true;
+    }
+
+    public function getCMSFields() {
+        $self = & $this;
+
+        $this->beforeUpdateCMSFields(function ($fields) use ($self) {
+            $self->reorderField($fields, 'Name', 'Root.Main', 'Root.Main');
+            $self->reorderField($fields, 'NickName', 'Root.Main', 'Root.Main');
+            $self->reorderField($fields, 'BirthDate', 'Root.Main', 'Root.Main');
+            $self->reorderField($fields, 'DeathDate', 'Root.Main', 'Root.Main');
+            $self->reorderField($fields, 'DeathDate', 'Root.Main', 'Root.Main');
+            $self->reorderField($fields, 'IsDead', 'Root.Main', 'Root.Main');
+
+            $self->reorderField($fields, 'FatherID', 'Root.Main', 'Root.Main');
+            $self->reorderField($fields, 'MotherID', 'Root.Main', 'Root.Main');
+            $self->reorderField($fields, 'WifeID', 'Root.Main', 'Root.Main');
+
+            $self->reorderField($fields, 'Photo', 'Root.Main', 'Root.Details');
+            $self->reorderField($fields, 'PageID', 'Root.Main', 'Root.Details');
+        });
+
+        $fields = parent::getCMSFields();
+
+        return $fields;
     }
 
 }

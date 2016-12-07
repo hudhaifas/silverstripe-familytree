@@ -34,9 +34,9 @@ class FamilyTreeAdmin
 
     private static $managed_models = array(
         'Clan',
-        'Person',
         'Male',
         'Female',
+        'Person',
         'Town'
     );
     private static $url_segment = 'familytree';

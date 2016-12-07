@@ -23,6 +23,7 @@
  *  OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
  * SOFTWARE.
  */
+
 /**
  *
  * @author Hudhaifa Shatnawi <hudhaifa.shatnawi@gmail.com>
@@ -34,9 +35,23 @@ class Town
     private static $db = array(
         'Name' => 'Varchar(255)',
     );
-    private static $many_many = array(
+    private static $belongs_many_many = array(
         'Clans' => 'Clan',
-        'People' => 'Person',
     );
+    private static $searchable_fields = array(
+        'Name',
+    );
+    private static $summary_fields = array(
+        'Name',
+        'Clans.Count',
+    );
+    public function fieldLabels($includerelations = true) {
+        $labels = parent::fieldLabels($includerelations);
+
+        $labels['Name'] = _t('Librarian.name', 'Name');
+        $labels['Clans.Count'] = _t('Librarian.NUMBER_OF_CLANS', 'Number Of Clans');
+
+        return $labels;
+    }
 
 }

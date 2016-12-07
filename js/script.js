@@ -1,5 +1,10 @@
 jQuery(document).ready(function () {
     initTree();
+
+    // Scroll to the tree div
+    $('html, body').animate({
+        scrollTop: $('.tree-container').offset().top
+    }, 'slow');
 });
 
 
@@ -60,7 +65,6 @@ var initTree = function () {
     registerLinks();
     $('#family-tree').dragScroll({});
 
-
     window.onpopstate = function (e) {
         console.log('e: ' + e);
         if (e.state.url) {
@@ -85,5 +89,12 @@ var registerLinks = function () {
 
         url = ($(this).attr('href'));
         showPerson(url);
+    });
+
+    // Full-screen link
+    $('#toggle-fullscreen').on('click', function () {
+        event.preventDefault();
+        $('.tree-container').toggleFullScreen();
+
     });
 };

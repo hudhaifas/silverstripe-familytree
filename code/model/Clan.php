@@ -33,13 +33,13 @@ class Clan
         extends Male {
 
     private static $db = array(
-        'Overview' => 'HTMLText',
+        'Overview' => 'Text',
     );
     private static $has_one = array(
     );
     private static $has_many = array(
     );
-    private static $belong_many_many = array(
+    private static $many_many = array(
         'Towns' => 'Town',
     );
 
@@ -47,11 +47,42 @@ class Clan
         return true;
     }
 
+    public function fieldLabels($includerelations = true) {
+        $labels = parent::fieldLabels($includerelations);
+
+        $labels['Overview'] = _t('FamilyTree.OVERVIEW', 'Overview');
+        $labels['Towns'] = _t('FamilyTree.TOWNS', 'Towns');
+
+        return $labels;
+    }
+
     public function getCMSFields() {
         $self = & $this;
 
         $this->beforeUpdateCMSFields(function ($fields) use ($self) {
-            $this->reorderField($fields, 'Overview', 'Root.Main', 'Root.Main');
+            $self->reorderField($fields, 'Name', 'Root.Main', 'Root.Main');
+            $self->reorderField($fields, 'NickName', 'Root.Main', 'Root.Main');
+            $self->reorderField($fields, 'BirthDate', 'Root.Main', 'Root.Main');
+            $self->reorderField($fields, 'DeathDate', 'Root.Main', 'Root.Main');
+            $self->reorderField($fields, 'DeathDate', 'Root.Main', 'Root.Main');
+            $self->reorderField($fields, 'IsDead', 'Root.Main', 'Root.Main');
+
+            $self->reorderField($fields, 'FatherID', 'Root.Main', 'Root.Main');
+            $self->reorderField($fields, 'MotherID', 'Root.Main', 'Root.Main');
+            $self->reorderField($fields, 'WifeID', 'Root.Main', 'Root.Main');
+
+            $self->reorderField($fields, 'TwonsID', 'Root.Main', 'Root.Details');
+            $self->reorderField($fields, 'PageID', 'Root.Main', 'Root.Details');
+            $self->reorderField($fields, 'Overview', 'Root.Main', 'Root.Details');
+
+//            $fields->removeFieldFromTab('Root', 'Towns');
+//            $twonField = TagField::create(
+//                            'Towns', //
+//                            _t('FamilyTree.TOWNS', 'Towns'), //
+//                            Town::get(), //
+//                            $self->Towns()
+//            );
+//            $fields->addFieldToTab('Root.Details', $twonField);
         });
 
         $fields = parent::getCMSFields();

@@ -40,10 +40,9 @@ class Person
         'IsDead' => 'Boolean',
     );
     private static $has_one = array(
-//        'Photo' => 'Image',
+        'Photo' => 'Image',
         'Father' => 'Male',
         'Mother' => 'Female',
-        'Town' => 'Town',
         'Page' => 'FamilyTreePage',
     );
     private static $has_many = array(
@@ -69,11 +68,25 @@ class Person
 
     public function fieldLabels($includerelations = true) {
         $labels = parent::fieldLabels($includerelations);
+
+        $labels['Photo'] = _t('FamilyTree.PHOTO', 'Photo');
+
         $labels['Name'] = _t('FamilyTree.NAME', 'Name');
+        $labels['NickName'] = _t('FamilyTree.NICKNAME', 'NickName');
+        $labels['Parents'] = _t('FamilyTree.PARENTS', 'Parents');
+        $labels['Father'] = _t('FamilyTree.FATHER', 'Father');
         $labels['Father.Name'] = _t('FamilyTree.FATHER_NAME', 'Father Name');
+        $labels['Mother'] = _t('FamilyTree.MOTHER', 'Mother');
         $labels['Mother.Name'] = _t('FamilyTree.MOTHER_NAME', 'Mother Name');
+        $labels['Husband'] = _t('FamilyTree.HUSBAND', 'Husband');
+        $labels['Wife'] = _t('FamilyTree.WIFE', 'Wife');
+        $labels['Children'] = _t('FamilyTree.CHILDREN', 'Children');
+        $labels['Sons'] = _t('FamilyTree.SONS', 'Sons');
+        $labels['Daughters'] = _t('FamilyTree.DAUGHTERS', 'Daughters');
+        $labels['Page'] = _t('FamilyTree.PAGE', 'Page');
         $labels['BirthDate'] = _t('FamilyTree.BIRTHDATE', 'Birth Date');
         $labels['DeathDate'] = _t('FamilyTree.DEATHDATE', 'Death Date');
+        $labels['Age'] = _t('FamilyTree.AGE', 'Age');
         $labels['IsDead'] = _t('FamilyTree.ISDEAD', 'Is Dead');
 
         return $labels;
@@ -92,11 +105,27 @@ class Person
             }
 
             $fields->removeFieldFromTab('Root.Main', 'ParentID');
+
+//            $self->reorderField($fields, 'Name', 'Root.Main', 'Root.Main');
+//            $self->reorderField($fields, 'NickName', 'Root.Main', 'Root.Main');
+//            $self->reorderField($fields, 'BirthDate', 'Root.Main', 'Root.Main');
+//            $self->reorderField($fields, 'DeathDate', 'Root.Main', 'Root.Main');
+//            $self->reorderField($fields, 'DeathDate', 'Root.Main', 'Root.Main');
+//            $self->reorderField($fields, 'IsDead', 'Root.Main', 'Root.Main');
+//            
+//            $self->reorderField($fields, 'FatherID', 'Root.Main', 'Root.Main');
+//            $self->reorderField($fields, 'MotherID', 'Root.Main', 'Root.Main');
+//            
+//            $self->reorderField($fields, 'FatherID', 'Root.Main', 'Root.Main');
         });
 
         $fields = parent::getCMSFields();
 
         return $fields;
+    }
+
+    public function canCreate($member = null) {
+        return false;
     }
 
     protected function onBeforeWrite() {
@@ -113,10 +142,6 @@ class Person
 
     public function getTitle() {
         return $this->getFullName();
-    }
-
-    public function canCreate($member = null) {
-        return false;
     }
 
     public function getPersonName() {
@@ -380,7 +405,7 @@ HTML;
         foreach ($this->Sons() as $child) {
             switch ($state) {
                 case self::$STATE_ALIVE:
-                    $count +=!$child->IsDead && !$child->isClan() ? 1 : 0;
+                    $count += !$child->IsDead && !$child->isClan() ? 1 : 0;
                     break;
 
                 case self::$STATE_DEAD:

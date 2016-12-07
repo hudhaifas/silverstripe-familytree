@@ -1,6 +1,6 @@
 <div class="panel-heading clearfix">
     <h4 class="panel-title pull-left">
-        <a data-toggle="collapse" data-parent="#accordion" href="#collapse1">$AliasName</a>
+        <a data-toggle="collapse" data-parent="#accordion" href="#collapse2">$AliasName</a>
     </h4>
 
     <div class="pull-right">
@@ -10,7 +10,7 @@
     </div>
 </div>
 
-<div id="collapse1" class="panel-collapse collapse in">
+<div id="collapse2" class="panel-collapse collapse">
     <div class="panel-body">
         $FullName<br />
         <% if BirthDate %><%t FamilyTree.BIRTHDATE 'Birth Date' %>: $BirthDate<br /><% end_if %>
@@ -30,7 +30,7 @@
 
         <b><%t FamilyTree.SPOUSE 'Spouse' %></b><br />
         <a href="#" data-url="{$Husband.InfoLink()}" class="info-item">$Husband.FullName</a>
-        
+
         <% else_if Wife %>
         <hr />
 

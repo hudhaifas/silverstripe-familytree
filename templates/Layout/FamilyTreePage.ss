@@ -1,7 +1,6 @@
-<div class="conatiner-fluid">
-    <div class="col-sm-3">
+<div class="tree-container">
+    <div class="tree-menu">
         <div class="panel-group" id="accordion">
-
             <% include Side_Roots %>
 
             <div class="panel panel-default" id="panel-info">
@@ -12,11 +11,13 @@
                 </div>
             </div>
 
+            <%-- 
             <% include Side_Filters %>
+            --%>
         </div>
     </div>
 
-    <div id="tree-holder" class="col-sm-9">
+    <div id="tree-holder" class="tree-holder">
         <% include TheTree %>
     </div>
 </div>
