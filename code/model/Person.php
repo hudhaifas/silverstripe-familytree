@@ -327,7 +327,7 @@ HTML;
         return $html;
     }
 
-    private function getChildrenHtmlUI($showFemales = 1, $showFemalesSeed = 0) {
+    private function getChildrenHtmlUI($showFemales = 0, $showFemalesSeed = 0) {
         $html = '';
 
         if ($this->isFemale() && !$showFemalesSeed) {
