@@ -50,6 +50,7 @@ class Female
         $this->beforeUpdateCMSFields(function ($fields) use ($self) {
             $self->reorderField($fields, 'Name', 'Root.Main', 'Root.Main');
             $self->reorderField($fields, 'NickName', 'Root.Main', 'Root.Main');
+            $self->reorderField($fields, 'Note', 'Root.Main', 'Root.Main');
             $self->reorderField($fields, 'BirthDate', 'Root.Main', 'Root.Main');
             $self->reorderField($fields, 'DeathDate', 'Root.Main', 'Root.Main');
             $self->reorderField($fields, 'DeathDate', 'Root.Main', 'Root.Main');

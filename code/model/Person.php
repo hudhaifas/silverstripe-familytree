@@ -38,6 +38,7 @@ class Person
         'BirthDate' => 'Date',
         'DeathDate' => 'Date',
         'IsDead' => 'Boolean',
+        'Note' => 'Varchar(255)',
     );
     private static $has_one = array(
         'Photo' => 'Image',
@@ -62,6 +63,7 @@ class Person
         'Parents',
         'Mother.Name',
         'Age',
+        'Note',
     );
     public static $STATE_ALIVE = 1;
     public static $STATE_DEAD = 2;
@@ -88,6 +90,7 @@ class Person
         $labels['DeathDate'] = _t('FamilyTree.DEATHDATE', 'Death Date');
         $labels['Age'] = _t('FamilyTree.AGE', 'Age');
         $labels['IsDead'] = _t('FamilyTree.ISDEAD', 'Is Dead');
+        $labels['Note'] = _t('FamilyTree.NOTE', 'Note');
 
         return $labels;
     }
