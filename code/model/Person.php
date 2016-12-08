@@ -301,7 +301,7 @@ class Person
         return $this->getTitle();
     }
 
-    public function getHtmlUI($showFemales = 1, $showFemalesSeed = 0) {
+    public function getHtmlUI($showFemales = 0, $showFemalesSeed = 0) {
         if (isset($_GET['f'])) {
             $showFemales = $_GET['f'];
         }
