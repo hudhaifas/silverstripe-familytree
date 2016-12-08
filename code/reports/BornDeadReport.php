@@ -75,6 +75,7 @@ class BornDeadReport
 //                ), // 
                 DateField::create('d', _t('FamilyTree.DATE', 'Date'))
                         ->setConfig('showcalendar', true) //
+                        ->setConfig('dateformat', 'dd-MM-yyyy')
         );
 
         return $params;
