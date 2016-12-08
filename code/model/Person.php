@@ -131,16 +131,16 @@ class Person
         return false;
     }
 
-    function canView($member = false) {
+    public function canView($member = false) {
         return true;
     }
 
-    function canDelete($member = false) {
-        return true;
+    public function canDelete($member = false) {
+        return false;
     }
 
-    function canEdit($member = false) {
-        return true;
+    public function canEdit($member = false) {
+        return false;
     }
 
     protected function onBeforeWrite() {

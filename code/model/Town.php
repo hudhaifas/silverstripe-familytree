@@ -45,6 +45,7 @@ class Town
         'Name',
         'Clans.Count',
     );
+
     public function fieldLabels($includerelations = true) {
         $labels = parent::fieldLabels($includerelations);
 
@@ -52,6 +53,22 @@ class Town
         $labels['Clans.Count'] = _t('Librarian.NUMBER_OF_CLANS', 'Number Of Clans');
 
         return $labels;
+    }
+
+    public function canCreate($member = null) {
+        return true;
+    }
+
+    public function canView($member = false) {
+        return true;
+    }
+
+    public function canDelete($member = false) {
+        return true;
+    }
+
+    public function canEdit($member = false) {
+        return true;
     }
 
 }
