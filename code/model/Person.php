@@ -131,6 +131,18 @@ class Person
         return false;
     }
 
+    function canView($member = false) {
+        return true;
+    }
+
+    function canDelete($member = false) {
+        return true;
+    }
+
+    function canEdit($member = false) {
+        return true;
+    }
+
     protected function onBeforeWrite() {
         parent::onBeforeWrite();
 
