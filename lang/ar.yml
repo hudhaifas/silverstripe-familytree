@@ -20,6 +20,7 @@ ar:
     PHOTO: 'الصورة'
     NAME: 'الاسم'
     NICKNAME: 'الشهرة'
+    NOTE: 'ملاحظة'
     PARENTS: 'الآباء'
     FATHER: 'الأب'
     FATHER_NAME: 'اسم الأب'

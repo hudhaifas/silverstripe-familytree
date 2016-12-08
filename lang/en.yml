@@ -20,6 +20,7 @@ en:
     PHOTO: 'Photo'
     NAME: 'Name'
     NICKNAME: 'Nickname'
+    NOTE: 'Note'
     PARENTS: 'Parents'
     FATHER: 'Father'
     FATHER_NAME: 'Father Name'
