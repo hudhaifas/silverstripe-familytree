@@ -67,6 +67,7 @@ class Person
     );
     public static $STATE_ALIVE = 1;
     public static $STATE_DEAD = 2;
+    private static $access_groups = array('administrators', 'librarians', 'genealogists');
 
     public function fieldLabels($includerelations = true) {
         $labels = parent::fieldLabels($includerelations);
@@ -301,13 +302,20 @@ class Person
         return $this->getTitle();
     }
 
-    public function getHtmlUI($showFemales = 0, $showFemalesSeed = 0) {
-        if (isset($_GET['f'])) {
-            $showFemales = $_GET['f'];
-        }
+    public function hasPermission() {
+        $member = Member::currentUser();
+        return $member && $member->inGroups($this->config()->access_groups);
+    }
 
-        if (isset($_GET['fch'])) {
-            $showFemalesSeed = $_GET['fch'];
+    public function getHtmlUI($showFemales = 0, $showFemalesSeed = 0) {
+        if ($this->hasPermission()) {
+            if (isset($_GET['f'])) {
+                $showFemales = $_GET['f'];
+            }
+
+            if (isset($_GET['fch'])) {
+                $showFemalesSeed = $_GET['fch'];
+            }
         }
 
         // Show only Male's children
@@ -420,7 +428,7 @@ HTML;
         foreach ($this->Sons() as $child) {
             switch ($state) {
                 case self::$STATE_ALIVE:
-                    $count += !$child->IsDead && !$child->isClan() ? 1 : 0;
+                    $count +=!$child->IsDead && !$child->isClan() ? 1 : 0;
                     break;
 
                 case self::$STATE_DEAD:
@@ -429,7 +437,7 @@ HTML;
 
                 default:
 //                    $count++;
-                    $count += !$child->isClan() ? 1 : 0;
+                    $count +=!$child->isClan() ? 1 : 0;
                     break;
             }
         }
