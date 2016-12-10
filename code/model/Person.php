@@ -59,7 +59,7 @@ class Person
         ),
     );
     private static $summary_fields = array(
-        'Name',
+        'AliasName',
         'Parents',
         'Mother.Name',
         'Age',
@@ -74,6 +74,7 @@ class Person
 
         $labels['Photo'] = _t('FamilyTree.PHOTO', 'Photo');
 
+        $labels['AliasName'] = _t('FamilyTree.NAME', 'Name');
         $labels['Name'] = _t('FamilyTree.NAME', 'Name');
         $labels['NickName'] = _t('FamilyTree.NICKNAME', 'NickName');
         $labels['Parents'] = _t('FamilyTree.PARENTS', 'Parents');
@@ -161,7 +162,8 @@ class Person
     }
 
     public function getPersonName() {
-        return $this->Name;
+//        return $this->Name;
+        return $this->getAliasName();
     }
 
     public function getAliasName() {
