@@ -11,7 +11,7 @@
  * @author Hudhaifa Shatnawi <hudhaifa.shatnawi@gmail.com>
  * @version 1.0, Nov 10, 2016 - 3:13:22 PM
  */
-class FamilyTreeHelper {
+class GenealogistHelper {
 
     public static function get_born_today($date = null) {
         return self::get_filtered_people('BirthDate', 'Anniversary', $date);

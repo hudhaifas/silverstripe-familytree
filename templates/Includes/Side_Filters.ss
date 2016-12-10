@@ -1,7 +1,7 @@
 <div class="panel panel-default">
     <div class="panel-heading">
         <h4 class="panel-title">
-            <a data-toggle="collapse" data-parent="#accordion" href="#collapse3"><%t FamilyTree.FILTERS 'Filters' %></a>
+            <a data-toggle="collapse" data-parent="#accordion" href="#collapse3"><%t Genealogist.FILTERS 'Filters' %></a>
         </h4>
     </div>
 

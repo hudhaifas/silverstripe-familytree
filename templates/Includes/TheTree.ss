@@ -1,9 +1,9 @@
-<ul id="family-relations" style="display:none">
+<ul id="genealogy-relations" style="display:none">
     <% loop Clans %>
     $HtmlUI
     <% end_loop %>
 </ul>
-<div id="family-tree" class="dragscroll"></div>
+<div id="genealogy-tree" class="dragscroll"></div>
 
 <div id="tree-loader" class="ajax-loader">
     <span></span>

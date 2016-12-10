@@ -5,9 +5,9 @@
  *
  * @return string
  */
-if (!defined('FAMILYTREE_DIR')) {
-    define('FAMILYTREE_DIR', ltrim(Director::makeRelative(realpath(__DIR__)), DIRECTORY_SEPARATOR));
+if (!defined('GENEALOGIST_DIR')) {
+    define('GENEALOGIST_DIR', ltrim(Director::makeRelative(realpath(__DIR__)), DIRECTORY_SEPARATOR));
 }
 
 //Display in cms menu
-FamilyTreeAdmin::add_extension('SubsiteMenuExtension');
+GenealogistAdmin::add_extension('SubsiteMenuExtension');

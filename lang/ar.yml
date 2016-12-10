@@ -1,6 +1,6 @@
 ar:
-  FamilyTreeAdmin:
-    MENUTITLE: 'شجرة العائلة'
+  GenealogistAdmin:
+    MENUTITLE: 'الأنساب'
   Person:
     PLURALNAME: 'الأشخاص'
     SINGULARNAME: 'الأشخاص'
@@ -16,7 +16,7 @@ ar:
   Town:
     PLURALNAME: 'المدن'
     SINGULARNAME: 'المدن'
-  FamilyTree:
+  Genealogist:
     PHOTO: 'الصورة'
     NAME: 'الاسم'
     NICKNAME: 'الشهرة'

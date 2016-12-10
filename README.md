@@ -1,5 +1,5 @@
-# Silverstripe Family Tree
-Family Tree module for the SilverStripe CMS
+# Silverstripe Genealogist
+Genealogist module for the SilverStripe CMS
 
 ### Requirements
  - SilverStripe 3.2.*
@@ -7,7 +7,7 @@ Family Tree module for the SilverStripe CMS
 ### Installation
 - Install the module through composer:
 ```sh
-$ composer require hudhaifas/silverstripe-familytree
+$ composer require hudhaifas/silverstripe-genealogist
 ```
 - Run dev/build
 
@@ -39,5 +39,5 @@ Issued and bugs are tracked on [github.com].
     DEALINGS IN THE SOFTWARE.
 
 
-   [github.com]: <http://github.com/hudhaifas/silverstripe-familytree/issues>
+   [github.com]: <http://github.com/hudhaifas/silverstripe-genealogist/issues>
 

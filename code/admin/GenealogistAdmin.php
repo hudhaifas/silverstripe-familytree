@@ -29,7 +29,7 @@
  * @author Hudhaifa Shatnawi <hudhaifa.shatnawi@gmail.com>
  * @version 1.0, Nov 2, 2016 - 10:56:51 AM
  */
-class FamilyTreeAdmin
+class GenealogistAdmin
         extends ModelAdmin {
 
     private static $managed_models = array(
@@ -39,16 +39,16 @@ class FamilyTreeAdmin
         'Person',
         'Town'
     );
-    private static $url_segment = 'familytree';
-    private static $menu_title = "Family Tree";
-    private static $menu_icon = "familytree/images/familytree.png";
+    private static $url_segment = 'genealogist';
+    private static $menu_title = "Genealogist";
+    private static $menu_icon = "familytree/images/genealogy.png";
     public $showImportForm = false;
-    private static $tree_class = 'FamilyTree';
+    private static $tree_class = 'Genealogy';
 
     public function getEditForm($id = null, $fields = null) {
         $form = parent::getEditForm($id, $fields);
 
-        $grid = $form->Fields()->dataFieldByName('FamilyTree');
+        $grid = $form->Fields()->dataFieldByName('Genealogy');
         if ($grid) {
             $grid->getConfig()->removeComponentsByType('GridFieldDetailForm');
             $grid->getConfig()->addComponent(new GridFieldSubsiteDetailForm());

@@ -27,31 +27,24 @@
 /**
  *
  * @author Hudhaifa Shatnawi <hudhaifa.shatnawi@gmail.com>
- * @version 1.0, Nov 2, 2016 - 2:45:38 PM
+ * @version 1.0, Dec 10, 2016 - 12:27:32 PM
  */
-class FamilyTreePage
+class GenealogistPage
         extends Page {
 
     private static $has_many = array(
-        'Roots' => 'Person'
     );
-    private static $icon = "familytree/images/familytree.png";
+    private static $icon = "familytree/images/genealogy.png";
 
     public function getCMSFields() {
         $fields = parent::getCMSFields();
-        $fields->addFieldToTab('Root.Roots', GridField::create(
-                        'Roots', //
-                        'Roots', //
-                        $this->Roots(), //
-                        GridFieldConfig_RecordEditor::create() //
-        ));
 
         return $fields;
     }
 
 }
 
-class FamilyTreePage_Controller
+class GenealogistPage_Controller
         extends Page_Controller {
 
     private static $allowed_actions = array(
@@ -68,14 +61,14 @@ class FamilyTreePage_Controller
         parent::init();
 
         Requirements::css("familytree/css/jquery.jOrgChart.css");
-        Requirements::css("familytree/css/familytree.css");
-        Requirements::css("familytree/css/familytree-rtl.css");
-        
+        Requirements::css("familytree/css/genealogy.css");
+        Requirements::css("familytree/css/genealogy-rtl.css");
+
         Requirements::javascript("familytree/js/jquery.jOrgChart.js");
         Requirements::javascript("familytree/js/jquery.dragscroll.js");
         Requirements::javascript("familytree/js/jquery.fullscreen.js");
 //        Requirements::javascript("familytree/js/html2canvas.js");
-        Requirements::javascript("familytree/js/script.js");
+        Requirements::javascript("familytree/js/genealogy.js");
     }
 
     public function index(SS_HTTPRequest $request) {
@@ -85,7 +78,7 @@ class FamilyTreePage_Controller
         if ($id) {
             $root = DataObject::get_by_id('Person', (int) $id);
         } else {
-            $root = $this->Roots()->first();
+            $root = $this->getClans()->first();
         }
 
         $data = array(
@@ -109,16 +102,46 @@ class FamilyTreePage_Controller
         return $person->renderWith("Side_Info");
     }
 
+    /// Search Book ///
+    public function SearchPerson() {
+        $context = singleton('Book')->getDefaultSearchContext();
+        $fields = $context->getSearchFields();
+        $form = new Form($this, 'SearchPerson', $fields, new FieldList(new FormAction('doSearchPerson')));
+        $form->setTemplate('Form_SearchPerson');
+//        $form->setFormMethod('GET');
+//        $form->disableSecurityToken();
+//        $form->setFormAction($this->Link());
+
+        return $form;
+    }
+
+    public function doSearchPerson($data, $form) {
+        $term = $data['Form_SearchPerson_SearchTerm'];
+
+        $books = LibrarianHelper::search_all_books($this->request, $term);
+        $title = _t('Genealogist.SEARCH_RESULTS', 'Search Results') . ': ' . $data['Form_SearchPerson_SearchTerm'];
+
+        if ($books) {
+            $paginate = $this->getPaginated($books);
+
+            return $this
+                            ->customise(array(
+                                'Books' => $books,
+                                'Results' => $paginate,
+                                'Title' => $title
+                            ))
+                            ->renderWith(array('Library_Books', 'Page'));
+        } else {
+            return $this->httpError(404, 'No books could be found!');
+        }
+    }
+
     public function getDBVersion() {
         return DB::get_conn()->getVersion();
     }
 
     public function getClans() {
         return Clan::get();
-    }
-
-    public function getTowns() {
-        return Town::get();
     }
 
     public function getPerson($id) {

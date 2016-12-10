@@ -24,20 +24,20 @@ class BornDeadReport
 
         switch ($report) {
             case 1:
-                return FamilyTreeHelper::get_born_today($date)->sort('BirthDate');
+                return GenealogistHelper::get_born_today($date)->sort('BirthDate');
                 break;
 
             case 2:
-                return FamilyTreeHelper::get_born_this_year($date)->sort('BirthDate');
+                return GenealogistHelper::get_born_this_year($date)->sort('BirthDate');
                 break;
 
             case 3:
-                return FamilyTreeHelper::get_dead_today($date)->sort('BirthDate');
+                return GenealogistHelper::get_dead_today($date)->sort('BirthDate');
                 break;
 
             case 4:
             default:
-                return FamilyTreeHelper::get_dead_this_year($date)->sort('BirthDate');
+                return GenealogistHelper::get_dead_this_year($date)->sort('BirthDate');
                 break;
         }
     }
@@ -46,7 +46,7 @@ class BornDeadReport
         $fields = array(
             'FullName' => array(
                 'title' => 'Name',
-                'formatting' => '<a href=\"admin/familytree/Person/EditForm/field/Person/item/{$ID}/edit\" title=\"Edit page\" target=\"_blank\">{$value}</a>'
+                'formatting' => '<a href=\"admin/genealogist/Person/EditForm/field/Person/item/{$ID}/edit\" title=\"Edit page\" target=\"_blank\">{$value}</a>'
             ),
             'BirthDate' => 'Birth Date',
             'DeathDate' => 'Death Date',
@@ -64,16 +64,16 @@ class BornDeadReport
             4 => 'Dead on this year',
         );
 
-        $clans = FamilyTreeHelper::get_root_clans()->map();
+        $clans = Genealogist::get_root_clans()->map();
 
         $params = new FieldList(
                 DropdownField::create(
-                        "r", _t('FamilyTree.REPORT_TYPE', 'Report Type'), $reports
+                        "r", _t('Genealogist.REPORT_TYPE', 'Report Type'), $reports
                 ), // 
 //                DropdownField::create(
-//                        "c", _t('FamilyTree.CLAN', 'Clan'), $clans
+//                        "c", _t('Genealogist.CLAN', 'Clan'), $clans
 //                ), // 
-                DateField::create('d', _t('FamilyTree.DATE', 'Date'))
+                DateField::create('d', _t('Genealogist.DATE', 'Date'))
                         ->setConfig('showcalendar', true) //
                         ->setConfig('dateformat', 'dd-MM-yyyy')
         );

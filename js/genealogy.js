@@ -14,7 +14,7 @@ var showPerson = function (url) {
     var cleanUrl = url.replace(new RegExp(param + '$'), '');
 
     $('#tree-loader').show();
-    $('#family-tree').html('');
+    $('#genealogy-tree').html('');
 
     $.ajax(ajaxUrl)
             .done(function (response) {
@@ -58,12 +58,12 @@ var updateInfo = function (url) {
 };
 
 var initTree = function () {
-    $("#family-relations").jOrgChart({
-        chartElement: '#family-tree'
+    $("#genealogy-relations").jOrgChart({
+        chartElement: '#genealogy-tree'
     });
 
     registerLinks();
-    $('#family-tree').dragScroll({});
+    $('#genealogy-tree').dragScroll({});
 
     window.onpopstate = function (e) {
         console.log('e: ' + e);

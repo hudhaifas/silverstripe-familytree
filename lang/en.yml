@@ -1,6 +1,6 @@
 en:
-  FamilyTreeAdmin:
-    MENUTITLE: 'Family Tree'
+  GenealogistAdmin:
+    MENUTITLE: 'Genealogy'
   Person:
     PLURALNAME: 'Persons'
     SINGULARNAME: 'Persons'
@@ -16,7 +16,7 @@ en:
   Town:
     PLURALNAME: 'Towns'
     SINGULARNAME: 'Towns'
-  FamilyTree:
+  Genealogist:
     PHOTO: 'Photo'
     NAME: 'Name'
     NICKNAME: 'Nickname'

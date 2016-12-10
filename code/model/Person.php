@@ -44,7 +44,7 @@ class Person
         'Photo' => 'Image',
         'Father' => 'Male',
         'Mother' => 'Female',
-        'Page' => 'FamilyTreePage',
+        'Page' => 'GenealogyPage',
     );
     private static $has_many = array(
         'Sons' => 'Male',
@@ -72,27 +72,27 @@ class Person
     public function fieldLabels($includerelations = true) {
         $labels = parent::fieldLabels($includerelations);
 
-        $labels['Photo'] = _t('FamilyTree.PHOTO', 'Photo');
+        $labels['Photo'] = _t('Genealogist.PHOTO', 'Photo');
 
-        $labels['AliasName'] = _t('FamilyTree.NAME', 'Name');
-        $labels['Name'] = _t('FamilyTree.NAME', 'Name');
-        $labels['NickName'] = _t('FamilyTree.NICKNAME', 'NickName');
-        $labels['Parents'] = _t('FamilyTree.PARENTS', 'Parents');
-        $labels['Father'] = _t('FamilyTree.FATHER', 'Father');
-        $labels['Father.Name'] = _t('FamilyTree.FATHER_NAME', 'Father Name');
-        $labels['Mother'] = _t('FamilyTree.MOTHER', 'Mother');
-        $labels['Mother.Name'] = _t('FamilyTree.MOTHER_NAME', 'Mother Name');
-        $labels['Husband'] = _t('FamilyTree.HUSBAND', 'Husband');
-        $labels['Wife'] = _t('FamilyTree.WIFE', 'Wife');
-        $labels['Children'] = _t('FamilyTree.CHILDREN', 'Children');
-        $labels['Sons'] = _t('FamilyTree.SONS', 'Sons');
-        $labels['Daughters'] = _t('FamilyTree.DAUGHTERS', 'Daughters');
-        $labels['Page'] = _t('FamilyTree.PAGE', 'Page');
-        $labels['BirthDate'] = _t('FamilyTree.BIRTHDATE', 'Birth Date');
-        $labels['DeathDate'] = _t('FamilyTree.DEATHDATE', 'Death Date');
-        $labels['Age'] = _t('FamilyTree.AGE', 'Age');
-        $labels['IsDead'] = _t('FamilyTree.ISDEAD', 'Is Dead');
-        $labels['Note'] = _t('FamilyTree.NOTE', 'Note');
+        $labels['AliasName'] = _t('Genealogist.NAME', 'Name');
+        $labels['Name'] = _t('Genealogist.NAME', 'Name');
+        $labels['NickName'] = _t('Genealogist.NICKNAME', 'NickName');
+        $labels['Parents'] = _t('Genealogist.PARENTS', 'Parents');
+        $labels['Father'] = _t('Genealogist.FATHER', 'Father');
+        $labels['Father.Name'] = _t('Genealogist.FATHER_NAME', 'Father Name');
+        $labels['Mother'] = _t('Genealogist.MOTHER', 'Mother');
+        $labels['Mother.Name'] = _t('Genealogist.MOTHER_NAME', 'Mother Name');
+        $labels['Husband'] = _t('Genealogist.HUSBAND', 'Husband');
+        $labels['Wife'] = _t('Genealogist.WIFE', 'Wife');
+        $labels['Children'] = _t('Genealogist.CHILDREN', 'Children');
+        $labels['Sons'] = _t('Genealogist.SONS', 'Sons');
+        $labels['Daughters'] = _t('Genealogist.DAUGHTERS', 'Daughters');
+        $labels['Page'] = _t('Genealogist.PAGE', 'Page');
+        $labels['BirthDate'] = _t('Genealogist.BIRTHDATE', 'Birth Date');
+        $labels['DeathDate'] = _t('Genealogist.DEATHDATE', 'Death Date');
+        $labels['Age'] = _t('Genealogist.AGE', 'Age');
+        $labels['IsDead'] = _t('Genealogist.ISDEAD', 'Is Dead');
+        $labels['Note'] = _t('Genealogist.NOTE', 'Note');
 
         return $labels;
     }

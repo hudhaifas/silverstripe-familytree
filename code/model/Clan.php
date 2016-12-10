@@ -62,8 +62,8 @@ class Clan
     public function fieldLabels($includerelations = true) {
         $labels = parent::fieldLabels($includerelations);
 
-        $labels['Overview'] = _t('FamilyTree.OVERVIEW', 'Overview');
-        $labels['Towns'] = _t('FamilyTree.TOWNS', 'Towns');
+        $labels['Overview'] = _t('Genealogist.OVERVIEW', 'Overview');
+        $labels['Towns'] = _t('Genealogist.TOWNS', 'Towns');
 
         return $labels;
     }
@@ -91,7 +91,7 @@ class Clan
 //            $fields->removeFieldFromTab('Root', 'Towns');
 //            $twonField = TagField::create(
 //                            'Towns', //
-//                            _t('FamilyTree.TOWNS', 'Towns'), //
+//                            _t('Genealogist.TOWNS', 'Towns'), //
 //                            Town::get(), //
 //                            $self->Towns()
 //            );
