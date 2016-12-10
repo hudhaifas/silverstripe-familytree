@@ -30,6 +30,37 @@
     & > div {
         padding: 5px;
     }
+}
+
+.tree-container {
+    /*background-color: aqua;*/
+    width: @container-w;
+    height: @container-h;
+    max-height: @container-h;
+    margin: 0 auto;
+    position: relative;
+
+    .tree-menu {
+        /*background-color: brown;*/
+        float: left;
+        width: @menu-w;
+        height: @menu-h;
+        max-height: @menu-w;
+
+        .panel-group {
+            max-height: @menu-w;
+        }
+    }
+
+    .tree-holder {
+        /*background-color: chartreuse;*/
+        float: left;
+        width: @holder-w;
+        height: @holder-h;
+        max-height: @holder-h;
+
+        padding-left: 10px;
+    }
 
     .ajax-loader {
         display: none;
@@ -52,36 +83,6 @@
             margin-left: auto;
             margin-right: auto;
         }
-    }
-}
-
-.tree-container {
-    /*background-color: aqua;*/
-    width: @container-w;
-    height: @container-h;
-    max-height: @container-h;
-    margin: 0 auto;
-
-    .tree-menu {
-        /*background-color: brown;*/
-        float: left;
-        width: @menu-w;
-        height: @menu-h;
-        max-height: @menu-w;
-
-        .panel-group {
-            max-height: @menu-w;
-        }
-    }
-
-    .tree-holder {
-        /*background-color: chartreuse;*/
-        float: left;
-        width: @holder-w;
-        height: @holder-h;
-        max-height: @holder-h;
-
-        padding-left: 10px;
     }
 }
 
