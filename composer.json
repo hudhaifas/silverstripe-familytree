@@ -1,8 +1,8 @@
 {
-    "name": "hudhaifas/silverstripe-familytree",
+    "name": "hudhaifas/silverstripe-genealogist",
     "description": "Genealogist module for the SilverStripe CMS.",
     "type": "silverstripe-module",
-    "homepage": "https://github.com/hudhaifas/silverstripe-familytree",
+    "homepage": "https://github.com/hudhaifas/silverstripe-genealogist",
     "keywords": ["silverstripe", "family tree", "genealogist", "genealogy"],
     "license": "MIT",
     "authors": [
@@ -12,13 +12,13 @@
         }
     ],
     "support": {
-        "issues": "http://github.com/hudhaifas/silverstripe-familytree/issues"
+        "issues": "http://github.com/hudhaifas/silverstripe-genealogist/issues"
     },
     "require": {
         "silverstripe/cms": "~3.0",
         "silverstripe/framework": "~3.0"
     },
     "extra": {
-        "installer-name": "familytree"
+        "installer-name": "genealogist"
     }
 }

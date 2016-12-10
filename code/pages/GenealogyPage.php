@@ -35,7 +35,7 @@ class GenealogyPage
     private static $has_many = array(
         'Roots' => 'Person'
     );
-    private static $icon = "familytree/images/genealogy.png";
+    private static $icon = "genealogist/images/genealogy.png";
 
     public function getCMSFields() {
         $fields = parent::getCMSFields();
@@ -67,15 +67,15 @@ class GenealogyPage_Controller
     public function init() {
         parent::init();
 
-        Requirements::css("familytree/css/jquery.jOrgChart.css");
-        Requirements::css("familytree/css/genealogy.css");
-        Requirements::css("familytree/css/genealogy-rtl.css");
+        Requirements::css("genealogist/css/jquery.jOrgChart.css");
+        Requirements::css("genealogist/css/genealogy.css");
+        Requirements::css("genealogist/css/genealogy-rtl.css");
         
-        Requirements::javascript("familytree/js/jquery.jOrgChart.js");
-        Requirements::javascript("familytree/js/jquery.dragscroll.js");
-        Requirements::javascript("familytree/js/jquery.fullscreen.js");
-//        Requirements::javascript("familytree/js/html2canvas.js");
-        Requirements::javascript("familytree/js/genealogy.js");
+        Requirements::javascript("genealogist/js/jquery.jOrgChart.js");
+        Requirements::javascript("genealogist/js/jquery.dragscroll.js");
+        Requirements::javascript("genealogist/js/jquery.fullscreen.js");
+//        Requirements::javascript("genealogist/js/html2canvas.js");
+        Requirements::javascript("genealogist/js/genealogy.js");
     }
 
     public function index(SS_HTTPRequest $request) {

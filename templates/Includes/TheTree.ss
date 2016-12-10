@@ -7,5 +7,5 @@
 
 <div id="tree-loader" class="ajax-loader">
     <span></span>
-    <img src="familytree/images/ajax-loader.gif" alt="Loading Tree.." />
+    <img src="genealogist/images/ajax-loader.gif" alt="Loading Tree.." />
 </div>

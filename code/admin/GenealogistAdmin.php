@@ -41,7 +41,7 @@ class GenealogistAdmin
     );
     private static $url_segment = 'genealogist';
     private static $menu_title = "Genealogist";
-    private static $menu_icon = "familytree/images/genealogy.png";
+    private static $menu_icon = "genealogist/images/genealogy.png";
     public $showImportForm = false;
     private static $tree_class = 'Genealogy';
 
