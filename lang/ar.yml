@@ -47,4 +47,11 @@ ar:
     SPOUSE: 'الزوج'
     MALES: 'الذكور'
     FEMALES: 'الإناث'
-    
+    ADD_SONS: 'إضافة أبناء'
+    PARENT_ID: 'رقم الوالد'
+    SONS_NAMES: 'أسماء الأولاد (استخدم | للفصل بين الأسماء)'
+    ADD_PARENT: 'إضافة والد'
+    PARENT_NAME: 'اسم الوالد'
+    DELETE_PERSON: 'حذف شخص'
+    SEARCH: 'بحث'
+    SEARCH_NO_RESULTS: 'عذرا، لا يوجد أي نتائج للاستعلام الذي قمت به'

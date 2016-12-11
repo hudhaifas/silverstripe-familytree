@@ -55,4 +55,54 @@ class GenealogistHelper {
         return Clan::get()->filter(array('FatherID' => 0));
     }
 
+    public static function search_all_people($request, $term) {
+        if (is_numeric($term)) {
+            die('Numeric: ' . $term);
+            return DataObject::get_by_id('Person', $term);
+        }
+
+        // to fetch books that's name contains the given search term
+        $people = DataObject::get('Person')->filterAny(array(
+            'Name:PartialMatch' => $term,
+            'NickName:PartialMatch' => $term,
+        ));
+
+        return $people;
+    }
+
+    public static function add_sons($id, $names, $delimiter = "|") {
+        $parent = DataObject::get_by_id('Person', (int) $id);
+        $namesList = explode($delimiter, $names);
+
+        echo 'Add ' . count($namesList) . ' sons to: ' . $parent->getTitle() . '<br />';
+
+        foreach ($namesList as $name) {
+            $son = new Male();
+            $son->Name = $name;
+            $son->FatherID = $id;
+            $son->write();
+            echo '&emsp;Sone: ' . $name . ' has ID: ' . $son->ID . '<br />';
+        }
+    }
+
+    public static function add_parent($id, $name) {
+        $person = DataObject::get_by_id('Person', (int) $id);
+
+        echo 'Add parent (' . $name . ') to: ' . $person->getTitle() . '<br />';
+
+        $parent = new Male();
+        $parent->Name = $name;
+        $parent->FatherID = $person->FatherID;
+        $parent->write();
+
+        $person->FatherID = $parent->ID;
+        $person->write();
+
+        echo '&emsp;became: ' . $person->getTitle() . '<br />';
+    }
+
+    public static function delete_person($id, $reconnect = false) {
+        // Connects
+    }
+
 }

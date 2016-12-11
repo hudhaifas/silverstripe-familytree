@@ -1,7 +1,11 @@
-<article class="col-md-4">
-    
-</article>
+<article class="container">
 
-<article class="col-md-8">
-    $Form_Search
+    <div class="row">
+        <div class="col-md-4">
+            $SearchPerson
+        </div>
+    </div>
+
+    <% include GenealogistPage_Results %>
+
 </article>

@@ -225,6 +225,10 @@ class Person
         return Director::get_current_page()->Link("person-info/$this->ID");
     }
 
+    function EditLink($action = null) {
+        return Director::get_current_page()->Link("edit/$this->ID");
+    }
+
     public function getDefaultSearchContext() {
         $fields = $this->scaffoldSearchFields(array(
             'restrictFields' => array(

@@ -48,94 +48,165 @@ class GenealogistPage_Controller
         extends Page_Controller {
 
     private static $allowed_actions = array(
-        'info',
-        'town',
+        'edit',
+        'SearchPerson',
+        'doSearchPerson',
+        'Form_EditPerson',
+        'doEditPerson',
+        'Form_AddSons',
+        'doAddSons',
+        'Form_AddParent',
+        'doAddParent',
     );
     private static $url_handlers = array(
-        'person-info/$ID' => 'info',
-        'town/$action' => 'town',
-        '$ID/$town' => 'index',
+        'info/$ID' => 'info',
+        'edit/$ID' => 'edit',
     );
 
-    public function init() {
-        parent::init();
-
-        Requirements::css("genealogist/css/jquery.jOrgChart.css");
-        Requirements::css("genealogist/css/genealogy.css");
-        Requirements::css("genealogist/css/genealogy-rtl.css");
-
-        Requirements::javascript("genealogist/js/jquery.jOrgChart.js");
-        Requirements::javascript("genealogist/js/jquery.dragscroll.js");
-        Requirements::javascript("genealogist/js/jquery.fullscreen.js");
-//        Requirements::javascript("genealogist/js/html2canvas.js");
-        Requirements::javascript("genealogist/js/genealogy.js");
-    }
-
-    public function index(SS_HTTPRequest $request) {
+    public function edit() {
         $id = $this->getRequest()->param('ID');
-        $town = $this->getRequest()->param('town');
 
         if ($id) {
-            $root = DataObject::get_by_id('Person', (int) $id);
+            $person = DataObject::get_by_id('Person', (int) $id);
         } else {
-            $root = $this->getClans()->first();
+            $person = $this->getClans()->first();
         }
 
-        $data = array(
-            'Clans' => $root,
-//            'Title' => $root->Name,
+        if ($person) {
+            return $this
+                            ->customise(array(
+                                'Person' => $person,
+                                'Title' => $person->Name
+                            ))
+                            ->renderWith(array('GenealogistPage_Edit', 'Page'));
+        } else {
+            return $this->httpError(404, 'That book could not be found!');
+        }
+    }
+
+    /// Search Person ///
+    public function SearchPerson() {
+        $fields = new FieldList(
+                TextField::create('SearchTerm', _t('Genealogist.SEARCH', 'Search'))
+                        ->setAttribute('placeholder', 'City, State, Country, etc...')
         );
 
-        if ($request->isAjax()) {
-            return $this
-                            ->customise($data)
-                            ->renderWith('TheTree');
-        }
+        // Create Validators
+        $validator = new RequiredFields('SearchTerm');
 
-        return $data;
-    }
-
-    public function info() {
-        $id = $this->getRequest()->param('ID');
-        $person = DataObject::get_by_id('Person', (int) $id);
-
-        return $person->renderWith("Side_Info");
-    }
-
-    /// Search Book ///
-    public function SearchPerson() {
-        $context = singleton('Book')->getDefaultSearchContext();
-        $fields = $context->getSearchFields();
-        $form = new Form($this, 'SearchPerson', $fields, new FieldList(new FormAction('doSearchPerson')));
+        $form = new Form($this, 'SearchPerson', $fields, new FieldList(new FormAction('doSearchPerson')), $validator);
         $form->setTemplate('Form_SearchPerson');
-//        $form->setFormMethod('GET');
-//        $form->disableSecurityToken();
-//        $form->setFormAction($this->Link());
 
         return $form;
     }
 
     public function doSearchPerson($data, $form) {
-        $term = $data['Form_SearchPerson_SearchTerm'];
+        $term = $data['SearchTerm'];
+//        die('Hello Search: ' . $term);
 
-        $books = LibrarianHelper::search_all_books($this->request, $term);
-        $title = _t('Genealogist.SEARCH_RESULTS', 'Search Results') . ': ' . $data['Form_SearchPerson_SearchTerm'];
+        $people = GenealogistHelper::search_all_people($this->request, $term);
+        $title = _t('Genealogist.SEARCH_RESULTS', 'Search Results') . ': ' . $term;
 
-        if ($books) {
-            $paginate = $this->getPaginated($books);
+        if ($people) {
+            $paginate = PaginatedList::create(
+                            $people, $this->request
+                    )->setPageLength(16)
+                    ->setPaginationGetVar('s');
+
 
             return $this
                             ->customise(array(
-                                'Books' => $books,
+                                'People' => $people,
                                 'Results' => $paginate,
                                 'Title' => $title
                             ))
-                            ->renderWith(array('Library_Books', 'Page'));
+                            ->renderWith(array('GenealogistPage', 'Page'));
         } else {
             return $this->httpError(404, 'No books could be found!');
         }
     }
 
+    /// Forms ///
+    public function Form_AddParent($sonID = null) {
+        // Create fields          
+        $fields = new FieldList(
+                HiddenField::create('SonID', 'SonID', $sonID), //
+                TextField::create('Name', _t('Genealogist.PARENT_NAME', 'Parent Name'))
+        );
+
+        // Create action
+        $actions = new FieldList(
+                new FormAction('doAddParent', _t('Genealogist.ADD_PARENT', 'Add Parent'))
+        );
+
+        // Create Validators
+        $validator = new RequiredFields();
+
+        return new Form($this, 'Form_AddParent', $fields, $actions, $validator);
+    }
+
+    public function doAddParent($data, $form) {
+        $id = $data['SonID'];
+        $name = $data['Name'];
+
+        GenealogistHelper::add_parent($id, $name);
+
+        return $this->owner->redirectBack();
+    }
+
+    public function Form_AddSons($parentID = null) {
+        // Create fields          
+        $fields = new FieldList(
+                HiddenField::create('ParentID', 'ParentID', $parentID), //
+                TextareaField::create('Names', _t('Genealogist.SONS_NAMES', 'Sons Names'))
+        );
+
+        // Create action
+        $actions = new FieldList(
+                new FormAction('doAddSons', _t('Genealogist.ADD_SONS', 'Add Sons'))
+        );
+
+        // Create Validators
+        $validator = new RequiredFields();
+
+        return new Form($this, 'Form_AddSons', $fields, $actions, $validator);
+    }
+
+    public function doAddSons($data, $form) {
+        $id = $data['ParentID'];
+        $names = $data['Names'];
+
+//        die('id: ' . $id);
+        GenealogistHelper::add_sons($id, $names);
+
+        return $this->owner->redirectBack();
+    }
+
+    public function Form_EditPerson($personID) {
+        $person = DataObject::get_by_id('Person', (int) $personID);
+
+        // Create fields          
+        $fields = new FieldList(
+                HiddenField::create('PersonID', 'PersonID', $personID), //
+                TextField::create('Name', 'Name', $person->Name)
+        );
+
+        // Create action
+        $actions = new FieldList(
+                new FormAction('doEditPerson', _t('Genealogist.SAVE', 'Save'))
+        );
+
+        // Create Validators
+        $validator = new RequiredFields();
+
+        return new Form($this, 'Form_EditPerson', $fields, $actions, $validator);
+    }
+
+    public function doEditPerson($data, $form) {
+        return $this->owner->redirectBack();
+    }
+
+    /// Utils ///
     public function getDBVersion() {
         return DB::get_conn()->getVersion();
     }
@@ -149,7 +220,7 @@ class GenealogistPage_Controller
     }
 
     public function getRootClans() {
-        return Clan::get()->filter(array('FatherID' => 0));
+        return GenealogistHelper::get_root_clans();
     }
 
 }
