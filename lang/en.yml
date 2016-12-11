@@ -53,5 +53,7 @@ en:
     ADD_PARENT: 'Add Parent'
     PARENT_NAME: 'Parent Name'
     DELETE_PERSON: 'Delete Person'
+    CAHNGE_PARENT: 'Change Parent'
+    UPDATE: 'Update'
     SEARCH: 'Search'
     SEARCH_NO_RESULTS: 'Sorry, your search query did not return any results.'

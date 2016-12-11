@@ -57,6 +57,8 @@ class GenealogistPage_Controller
         'doAddSons',
         'Form_AddParent',
         'doAddParent',
+        'Form_ChangeParent',
+        'doChangeParent',
     );
     private static $url_handlers = array(
         'info/$ID' => 'info',
@@ -150,6 +152,33 @@ class GenealogistPage_Controller
         $name = $data['Name'];
 
         GenealogistHelper::add_parent($id, $name);
+
+        return $this->owner->redirectBack();
+    }
+
+    public function Form_ChangeParent($sonID = null) {
+        // Create fields          
+        $fields = new FieldList(
+                HiddenField::create('SonID', 'SonID', $sonID), //
+                TextField::create('ParentID', _t('Genealogist.PARENT_ID', 'Parent ID'))
+        );
+
+        // Create action
+        $actions = new FieldList(
+                new FormAction('doChangeParent', _t('Genealogist.UPDATE', 'Update'))
+        );
+
+        // Create Validators
+        $validator = new RequiredFields();
+
+        return new Form($this, 'Form_ChangeParent', $fields, $actions, $validator);
+    }
+
+    public function doChangeParent($data, $form) {
+        $personID = $data['SonID'];
+        $parentID = $data['ParentID'];
+
+        GenealogistHelper::change_parent($personID, $parentID);
 
         return $this->owner->redirectBack();
     }

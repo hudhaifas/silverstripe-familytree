@@ -53,5 +53,7 @@ ar:
     ADD_PARENT: 'إضافة والد'
     PARENT_NAME: 'اسم الوالد'
     DELETE_PERSON: 'حذف شخص'
+    CAHNGE_PARENT: 'تغيير الوالد'
+    UPDATE: 'تحديث'
     SEARCH: 'بحث'
     SEARCH_NO_RESULTS: 'عذرا، لا يوجد أي نتائج للاستعلام الذي قمت به'

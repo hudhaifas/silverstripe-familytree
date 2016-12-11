@@ -105,4 +105,16 @@ class GenealogistHelper {
         // Connects
     }
 
+    public static function change_parent($personID, $parentID) {
+        $person = DataObject::get_by_id('Person', (int) $personID);
+        $parent = DataObject::get_by_id('Person', (int) $parentID);
+
+        echo 'Change ' . $person->getTitle() . ' parent to ' . $parent->getTitle() . '<br />';
+
+        $person->FatherID = $parent->ID;
+        $person->write();
+
+        echo '&emsp;became: ' . $person->getTitle() . '<br />';
+    }
+
 }
