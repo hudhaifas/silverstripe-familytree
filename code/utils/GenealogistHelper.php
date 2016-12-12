@@ -13,6 +13,7 @@
  */
 class GenealogistHelper {
 
+    /// Filters ///
     public static function get_born_today($date = null) {
         return self::get_filtered_people('BirthDate', 'Anniversary', $date);
     }
@@ -51,10 +52,20 @@ class GenealogistHelper {
         return $people;
     }
 
+    /// Getters ///
+    public static function get_all_clans() {
+        return Clan::get();
+    }
+
     public static function get_root_clans() {
         return Clan::get()->filter(array('FatherID' => 0));
     }
 
+    public static function get_person($id) {
+        return DataObject::get_by_id('Person', (int) $id);
+    }
+
+    /// Functions ///
     public static function search_all_people($request, $term) {
         if (is_numeric($term)) {
             die('Numeric: ' . $term);
@@ -102,7 +113,9 @@ class GenealogistHelper {
     }
 
     public static function delete_person($id, $reconnect = false) {
-        // Connects
+        $person = DataObject::get_by_id('Person', (int) $id);
+
+        $person->delete();
     }
 
     public static function change_parent($personID, $parentID) {

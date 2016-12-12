@@ -6,7 +6,10 @@
     <div class="pull-right">
         <a href="{$Link}" class="options-item"><i class="fa fa-eye" aria-hidden="true"></i></a>
         <a href="{$Father.Link}" class="options-item"><i class="fa fa-level-up" aria-hidden="true"></i></a>
-        <a href="{$Root.Link}" class="options-item"><i class="fa fa-undo" aria-hidden="true"></i></span></a>
+        <a href="{$Root.Link}" class="options-item"><i class="fa fa-undo" aria-hidden="true"></i></a>
+        <% if $hasPermission %>
+            <a href="{$EditLink}" target="_blank"><i class="fa fa-pencil" aria-hidden="true"></i></a>
+        <% end_if %>
     </div>
 </div>
 

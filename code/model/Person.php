@@ -218,15 +218,15 @@ class Person
     }
 
     function Link($action = null) {
-        return Director::get_current_page()->Link("$this->ID");
+        return GenealogyPage::get()->first()->Link("$this->ID");
     }
 
     function InfoLink($action = null) {
-        return Director::get_current_page()->Link("person-info/$this->ID");
+        return GenealogyPage::get()->first()->Link("person-info/$this->ID");
     }
 
     function EditLink($action = null) {
-        return Director::get_current_page()->Link("edit/$this->ID");
+        return GenealogistPage::get()->first()->Link("edit/$this->ID");
     }
 
     public function getDefaultSearchContext() {
@@ -434,7 +434,7 @@ HTML;
         foreach ($this->Sons() as $child) {
             switch ($state) {
                 case self::$STATE_ALIVE:
-                    $count +=!$child->IsDead && !$child->isClan() ? 1 : 0;
+                    $count += !$child->IsDead && !$child->isClan() ? 1 : 0;
                     break;
 
                 case self::$STATE_DEAD:
@@ -443,7 +443,7 @@ HTML;
 
                 default:
 //                    $count++;
-                    $count +=!$child->isClan() ? 1 : 0;
+                    $count += !$child->isClan() ? 1 : 0;
                     break;
             }
         }

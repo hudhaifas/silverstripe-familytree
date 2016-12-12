@@ -11,8 +11,6 @@
                 <hr />
             </div>
         <% end_loop %>
-    <% else %>
-        <p><%t Genealogist.SEARCH_NO_RESULTS 'Sorry, your search query did not return any results.' %></p>
     <% end_if %>
 </div>
 

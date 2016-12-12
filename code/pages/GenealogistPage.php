@@ -42,6 +42,14 @@ class GenealogistPage
         return $fields;
     }
 
+    public function canCreate($member = false) {
+        if (!$member || !(is_a($member, 'Member')) || is_numeric($member)) {
+            $member = Member::currentUserID();
+        }
+
+        return (DataObject::get($this->owner->class)->count() > 0) ? false : true;
+    }
+
 }
 
 class GenealogistPage_Controller
@@ -51,17 +59,18 @@ class GenealogistPage_Controller
         'edit',
         'SearchPerson',
         'doSearchPerson',
-        'Form_EditPerson',
-        'doEditPerson',
         'Form_AddSons',
         'doAddSons',
         'Form_AddParent',
         'doAddParent',
         'Form_ChangeParent',
         'doChangeParent',
+        'Form_EditPerson',
+        'doEditPerson',
+        'Form_DeletePerson',
+        'doDeletePerson',
     );
     private static $url_handlers = array(
-        'info/$ID' => 'info',
         'edit/$ID' => 'edit',
     );
 
@@ -217,7 +226,9 @@ class GenealogistPage_Controller
         // Create fields          
         $fields = new FieldList(
                 HiddenField::create('PersonID', 'PersonID', $personID), //
-                TextField::create('Name', 'Name', $person->Name)
+                TextField::create('Name', _t('Genealogist.NAME', 'Name'), $person->Name), //
+                TextField::create('NickName', _t('Genealogist.NICKNAME', 'NickName'), $person->NickName), //
+                CheckboxField::create('IsDead', _t('Genealogist.ISDEAD', 'Is Dead'), $person->IsDead)
         );
 
         // Create action
@@ -232,7 +243,50 @@ class GenealogistPage_Controller
     }
 
     public function doEditPerson($data, $form) {
+        $id = $data['PersonID'];
+        $name = $data['Name'];
+        $nickname = $data['NickName'];
+        $isDead = $data['IsDead'];
+
+        $person = DataObject::get_by_id('Person', (int) $id);
+
+        $person->Name = $name;
+        $person->NickName = $nickname;
+        $person->IsDead = $isDead;
+
+        $person->write();
+
         return $this->owner->redirectBack();
+    }
+
+    public function Form_DeletePerson($personID) {
+//        $person = DataObject::get_by_id('Person', (int) $personID);
+        // Create fields          
+        $fields = new FieldList(
+                HiddenField::create('PersonID', 'PersonID', $personID)
+        );
+
+        // Create action
+        $actions = new FieldList(
+                $button = new FormAction('doDeletePerson', _t('Genealogist.DELETE', 'Delete'))
+        );
+        $button->setAttribute('class', 'btn btn-danger');
+
+        // Create Validators
+        $validator = new RequiredFields();
+
+        return new Form($this, 'Form_DeletePerson', $fields, $actions, $validator);
+    }
+
+    public function doDeletePerson($data, $form) {
+        $id = $data['PersonID'];
+        $person = DataObject::get_by_id('Person', (int) $id);
+
+        $parent = $person->FatherID;
+
+        GenealogistHelper::delete_person($id);
+
+        return $this->owner->redirect($this->Link('edit/' . $parent));
     }
 
     /// Utils ///

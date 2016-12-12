@@ -49,6 +49,14 @@ class GenealogyPage
         return $fields;
     }
 
+    public function canCreate($member = false) {
+        if (!$member || !(is_a($member, 'Member')) || is_numeric($member)) {
+            $member = Member::currentUserID();
+        }
+
+        return (DataObject::get($this->owner->class)->count() > 0) ? false : true;
+    }
+
 }
 
 class GenealogyPage_Controller
@@ -70,7 +78,7 @@ class GenealogyPage_Controller
         Requirements::css("genealogist/css/jquery.jOrgChart.css");
         Requirements::css("genealogist/css/genealogy.css");
         Requirements::css("genealogist/css/genealogy-rtl.css");
-        
+
         Requirements::javascript("genealogist/js/jquery.jOrgChart.js");
         Requirements::javascript("genealogist/js/jquery.dragscroll.js");
         Requirements::javascript("genealogist/js/jquery.fullscreen.js");
@@ -104,7 +112,7 @@ class GenealogyPage_Controller
 
     public function info() {
         $id = $this->getRequest()->param('ID');
-        $person = DataObject::get_by_id('Person', (int) $id);
+        $person = GenealogistHelper::get_person($id);
 
         return $person->renderWith("Side_Info");
     }
@@ -114,7 +122,7 @@ class GenealogyPage_Controller
     }
 
     public function getClans() {
-        return Clan::get();
+        return GenealogistHelper::get_all_clans();
     }
 
     public function getTowns() {
@@ -122,11 +130,11 @@ class GenealogyPage_Controller
     }
 
     public function getPerson($id) {
-        return DataObject::get_by_id('Person', (int) $id);
+        return GenealogistHelper::get_person($id);
     }
 
     public function getRootClans() {
-        return Clan::get()->filter(array('FatherID' => 0));
+        return GenealogistHelper::get_root_clans();
     }
 
 }
