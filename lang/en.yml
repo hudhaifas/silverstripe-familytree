@@ -61,3 +61,8 @@ en:
     SEARCH_RESULTS: 'Search Results'
     SEARCH_NO_RESULTS: 'Sorry, your search query did not return any results.'
     COMMA: ','
+    SHOW_THIS: 'Show this person tree'
+    SHOW_FATHER: 'Show this person father tree'
+    SHOW_CLAN: 'Show this person clan tree'
+    EDIT_THIS: 'Edit this person'
+    GIVE_INFO: 'Give information about this person'

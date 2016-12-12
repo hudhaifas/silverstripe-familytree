@@ -4,11 +4,12 @@
     </h4>
 
     <div class="pull-right">
-        <a href="{$Link}" class="options-item"><i class="fa fa-eye" aria-hidden="true"></i></a>
-        <a href="{$Father.Link}" class="options-item"><i class="fa fa-level-up" aria-hidden="true"></i></a>
-        <a href="{$Root.Link}" class="options-item"><i class="fa fa-undo" aria-hidden="true"></i></a>
+        <a href="{$Link}" class="options-item" title="<%t Genealogist.SHOW_THIS 'Show this person tree' %>"><i class="fa fa-dot-circle-o" aria-hidden="true"></i></a>
+        <a href="{$Father.Link}" class="options-item" title="<%t Genealogist.SHOW_FATHER 'Show this persons father tree' %>"><i class="fa fa-arrow-circle-o-left" aria-hidden="true"></i></a>
+        <a href="{$Root.Link}" class="options-item" title="<%t Genealogist.SHOW_CLAN 'Show this persons clan tree' %>"><i class="fa fa-arrow-circle-o-up" aria-hidden="true"></i></a>
+        <a href="{$Root.Link}" class="options-item" title="<%t Genealogist.GIVE_INFO 'Give information about this person' %>"><i class="fa fa-comment" aria-hidden="true"></i></a>
         <% if $hasPermission %>
-            <a href="{$EditLink}" target="_blank"><i class="fa fa-pencil" aria-hidden="true"></i></a>
+            <a href="{$EditLink}" target="_blank" title="<%t Genealogist.EDIT_THIS 'Edit this person' %>"><i class="fa fa-pencil" aria-hidden="true"></i></a>
         <% end_if %>
     </div>
 </div>

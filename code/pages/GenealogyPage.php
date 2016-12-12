@@ -64,12 +64,11 @@ class GenealogyPage_Controller
 
     private static $allowed_actions = array(
         'info',
-        'town',
+        'giveinfo',
     );
     private static $url_handlers = array(
         'person-info/$ID' => 'info',
-        'town/$action' => 'town',
-        '$ID/$town' => 'index',
+        'giveinfo/$ID' => 'giveinfo',
     );
 
     public function init() {
@@ -111,6 +110,33 @@ class GenealogyPage_Controller
     }
 
     public function info() {
+        $id = $this->getRequest()->param('ID');
+        $person = GenealogistHelper::get_person($id);
+
+        return $person->renderWith("Side_Info");
+    }
+
+    public function giveinfo() {
+        $id = $this->getRequest()->param('ID');
+
+        if ($id) {
+            $person = DataObject::get_by_id('Person', (int) $id);
+        } else {
+            $person = $this->getClans()->first();
+        }
+
+        if ($person) {
+            return $this
+                            ->customise(array(
+                                'Person' => $person,
+                                'Title' => $person->Name
+                            ))
+                            ->renderWith(array('GenealogistPage_Edit', 'Page'));
+        } else {
+            return $this->httpError(404, 'That book could not be found!');
+        }
+        
+        
         $id = $this->getRequest()->param('ID');
         $person = GenealogistHelper::get_person($id);
 
