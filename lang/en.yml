@@ -16,6 +16,9 @@ en:
   Town:
     PLURALNAME: 'Towns'
     SINGULARNAME: 'Towns'
+  Suggestion:
+    PLURALNAME: 'Suggestions'
+    SINGULARNAME: 'Suggestions'
   Genealogist:
     PHOTO: 'Photo'
     NAME: 'Name'

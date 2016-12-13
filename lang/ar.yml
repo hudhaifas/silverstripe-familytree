@@ -16,6 +16,9 @@ ar:
   Town:
     PLURALNAME: 'المدن'
     SINGULARNAME: 'المدن'
+  Suggestion:
+    PLURALNAME: 'الاقتراح'
+    SINGULARNAME: 'الاقتراح'
   Genealogist:
     PHOTO: 'الصورة'
     NAME: 'الاسم'
