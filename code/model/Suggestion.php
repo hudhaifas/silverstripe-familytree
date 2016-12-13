@@ -45,9 +45,12 @@ class Suggestion
         $labels = parent::fieldLabels($includerelations);
 
         $labels['Name'] = _t('Genealogist.FROM', 'From');
+        $labels['Email'] = _t('Genealogist.EMAIL', 'Email');
+        $labels['Phone'] = _t('Genealogist.PHONE', 'Phone');
         $labels['Person.FullName'] = _t('Genealogist.NAME', 'Name');
         $labels['Subject'] = _t('Genealogist.SUBJECT', 'Subject');
         $labels['Message'] = _t('Genealogist.MESSAGE', 'Message');
+        $labels['Person'] = _t('Genealogist.PERSON', 'Person');
 
         return $labels;
     }
