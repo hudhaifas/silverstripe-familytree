@@ -73,6 +73,7 @@ ar:
     EDIT_THIS: 'تعديل الشخص'
     SUGGEST_PERSON_EDIT: 'اقترح تعديلا على هذا الشخص'
     SUGGEST_EDIT: 'اقترح تعديلا على'
+    FROM: 'من'
     SUBJECT: 'الموضوع'
     YOUR_NAME: 'اسمك'
     EMAIL: 'البريد الالكتروني'
