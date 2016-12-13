@@ -2,19 +2,19 @@
 
 /*
  * MIT License
- *  
+ *
  * Copyright (c) 2016 Hudhaifa Shatnawi
- * 
+ *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
  * in the Software without restriction, including without limitation the rights
  * to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
  * copies of the Software, and to permit persons to whom the Software is
  * furnished to do so, subject to the following conditions:
- * 
+ *
  * The above copyright notice and this permission notice shall be included in all
  * copies or substantial portions of the Software.
- * 
+ *
  * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
  * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
  *  FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
@@ -64,11 +64,15 @@ class GenealogyPage_Controller
 
     private static $allowed_actions = array(
         'info',
-        'giveinfo',
+        'suggest',
+        'Form_Suggest',
+        'doSuggest',
     );
     private static $url_handlers = array(
         'person-info/$ID' => 'info',
-        'giveinfo/$ID' => 'giveinfo',
+        'suggest/$ID' => 'suggest',
+        'Form_Suggest' => 'Form_Suggest', // list all forms before the index in the handlers array
+        '$ID' => 'index', // any action redirects to the index MUST be added at the end of the array
     );
 
     public function init() {
@@ -85,9 +89,9 @@ class GenealogyPage_Controller
         Requirements::javascript("genealogist/js/genealogy.js");
     }
 
+    /// Actions ///
     public function index(SS_HTTPRequest $request) {
         $id = $this->getRequest()->param('ID');
-        $town = $this->getRequest()->param('town');
 
         if ($id) {
             $root = DataObject::get_by_id('Person', (int) $id);
@@ -116,7 +120,7 @@ class GenealogyPage_Controller
         return $person->renderWith("Side_Info");
     }
 
-    public function giveinfo() {
+    public function suggest() {
         $id = $this->getRequest()->param('ID');
 
         if ($id) {
@@ -129,18 +133,60 @@ class GenealogyPage_Controller
             return $this
                             ->customise(array(
                                 'Person' => $person,
-                                'Title' => $person->Name
+                                'Title' => $person->FullName
                             ))
-                            ->renderWith(array('GenealogistPage_Edit', 'Page'));
+                            ->renderWith(array('GenealogyPage_Suggest', 'Page'));
         } else {
             return $this->httpError(404, 'That book could not be found!');
         }
-        
-        
-        $id = $this->getRequest()->param('ID');
-        $person = GenealogistHelper::get_person($id);
+    }
 
-        return $person->renderWith("Side_Info");
+    /// Forms ///
+    public function Form_Suggest($personID = null) {
+        $subjects = array(
+            'General' => _t('Genealogist.SUBJECT', 'Subject'),
+            'Name' => _t('Genealogist.NAME', 'Name'),
+            'Father' => _t('Genealogist.FATHER', 'Father'),
+            'Mother' => _t('Genealogist.MOTHER', 'Mother'),
+            'Spouse' => _t('Genealogist.SPOUSE', 'Spouse'),
+            'Sons' => _t('Genealogist.SONS', 'Sons'),
+            'Daughters' => _t('Genealogist.DAUGHTERS', 'Daughters'),
+            'BirthDate' => _t('Genealogist.BIRTHDATE', 'Birth Date'),
+            'DeathDate' => _t('Genealogist.DEATHDATE', 'Death Date'),
+        );
+
+        // Create fields
+        $fields = new FieldList(
+                HiddenField::create('PersonID', 'PersonID', $personID), //
+                TextField::create('Name', _t('Genealogist.YOUR_NAME', 'Your Name')), //
+                EmailField::create('Email', _t('Genealogist.EMAIL', 'Email')), //
+                TextField::create('Phone', _t('Genealogist.PHONE', 'Phone')), //
+                DropdownField::create('Subject', _t('Genealogist.SUBJECT', 'Subject'), $subjects), //
+                TextareaField::create('Message', _t('Genealogist.MESSAGE', 'Message'))
+        );
+
+        // Create action
+        $actions = new FieldList(
+                new FormAction('doSuggest', _t('Genealogist.SEND', 'Send'))
+        );
+
+        // Create Validators
+        $validator = new RequiredFields('Name', 'Message');
+
+        return new Form($this, 'Form_Suggest', $fields, $actions, $validator);
+    }
+
+    public function doSuggest($data, $form) {
+        $personID = $data['PersonID'];
+        $name = $data['Name'];
+        $email = $data['Email'];
+        $phone = $data['Phone'];
+        $subject = $data['Subject'];
+        $message = $data['Message'];
+
+        GenealogistHelper::suggest_change($name, $email, $phone, $personID, $subject, $message);
+
+        return $this->owner->redirectBack();
     }
 
     public function getDBVersion() {

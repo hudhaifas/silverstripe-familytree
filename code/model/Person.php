@@ -49,6 +49,7 @@ class Person
     private static $has_many = array(
         'Sons' => 'Male',
         'Daughters' => 'Female',
+        'Suggestions' => 'Suggestion',
     );
     private static $many_many = array(
     );
@@ -217,12 +218,20 @@ class Person
         return $person;
     }
 
+    private function personLink($action = null) {
+        return GenealogyPage::get()->first()->Link($action);
+    }
+
     function Link($action = null) {
-        return GenealogyPage::get()->first()->Link("$this->ID");
+        return $this->personLink("$this->ID");
     }
 
     function InfoLink($action = null) {
-        return GenealogyPage::get()->first()->Link("person-info/$this->ID");
+        return $this->personLink("person-info/$this->ID");
+    }
+
+    function SuggestLink($action = null) {
+        return $this->personLink("suggest/$this->ID");
     }
 
     function EditLink($action = null) {

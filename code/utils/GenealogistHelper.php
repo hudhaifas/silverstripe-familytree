@@ -81,6 +81,22 @@ class GenealogistHelper {
         return $people;
     }
 
+    public static function add_daughters($id, $names, $delimiter = "|") {
+        $parent = DataObject::get_by_id('Person', (int) $id);
+        $namesList = explode($delimiter, $names);
+
+        echo 'Add ' . count($namesList) . ' daughters to: ' . $parent->getTitle() . '<br />';
+
+        foreach ($namesList as $name) {
+            $daughter = new Female();
+            $daughter->Name = $name;
+            $daughter->FatherID = $id;
+            $daughter->write();
+
+            echo '&emsp;Daughter: ' . $name . ' has ID: ' . $daughter->ID . '<br />';
+        }
+    }
+
     public static function add_sons($id, $names, $delimiter = "|") {
         $parent = DataObject::get_by_id('Person', (int) $id);
         $namesList = explode($delimiter, $names);
@@ -92,6 +108,7 @@ class GenealogistHelper {
             $son->Name = $name;
             $son->FatherID = $id;
             $son->write();
+
             echo '&emsp;Sone: ' . $name . ' has ID: ' . $son->ID . '<br />';
         }
     }
@@ -128,6 +145,18 @@ class GenealogistHelper {
         $person->write();
 
         echo '&emsp;became: ' . $person->getTitle() . '<br />';
+    }
+
+    public static function suggest_change($name, $email, $phone, $personID, $subject, $message) {
+        $suggestion = new Suggestion();
+
+        $suggestion->PersonID = $personID;
+        $suggestion->Name = $name;
+        $suggestion->Email = $email;
+        $suggestion->Phone = $phone;
+        $suggestion->Subject = $subject;
+        $suggestion->Message = $message;
+        $suggestion->write();
     }
 
 }

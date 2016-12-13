@@ -37,6 +37,7 @@ class GenealogistAdmin
         'Male',
         'Female',
         'Person',
+        'Suggestion',
         'Town'
     );
     private static $url_segment = 'genealogist';

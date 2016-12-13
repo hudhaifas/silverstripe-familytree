@@ -61,6 +61,8 @@ class GenealogistPage_Controller
         'doSearchPerson',
         'Form_AddSons',
         'doAddSons',
+        'Form_AddDaughters',
+        'doAddDaughters',
         'Form_AddParent',
         'doAddParent',
         'Form_ChangeParent',
@@ -74,6 +76,7 @@ class GenealogistPage_Controller
         'edit/$ID' => 'edit',
     );
 
+    /// Actions ///
     public function edit() {
         $id = $this->getRequest()->param('ID');
 
@@ -113,7 +116,6 @@ class GenealogistPage_Controller
 
     public function doSearchPerson($data, $form) {
         $term = $data['SearchTerm'];
-//        die('Hello Search: ' . $term);
 
         $people = GenealogistHelper::search_all_people($this->request, $term);
         $title = _t('Genealogist.SEARCH_RESULTS', 'Search Results') . ': ' . $term;
@@ -147,11 +149,11 @@ class GenealogistPage_Controller
 
         // Create action
         $actions = new FieldList(
-                new FormAction('doAddParent', _t('Genealogist.ADD_PARENT', 'Add Parent'))
+                new FormAction('doAddParent', _t('Genealogist.ADD', 'Add'))
         );
 
         // Create Validators
-        $validator = new RequiredFields();
+        $validator = new RequiredFields('Name');
 
         return new Form($this, 'Form_AddParent', $fields, $actions, $validator);
     }
@@ -165,6 +167,7 @@ class GenealogistPage_Controller
         return $this->owner->redirectBack();
     }
 
+    /////
     public function Form_ChangeParent($sonID = null) {
         // Create fields          
         $fields = new FieldList(
@@ -178,7 +181,7 @@ class GenealogistPage_Controller
         );
 
         // Create Validators
-        $validator = new RequiredFields();
+        $validator = new RequiredFields('ParentID');
 
         return new Form($this, 'Form_ChangeParent', $fields, $actions, $validator);
     }
@@ -192,20 +195,21 @@ class GenealogistPage_Controller
         return $this->owner->redirectBack();
     }
 
+    /////
     public function Form_AddSons($parentID = null) {
         // Create fields          
         $fields = new FieldList(
                 HiddenField::create('ParentID', 'ParentID', $parentID), //
-                TextareaField::create('Names', _t('Genealogist.SONS_NAMES', 'Sons Names'))
+                TextareaField::create('Names', _t('Genealogist.SONS_NAMES', 'Sons Names (Use | to seperate the names)'))
         );
 
         // Create action
         $actions = new FieldList(
-                new FormAction('doAddSons', _t('Genealogist.ADD_SONS', 'Add Sons'))
+                new FormAction('doAddSons', _t('Genealogist.ADD', 'Add'))
         );
 
         // Create Validators
-        $validator = new RequiredFields();
+        $validator = new RequiredFields('Names');
 
         return new Form($this, 'Form_AddSons', $fields, $actions, $validator);
     }
@@ -214,12 +218,40 @@ class GenealogistPage_Controller
         $id = $data['ParentID'];
         $names = $data['Names'];
 
-//        die('id: ' . $id);
         GenealogistHelper::add_sons($id, $names);
 
         return $this->owner->redirectBack();
     }
 
+    /////
+    public function Form_AddDaughters($parentID = null) {
+        // Create fields          
+        $fields = new FieldList(
+                HiddenField::create('ParentID', 'ParentID', $parentID), //
+                TextareaField::create('Names', _t('Genealogist.DAUGHTERS_NAMES', 'Daughters Names (Use | to seperate the names)'))
+        );
+
+        // Create action
+        $actions = new FieldList(
+                new FormAction('doAddDaughters', _t('Genealogist.ADD', 'Add'))
+        );
+
+        // Create Validators
+        $validator = new RequiredFields('Names');
+
+        return new Form($this, 'Form_AddDaughters', $fields, $actions, $validator);
+    }
+
+    public function doAddDaughters($data, $form) {
+        $id = $data['ParentID'];
+        $names = $data['Names'];
+
+        GenealogistHelper::add_daughters($id, $names);
+
+        return $this->owner->redirectBack();
+    }
+
+    /////
     public function Form_EditPerson($personID) {
         $person = DataObject::get_by_id('Person', (int) $personID);
 
@@ -259,6 +291,7 @@ class GenealogistPage_Controller
         return $this->owner->redirectBack();
     }
 
+    /////
     public function Form_DeletePerson($personID) {
 //        $person = DataObject::get_by_id('Person', (int) $personID);
         // Create fields          

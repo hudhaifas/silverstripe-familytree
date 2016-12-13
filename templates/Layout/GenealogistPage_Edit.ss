@@ -63,9 +63,25 @@
                     </h4>
                 </div>
 
-                <div id="collapse4" class="panel-collapse collapse in">
+                <div id="collapse4" class="panel-collapse collapse">
                     <div class="panel-body">
                         $Up.Form_AddSons($ID)
+                    </div>
+                </div>
+            </div>
+
+            <div class="panel panel-default">
+                <div class="panel-heading">
+                    <h4 class="panel-title">
+                        <a data-toggle="collapse" data-parent="#accordion" href="#collapse5">
+                            <%t Genealogist.ADD_DAUGHTERS 'Add Daughters' %>
+                        </a>
+                    </h4>
+                </div>
+
+                <div id="collapse5" class="panel-collapse collapse">
+                    <div class="panel-body">
+                        $Up.Form_AddDaughters($ID)
                     </div>
                 </div>
             </div>
@@ -74,13 +90,13 @@
             <div class="panel panel-default">
                 <div class="panel-heading">
                     <h4 class="panel-title">
-                        <a data-toggle="collapse" data-parent="#accordion" href="#collapse4">
+                        <a data-toggle="collapse" data-parent="#accordion" href="#collapse6">
                             <%t Genealogist.DELETE_PERSON 'Delete Person' %>
                         </a>
                     </h4>
                 </div>
 
-                <div id="collapse4" class="panel-collapse collapse">
+                <div id="collapse6" class="panel-collapse collapse">
                     <div class="panel-body">
                         $Up.Form_DeletePerson($ID)
                     </div>

@@ -7,7 +7,7 @@
         <a href="{$Link}" class="options-item" title="<%t Genealogist.SHOW_THIS 'Show this person tree' %>"><i class="fa fa-dot-circle-o" aria-hidden="true"></i></a>
         <a href="{$Father.Link}" class="options-item" title="<%t Genealogist.SHOW_FATHER 'Show this persons father tree' %>"><i class="fa fa-arrow-circle-o-left" aria-hidden="true"></i></a>
         <a href="{$Root.Link}" class="options-item" title="<%t Genealogist.SHOW_CLAN 'Show this persons clan tree' %>"><i class="fa fa-arrow-circle-o-up" aria-hidden="true"></i></a>
-        <a href="{$Root.Link}" class="options-item" title="<%t Genealogist.GIVE_INFO 'Give information about this person' %>"><i class="fa fa-comment" aria-hidden="true"></i></a>
+        <a href="{$SuggestLink}" target="_blank" title="<%t Genealogist.SUGGEST_PERSON_EDIT 'Suggest edit on this person' %>"><i class="fa fa-comment" aria-hidden="true"></i></a>
         <% if $hasPermission %>
             <a href="{$EditLink}" target="_blank" title="<%t Genealogist.EDIT_THIS 'Edit this person' %>"><i class="fa fa-pencil" aria-hidden="true"></i></a>
         <% end_if %>
