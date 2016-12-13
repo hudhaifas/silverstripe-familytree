@@ -6,7 +6,7 @@
 
         <div class="pull-right">
             <%--
-            <a href="{$Link}" id="export-tree" title="<%t Genealogist.EXPORT_PIC 'Export the tree in an image' %>"><i class="fa fa-picture-o" aria-hidden="true"></i></a>
+            <a href="{$ShowLink}" id="export-tree" title="<%t Genealogist.EXPORT_PIC 'Export the tree in an image' %>"><i class="fa fa-picture-o" aria-hidden="true"></i></a>
             --%>
             <a href="#" id="toggle-fullscreen" title="<%t Genealogist.FULLSCREEN 'Fullscreen' %>"><i class="fa fa-arrows-alt" aria-hidden="true"></i></a>
         </div>
@@ -15,7 +15,7 @@
     <div id="collapse1" class="list-group panel-collapse collapse in">
         <div class="panel-body">
             <% loop Roots.Sort(Name, ASC) %>
-            <li class="list-group-item"><a href="{$Link}" class="options-item">$Name</a></li>
+            <li class="list-group-item"><a href="{$ShowLink}" class="options-item">$Name</a></li>
             <% end_loop %>
         </div>
     </div>

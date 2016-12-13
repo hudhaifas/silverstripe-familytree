@@ -223,7 +223,7 @@ class Person
     }
 
     function Link($action = null) {
-        return $this->personLink("$this->ID");
+        return Director::get_current_page()->Link($action);
     }
 
     function InfoLink($action = null) {
@@ -236,6 +236,10 @@ class Person
 
     function EditLink($action = null) {
         return GenealogistPage::get()->first()->Link("edit/$this->ID");
+    }
+
+    function ShowLink($action = null) {
+        return $this->personLink("$this->ID");
     }
 
     public function getDefaultSearchContext() {
