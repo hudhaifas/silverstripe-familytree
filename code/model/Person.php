@@ -88,6 +88,7 @@ class Person
         $labels['Children'] = _t('Genealogist.CHILDREN', 'Children');
         $labels['Sons'] = _t('Genealogist.SONS', 'Sons');
         $labels['Daughters'] = _t('Genealogist.DAUGHTERS', 'Daughters');
+        $labels['Suggestions'] = _t('Genealogist.SUGGESTIONS', 'Suggestions');
         $labels['Page'] = _t('Genealogist.PAGE', 'Page');
         $labels['BirthDate'] = _t('Genealogist.BIRTHDATE', 'Birth Date');
         $labels['DeathDate'] = _t('Genealogist.DEATHDATE', 'Death Date');

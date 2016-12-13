@@ -17,8 +17,8 @@ ar:
     PLURALNAME: 'المدن'
     SINGULARNAME: 'المدن'
   Suggestion:
-    PLURALNAME: 'الاقتراح'
-    SINGULARNAME: 'الاقتراح'
+    PLURALNAME: 'الاقتراحات'
+    SINGULARNAME: 'الاقتراحات'
   Genealogist:
     PHOTO: 'الصورة'
     NAME: 'الاسم'
@@ -71,6 +71,7 @@ ar:
     SHOW_FATHER: 'عرض شجرة والد هذا الشخص'
     SHOW_CLAN: 'عرض شجرة عائلة هذا الشخص'
     EDIT_THIS: 'تعديل الشخص'
+    SUGGESTIONS: 'الاقتراحات'
     SUGGEST_PERSON_EDIT: 'اقترح تعديلا على هذا الشخص'
     SUGGEST_EDIT: 'اقترح تعديلا على'
     FROM: 'من'
