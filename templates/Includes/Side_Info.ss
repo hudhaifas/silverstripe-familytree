@@ -1,6 +1,6 @@
 <div class="panel-heading clearfix">
     <h4 class="panel-title pull-left">
-        <a data-toggle="collapse" data-parent="#accordion" href="#collapse2" id="collapse2-btn">$AliasName</a>
+        <a data-toggle="collapse" data-parent="#accordion" href="#collapse2" id="collapse2-btn" title="$FullName">$AliasName</a>
     </h4>
 
     <div class="pull-right">
