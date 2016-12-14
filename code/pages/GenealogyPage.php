@@ -122,11 +122,10 @@ class GenealogyPage_Controller
 
     public function suggest() {
         $id = $this->getRequest()->param('ID');
+        $person = null;
 
         if ($id) {
             $person = DataObject::get_by_id('Person', (int) $id);
-        } else {
-            $person = $this->getClans()->first();
         }
 
         if ($person) {
@@ -137,7 +136,10 @@ class GenealogyPage_Controller
                             ))
                             ->renderWith(array('GenealogyPage_Suggest', 'Page'));
         } else {
-            return $this->httpError(404, 'That book could not be found!');
+            return $this
+                            ->customise(array())
+                            ->renderWith(array('GenealogyPage_SuggestAny', 'Page'));
+//            return $this->httpError(404, 'That person could not be found!');
         }
     }
 

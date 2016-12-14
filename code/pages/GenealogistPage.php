@@ -94,7 +94,7 @@ class GenealogistPage_Controller
                             ))
                             ->renderWith(array('GenealogistPage_Edit', 'Page'));
         } else {
-            return $this->httpError(404, 'That book could not be found!');
+            return $this->httpError(404, 'That person could not be found!');
         }
     }
 
@@ -123,7 +123,7 @@ class GenealogistPage_Controller
         if ($people) {
             $paginate = PaginatedList::create(
                             $people, $this->request
-                    )->setPageLength(16)
+                    )->setPageLength(50)
                     ->setPaginationGetVar('s');
 
 

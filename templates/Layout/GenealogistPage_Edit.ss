@@ -1,6 +1,10 @@
 <% with Person %>
 <article class="col-md-8 col-lg-8">
     <div class="row">
+            $Up.SearchPerson
+    </div>
+
+    <div class="row">
         <h1>$Name <span style="font-size: 50%;">$Father.FullName</span></h1>
     </div>
 

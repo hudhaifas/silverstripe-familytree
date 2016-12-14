@@ -2,8 +2,8 @@
     <% if $Results %>
         <% loop $Results %>
             <div class="col-md-6">
-                <a href="$EditLink">
-                        <h5>$FullName</h5>
+                <a href="$EditLink" title="$FullName">
+                    <h5>$Name <span style="font-size: 90%; font-weight: normal;">$Father.FullName.LimitCharacters(45)</span></h5>
                 </a>
                 <% if Mother %>
                     <sub><%t Genealogist.MOTHER 'Mother' %>: $Mother.FullName</sub>
