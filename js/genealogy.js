@@ -51,6 +51,7 @@ var updateInfo = function (url) {
                 $("#panel-info").html(response);
                 registerLinks();
                 $('#info-loader').hide();
+                $('#collapse2-btn').trigger('click');
             })
             .fail(function (xhr) {
                 alert('Error: ' + xhr.responseText);
