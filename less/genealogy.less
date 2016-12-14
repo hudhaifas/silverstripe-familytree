@@ -22,7 +22,6 @@
 @color-bg-clan: #dff0d8;
 @color-fg-clan: #3c763d;
 
-
 .conatiner-fluid {
     /*    height: 70vh;
         background-color: #fff;*/
@@ -35,8 +34,8 @@
 .tree-container {
     /*background-color: aqua;*/
     width: @container-w;
-    height: @container-h;
-    max-height: @container-h;
+    /*height: @container-h;*/
+    /*max-height: @container-h;*/
     margin: 0 auto;
     position: relative;
 
@@ -50,16 +49,6 @@
         .panel-group {
             max-height: @menu-w;
         }
-    }
-
-    .tree-holder {
-        /*background-color: chartreuse;*/
-        float: left;
-        width: @holder-w;
-        height: @holder-h;
-        max-height: @holder-h;
-
-        padding-left: 10px;
     }
 
     .ajax-loader {
@@ -138,3 +127,21 @@
     }
 }
 
+@media (min-width: 979px) {
+    .tree-container {
+        height: @container-h;
+        max-height: @container-h;
+
+        .tree-holder {
+            /*background-color: chartreuse;*/
+            float: left;
+            width: @holder-w;
+            height: @holder-h;
+            max-height: @holder-h;
+
+            padding-left: 10px;
+        }
+    }
+}
+
+@import "responsive-utilities.less";

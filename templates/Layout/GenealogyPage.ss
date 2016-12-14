@@ -1,5 +1,5 @@
-<div class="tree-container">
-    <div class="tree-menu">
+<div class="tree-container row">
+    <div class=" col-md-3 col-sm-12">
         <div class="panel-group" id="accordion">
             <% include Side_Roots %>
 
@@ -17,7 +17,7 @@
         </div>
     </div>
 
-    <div id="tree-holder" class="tree-holder">
+    <div id="tree-holder" class="col-md-9 col-sm-12">
         <% include TheTree %>
     </div>
 </div>

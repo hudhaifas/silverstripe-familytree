@@ -9,8 +9,8 @@
 .tree-container {
   /*background-color: aqua;*/
   width: 96vw;
-  height: 98vh;
-  max-height: 98vh;
+  /*height: @container-h;*/
+  /*max-height: @container-h;*/
   margin: 0 auto;
   position: relative;
 }
@@ -23,14 +23,6 @@
 }
 .tree-container .tree-menu .panel-group {
   max-height: 25%;
-}
-.tree-container .tree-holder {
-  /*background-color: chartreuse;*/
-  float: left;
-  width: 75%;
-  height: 97vh;
-  max-height: 97vh;
-  padding-left: 10px;
 }
 .tree-container .ajax-loader {
   display: none;
@@ -99,5 +91,74 @@
 #genealogy-tree .node a {
   cursor: help;
   word-wrap: break-word;
+}
+@media (min-width: 979px) {
+  .tree-container {
+    height: 98vh;
+    max-height: 98vh;
+  }
+  .tree-container .tree-holder {
+    /*background-color: chartreuse;*/
+    float: left;
+    width: 75%;
+    height: 97vh;
+    max-height: 97vh;
+    padding-left: 10px;
+  }
+}
+.hidden {
+  display: none;
+  visibility: hidden;
+}
+.visible-phone {
+  display: none !important;
+}
+.visible-tablet {
+  display: none !important;
+}
+.hidden-desktop {
+  display: none !important;
+}
+.visible-desktop {
+  display: inherit !important;
+}
+@media (min-width: 768px) and (max-width: 979px) {
+  .hidden-desktop {
+    display: inherit !important;
+  }
+  .visible-desktop {
+    display: none !important ;
+  }
+  .visible-tablet {
+    display: inherit !important;
+  }
+  .hidden-tablet {
+    display: none !important;
+  }
+}
+@media (max-width: 767px) {
+  .hidden-desktop {
+    display: inherit !important;
+  }
+  .visible-desktop {
+    display: none !important;
+  }
+  .visible-phone {
+    display: inherit !important;
+  }
+  .hidden-phone {
+    display: none !important;
+  }
+}
+.visible-print {
+  display: none !important;
+}
+@media print {
+  .visible-print {
+    display: inherit !important;
+  }
+  .hidden-print {
+    display: none !important;
+  }
 }
 /*# sourceMappingURL=genealogy.css.map */
