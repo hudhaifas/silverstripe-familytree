@@ -7,7 +7,8 @@
  */
 
 /**
- *
+ * Suggestion on potential changes and information about person.
+ * 
  * @author Hudhaifa Shatnawi <hudhaifa.shatnawi@gmail.com>
  * @version 1.0, Dec 13, 2016 - 11:25:26 AM
  */

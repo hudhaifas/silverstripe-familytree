@@ -17,6 +17,7 @@
 <div id="collapse2" class="panel-collapse collapse">
     <div class="panel-body">
         $FullName<br />
+        <% if Note %><%t Genealogist.NOTE 'Note' %>: $Note<br /><% end_if %>
         <% if BirthDate %><%t Genealogist.BIRTHDATE 'Birth Date' %>: $BirthDate<br /><% end_if %>
         <% if DeathDate %><%t Genealogist.DEATHDATE 'Death Date' %>: $DeathDate<br /><% end_if %>
         <% if Age %><%t Genealogist.AGE 'Age' %>: $Age<br /><% end_if %>

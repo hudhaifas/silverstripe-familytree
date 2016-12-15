@@ -11,6 +11,9 @@
 </article>
 
 <article class="col-md-4 col-lg-4">
+    <a href="{$ShowLink}" target="_blanck" title="<%t Genealogist.SHOW_THIS 'Show this person tree' %>"><%t Genealogist.SHOW_THIS 'Show this person tree' %></a>
+    <br />
+
     <% if BirthDate %><%t Genealogist.BIRTHDATE 'Birth Date' %>: $BirthDate<br /><% end_if %>
     <% if DeathDate %><%t Genealogist.DEATHDATE 'Death Date' %>: $DeathDate<br /><% end_if %>
     <% if Age %><%t Genealogist.AGE 'Age' %>: $Age<br /><% end_if %>

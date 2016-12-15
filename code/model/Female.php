@@ -25,6 +25,7 @@
  */
 
 /**
+ * This class presents every female in the genealogy tree.
  *
  * @author Hudhaifa Shatnawi <hudhaifa.shatnawi@gmail.com>
  * @version 1.0, Nov 2, 2016 - 11:05:49 AM
@@ -34,10 +35,12 @@ class Female
 
     private static $has_one = array(
         'Parent' => 'Person',
-        'Husband' => 'Male',
     );
     private static $has_many = array(
         'Children' => 'Person',
+    );
+    private static $belongs_many_many = array(
+        'Husbands' => 'Male',
     );
 
     public function canCreate($member = null) {
@@ -70,7 +73,6 @@ class Female
 
             $self->reorderField($fields, 'FatherID', 'Root.Main', 'Root.Main');
             $self->reorderField($fields, 'MotherID', 'Root.Main', 'Root.Main');
-            $self->reorderField($fields, 'HusbandID', 'Root.Main', 'Root.Main');
 
             $self->reorderField($fields, 'Photo', 'Root.Main', 'Root.Details');
             $self->reorderField($fields, 'PageID', 'Root.Main', 'Root.Details');

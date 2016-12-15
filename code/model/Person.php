@@ -25,7 +25,8 @@
  */
 
 /**
- *
+ * This class presents every person in the genealogy tree.
+ * 
  * @author Hudhaifa Shatnawi <hudhaifa.shatnawi@gmail.com>
  * @version 1.0, Nov 2, 2016 - 10:59:52 AM
  */
@@ -78,23 +79,30 @@ class Person
         $labels['AliasName'] = _t('Genealogist.NAME', 'Name');
         $labels['Name'] = _t('Genealogist.NAME', 'Name');
         $labels['NickName'] = _t('Genealogist.NICKNAME', 'NickName');
+
         $labels['Parents'] = _t('Genealogist.PARENTS', 'Parents');
         $labels['Father'] = _t('Genealogist.FATHER', 'Father');
         $labels['Father.Name'] = _t('Genealogist.FATHER_NAME', 'Father Name');
         $labels['Mother'] = _t('Genealogist.MOTHER', 'Mother');
         $labels['Mother.Name'] = _t('Genealogist.MOTHER_NAME', 'Mother Name');
+
         $labels['Husband'] = _t('Genealogist.HUSBAND', 'Husband');
+        $labels['Husbands'] = _t('Genealogist.HUSBANDS', 'Husbands');
         $labels['Wife'] = _t('Genealogist.WIFE', 'Wife');
+        $labels['Wifes'] = _t('Genealogist.WIFES', 'Wifes');
+
         $labels['Children'] = _t('Genealogist.CHILDREN', 'Children');
         $labels['Sons'] = _t('Genealogist.SONS', 'Sons');
         $labels['Daughters'] = _t('Genealogist.DAUGHTERS', 'Daughters');
-        $labels['Suggestions'] = _t('Genealogist.SUGGESTIONS', 'Suggestions');
-        $labels['Page'] = _t('Genealogist.PAGE', 'Page');
+
         $labels['BirthDate'] = _t('Genealogist.BIRTHDATE', 'Birth Date');
         $labels['DeathDate'] = _t('Genealogist.DEATHDATE', 'Death Date');
         $labels['Age'] = _t('Genealogist.AGE', 'Age');
         $labels['IsDead'] = _t('Genealogist.ISDEAD', 'Is Dead');
         $labels['Note'] = _t('Genealogist.NOTE', 'Note');
+
+        $labels['Suggestions'] = _t('Genealogist.SUGGESTIONS', 'Suggestions');
+        $labels['Page'] = _t('Genealogist.PAGE', 'Page');
 
         return $labels;
     }
@@ -131,6 +139,23 @@ class Person
         return $fields;
     }
 
+    public function getDefaultSearchContext() {
+        $fields = $this->scaffoldSearchFields(array(
+            'restrictFields' => array(
+                'Name',
+            )
+        ));
+
+        $filters = array(
+            'Name' => new PartialMatchFilter('Name'),
+        );
+
+        return new SearchContext(
+                $this->class, $fields, $filters
+        );
+    }
+
+    /// Permissions ///
     public function canCreate($member = null) {
         return false;
     }
@@ -147,8 +172,20 @@ class Person
         return false;
     }
 
+    /**
+     * Checks if the user is an authorized member
+     * @return boolean true if the user is an authorized member
+     */
+    public function hasPermission() {
+        $member = Member::currentUser();
+        return $member && $member->inGroups($this->config()->access_groups);
+    }
+
     protected function onBeforeWrite() {
         parent::onBeforeWrite();
+
+        $this->trim('Name');
+        $this->trim('NickName');
 
         if ($this->DeathDate) {
             $this->IsDead = 1;
@@ -159,66 +196,12 @@ class Person
         parent::onBeforeDelete();
     }
 
-    public function getTitle() {
-        return $this->getFullName();
-    }
-
-    public function getPersonName() {
-//        return $this->Name;
-        return $this->getAliasName();
-    }
-
-    public function getAliasName() {
-        $name = $this->Name;
-        if ($this->NickName) {
-            $name .= ' (' . $this->NickName . ')';
-        }
-        return $name;
-    }
-
-    public function getFullName() {
-        $name = $this->getPersonName();
-        if (!$this->Father()->exists()) {
-            return $name;
-        }
-
-        return $name . ' ' . $this->Father()->getFullName();
-    }
-
-    public function getAge() {
-        if ($this->DeathDate && $this->BirthDate) {
-            return $this->DeathDate - $this->BirthDate;
-        } else if ($this->BirthDate) {
-            $birth = new Date();
-            $birth->setValue($this->BirthDate);
-            return $birth->TimeDiff();
-        }
-
-        return null;
-    }
-
-    public function getParents() {
-        $person = $this;
-        $name = '';
-
-        while ($person->Father()->exists()) {
-            $person = $person->Father();
-            $name .= ' ' . $person->Name;
-        }
-
-        return $name;
-    }
-
-    public function getRoot() {
-        $person = $this;
-
-        while ($person->Father()->exists()) {
-            $person = $person->Father();
-        }
-
-        return $person;
-    }
-
+    /// Links ///
+    /**
+     * Return the link for this {@link Person} object
+     * @param string $action Optional controller action (method).
+     * @return string
+     */
     private function personLink($action = null) {
         return GenealogyPage::get()->first()->Link($action);
     }
@@ -243,88 +226,158 @@ class Person
         return $this->personLink("$this->ID");
     }
 
-    public function getDefaultSearchContext() {
-        $fields = $this->scaffoldSearchFields(array(
-            'restrictFields' => array(
-                'Name',
-            )
-        ));
+    /// Getters ///
+    public function getTitle() {
+        return $this->getFullName();
+    }
 
-        $filters = array(
-            'Name' => new PartialMatchFilter('Name'),
-        );
+    /**
+     * Returns the formated person's name
+     * @return strnig
+     */
+    public function getPersonName() {
+//        return $this->Name;
+        return $this->getAliasName();
+    }
 
-        return new SearchContext(
-                $this->class, $fields, $filters
-        );
+    /**
+     * Returns the person's name and nickname
+     * @return string
+     */
+    public function getAliasName() {
+        $name = $this->Name;
+
+        if ($this->NickName) {
+            $name .= ' (' . $this->NickName . ')';
+        }
+
+        return $name;
+    }
+
+    /**
+     * Returns the person's full name
+     * @return string
+     */
+    public function getFullName() {
+        $name = $this->getPersonName();
+        if (!$this->Father()->exists()) {
+            return $name;
+        }
+
+        return $name . ' ' . $this->Father()->getFullName();
+    }
+
+    /**
+     * Returns the person's age
+     * @return string
+     */
+    public function getAge() {
+        if ($this->DeathDate && $this->BirthDate) {
+            return $this->DeathDate - $this->BirthDate;
+        } else if ($this->BirthDate) {
+            $birth = new Date();
+            $birth->setValue($this->BirthDate);
+            return $birth->TimeDiff();
+        }
+
+        return null;
+    }
+
+    /**
+     * Returns the full name series of the person's parents.
+     * @return string
+     */
+    public function getParents() {
+        $person = $this;
+        $name = '';
+
+        while ($person->Father()->exists()) {
+            $person = $person->Father();
+            $name .= ' ' . $person->Name;
+        }
+
+        return $name;
+    }
+
+    /**
+     * Returns the root of this person
+     * @return Person
+     */
+    public function getRoot() {
+        $person = $this;
+
+        while ($person->Father()->exists()) {
+            $person = $person->Father();
+        }
+
+        return $person;
+    }
+
+    /**
+     * Returns all sons and daughters
+     * @return ArrayList
+     */
+    public function getChildren() {
+        $children = array();
+
+        if ($this->Sons()->exists()) {
+            foreach ($this->Sons() as $child) {
+                $children[] = $child;
+            }
+        }
+
+        if ($this->Daughters()->exists()) {
+            foreach ($this->Daughters() as $child) {
+                $children[] = $child;
+            }
+        }
+
+        return (new ArrayList($children))->sort('BirthDate ASC');
     }
 
     public function ThumbCover() {
         return $this->Photo()->CMSThumbnail();
     }
 
-    function reorderField($fields, $name, $fromTab, $toTab, $disabled = false) {
-        $field = $fields->fieldByName($fromTab . '.' . $name);
-
-        if ($field) {
-            $fields->removeFieldFromTab($fromTab, $name);
-            $fields->addFieldToTab($toTab, $field);
-
-            if ($disabled) {
-                $field = $field->performDisabledTransformation();
-            }
-        }
-
-        return $field;
-    }
-
-    function removeField($fields, $name, $fromTab) {
-        $field = $fields->fieldByName($fromTab . '.' . $name);
-
-        if ($field) {
-            $fields->removeFieldFromTab($fromTab, $name);
-        }
-
-        return $field;
-    }
-
-    function trim($field) {
-        if ($this->$field) {
-            $this->$field = trim($this->$field);
-        }
-    }
-
+    /**
+     * Checks if this person is older than 18 years
+     * @return boolean
+     */
     public function isAdult() {
         return $this->getAge() > 18;
     }
 
+    /**
+     * Checks if this person is male
+     * @return boolean
+     */
     public function isMale() {
         return $this instanceof Male;
     }
 
+    /**
+     * Checks if this person is female
+     * @return boolean
+     */
     public function isFemale() {
         return $this instanceof Female;
     }
 
+    /**
+     * Checks if this person is a clan
+     * @return boolean
+     */
     public function isClan() {
         return $this instanceof Clan;
     }
 
+    /// UI ///
     public function CSSClasses($stopAtClass = 'DataObject') {
         $classes = strtolower(parent::CSSClasses($stopAtClass));
 
         $classes .= $this->IsDead ? ' dead' : '';
 
         return $classes;
-    }
-
-    public function toString() {
-        return $this->getTitle();
-    }
-
-    public function hasPermission() {
-        $member = Member::currentUser();
-        return $member && $member->inGroups($this->config()->access_groups);
     }
 
     public function getHtmlUI($showFemales = 0, $showFemalesSeed = 0) {
@@ -375,27 +428,21 @@ HTML;
         return $html;
     }
 
-    public function getChildren() {
-        $children = array();
-
-        if ($this->Sons()->exists()) {
-            foreach ($this->Sons() as $child) {
-                $children[] = $child;
-            }
-        }
-
-        if ($this->Daughters()->exists()) {
-            foreach ($this->Daughters() as $child) {
-                $children[] = $child;
-            }
-        }
-        return (new ArrayList($children))->sort('BirthDate ASC');
-    }
-
+    /// Counters ///
+    /**
+     * Counts the of all offsprings
+     * @param int $state either 1/$STATE_ALIVE or 2/$STATE_DEAD or 0
+     * @return number
+     */
     public function OffspringCount($state = 0) {
         return $this->MalesCount($state) + $this->FemalesCount($state);
     }
 
+    /**
+     * Counts the of all male offsprings
+     * @param int $state either 1/$STATE_ALIVE or 2/$STATE_DEAD or 0
+     * @return number
+     */
     public function MalesCount($state = 0) {
         switch ($state) {
             case self::$STATE_ALIVE:
@@ -418,6 +465,11 @@ HTML;
         return $count;
     }
 
+    /**
+     * Counts the of all female offsprings
+     * @param int $state either 1/$STATE_ALIVE or 2/$STATE_DEAD or 0
+     * @return number
+     */
     public function FemalesCount($state = 0) {
         switch ($state) {
             case self::$STATE_ALIVE:
@@ -442,22 +494,29 @@ HTML;
         return $count;
     }
 
+    /**
+     * Counts the of sons
+     * @param int $state either 1/$STATE_ALIVE or 2/$STATE_DEAD or 0
+     * @return number
+     */
     public function SonsCount($state = 0) {
         $count = 0;
 
         foreach ($this->Sons() as $child) {
             switch ($state) {
                 case self::$STATE_ALIVE:
-                    $count += !$child->IsDead && !$child->isClan() ? 1 : 0;
+//                    $count += !$child->IsDead && !$child->isClan() ? 1 : 0;
+                    $count += !$child->IsDead ? 1 : 0;
                     break;
 
                 case self::$STATE_DEAD:
-                    $count += $child->IsDead && !$child->isClan() ? 1 : 0;
+//                    $count += $child->IsDead && !$child->isClan() ? 1 : 0;
+                    $count += $child->IsDead ? 1 : 0;
                     break;
 
                 default:
-//                    $count++;
-                    $count += !$child->isClan() ? 1 : 0;
+//                    $count += !$child->isClan() ? 1 : 0;
+                    $count++;
                     break;
             }
         }
@@ -465,8 +524,67 @@ HTML;
         return $count;
     }
 
-    public function DaughtersCount($isAlive = true) {
-        return $this->Daughters()->Count();
+    /**
+     * Counts the of daughters
+     * @param int $state either 1/$STATE_ALIVE or 2/$STATE_DEAD or 0
+     * @return number
+     */
+    public function DaughtersCount($state = 0) {
+        $count = 0;
+
+        foreach ($this->Daughters() as $child) {
+            switch ($state) {
+                case self::$STATE_ALIVE:
+                    $count += !$child->IsDead ? 1 : 0;
+                    break;
+
+                case self::$STATE_DEAD:
+                    $count += $child->IsDead ? 1 : 0;
+                    break;
+
+                default:
+                    $count ++;
+                    break;
+            }
+        }
+
+        return $count;
+    }
+
+    /// Utils ///
+    function reorderField($fields, $name, $fromTab, $toTab, $disabled = false) {
+        $field = $fields->fieldByName($fromTab . '.' . $name);
+
+        if ($field) {
+            $fields->removeFieldFromTab($fromTab, $name);
+            $fields->addFieldToTab($toTab, $field);
+
+            if ($disabled) {
+                $field = $field->performDisabledTransformation();
+            }
+        }
+
+        return $field;
+    }
+
+    function removeField($fields, $name, $fromTab) {
+        $field = $fields->fieldByName($fromTab . '.' . $name);
+
+        if ($field) {
+            $fields->removeFieldFromTab($fromTab, $name);
+        }
+
+        return $field;
+    }
+
+    function trim($field) {
+        if ($this->$field) {
+            $this->$field = trim($this->$field);
+        }
+    }
+
+    public function toString() {
+        return $this->getTitle();
     }
 
 }

@@ -25,6 +25,7 @@
  */
 
 /**
+ * This class presents every clan or origin of a family in the genealogy tree.
  *
  * @author Hudhaifa Shatnawi <hudhaifa.shatnawi@gmail.com>
  * @version 1.0, Nov 2, 2016 - 11:56:42 AM
