@@ -89,7 +89,7 @@ class Person
         $labels['Husband'] = _t('Genealogist.HUSBAND', 'Husband');
         $labels['Husbands'] = _t('Genealogist.HUSBANDS', 'Husbands');
         $labels['Wife'] = _t('Genealogist.WIFE', 'Wife');
-        $labels['Wifes'] = _t('Genealogist.WIFES', 'Wifes');
+        $labels['Wives'] = _t('Genealogist.WIVES', 'Wives');
 
         $labels['Children'] = _t('Genealogist.CHILDREN', 'Children');
         $labels['Sons'] = _t('Genealogist.SONS', 'Sons');

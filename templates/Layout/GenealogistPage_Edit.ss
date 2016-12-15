@@ -122,27 +122,30 @@
     <hr />
 
     <b><%t Genealogist.FATHER 'Father' %></b><br />
-    <a href="{$Father.EditLink()}" data-url="{$Father.EditLink()}" class="info-item">$Father.FullName</a>
+    <a href="{$Father.EditLink()}">$Father.FullName</a>
     
     <% if Mother %>
         <hr />
 
         <b><%t Genealogist.MOTHER 'Mother' %></b><br />
-        <a href="{$Mother.EditLink()}" data-url="{$Mother.EditLink()}" class="info-item">$Mother.FullName</a>
+        <a href="{$Mother.EditLink()}">$Mother.FullName</a>
         <br />
     <% end_if %>
 
-    <% if Husband %>
+    <% if Husbands %>
+        <hr />
+        <b><%t Genealogist.HUSBANDS 'Husbands' %></b><br />
+        <% loop Husbands %>
+            <a href="{$EditLink()}">$FullName</a><br />
+        <% end_loop %>
+
+    <% else_if $hasPermission && Wives %>
         <hr />
 
-        <b><%t Genealogist.SPOUSE 'Spouse' %></b><br />
-        <a href="{$Husband.EditLink()}" data-url="{$Husband.EditLink()}" class="info-item">$Husband.FullName</a>
-
-    <% else_if Wife %>
-    <hr />
-
-    <b><%t Genealogist.SPOUSE 'Spouse' %></b><br />
-        <a href="{$Wife.EditLink()}" data-url="{$Wife.EditLink()}" class="info-item">$Wife.FullName</a>
+        <b><%t Genealogist.WIVES 'Wives' %></b><br />
+        <% loop Wives %>
+            <a href="{$EditLink()}">$FullName</a><br />
+        <% end_loop %>
     <% end_if %>
 
     <% if Children %>
@@ -150,14 +153,14 @@
 
         <b><%t Genealogist.SONS 'Sons' %></b>: $SonsCount<br />
         <% loop $Sons %>
-            <a href="{$EditLink()}" data-url="{$EditLink()}" class="info-item">$AliasName</a><% if not Last %><%t Genealogist.COMMA ',' %><% end_if %>
+            <a href="{$EditLink()}">$AliasName</a><% if not Last %><%t Genealogist.COMMA ',' %><% end_if %>
         <% end_loop %>
         <br />
 
         <hr />
         <b><%t Genealogist.DAUGHTERS 'Daughters' %></b>: $DaughtersCount<br />
         <% loop Daughters %>
-            <a href="{$EditLink()}" data-url="{$EditLink()}" class="info-item">$AliasName</a><% if not Last %><%t Genealogist.COMMA ',' %><% end_if %>
+            <a href="{$EditLink()}">$AliasName</a><% if not Last %><%t Genealogist.COMMA ',' %><% end_if %>
         <% end_loop %>
     <% end_if %>
 

@@ -30,17 +30,20 @@
             <br />
         <% end_if %>
 
-        <% if Husband %>
+        <% if Husbands %>
+            <hr />
+            <b><%t Genealogist.HUSBANDS 'Husbands' %></b><br />
+            <% loop Husbands %>
+                <a href="#" data-url="{$InfoLink()}" class="info-item">$FullName</a><br />
+            <% end_loop %>
+
+        <% else_if $hasPermission && Wives %>
             <hr />
 
-            <b><%t Genealogist.SPOUSE 'Spouse' %></b><br />
-            <a href="#" data-url="{$Husband.InfoLink()}" class="info-item">$Husband.FullName</a>
-
-        <% else_if $hasPermission && Wife %>
-            <hr />
-
-            <b><%t Genealogist.SPOUSE 'Spouse' %></b><br />
-            <a href="#" data-url="{$Wife.InfoLink()}" class="info-item">$Wife.FullName</a>
+            <b><%t Genealogist.WIVES 'Wives' %></b><br />
+            <% loop Wives %>
+                <a href="#" data-url="{$InfoLink()}" class="info-item">$FullName</a><br />
+            <% end_loop %>
         <% end_if %>
 
         <% if Children %>

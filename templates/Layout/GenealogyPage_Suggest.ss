@@ -24,40 +24,43 @@
     <a href="{$Father.SuggestLink}">$Father.FullName</a>
 
     <% if Mother %>
-    <hr />
+        <hr />
 
-    <b><%t Genealogist.MOTHER 'Mother' %></b><br />
-    <a href="{$Mother.SuggestLink}">$Mother.FullName</a>
-    <br />
+        <b><%t Genealogist.MOTHER 'Mother' %></b><br />
+        <a href="{$Mother.SuggestLink}">$Mother.FullName</a>
+        <br />
     <% end_if %>
 
-    <% if Husband %>
-    <hr />
+    <% if Husbands %>
+        <hr />
+        <b><%t Genealogist.HUSBANDS 'Husbands' %></b><br />
+        <% loop Husbands %>
+            <a href="{$SuggestLink}">$FullName</a><br />
+        <% end_loop %>
 
-    <b><%t Genealogist.SPOUSE 'Spouse' %></b><br />
-    <a href="{$Husband.SuggestLink}">$Husband.FullName</a>
+    <% else_if $hasPermission && Wives %>
+        <hr />
 
-    <% else_if Wife %>
-    <hr />
-
-    <b><%t Genealogist.SPOUSE 'Spouse' %></b><br />
-    <a href="{$Wife.SuggestLink}">$Wife.FullName</a>
+        <b><%t Genealogist.WIVES 'Wives' %></b><br />
+        <% loop Wives %>
+            <a href="{$SuggestLink}">$FullName</a><br />
+        <% end_loop %>
     <% end_if %>
 
     <% if Children %>
-    <hr />
+        <hr />
 
-    <b><%t Genealogist.SONS 'Sons' %></b>: $SonsCount<br />
-    <% loop $Sons %>
-    <a href="{$SuggestLink}">$AliasName</a><% if not Last %><%t Genealogist.COMMA ',' %><% end_if %>
-    <% end_loop %>
-    <br />
+        <b><%t Genealogist.SONS 'Sons' %></b>: $SonsCount<br />
+        <% loop $Sons %>
+            <a href="{$SuggestLink}">$AliasName</a><% if not Last %><%t Genealogist.COMMA ',' %><% end_if %>
+        <% end_loop %>
+        <br />
 
-    <hr />
-    <b><%t Genealogist.DAUGHTERS 'Daughters' %></b>: $DaughtersCount<br />
-    <% loop Daughters %>
-    <a href="{$SuggestLink}">$AliasName</a><% if not Last %><%t Genealogist.COMMA ',' %><% end_if %>
-    <% end_loop %>
+        <hr />
+        <b><%t Genealogist.DAUGHTERS 'Daughters' %></b>: $DaughtersCount<br />
+        <% loop Daughters %>
+            <a href="{$SuggestLink}">$AliasName</a><% if not Last %><%t Genealogist.COMMA ',' %><% end_if %>
+        <% end_loop %>
     <% end_if %>
 
 </article>

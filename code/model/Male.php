@@ -40,7 +40,7 @@ class Male
         'Children' => 'Person',
     );
     private static $many_many = array(
-        'Wifes' => 'Female',
+        'Wives' => 'Female',
     );
 
     public function canCreate($member = null) {
