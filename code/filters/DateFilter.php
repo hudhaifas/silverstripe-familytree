@@ -15,7 +15,8 @@ abstract class DateFilter
         extends PartialMatchFilter {
 
     protected function getDate() {
-        $date = new DateTime($this->getValue());
+        $date = new Date();
+        $date->setValue($this->getValue());
 
         return array(
             'd' => $date->format('d'),

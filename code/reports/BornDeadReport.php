@@ -64,7 +64,7 @@ class BornDeadReport
             4 => 'Dead on this year',
         );
 
-        $clans = Genealogist::get_root_clans()->map();
+//        $clans = GenealogistHelper::get_root_clans()->map();
 
         $params = new FieldList(
                 DropdownField::create(

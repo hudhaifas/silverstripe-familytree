@@ -113,13 +113,16 @@ class Person
         $this->beforeUpdateCMSFields(function ($fields) use ($self) {
             if ($field = $fields->fieldByName('Root.Main.BirthDate')) {
                 $field->setConfig('showcalendar', true);
+                $field->setConfig('dateformat', 'dd-MM-yyyy');
             }
 
             if ($field = $fields->fieldByName('Root.Main.DeathDate')) {
                 $field->setConfig('showcalendar', true);
+                $field->setConfig('dateformat', 'dd-MM-yyyy');
             }
 
             $fields->removeFieldFromTab('Root.Main', 'ParentID');
+//            $fields->addFieldToTab('Root.Main', ReadonlyField::create('FatherName', 'FatherName', $this->Father()->Name));
 
 //            $self->reorderField($fields, 'Name', 'Root.Main', 'Root.Main');
 //            $self->reorderField($fields, 'NickName', 'Root.Main', 'Root.Main');
