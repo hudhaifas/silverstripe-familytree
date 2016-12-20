@@ -48,7 +48,7 @@ class AddParentTask
         $id = $request->getVar('id');
         $name = $request->getVar('name');
 
-        GenealogistHelper::add_parent($id, $name);
+        GenealogistHelper::add_father($id, $name);
 
         echo 'Task finished.';
     }

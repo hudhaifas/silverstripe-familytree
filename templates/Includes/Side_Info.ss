@@ -8,7 +8,7 @@
         <a href="{$Father.ShowLink}" class="options-item" title="<%t Genealogist.SHOW_FATHER 'Show this persons father tree' %>"><i class="fa fa-arrow-circle-o-left" aria-hidden="true"></i></a>
         <a href="{$Root.ShowLink}" class="options-item" title="<%t Genealogist.SHOW_CLAN 'Show this persons clan tree' %>"><i class="fa fa-arrow-circle-o-up" aria-hidden="true"></i></a>
         <a href="{$SuggestLink}" target="_blank" title="<%t Genealogist.SUGGEST_PERSON_EDIT 'Suggest edit on this person' %>"><i class="fa fa-comment" aria-hidden="true"></i></a>
-        <% if $hasPermission %>
+        <% if hasPermission %>
             <a href="{$EditLink}" target="_blank" title="<%t Genealogist.EDIT_THIS 'Edit this person' %>"><i class="fa fa-pencil" aria-hidden="true"></i></a>
         <% end_if %>
     </div>
@@ -16,13 +16,16 @@
 
 <div id="collapse2" class="panel-collapse collapse">
     <div class="panel-body">
-        $FullName<br />
+        $AliasName <a href="#" data-url="{$Father.InfoLink()}" class="info-item">$Father.FullName</a><br />
         <% if Note %><%t Genealogist.NOTE 'Note' %>: $Note<br /><% end_if %>
+        
+        <% if BirthDate || DeathDate %><hr /><% end_if %>
+        
         <% if BirthDate %><%t Genealogist.BIRTHDATE 'Birth Date' %>: $BirthDate<br /><% end_if %>
         <% if DeathDate %><%t Genealogist.DEATHDATE 'Death Date' %>: $DeathDate<br /><% end_if %>
         <% if Age %><%t Genealogist.AGE 'Age' %>: $Age<br /><% end_if %>
 
-        <% if $hasPermission && Mother %>
+        <% if hasPermission && Mother %>
             <hr />
 
             <b><%t Genealogist.MOTHER 'Mother' %></b><br />
@@ -51,14 +54,27 @@
 
             <b><%t Genealogist.OFFSPRING 'Offspring' %></b><br />
             <%t Genealogist.SONS 'Sons' %>: $SonsCount<br />
+            <%--
+            <% loop Sons.sort('BirthDate DESC').sort('Created ASC') %>
+                <a href="#" data-url="{$InfoLink()}" class="info-item">$AliasName</a><% if not Last %><%t Genealogist.COMMA ',' %><% end_if %>
+            <% end_loop %>
+            <br /><br />
+            --%>
 
-            <% if $hasPermission %>
+            <% if hasPermission %>
                 <%t Genealogist.DAUGHTERS 'Daughters' %>: $DaughtersCount<br />
+    
+                <%--
+                <% loop Daughters.sort('BirthDate DESC').sort('Created ASC') %>
+                    <a href="#" data-url="{$InfoLink()}" class="info-item">$AliasName</a><% if not Last %><%t Genealogist.COMMA ',' %><% end_if %>
+                <% end_loop %>
+                <br /><br />
+                --%>
             <% end_if %>
 
             <%t Genealogist.MALES 'Males' %>: $MalesCount<br />
 
-            <% if $hasPermission %>
+            <% if hasPermission %>
                 <%t Genealogist.FEMALES 'Females' %>: $FemalesCount<br />
                 <%t Genealogist.TOTAL 'Total' %>: $OffspringCount<br />
             <% end_if %>
@@ -68,12 +84,12 @@
             <b><%t Genealogist.ALIVE 'Alive' %></b><br />
             <%t Genealogist.SONS 'Sons' %>: {$SonsCount(1)}<br />
 
-            <% if $hasPermission %>
+            <% if hasPermission %>
                 <%t Genealogist.DAUGHTERS 'Daughters' %>: $DaughtersCount(1)<br />
             <% end_if %>
 
             <%t Genealogist.MALES 'Males' %>: $MalesCount(1)<br />
-            <% if $hasPermission %>
+            <% if hasPermission %>
                 <%t Genealogist.FEMALES 'Females' %>: $FemalesCount(1)<br />
                 <%t Genealogist.TOTAL 'Total' %>: $OffspringCount(1)<br />
             <% end_if %>

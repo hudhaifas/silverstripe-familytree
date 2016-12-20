@@ -40,6 +40,7 @@ class Person
         'DeathDate' => 'Date',
         'IsDead' => 'Boolean',
         'Note' => 'Varchar(255)',
+        'Comments' => 'Text',
     );
     private static $has_one = array(
         'Photo' => 'Image',
@@ -67,6 +68,7 @@ class Person
         'Age',
         'Note',
     );
+    private static $default_sort = 'BirthDate DESC, Created ASC';
     public static $STATE_ALIVE = 1;
     public static $STATE_DEAD = 2;
     private static $access_groups = array('administrators', 'librarians', 'genealogists');
@@ -100,6 +102,7 @@ class Person
         $labels['Age'] = _t('Genealogist.AGE', 'Age');
         $labels['IsDead'] = _t('Genealogist.ISDEAD', 'Is Dead');
         $labels['Note'] = _t('Genealogist.NOTE', 'Note');
+        $labels['Comments'] = _t('Genealogist.COMMENTS', 'Comments');
 
         $labels['Suggestions'] = _t('Genealogist.SUGGESTIONS', 'Suggestions');
         $labels['Page'] = _t('Genealogist.PAGE', 'Page');
@@ -123,7 +126,6 @@ class Person
 
             $fields->removeFieldFromTab('Root.Main', 'ParentID');
 //            $fields->addFieldToTab('Root.Main', ReadonlyField::create('FatherName', 'FatherName', $this->Father()->Name));
-
 //            $self->reorderField($fields, 'Name', 'Root.Main', 'Root.Main');
 //            $self->reorderField($fields, 'NickName', 'Root.Main', 'Root.Main');
 //            $self->reorderField($fields, 'BirthDate', 'Root.Main', 'Root.Main');
@@ -321,21 +323,22 @@ class Person
      * @return ArrayList
      */
     public function getChildren() {
-        $children = array();
-
-        if ($this->Sons()->exists()) {
-            foreach ($this->Sons() as $child) {
-                $children[] = $child;
-            }
-        }
-
-        if ($this->Daughters()->exists()) {
-            foreach ($this->Daughters() as $child) {
-                $children[] = $child;
-            }
-        }
-
-        return (new ArrayList($children))->sort('BirthDate ASC');
+//        $children = array();
+//
+//        if ($this->Sons()->exists()) {
+//            foreach ($this->Sons() as $child) {
+//                $children[] = $child;
+//            }
+//        }
+//
+//        if ($this->Daughters()->exists()) {
+//            foreach ($this->Daughters() as $child) {
+//                $children[] = $child;
+//            }
+//        }
+//
+//        return (new ArrayList($children))->sort('BirthDate ASC');
+        GenealogistHelper::get_children($this);
     }
 
     public function ThumbCover() {
@@ -418,7 +421,9 @@ HTML;
             return '';
         }
 
-        foreach ($this->getChildren() as $child) {
+        $children = GenealogistHelper::get_children($this);
+
+        foreach ($children as $child) {
             $html .= $child->getHtmlUI($showFemales, $showFemalesSeed);
         }
 
@@ -438,7 +443,7 @@ HTML;
      * @return number
      */
     public function OffspringCount($state = 0) {
-        return $this->MalesCount($state) + $this->FemalesCount($state);
+        return GenealogistHelper::count_offspring($this, $state);
     }
 
     /**
@@ -447,25 +452,7 @@ HTML;
      * @return number
      */
     public function MalesCount($state = 0) {
-        switch ($state) {
-            case self::$STATE_ALIVE:
-                $count = $this->isMale() && !$this->IsDead ? 1 : 0;
-                break;
-
-            case self::$STATE_DEAD:
-                $count = $this->isMale() && $this->IsDead ? 1 : 0;
-                break;
-
-            default:
-                $count = $this->isMale() ? 1 : 0;
-                break;
-        }
-
-        foreach ($this->Sons() as $child) {
-            $count += $child->MalesCount($state);
-        }
-
-        return $count;
+        return GenealogistHelper::count_males($this, $state);
     }
 
     /**
@@ -474,27 +461,7 @@ HTML;
      * @return number
      */
     public function FemalesCount($state = 0) {
-        switch ($state) {
-            case self::$STATE_ALIVE:
-                $count = $this->isFemale() && !$this->IsDead ? 1 : 0;
-                break;
-
-            case self::$STATE_DEAD:
-                $count = $this->isFemale() && $this->IsDead ? 1 : 0;
-                break;
-
-            default:
-                $count = $this->isFemale() ? 1 : 0;
-                break;
-        }
-
-        $count += $this->Daughters()->Count();
-
-        foreach ($this->Sons() as $child) {
-            $count += $child->FemalesCount($state);
-        }
-
-        return $count;
+        return GenealogistHelper::count_females($this, $state);
     }
 
     /**
@@ -503,28 +470,7 @@ HTML;
      * @return number
      */
     public function SonsCount($state = 0) {
-        $count = 0;
-
-        foreach ($this->Sons() as $child) {
-            switch ($state) {
-                case self::$STATE_ALIVE:
-//                    $count += !$child->IsDead && !$child->isClan() ? 1 : 0;
-                    $count += !$child->IsDead ? 1 : 0;
-                    break;
-
-                case self::$STATE_DEAD:
-//                    $count += $child->IsDead && !$child->isClan() ? 1 : 0;
-                    $count += $child->IsDead ? 1 : 0;
-                    break;
-
-                default:
-//                    $count += !$child->isClan() ? 1 : 0;
-                    $count++;
-                    break;
-            }
-        }
-
-        return $count;
+        return GenealogistHelper::count_sons($this, $state);
     }
 
     /**
@@ -533,25 +479,7 @@ HTML;
      * @return number
      */
     public function DaughtersCount($state = 0) {
-        $count = 0;
-
-        foreach ($this->Daughters() as $child) {
-            switch ($state) {
-                case self::$STATE_ALIVE:
-                    $count += !$child->IsDead ? 1 : 0;
-                    break;
-
-                case self::$STATE_DEAD:
-                    $count += $child->IsDead ? 1 : 0;
-                    break;
-
-                default:
-                    $count ++;
-                    break;
-            }
-        }
-
-        return $count;
+        return GenealogistHelper::count_daughters($this, $state);
     }
 
     /// Utils ///

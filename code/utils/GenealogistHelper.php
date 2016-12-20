@@ -13,6 +13,9 @@
  */
 class GenealogistHelper {
 
+    public static $STATE_ALIVE = 1;
+    public static $STATE_DEAD = 2;
+
     /// Filters ///
     public static function get_born_today($date = null) {
         return self::get_filtered_people('BirthDate', 'Anniversary', $date);
@@ -65,6 +68,171 @@ class GenealogistHelper {
         return DataObject::get_by_id('Person', (int) $id);
     }
 
+    public static function get_children($person) {
+        $children = array();
+
+        if ($person->Sons()->exists()) {
+            foreach ($person->Sons() as $child) {
+                $children[] = $child;
+            }
+        }
+
+        if ($person->Daughters()->exists()) {
+            foreach ($person->Daughters() as $child) {
+                $children[] = $child;
+            }
+        }
+
+        return (new ArrayList($children))
+                        ->sort('BirthDate DESC')
+                        ->sort('Created ASC')
+//                        ->sort('BirthDate ASC')
+        ;
+    }
+
+    /// Counts ///
+    /**
+     * Counts the of all offsprings
+     * @param int $state either 1/$STATE_ALIVE or 2/$STATE_DEAD or 0
+     * @return number
+     */
+    public static function count_offspring($person, $state = 0) {
+        if (!$person) {
+            return 0;
+        }
+
+        return self::count_males($person, $state) + self::count_females($person, $state);
+    }
+
+    /**
+     * Counts the of all male offsprings
+     * @param int $state either 1/$STATE_ALIVE or 2/$STATE_DEAD or 0
+     * @return number
+     */
+    public static function count_males($person, $state = 0) {
+        if (!$person) {
+            return 0;
+        }
+
+        switch ($state) {
+            case self::$STATE_ALIVE:
+                $count = $person->isMale() && !$person->IsDead ? 1 : 0;
+                break;
+
+            case self::$STATE_DEAD:
+                $count = $person->isMale() && $person->IsDead ? 1 : 0;
+                break;
+
+            default:
+                $count = $person->isMale() ? 1 : 0;
+                break;
+        }
+
+        foreach ($person->Sons() as $child) {
+            $count += self::count_males($child, $state);
+        }
+
+        return $count;
+    }
+
+    /**
+     * Counts the of all female offsprings
+     * @param int $state either 1/$STATE_ALIVE or 2/$STATE_DEAD or 0
+     * @return number
+     */
+    public static function count_females($person, $state = 0) {
+        if (!$person) {
+            return 0;
+        }
+
+        switch ($state) {
+            case self::$STATE_ALIVE:
+                $count = $person->isFemale() && !$person->IsDead ? 1 : 0;
+                break;
+
+            case self::$STATE_DEAD:
+                $count = $person->isFemale() && $person->IsDead ? 1 : 0;
+                break;
+
+            default:
+                $count = $person->isFemale() ? 1 : 0;
+                break;
+        }
+
+        $count += self::count_daughters($person, $state);
+
+        foreach ($person->Sons() as $child) {
+            $count += self::count_females($child, $state);
+        }
+
+        return $count;
+    }
+
+    /**
+     * Counts the of sons
+     * @param int $state either 1/$STATE_ALIVE or 2/$STATE_DEAD or 0
+     * @return number
+     */
+    public static function count_sons($person, $state = 0) {
+        if (!$person) {
+            return 0;
+        }
+
+        $count = 0;
+
+        foreach ($person->Sons() as $child) {
+            switch ($state) {
+                case self::$STATE_ALIVE:
+//                    $count += !$child->IsDead && !$child->isClan() ? 1 : 0;
+                    $count += !$child->IsDead ? 1 : 0;
+                    break;
+
+                case self::$STATE_DEAD:
+//                    $count += $child->IsDead && !$child->isClan() ? 1 : 0;
+                    $count += $child->IsDead ? 1 : 0;
+                    break;
+
+                default:
+//                    $count += !$child->isClan() ? 1 : 0;
+                    $count++;
+                    break;
+            }
+        }
+
+        return $count;
+    }
+
+    /**
+     * Counts the of daughters
+     * @param int $state either 1/$STATE_ALIVE or 2/$STATE_DEAD or 0
+     * @return number
+     */
+    public static function count_daughters($person, $state = 0) {
+        if (!$person) {
+            return 0;
+        }
+
+        $count = 0;
+
+        foreach ($person->Daughters() as $child) {
+            switch ($state) {
+                case self::$STATE_ALIVE:
+                    $count += !$child->IsDead ? 1 : 0;
+                    break;
+
+                case self::$STATE_DEAD:
+                    $count += $child->IsDead ? 1 : 0;
+                    break;
+
+                default:
+                    $count ++;
+                    break;
+            }
+        }
+
+        return $count;
+    }
+
     /// Functions ///
     public static function search_all_people($request, $term) {
         if (is_numeric($term)) {
@@ -79,6 +247,47 @@ class GenealogistHelper {
         ));
 
         return $people;
+    }
+
+    public static function add_father($personID, $fatherName) {
+        $person = DataObject::get_by_id('Person', (int) $personID);
+
+        echo 'Add parent (' . $fatherName . ') to: ' . $person->getTitle() . '<br />';
+
+        $newFather = new Male();
+        $newFather->Name = $fatherName;
+        $newFather->FatherID = $person->FatherID;
+        $newFather->write();
+
+        $person->FatherID = $newFather->ID;
+        $person->write();
+
+        echo '&emsp;became: ' . $person->getTitle() . '<br />';
+    }
+
+    public static function change_father($personID, $fatherID) {
+        $person = DataObject::get_by_id('Person', (int) $personID);
+        $father = DataObject::get_by_id('Person', (int) $fatherID);
+
+        echo 'Change ' . $person->getTitle() . ' father to ' . $father->getTitle() . '<br />';
+
+        $person->FatherID = $fatherID;
+        $person->write();
+
+        echo '&emsp;became: ' . $person->getTitle() . '<br />';
+    }
+
+    public static function change_mother($personID, $methorID) {
+        $person = DataObject::get_by_id('Person', (int) $personID);
+        $methor = DataObject::get_by_id('Person', (int) $methorID);
+
+        echo 'Change ' . $person->getTitle() . ' methor to ' . $methor->getTitle() . '<br />';
+
+        $person->MotherID = $methorID;
+        $person->write();
+
+        echo '&emsp;became: ' . $person->getTitle() . '<br />';
+        echo '&emsp;became: ' . $person->MotherID . '<br />';
     }
 
     public static function add_daughters($id, $names, $delimiter = "|") {
@@ -113,38 +322,10 @@ class GenealogistHelper {
         }
     }
 
-    public static function add_parent($id, $name) {
-        $person = DataObject::get_by_id('Person', (int) $id);
-
-        echo 'Add parent (' . $name . ') to: ' . $person->getTitle() . '<br />';
-
-        $parent = new Male();
-        $parent->Name = $name;
-        $parent->FatherID = $person->FatherID;
-        $parent->write();
-
-        $person->FatherID = $parent->ID;
-        $person->write();
-
-        echo '&emsp;became: ' . $person->getTitle() . '<br />';
-    }
-
     public static function delete_person($id, $reconnect = false) {
         $person = DataObject::get_by_id('Person', (int) $id);
 
         $person->delete();
-    }
-
-    public static function change_parent($personID, $parentID) {
-        $person = DataObject::get_by_id('Person', (int) $personID);
-        $parent = DataObject::get_by_id('Person', (int) $parentID);
-
-        echo 'Change ' . $person->getTitle() . ' parent to ' . $parent->getTitle() . '<br />';
-
-        $person->FatherID = $parent->ID;
-        $person->write();
-
-        echo '&emsp;became: ' . $person->getTitle() . '<br />';
     }
 
     public static function suggest_change($name, $email, $phone, $personID, $subject, $message) {

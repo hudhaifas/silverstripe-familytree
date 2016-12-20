@@ -70,6 +70,7 @@ class Female
             $self->reorderField($fields, 'DeathDate', 'Root.Main', 'Root.Main');
             $self->reorderField($fields, 'DeathDate', 'Root.Main', 'Root.Main');
             $self->reorderField($fields, 'IsDead', 'Root.Main', 'Root.Main');
+            $self->reorderField($fields, 'Comments', 'Root.Main', 'Root.Main');
 
             $self->reorderField($fields, 'FatherID', 'Root.Main', 'Root.Main');
             $self->reorderField($fields, 'MotherID', 'Root.Main', 'Root.Main');

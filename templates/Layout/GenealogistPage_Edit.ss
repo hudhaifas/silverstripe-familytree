@@ -5,7 +5,7 @@
     </div>
 
     <div class="row">
-        <h1>$Name <span style="font-size: 50%;">$Father.FullName</span></h1>
+        <h1>$AliasName <span style="font-size: 50%;">$Father.FullName</span></h1>
     </div>
 
     <div class="row">
@@ -30,14 +30,14 @@
                 <div class="panel-heading">
                     <h4 class="panel-title">
                         <a data-toggle="collapse" data-parent="#accordion" href="#collapse2">
-                            <%t Genealogist.ADD_PARENT 'Add Parent' %>
+                            <%t Genealogist.ADD_FATHER 'Add Father' %>
                         </a>
                     </h4>
                 </div>
 
                 <div id="collapse2" class="panel-collapse collapse">
                     <div class="panel-body">
-                        $Up.Form_AddParent($ID)
+                        $Up.Form_AddFather($ID)
                     </div>
                 </div>
             </div>
@@ -46,14 +46,30 @@
                 <div class="panel-heading">
                     <h4 class="panel-title">
                         <a data-toggle="collapse" data-parent="#accordion" href="#collapse3">
-                            <%t Genealogist.CAHNGE_PARENT 'Change Parent' %>
+                            <%t Genealogist.CAHNGE_FATHER 'Change Father' %>
                         </a>
                     </h4>
                 </div>
 
                 <div id="collapse3" class="panel-collapse collapse">
                     <div class="panel-body">
-                        $Up.Form_ChangeParent($ID)
+                        $Up.Form_ChangeFather($ID)
+                    </div>
+                </div>
+            </div>
+
+            <div class="panel panel-default">
+                <div class="panel-heading">
+                    <h4 class="panel-title">
+                        <a data-toggle="collapse" data-parent="#accordion" href="#collapse-methor">
+                            <%t Genealogist.CHANGE_MOTHER 'Change Mother' %>
+                        </a>
+                    </h4>
+                </div>
+
+                <div id="collapse-methor" class="panel-collapse collapse">
+                    <div class="panel-body">
+                        $Up.Form_ChangeMother($ID)
                     </div>
                 </div>
             </div>
@@ -148,19 +164,21 @@
         <% end_loop %>
     <% end_if %>
 
-    <% if Children %>
+    <% if Sons %>
         <hr />
 
         <b><%t Genealogist.SONS 'Sons' %></b>: $SonsCount<br />
-        <% loop $Sons %>
-            <a href="{$EditLink()}">$AliasName</a><% if not Last %><%t Genealogist.COMMA ',' %><% end_if %>
+        <% loop Sons.sort('BirthDate DESC').sort('Created ASC') %>
+            <a href="{$EditLink()}" title="$FullName">$AliasName</a><% if not Last %><%t Genealogist.COMMA ',' %><% end_if %>
         <% end_loop %>
         <br />
+    <% end_if %>
 
+    <% if Daughters %>
         <hr />
         <b><%t Genealogist.DAUGHTERS 'Daughters' %></b>: $DaughtersCount<br />
-        <% loop Daughters %>
-            <a href="{$EditLink()}">$AliasName</a><% if not Last %><%t Genealogist.COMMA ',' %><% end_if %>
+        <% loop Daughters.sort('BirthDate DESC').sort('Created ASC') %>
+            <a href="{$EditLink()}" title="$FullName">$AliasName</a><% if not Last %><%t Genealogist.COMMA ',' %><% end_if %>
         <% end_loop %>
     <% end_if %>
 
