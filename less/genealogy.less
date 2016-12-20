@@ -23,24 +23,17 @@
 @color-fg-clan: #3c763d;
 
 .conatiner-fluid {
-    /*    height: 70vh;
-        background-color: #fff;*/
-
     & > div {
         padding: 5px;
     }
 }
 
 .tree-container {
-    /*background-color: aqua;*/
     width: @container-w;
-    /*height: @container-h;*/
-    /*max-height: @container-h;*/
     margin: 0 auto;
     position: relative;
 
     .tree-menu {
-        /*background-color: brown;*/
         float: left;
         width: @menu-w;
         height: @menu-h;
@@ -97,6 +90,10 @@
             &, a {
                 color: @color-fg-male;
             }
+
+            &.dead {
+                background-color: lighten(@color-bg-male, 7%);
+            }
         }
 
         &.female {
@@ -104,12 +101,23 @@
             &, a {
                 color: @color-fg-female;
             }
+
+            &.dead {
+                background-color: lighten(@color-bg-female, 7%);
+            }
         }
 
         &.dead {
-            background-color: @color-bg-dead;
-            &, a {
-                color: @color-fg-dead;
+            position: relative;
+
+            &:after {
+                content: '';
+                position: absolute;
+                top: 0;
+                left: 0;
+                width: 17px;
+                height: 17px;
+                background-image: url('data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABEAAAARCAYAAAA7bUf6AAAALElEQVR42mNgIB78x4NHDRg1YAgZwEANAxioYQADNQxgoIYBDNQwgIEaBgAA7PJhn1mQ9HIAAAAASUVORK5CYII=');
             }
         }
 
@@ -133,7 +141,6 @@
         max-height: @container-h;
 
         .tree-holder {
-            /*background-color: chartreuse;*/
             float: left;
             width: @holder-w;
             height: @holder-h;

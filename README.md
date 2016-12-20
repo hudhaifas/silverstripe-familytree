@@ -14,6 +14,11 @@ $ composer require hudhaifas/silverstripe-genealogist
 ## Bugtracker ##
 Issued and bugs are tracked on [github.com].
 
+### Credit
+ - [wesnolte/jOrgChart]
+ - [jaclimer/JQuery-DraggScroll]
+ - [kayahr/jquery-fullscreen-plugin]
+ 
 ### Todos
  - Waiting your contributions
  
@@ -40,4 +45,7 @@ Issued and bugs are tracked on [github.com].
 
 
    [github.com]: <http://github.com/hudhaifas/silverstripe-genealogist/issues>
+   [wesnolte/jOrgChart]: <https://github.com/wesnolte/jOrgChart>
+   [jaclimer/JQuery-DraggScroll]: <https://github.com/jaclimer/JQuery-DraggScroll>
+   [kayahr/jquery-fullscreen-plugin]: <https://github.com/kayahr/jquery-fullscreen-plugin>
 

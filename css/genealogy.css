@@ -1,21 +1,13 @@
 /*@tree-w: 0;*/
-.conatiner-fluid {
-  /*    height: 70vh;
-        background-color: #fff;*/
-}
 .conatiner-fluid > div {
   padding: 5px;
 }
 .tree-container {
-  /*background-color: aqua;*/
   width: 96vw;
-  /*height: @container-h;*/
-  /*max-height: @container-h;*/
   margin: 0 auto;
   position: relative;
 }
 .tree-container .tree-menu {
-  /*background-color: brown;*/
   float: left;
   width: 25%;
   height: 97vh;
@@ -67,6 +59,9 @@
 #genealogy-tree .node.male a {
   color: #31708f;
 }
+#genealogy-tree .node.male.dead {
+  background-color: #f6fbfd;
+}
 #genealogy-tree .node.female {
   background-color: #f2dede;
 }
@@ -74,12 +69,20 @@
 #genealogy-tree .node.female a {
   color: #a94442;
 }
-#genealogy-tree .node.dead {
-  background-color: #eee;
+#genealogy-tree .node.female.dead {
+  background-color: #fcf8f8;
 }
-#genealogy-tree .node.dead,
-#genealogy-tree .node.dead a {
-  color: #485c66;
+#genealogy-tree .node.dead {
+  position: relative;
+}
+#genealogy-tree .node.dead:after {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 17px;
+  height: 17px;
+  background-image: url('data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABEAAAARCAYAAAA7bUf6AAAALElEQVR42mNgIB78x4NHDRg1YAgZwEANAxioYQADNQxgoIYBDNQwgIEaBgAA7PJhn1mQ9HIAAAAASUVORK5CYII=');
 }
 #genealogy-tree .node.clan {
   background-color: #dff0d8;
@@ -98,7 +101,6 @@
     max-height: 98vh;
   }
   .tree-container .tree-holder {
-    /*background-color: chartreuse;*/
     float: left;
     width: 75%;
     height: 97vh;
