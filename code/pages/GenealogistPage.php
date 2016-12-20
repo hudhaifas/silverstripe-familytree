@@ -246,7 +246,7 @@ class GenealogistPage_Controller
     /////
     public function Form_AddSons($parentID = null) {
         if ($parentID instanceof SS_HTTPRequest) {
-            $id = $sonID->postVar('ParentID');
+            $id = $parentID->postVar('ParentID');
         } else {
             $id = $parentID;
         }
@@ -280,7 +280,7 @@ class GenealogistPage_Controller
     /////
     public function Form_AddDaughters($parentID = null) {
         if ($parentID instanceof SS_HTTPRequest) {
-            $id = $sonID->postVar('ParentID');
+            $id = $parentID->postVar('ParentID');
         } else {
             $id = $parentID;
         }
