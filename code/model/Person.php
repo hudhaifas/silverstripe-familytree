@@ -384,56 +384,6 @@ class Person
         return $classes;
     }
 
-    public function getHtmlUI($showFemales = 0, $showFemalesSeed = 0) {
-        if ($this->hasPermission()) {
-            if (isset($_GET['f'])) {
-                $showFemales = $_GET['f'];
-            }
-
-            if (isset($_GET['fch'])) {
-                $showFemalesSeed = $_GET['fch'];
-            }
-        }
-
-        // Show only Male's children
-        if ($this->isFemale() && !$showFemales) {
-            return '';
-        }
-
-        $html = <<<HTML
-            <li class="{$this->CSSClasses()}">
-                <a href="#" title="{$this->getFullName()}" data-url="{$this->InfoLink()}" class="info-item">{$this->getPersonName()}</a>
-                <ul>
-                    {$this->getChildrenHtmlUI($showFemales, $showFemalesSeed)}
-                </ul>
-            </li>
-HTML;
-
-        return $html;
-    }
-
-    private function getChildrenHtmlUI($showFemales = 0, $showFemalesSeed = 0) {
-        $html = '';
-
-        if ($this->isFemale() && !$showFemalesSeed) {
-            return '';
-        }
-
-        $children = GenealogistHelper::get_children($this);
-
-        foreach ($children as $child) {
-            $html .= $child->getHtmlUI($showFemales, $showFemalesSeed);
-        }
-
-//        if ($this->Sons()->exists()) {
-//            foreach ($this->Sons()->sort('BirthDate ASC') as $child) {
-//                $html .= $child->getHtmlUI();
-//            }
-//        }
-
-        return $html;
-    }
-
     /// Counters ///
     /**
      * Counts the of all offsprings
@@ -514,6 +464,74 @@ HTML;
 
     public function toString() {
         return $this->getTitle();
+    }
+
+    /// UI ///
+    public function getHtmlUI($males = 1, $malesSeed = 1, $females = 0, $femalesSeed = 0) {
+        if ($this->hasPermission()) {
+            if (isset($_GET['m'])) {
+                $males = $_GET['m'];
+            }
+
+            if (isset($_GET['ms'])) {
+                $malesSeed = $_GET['ms'];
+            }
+
+            if (isset($_GET['f'])) {
+                $females = $_GET['f'];
+            }
+
+            if (isset($_GET['fs'])) {
+                $femalesSeed = $_GET['fs'];
+            }
+        }
+
+        $html = <<<HTML
+            <li class="{$this->CSSClasses()}">
+                <a href="#" title="{$this->getFullName()}" data-url="{$this->InfoLink()}" class="info-item">{$this->getPersonName()}</a>
+                <ul>
+                    {$this->getChildrenHtmlUI($males, $malesSeed, $females, $femalesSeed)}
+                </ul>
+            </li>
+HTML;
+
+        return $html;
+    }
+
+    private function getChildrenHtmlUI($males = 1, $malesSeed = 1, $females = 0, $femalesSeed = 0) {
+        $html = '';
+
+        if ($males && !$malesSeed) {
+            foreach ($this->Sons() as $child) {
+                $html .= $child->getSingleHtmlUI();
+            }
+        } else if ($males && $malesSeed) {
+            foreach ($this->Sons() as $child) {
+                $html .= $child->getHtmlUI($males, $malesSeed, $females, $femalesSeed);
+            }
+        }
+
+        if ($females && !$femalesSeed) {
+            foreach ($this->Daughters() as $child) {
+                $html .= $child->getSingleHtmlUI();
+            }
+        } else if ($females && $femalesSeed) {
+            foreach ($this->Daughters() as $child) {
+                $html .= $child->getHtmlUI($males, $malesSeed, $females, $femalesSeed);
+            }
+        }
+
+        return $html;
+    }
+
+    private function getSingleHtmlUI() {
+        $html = <<<HTML
+            <li class="{$this->CSSClasses()}">
+                <a href="#" title="{$this->getFullName()}" data-url="{$this->InfoLink()}" class="info-item">{$this->getPersonName()}</a>
+            </li>
+HTML;
+
+        return $html;
     }
 
 }

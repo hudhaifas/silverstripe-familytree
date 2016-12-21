@@ -7,9 +7,10 @@
 
     <div id="collapse-filters" class="list-group panel-collapse collapse">
         <div class="panel-body">
-            <div class="list-group-item checkbox"><label><input type="checkbox" id="ft" class="options-check" value="0"><%t Genealogist.SHOW_FEMALES_TREE 'Show Females Tree' %></label></div>
+            <div class="list-group-item checkbox"><label><input type="checkbox" id="m" class="options-check" value="0"><%t Genealogist.SHOW_MALES 'Show Males' %></label></div>
+            <div class="list-group-item checkbox"><label><input type="checkbox" id="ms" class="options-check" value="0"><%t Genealogist.SHOW_MALES_CHILDREN 'Show Males Children' %></label></div>
             <div class="list-group-item checkbox"><label><input type="checkbox" id="f" class="options-check" value="0"><%t Genealogist.SHOW_FEMALES 'Show Females' %></label></div>
-            <div class="list-group-item checkbox"><label><input type="checkbox" id="fch" class="options-check" value="0"><%t Genealogist.SHOW_FEMALES_CHILDREN 'Show Females Children' %></label></div>
+            <div class="list-group-item checkbox"><label><input type="checkbox" id="fs" class="options-check" value="0"><%t Genealogist.SHOW_FEMALES_CHILDREN 'Show Females Children' %></label></div>
         </div>
     </div>
 </div>

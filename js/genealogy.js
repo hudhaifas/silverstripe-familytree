@@ -140,6 +140,34 @@ var registerLinks = function () {
 
     });
 
+    $('input[type=checkbox]#f').change(function () {
+        event.preventDefault();
+        if (!this.checked) {
+            $('input#fs').prop('checked', false);
+        }
+    });
+
+    $('input[type=checkbox]#fs').change(function () {
+        event.preventDefault();
+        if (this.checked) {
+            $('input#f').prop('checked', true);
+        }
+    });
+
+    $('input[type=checkbox]#m').change(function () {
+        event.preventDefault();
+        if (!this.checked) {
+            $('input#ms').prop('checked', false);
+        }
+    });
+
+    $('input[type=checkbox]#ms').change(function () {
+        event.preventDefault();
+        if (this.checked) {
+            $('input#m').prop('checked', true);
+        }
+    });
+
     $('input.options-check').change(function () {
         event.preventDefault();
         if (locked) {
@@ -150,7 +178,7 @@ var registerLinks = function () {
         var uri = URI(url);
 
         var params = {};
-        $('input.options-check').each(function () {
+        $('input[type=checkbox].options-check').each(function () {
             id = $(this).attr('id');
             value = this.checked ? 1 : 0;
             params[id] = value;
@@ -158,29 +186,6 @@ var registerLinks = function () {
         uri.setSearch(params);
 
         showPerson(uri.toString());
-
-    });
-
-    $('input#f').change(function () {
-        event.preventDefault();
-        if (locked) {
-            return;
-        }
-
-        if (!this.checked) {
-            $('input#fch').prop('checked', false);
-        }
-    });
-
-    $('input#fch').change(function () {
-        event.preventDefault();
-        if (locked) {
-            return;
-        }
-
-        if (this.checked) {
-            $('input#f').prop('checked', true);
-        }
     });
 };
 
