@@ -91,6 +91,16 @@
 #genealogy-tree .node.clan a {
   color: #3c763d;
 }
+#genealogy-tree .node.clan.dead {
+  background-color: #dff0d8;
+}
+#genealogy-tree .node.clan.dead,
+#genealogy-tree .node.clan.dead a {
+  color: #3c763d;
+}
+#genealogy-tree .node.clan:after {
+  background-image: none;
+}
 #genealogy-tree .node a {
   cursor: help;
   word-wrap: break-word;

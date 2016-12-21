@@ -18,6 +18,7 @@ Issued and bugs are tracked on [github.com].
  - [wesnolte/jOrgChart]
  - [jaclimer/JQuery-DraggScroll]
  - [kayahr/jquery-fullscreen-plugin]
+ - [URI.js]
  
 ### Todos
  - Waiting your contributions
@@ -48,4 +49,6 @@ Issued and bugs are tracked on [github.com].
    [wesnolte/jOrgChart]: <https://github.com/wesnolte/jOrgChart>
    [jaclimer/JQuery-DraggScroll]: <https://github.com/jaclimer/JQuery-DraggScroll>
    [kayahr/jquery-fullscreen-plugin]: <https://github.com/kayahr/jquery-fullscreen-plugin>
+   [URI.js]: <http://medialize.github.io/URI.js/>
+
 

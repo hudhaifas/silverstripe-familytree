@@ -126,6 +126,18 @@
             &, a {
                 color: @color-fg-clan;
             }
+
+            &.dead {
+                background-color: @color-bg-clan;
+                &, a {
+                    color: @color-fg-clan;
+                }
+
+            }
+            
+            &:after {
+                background-image: none;
+            }
         }
 
         a {
