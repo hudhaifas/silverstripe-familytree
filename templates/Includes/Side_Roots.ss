@@ -1,7 +1,7 @@
 <div class="panel panel-default">
     <div class="panel-heading clearfix">
         <h4 class="panel-title pull-left">
-            <a data-toggle="collapse" data-parent="#accordion" href="#collapse1"><%t Genealogist.ROOTS 'Roots' %></a>
+            <a data-toggle="collapse" data-parent="#accordion" href="#collapse-roots"><%t Genealogist.ROOTS 'Roots' %></a>
         </h4>
 
         <div class="pull-right">
@@ -12,10 +12,10 @@
         </div>
     </div>
 
-    <div id="collapse1" class="list-group panel-collapse collapse in">
+    <div id="collapse-roots" class="list-group panel-collapse collapse in">
         <div class="panel-body">
             <% loop Roots.Sort(Name, ASC) %>
-            <li class="list-group-item"><a href="{$ShowLink}" class="options-item">$Name</a></li>
+            <div class="list-group-item"><a href="{$ShowLink}" class="options-item">$Name</a></div>
             <% end_loop %>
         </div>
     </div>

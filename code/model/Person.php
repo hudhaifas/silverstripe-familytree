@@ -71,7 +71,6 @@ class Person
     private static $default_sort = 'BirthDate DESC, Created ASC';
     public static $STATE_ALIVE = 1;
     public static $STATE_DEAD = 2;
-    private static $access_groups = array('administrators', 'librarians', 'genealogists');
 
     public function fieldLabels($includerelations = true) {
         $labels = parent::fieldLabels($includerelations);
@@ -182,8 +181,7 @@ class Person
      * @return boolean true if the user is an authorized member
      */
     public function hasPermission() {
-        $member = Member::currentUser();
-        return $member && $member->inGroups($this->config()->access_groups);
+        return GenealogistHelper::is_genealogists();
     }
 
     protected function onBeforeWrite() {

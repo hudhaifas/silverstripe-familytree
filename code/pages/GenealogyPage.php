@@ -85,6 +85,7 @@ class GenealogyPage_Controller
         Requirements::javascript("genealogist/js/jquery.jOrgChart.js");
         Requirements::javascript("genealogist/js/jquery.dragscroll.js");
         Requirements::javascript("genealogist/js/jquery.fullscreen.js");
+        Requirements::javascript("genealogist/js/URI.js");
 //        Requirements::javascript("genealogist/js/html2canvas.js");
         Requirements::javascript("genealogist/js/genealogy.js");
     }
@@ -209,6 +210,14 @@ class GenealogyPage_Controller
 
     public function getRootClans() {
         return GenealogistHelper::get_root_clans();
+    }
+
+    /**
+     * Checks if the user is an authorized member
+     * @return boolean true if the user is an authorized member
+     */
+    public function hasPermission() {
+        return GenealogistHelper::is_genealogists();
     }
 
 }

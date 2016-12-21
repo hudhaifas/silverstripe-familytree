@@ -80,9 +80,9 @@
   position: absolute;
   top: 0;
   left: 0;
-  width: 17px;
-  height: 17px;
-  background-image: url('data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABEAAAARCAYAAAA7bUf6AAAALElEQVR42mNgIB78x4NHDRg1YAgZwEANAxioYQADNQxgoIYBDNQwgIEaBgAA7PJhn1mQ9HIAAAAASUVORK5CYII=');
+  width: 15px;
+  height: 15px;
+  background-image: url('data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAA8AAAAPCAYAAAA71pVKAAAAI0lEQVR42mNgIB78x4JHNY5qpKFGBko0MlCikYESjQyUaAQAjC1AwHbUVKMAAAAASUVORK5CYII=');
 }
 #genealogy-tree .node.clan {
   background-color: #dff0d8;
@@ -94,6 +94,10 @@
 #genealogy-tree .node a {
   cursor: help;
   word-wrap: break-word;
+}
+a.disabled,
+a[disabled] {
+  pointer-events: none;
 }
 @media (min-width: 979px) {
   .tree-container {

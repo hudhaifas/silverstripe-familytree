@@ -1,6 +1,6 @@
 <div class="panel-heading clearfix">
     <h4 class="panel-title pull-left">
-        <a data-toggle="collapse" data-parent="#accordion" href="#collapse2" id="collapse2-btn" title="$FullName">$AliasName</a>
+        <a data-toggle="collapse" data-parent="#accordion" href="#collapse-info" id="collapse-info-btn" title="$FullName">$AliasName</a>
     </h4>
 
     <div class="pull-right">
@@ -14,7 +14,7 @@
     </div>
 </div>
 
-<div id="collapse2" class="panel-collapse collapse">
+<div id="collapse-info" class="panel-collapse collapse">
     <div class="panel-body">
         $AliasName <a href="#" data-url="{$Father.InfoLink()}" class="info-item">$Father.FullName</a><br />
         <% if Note %><%t Genealogist.NOTE 'Note' %>: $Note<br /><% end_if %>
@@ -40,7 +40,7 @@
                 <a href="#" data-url="{$InfoLink()}" class="info-item">$FullName</a><br />
             <% end_loop %>
 
-        <% else_if $hasPermission && Wives %>
+        <% else_if hasPermission && Wives %>
             <hr />
 
             <b><%t Genealogist.WIVES 'Wives' %></b><br />

@@ -15,6 +15,18 @@ class GenealogistHelper {
 
     public static $STATE_ALIVE = 1;
     public static $STATE_DEAD = 2;
+    private static $access_groups = array('administrators', 'librarians', 'genealogists');
+
+    /**
+     * Checks if the user is an authorized member
+     * @return boolean true if the user is an authorized member
+     */
+    public static function is_genealogists() {
+        $member = Member::currentUser();
+
+        $groups = Config::inst()->get('GenealogistHelper', 'access_groups');
+        return $member && $member->inGroups($groups);
+    }
 
     /// Filters ///
     public static function get_born_today($date = null) {

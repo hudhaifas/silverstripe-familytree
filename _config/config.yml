@@ -1,3 +1,9 @@
 ---
 Name: genealogist
 ---
+
+GenealogistHelper:
+  access_groups:
+    - administrators
+    - librarians
+    - genealogists

@@ -1,5 +1,9 @@
+var locked = false;
+
 jQuery(document).ready(function () {
     initTree();
+
+    fillForms();
 
     // Scroll to the tree div
     $('html, body').animate({
@@ -7,8 +11,9 @@ jQuery(document).ready(function () {
     }, 'slow');
 });
 
-
 var showPerson = function (url) {
+    console.log('url: ' + url);
+
     var param = '&ajax=1';
     var ajaxUrl = (url.indexOf(param) === -1) ? url + param : url;
     var cleanUrl = url.replace(new RegExp(param + '$'), '');
@@ -16,6 +21,9 @@ var showPerson = function (url) {
     $('#tree-loader').show();
     $('#genealogy-tree').html('');
 
+    lockLinks();
+
+    console.log('ajaxUrl: ' + ajaxUrl);
     $.ajax(ajaxUrl)
             .done(function (response) {
                 $('#tree-holder').html(response);
@@ -28,6 +36,8 @@ var showPerson = function (url) {
                         );
 
                 $('#tree-loader').hide();
+
+                releaseLinks();
             })
             .fail(function (xhr) {
                 alert('Error: ' + xhr.responseText);
@@ -45,13 +55,16 @@ var updateInfo = function (url) {
 
     $('#info-loader').show();
     $('#info-body').html('');
+    lockLinks();
 
     $.ajax(ajaxUrl)
             .done(function (response) {
                 $("#panel-info").html(response);
                 registerLinks();
                 $('#info-loader').hide();
-                $('#collapse2-btn').trigger('click');
+                $('#collapse-info-btn').trigger('click');
+
+                releaseLinks();
             })
             .fail(function (xhr) {
                 alert('Error: ' + xhr.responseText);
@@ -77,9 +90,29 @@ var initTree = function () {
     };
 };
 
+var fillForms = function () {
+    url = $(location).attr('href');
+    var uri = URI(url);
+    console.log(uri.toString());
+
+    var params = uri.search(true);
+    console.log(params);
+
+    $('input.options-check').each(function () {
+        id = $(this).attr('id');
+        status = params[id];
+        $(this).prop('checked', status == 1 ? true : false);
+    });
+
+};
+
 var registerLinks = function () {
     $("a.info-item").click(function (event) {
         event.preventDefault();
+
+        if (locked) {
+            return;
+        }
 
         url = $(this).attr('data-url');
         updateInfo(url);
@@ -88,14 +121,75 @@ var registerLinks = function () {
     $("a.options-item").click(function (event) {
         event.preventDefault();
 
-        url = ($(this).attr('href'));
+        if (locked) {
+            return;
+        }
+
+        url = $(this).attr('href');
         showPerson(url);
     });
 
     // Full-screen link
     $('#toggle-fullscreen').on('click', function () {
         event.preventDefault();
+        if (locked) {
+            return;
+        }
+
         $('.tree-container').toggleFullScreen();
 
     });
+
+    $('input.options-check').change(function () {
+        event.preventDefault();
+        if (locked) {
+            return;
+        }
+
+        url = $(location).attr('href');
+        var uri = URI(url);
+
+        var params = {};
+        $('input.options-check').each(function () {
+            id = $(this).attr('id');
+            value = this.checked ? 1 : 0;
+            params[id] = value;
+        });
+        uri.setSearch(params);
+
+        showPerson(uri.toString());
+
+    });
+
+    $('input#f').change(function () {
+        event.preventDefault();
+        if (locked) {
+            return;
+        }
+
+        if (!this.checked) {
+            $('input#fch').prop('checked', false);
+        }
+    });
+
+    $('input#fch').change(function () {
+        event.preventDefault();
+        if (locked) {
+            return;
+        }
+
+        if (this.checked) {
+            $('input#f').prop('checked', true);
+        }
+    });
+};
+
+var lockLinks = function () {
+    $('a.info-item, a.options-item, #toggle-fullscreen, input.options-check').attr('disabled', true);
+    locked = true;
+};
+
+var releaseLinks = function () {
+    locked = false;
+    $('a.info-item, a.options-item, #toggle-fullscreen, input.options-check').attr('disabled', false);
 };
