@@ -1,9 +1,10 @@
 var locked = false;
 
 jQuery(document).ready(function () {
+    localStorage.setItem("myvar", "Smith");
     initTree();
 
-    fillForms();
+    initFilters();
 
     // Scroll to the tree div
     $('html, body').animate({
@@ -12,7 +13,7 @@ jQuery(document).ready(function () {
 });
 
 var showPerson = function (url) {
-    console.log('url: ' + url);
+    url = appendFilters(url);
 
     var param = '&ajax=1';
     var ajaxUrl = (url.indexOf(param) === -1) ? url + param : url;
@@ -23,7 +24,6 @@ var showPerson = function (url) {
 
     lockLinks();
 
-    console.log('ajaxUrl: ' + ajaxUrl);
     $.ajax(ajaxUrl)
             .done(function (response) {
                 $('#tree-holder').html(response);
@@ -90,13 +90,19 @@ var initTree = function () {
     };
 };
 
-var fillForms = function () {
+var initFilters = function () {
     url = $(location).attr('href');
     var uri = URI(url);
-    console.log(uri.toString());
 
     var params = uri.search(true);
-    console.log(params);
+    if (!params['m']) {
+        params['m'] = 1;
+    }
+
+    if (!params['ms']) {
+        params['ms'] = 1;
+    }
+
 
     $('input.options-check').each(function () {
         id = $(this).attr('id');
@@ -104,6 +110,32 @@ var fillForms = function () {
         $(this).prop('checked', status == 1 ? true : false);
     });
 
+};
+
+var appendFilters = function (url) {
+    var uri = URI(url);
+    localStorage.setItem("myvar", "Smith");
+
+    var params = {};
+    $('input[type=checkbox].options-check').each(function () {
+        id = $(this).attr('id');
+        value = this.checked ? 1 : 0;
+
+        params[id] = value;
+    });
+    uri.setSearch(params);
+
+    return uri.toString();
+};
+
+var lockLinks = function () {
+    $('a.info-item, a.options-item, #toggle-fullscreen, input.options-check').attr('disabled', true);
+    locked = true;
+};
+
+var releaseLinks = function () {
+    locked = false;
+    $('a.info-item, a.options-item, #toggle-fullscreen, input.options-check').attr('disabled', false);
 };
 
 var registerLinks = function () {
@@ -175,26 +207,18 @@ var registerLinks = function () {
         }
 
         url = $(location).attr('href');
-        var uri = URI(url);
+//        var uri = appendFilters(url);
+//        var uri = URI(url);
+//
+//        var params = {};
+//        $('input[type=checkbox].options-check').each(function () {
+//            id = $(this).attr('id');
+//            value = this.checked ? 1 : 0;
+//            params[id] = value;
+//        });
+//        uri.setSearch(params);
 
-        var params = {};
-        $('input[type=checkbox].options-check').each(function () {
-            id = $(this).attr('id');
-            value = this.checked ? 1 : 0;
-            params[id] = value;
-        });
-        uri.setSearch(params);
-
-        showPerson(uri.toString());
+//        showPerson(uri.toString());
+        showPerson(url);
     });
-};
-
-var lockLinks = function () {
-    $('a.info-item, a.options-item, #toggle-fullscreen, input.options-check').attr('disabled', true);
-    locked = true;
-};
-
-var releaseLinks = function () {
-    locked = false;
-    $('a.info-item, a.options-item, #toggle-fullscreen, input.options-check').attr('disabled', false);
 };
