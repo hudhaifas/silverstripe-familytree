@@ -102,9 +102,76 @@ class GenealogistHelper {
         ;
     }
 
+    /**
+     * Returns a list of all ancestors ID's
+     * 
+     * @param Person $p
+     */
+    public static function get_all_ancestors_ids($person) {
+        $stack = array();
+        array_push($stack, $person);
+
+        $ancestors = array();
+
+        while ($stack) {
+            $p = array_pop($stack);
+            $ancestors[] = $p->ID;
+
+            $father = $p->Father();
+            if ($father && $father->exists()) {
+                array_push($stack, $father);
+            }
+
+            $mother = $p->Mother();
+            if ($mother && $mother->exists()) {
+                array_push($stack, $mother);
+            }
+        }
+
+        return array_unique($ancestors);
+    }
+
+    /**
+     * Returns a list of all ancestors ID's
+     * 
+     * @param Person $p
+     */
+    public static function get_common_ancestors_ids($p1, $p2) {
+        $common = array_intersect($p1, $p2);
+//        var_dump($common);
+
+        return $common;
+    }
+
+    /**
+     * Returns a list of all ancestors ID's
+     * 
+     * @param Person $p
+     */
+    public static function get_common_ancestors($person1, $person2) {
+        if (!$person1 || !$person2) {
+            return null;
+        }
+
+        $p1 = self::get_all_ancestors_ids($person1);
+        $p2 = self::get_all_ancestors_ids($person2);
+
+        $common = self::get_common_ancestors_ids($p1, $p2);
+
+        $ancestors = array();
+
+        foreach ($common as $id) {
+            $ancestors[] = DataObject::get_by_id('Person', (int) $id);
+        }
+
+        return new ArrayList($ancestors);
+    }
+
     /// Counts ///
     /**
-     * Counts the of all descendants
+     * Counts the of all descendants.
+     * 
+     * @param Person $person person object
      * @param int $state either 1/$STATE_ALIVE or 2/$STATE_DEAD or 0
      * @return number
      */
@@ -117,7 +184,9 @@ class GenealogistHelper {
     }
 
     /**
-     * Counts the of all male descendants
+     * Counts the of all male descendants.
+     * 
+     * @param Person $person person object
      * @param int $state either 1/$STATE_ALIVE or 2/$STATE_DEAD or 0
      * @return number
      */
@@ -148,7 +217,9 @@ class GenealogistHelper {
     }
 
     /**
-     * Counts the of all female descendants
+     * Counts the of all female descendants.
+     * 
+     * @param Person $person person object
      * @param int $state either 1/$STATE_ALIVE or 2/$STATE_DEAD or 0
      * @return number
      */
@@ -181,7 +252,9 @@ class GenealogistHelper {
     }
 
     /**
-     * Counts the of sons
+     * Counts the of sons.
+     * 
+     * @param Person $person person object
      * @param int $state either 1/$STATE_ALIVE or 2/$STATE_DEAD or 0
      * @return number
      */
@@ -215,7 +288,9 @@ class GenealogistHelper {
     }
 
     /**
-     * Counts the of daughters
+     * Counts the of daughters.
+     * 
+     * @param Person $person person object
      * @param int $state either 1/$STATE_ALIVE or 2/$STATE_DEAD or 0
      * @return number
      */

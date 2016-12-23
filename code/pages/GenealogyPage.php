@@ -65,12 +65,14 @@ class GenealogyPage_Controller
     private static $allowed_actions = array(
         'info',
         'suggest',
+        'relation',
         'Form_Suggest',
         'doSuggest',
     );
     private static $url_handlers = array(
         'person-info/$ID' => 'info',
         'suggest/$ID' => 'suggest',
+        'relation/$ID/$Other' => 'relation',
         'Form_Suggest' => 'Form_Suggest', // list all forms before the index in the handlers array
         '$ID' => 'index', // any action redirects to the index MUST be added at the end of the array
     );
@@ -144,7 +146,35 @@ class GenealogyPage_Controller
         }
     }
 
-    /// Forms ///
+    public function relation() {
+        $id = $this->getRequest()->param('ID');
+        $other = $this->getRequest()->param('Other');
+
+        if ($id) {
+            $p1 = DataObject::get_by_id('Person', (int) $id);
+        }
+
+        if ($other) {
+            $p2 = DataObject::get_by_id('Person', (int) $other);
+        }
+
+        $ancestors = GenealogistHelper::get_common_ancestors($p1, $p2);
+
+        if ($p1 && $p2) {
+            return $this
+                            ->customise(array(
+                                'Ancestors' => $ancestors,
+                                'Person1' => $p1,
+                                'Person2' => $p2,
+                                'Title' => $p1->Name . ' : ' . $p2->Name
+                            ))
+                            ->renderWith(array('GenealogyPage_Relation', 'Page'));
+        } else {
+            return $this->httpError(404, 'That person could not be found!');
+        }
+    }
+
+/// Forms ///
     public function Form_Suggest($personID = null) {
         $subjects = array(
             'General' => _t('Genealogist.SUBJECT', 'Subject'),
