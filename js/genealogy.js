@@ -1,7 +1,6 @@
 var locked = false;
 
 jQuery(document).ready(function () {
-    localStorage.setItem("myvar", "Smith");
     initTree();
 
     initFilters();
@@ -207,18 +206,6 @@ var registerLinks = function () {
         }
 
         url = $(location).attr('href');
-//        var uri = appendFilters(url);
-//        var uri = URI(url);
-//
-//        var params = {};
-//        $('input[type=checkbox].options-check').each(function () {
-//            id = $(this).attr('id');
-//            value = this.checked ? 1 : 0;
-//            params[id] = value;
-//        });
-//        uri.setSearch(params);
-
-//        showPerson(uri.toString());
         showPerson(url);
     });
 };
