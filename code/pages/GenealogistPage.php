@@ -187,6 +187,16 @@ class GenealogistPage_Controller
         $fields = new FieldList(
                 HiddenField::create('PersonID', 'PersonID', $id), //
                 TextField::create('FatherID', _t('Genealogist.FATHER_ID', 'Father ID'))
+                // TODO: use autocomplete field instead
+//                AutoPersonField::create(
+//                        'FatherID', //
+//                        'Father', //
+//                        '', //
+//                        null, //
+//                        null, //
+//                        'Male', //
+//                        array('IndexedName', 'Name', 'NickName') //
+//                )
         );
 
         // Create action

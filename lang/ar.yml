@@ -13,9 +13,6 @@ ar:
   Female:
     PLURALNAME: 'الإناث'
     SINGULARNAME: 'الإناث'
-  Town:
-    PLURALNAME: 'المدن'
-    SINGULARNAME: 'المدن'
   Suggestion:
     PLURALNAME: 'الاقتراحات'
     SINGULARNAME: 'الاقتراحات'
@@ -41,8 +38,6 @@ ar:
     AGE: 'العمر'
     ISDEAD: 'متوفى؟'
     OVERVIEW: 'نبذة'
-    TOWNS: 'المدن'
-    TOWN: 'المدينة'
     DETAILS: 'التفاصيل'
     PAGE: 'الصفحة'
     FILTERS: 'المرشحات'

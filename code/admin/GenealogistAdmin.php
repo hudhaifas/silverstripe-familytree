@@ -38,7 +38,6 @@ class GenealogistAdmin
         'Female',
         'Person',
         'Suggestion',
-        'Town'
     );
     private static $url_segment = 'genealogist';
     private static $menu_title = "Genealogist";

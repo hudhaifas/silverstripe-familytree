@@ -41,6 +41,7 @@ class Person
         'IsDead' => 'Boolean',
         'Note' => 'Varchar(255)',
         'Comments' => 'Text',
+        'IndexedName' => 'Text',
     );
     private static $has_one = array(
         'Photo' => 'Image',
@@ -124,18 +125,33 @@ class Person
             }
 
             $fields->removeFieldFromTab('Root.Main', 'ParentID');
-//            $fields->addFieldToTab('Root.Main', ReadonlyField::create('FatherName', 'FatherName', $this->Father()->Name));
-//            $self->reorderField($fields, 'Name', 'Root.Main', 'Root.Main');
-//            $self->reorderField($fields, 'NickName', 'Root.Main', 'Root.Main');
-//            $self->reorderField($fields, 'BirthDate', 'Root.Main', 'Root.Main');
-//            $self->reorderField($fields, 'DeathDate', 'Root.Main', 'Root.Main');
-//            $self->reorderField($fields, 'DeathDate', 'Root.Main', 'Root.Main');
-//            $self->reorderField($fields, 'IsDead', 'Root.Main', 'Root.Main');
-//            
-//            $self->reorderField($fields, 'FatherID', 'Root.Main', 'Root.Main');
-//            $self->reorderField($fields, 'MotherID', 'Root.Main', 'Root.Main');
-//            
-//            $self->reorderField($fields, 'FatherID', 'Root.Main', 'Root.Main');
+            $fields->removeFieldFromTab('Root.Main', 'IndexedName');
+
+            $fields->removeFieldFromTab('Root.Main', 'FatherID');
+            $fields->addFieldsToTab('Root.Main', array(
+                AutoPersonField::create(
+                        'FatherID', //
+                        _t('Genealogist.FATHER', 'Father'), //
+                        '', //
+                        null, //
+                        null, //
+                        'Male', //
+                        array('IndexedName', 'Name', 'NickName') //
+                )
+            ));
+
+            $fields->removeFieldFromTab('Root.Main', 'MotherID');
+            $fields->addFieldsToTab('Root.Main', array(
+                AutoPersonField::create(
+                        'MotherID', //
+                        _t('Genealogist.MOTHER', 'Mother'), //
+                        '', //
+                        null, //
+                        null, //
+                        'Female', //
+                        array('IndexedName', 'Name', 'NickName') //
+                )
+            ));
         });
 
         $fields = parent::getCMSFields();

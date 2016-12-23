@@ -13,9 +13,6 @@ en:
   Female:
     PLURALNAME: 'Females'
     SINGULARNAME: 'Females'
-  Town:
-    PLURALNAME: 'Towns'
-    SINGULARNAME: 'Towns'
   Suggestion:
     PLURALNAME: 'Suggestions'
     SINGULARNAME: 'Suggestions'
@@ -41,8 +38,6 @@ en:
     AGE: 'Age'
     ISDEAD: 'Is Dead'
     OVERVIEW: 'Overview'
-    TOWN: 'Town'
-    TOWNS: 'Towns'
     DETAILS: 'Details'
     PAGE: 'Page'
     FILTERS: 'Filters'

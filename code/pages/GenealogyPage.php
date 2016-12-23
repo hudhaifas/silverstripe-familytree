@@ -200,10 +200,6 @@ class GenealogyPage_Controller
         return GenealogistHelper::get_all_clans();
     }
 
-    public function getTowns() {
-        return Town::get();
-    }
-
     public function getPerson($id) {
         return GenealogistHelper::get_person($id);
     }

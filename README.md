@@ -3,6 +3,7 @@ Genealogist module for the SilverStripe CMS
 
 ### Requirements
  - SilverStripe 3.2.*
+ - Silverstripe Autocomplete ^3.4
  
 ### Installation
 - Install the module through composer:

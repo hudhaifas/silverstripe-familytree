@@ -254,6 +254,7 @@ class GenealogistHelper {
 
         // to fetch books that's name contains the given search term
         $people = DataObject::get('Person')->filterAny(array(
+            'IndexedName:PartialMatch' => $term,
             'Name:PartialMatch' => $term,
             'NickName:PartialMatch' => $term,
         ));
