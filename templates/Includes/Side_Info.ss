@@ -52,7 +52,7 @@
         <% if Children %>
             <hr />
 
-            <b><%t Genealogist.OFFSPRING 'Offspring' %></b><br />
+            <b><%t Genealogist.DESCENDANTS 'Descendants' %></b><br />
             <%t Genealogist.SONS 'Sons' %>: $SonsCount<br />
             <%--
             <% loop Sons.sort('BirthDate DESC').sort('Created ASC') %>
@@ -76,7 +76,7 @@
 
             <% if hasPermission %>
                 <%t Genealogist.FEMALES 'Females' %>: $FemalesCount<br />
-                <%t Genealogist.TOTAL 'Total' %>: $OffspringCount<br />
+                <%t Genealogist.TOTAL 'Total' %>: $DescendantsCount<br />
             <% end_if %>
 
             <hr />
@@ -91,7 +91,7 @@
             <%t Genealogist.MALES 'Males' %>: $MalesCount(1)<br />
             <% if hasPermission %>
                 <%t Genealogist.FEMALES 'Females' %>: $FemalesCount(1)<br />
-                <%t Genealogist.TOTAL 'Total' %>: $OffspringCount(1)<br />
+                <%t Genealogist.TOTAL 'Total' %>: $DescendantsCount(1)<br />
             <% end_if %>
         <% end_if %>
     </div>

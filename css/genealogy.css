@@ -60,7 +60,7 @@
   color: #31708f;
 }
 #genealogy-tree .node.male.dead {
-  background-color: #f6fbfd;
+  background-color: #eef7fb;
 }
 #genealogy-tree .node.female {
   background-color: #f2dede;
@@ -70,7 +70,7 @@
   color: #a94442;
 }
 #genealogy-tree .node.female.dead {
-  background-color: #fcf8f8;
+  background-color: #f9f0f0;
 }
 #genealogy-tree .node.dead {
   position: relative;
@@ -80,9 +80,9 @@
   position: absolute;
   top: 0;
   left: 0;
-  width: 15px;
-  height: 15px;
-  background-image: url('data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAA8AAAAPCAYAAAA71pVKAAAAI0lEQVR42mNgIB78x4JHNY5qpKFGBko0MlCikYESjQyUaAQAjC1AwHbUVKMAAAAASUVORK5CYII=');
+  width: 14px;
+  height: 14px;
+  background-image: url('data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAA4AAAAOCAYAAAAfSC3RAAAAH0lEQVR42mNgIB78R8OjmkY1kaGJgVxNDORqYiBXEwCsHzHPnvWrZgAAAABJRU5ErkJggg==');
 }
 #genealogy-tree .node.clan {
   background-color: #dff0d8;

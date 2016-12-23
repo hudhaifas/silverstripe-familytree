@@ -402,16 +402,16 @@ class Person
 
     /// Counters ///
     /**
-     * Counts the of all offsprings
+     * Counts the of all descendants
      * @param int $state either 1/$STATE_ALIVE or 2/$STATE_DEAD or 0
      * @return number
      */
-    public function OffspringCount($state = 0) {
-        return GenealogistHelper::count_offspring($this, $state);
+    public function DescendantsCount($state = 0) {
+        return GenealogistHelper::count_descendants($this, $state);
     }
 
     /**
-     * Counts the of all male offsprings
+     * Counts the of all male descendants
      * @param int $state either 1/$STATE_ALIVE or 2/$STATE_DEAD or 0
      * @return number
      */
@@ -420,7 +420,7 @@ class Person
     }
 
     /**
-     * Counts the of all female offsprings
+     * Counts the of all female descendants
      * @param int $state either 1/$STATE_ALIVE or 2/$STATE_DEAD or 0
      * @return number
      */
@@ -483,16 +483,20 @@ class Person
     }
 
     /// UI ///
-    public function getHtmlUI($males = 1, $malesSeed = 1, $females = 0, $femalesSeed = 0) {
+    public function getDescendantsLeaves($males = 1, $malesSeed = 1, $females = 0, $femalesSeed = 0) {
+        if (isset($_GET['ancestral']) && $_GET['ancestral'] == 1) {
+            return $this->getAncestralLeaves();
+        }
+
+        if (isset($_GET['m'])) {
+            $males = $_GET['m'];
+        }
+
+        if (isset($_GET['ms'])) {
+            $malesSeed = $_GET['ms'];
+        }
+
         if ($this->hasPermission()) {
-            if (isset($_GET['m'])) {
-                $males = $_GET['m'];
-            }
-
-            if (isset($_GET['ms'])) {
-                $malesSeed = $_GET['ms'];
-            }
-
             if (isset($_GET['f'])) {
                 $females = $_GET['f'];
             }
@@ -506,7 +510,7 @@ class Person
             <li class="{$this->CSSClasses()}">
                 <a href="#" title="{$this->getFullName()}" data-url="{$this->InfoLink()}" class="info-item">{$this->getPersonName()}</a>
                 <ul>
-                    {$this->getChildrenHtmlUI($males, $malesSeed, $females, $femalesSeed)}
+                    {$this->getChildrenLeaves($males, $malesSeed, $females, $femalesSeed)}
                 </ul>
             </li>
 HTML;
@@ -514,38 +518,72 @@ HTML;
         return $html;
     }
 
-    private function getChildrenHtmlUI($males = 1, $malesSeed = 1, $females = 0, $femalesSeed = 0) {
+    private function getChildrenLeaves($males = 1, $malesSeed = 1, $females = 0, $femalesSeed = 0) {
         $html = '';
 
         if ($males && !$malesSeed) {
             foreach ($this->Sons() as $child) {
-                $html .= $child->getSingleHtmlUI();
+                $html .= $child->getSelfLeaf();
             }
         } else if ($males && $malesSeed) {
             foreach ($this->Sons() as $child) {
-                $html .= $child->getHtmlUI($males, $malesSeed, $females, $femalesSeed);
+                $html .= $child->getDescendantsLeaves($males, $malesSeed, $females, $femalesSeed);
             }
         }
 
         if ($females && !$femalesSeed) {
             foreach ($this->Daughters() as $child) {
-                $html .= $child->getSingleHtmlUI();
+                $html .= $child->getSelfLeaf();
             }
         } else if ($females && $femalesSeed) {
             foreach ($this->Daughters() as $child) {
-                $html .= $child->getHtmlUI($males, $malesSeed, $females, $femalesSeed);
+                $html .= $child->getDescendantsLeaves($males, $malesSeed, $females, $femalesSeed);
             }
         }
 
         return $html;
     }
 
-    private function getSingleHtmlUI() {
+    private function getSelfLeaf() {
         $html = <<<HTML
             <li class="{$this->CSSClasses()}">
                 <a href="#" title="{$this->getFullName()}" data-url="{$this->InfoLink()}" class="info-item">{$this->getPersonName()}</a>
             </li>
 HTML;
+
+        return $html;
+    }
+
+    /// UI ///
+    private function getAncestralLeaves() {
+        $noFemales = !$this->hasPermission() && $this->isFemale();
+        $name = $noFemales ? _t('Genealogist.MOTHER', 'Mother') : $this->getPersonName();
+        $title = $noFemales ? '' : $this->getFullName();
+
+        $html = <<<HTML
+            <li class="{$this->CSSClasses()}">
+                <a href="#" title="{$title}" data-url="{$this->InfoLink()}" class="info-item">{$name}</a>
+                <ul>
+                    {$this->getParentsLeaves()}
+                </ul>
+            </li>
+HTML;
+
+        return $html;
+    }
+
+    private function getParentsLeaves() {
+        $html = '';
+
+        $father = $this->Father();
+        if ($father && $father->exists()) {
+            $html .= $father->getAncestralLeaves();
+        }
+
+        $mother = $this->Mother();
+        if ($mother && $mother->exists()) {
+            $html .= $mother->getAncestralLeaves();
+        }
 
         return $html;
     }

@@ -11,9 +11,7 @@
                 </div>
             </div>
 
-            <% if hasPermission %>
-                <% include Side_Filters %>
-            <% end_if %>
+            <% include Side_Filters %>
         </div>
     </div>
 

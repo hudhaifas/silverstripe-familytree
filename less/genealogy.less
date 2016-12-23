@@ -22,6 +22,9 @@
 @color-bg-clan: #dff0d8;
 @color-fg-clan: #3c763d;
 
+@black-sign-url: url('data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAA4AAAAOCAYAAAAfSC3RAAAAH0lEQVR42mNgIB78R8OjmkY1kaGJgVxNDORqYiBXEwCsHzHPnvWrZgAAAABJRU5ErkJggg==');
+@black-sign-size: 14px;
+
 .conatiner-fluid {
     & > div {
         padding: 5px;
@@ -92,7 +95,7 @@
             }
 
             &.dead {
-                background-color: lighten(@color-bg-male, 7%);
+                background-color: lighten(@color-bg-male, 5%);
             }
         }
 
@@ -103,7 +106,7 @@
             }
 
             &.dead {
-                background-color: lighten(@color-bg-female, 7%);
+                background-color: lighten(@color-bg-female, 5%);
             }
         }
 
@@ -115,9 +118,9 @@
                 position: absolute;
                 top: 0;
                 left: 0;
-                width: 15px;
-                height: 15px;
-                background-image: url('data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAA8AAAAPCAYAAAA71pVKAAAAI0lEQVR42mNgIB78x4JHNY5qpKFGBko0MlCikYESjQyUaAQAjC1AwHbUVKMAAAAASUVORK5CYII=');
+                width: @black-sign-size;
+                height: @black-sign-size;
+                background-image: @black-sign-url;
             }
         }
 

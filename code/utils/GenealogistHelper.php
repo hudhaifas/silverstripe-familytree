@@ -104,11 +104,11 @@ class GenealogistHelper {
 
     /// Counts ///
     /**
-     * Counts the of all offsprings
+     * Counts the of all descendants
      * @param int $state either 1/$STATE_ALIVE or 2/$STATE_DEAD or 0
      * @return number
      */
-    public static function count_offspring($person, $state = 0) {
+    public static function count_descendants($person, $state = 0) {
         if (!$person) {
             return 0;
         }
@@ -117,7 +117,7 @@ class GenealogistHelper {
     }
 
     /**
-     * Counts the of all male offsprings
+     * Counts the of all male descendants
      * @param int $state either 1/$STATE_ALIVE or 2/$STATE_DEAD or 0
      * @return number
      */
@@ -148,7 +148,7 @@ class GenealogistHelper {
     }
 
     /**
-     * Counts the of all female offsprings
+     * Counts the of all female descendants
      * @param int $state either 1/$STATE_ALIVE or 2/$STATE_DEAD or 0
      * @return number
      */

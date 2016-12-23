@@ -8,7 +8,7 @@
 
 <ul id="genealogy-relations" style="display:none">
     <% loop Clans %>
-        $HtmlUI
+        $DescendantsLeaves
     <% end_loop %>
 </ul>
 
