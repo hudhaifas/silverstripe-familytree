@@ -485,7 +485,7 @@ class Person
     /// UI ///
     public function getDescendantsLeaves($males = 1, $malesSeed = 1, $females = 0, $femalesSeed = 0) {
         if (isset($_GET['ancestral']) && $_GET['ancestral'] == 1) {
-            return $this->getAncestralLeaves();
+            return $this->getAncestorsLeaves();
         }
 
         if (isset($_GET['m'])) {
@@ -555,7 +555,7 @@ HTML;
     }
 
     /// UI ///
-    private function getAncestralLeaves() {
+    private function getAncestorsLeaves() {
         $noFemales = !$this->hasPermission() && $this->isFemale();
         $name = $noFemales ? _t('Genealogist.MOTHER', 'Mother') : $this->getPersonName();
         $title = $noFemales ? '' : $this->getFullName();
@@ -577,12 +577,12 @@ HTML;
 
         $father = $this->Father();
         if ($father && $father->exists()) {
-            $html .= $father->getAncestralLeaves();
+            $html .= $father->getAncestorsLeaves();
         }
 
         $mother = $this->Mother();
         if ($mother && $mother->exists()) {
-            $html .= $mother->getAncestralLeaves();
+            $html .= $mother->getAncestorsLeaves();
         }
 
         return $html;
