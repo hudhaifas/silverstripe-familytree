@@ -120,75 +120,134 @@ class GenealogistHelper {
         ;
     }
 
+    /// Find kinships between two persons ///
     /**
      * Returns a list of all ancestors ID's
-     * 
-     * @param Person $p
+     *
+     * @param Person $person1
+     * @param Person $person2
      */
-    public static function get_all_ancestors_ids($person) {
+    public static function get_kinships($person1, $person2) {
+        if (!$person1 || !$person2) {
+            return null;
+        }
+
+        $ancestors1 = self::get_ancestors($person1);
+        $ancestors2 = self::get_ancestors($person2);
+
+        $common = self::get_common_ancestors($ancestors1, $ancestors2);
+
+        $kinships = self::get_kinship_lists($common, $ancestors1, $ancestors2);
+
+        return $kinships;
+    }
+
+    /**
+     * Returns a list of all ancestors ID's
+     *
+     * @param Person $person
+     */
+    private static function get_ancestors($person) {
         $stack = array();
         array_push($stack, $person);
 
         $ancestors = array();
+        $paths = array();
+        $paths[$person->ID] = '';
+
+        $level = 1;
 
         while ($stack) {
             $p = array_pop($stack);
+
+            if (in_array($p->ID, $ancestors)) {
+                continue;
+            }
+
             $ancestors[] = $p->ID;
 
             $father = $p->Father();
             if ($father && $father->exists()) {
                 array_push($stack, $father);
+                $paths[$father->ID] = $p->ID . ',' . $paths[$p->ID];
             }
 
             $mother = $p->Mother();
             if ($mother && $mother->exists()) {
                 array_push($stack, $mother);
+                $paths[$mother->ID] = $p->ID . ',' . $paths[$p->ID];
             }
+
+            $level++;
         }
 
-        return array_unique($ancestors);
+        return array($ancestors, $paths);
     }
 
     /**
      * Returns a list of all ancestors ID's
-     * 
-     * @param Person $p
+     *
+     * @param array $ancestors1 ancestors list of a person
+     * @param array $ancestors2 ancestors list of another person
      */
-    public static function get_common_ancestors_ids($p1, $p2) {
-        $common = array_intersect($p1, $p2);
+    private static function get_common_ancestors($ancestors1, $ancestors2) {
+        $intersect = array_intersect($ancestors1[0], $ancestors2[0]);
+        $toUnset = array();
+
+        foreach ($intersect as $c1) {
+            foreach ($intersect as $c2) {
+                if (self::is_cild_of($c1, $c2)) {
+                    $toUnset[] = $c2;
+                }
+            }
+        }
+
+        $common = array_diff($intersect, $toUnset);
 //        var_dump($common);
 
         return $common;
     }
 
-    /**
-     * Returns a list of all ancestors ID's
-     * 
-     * @param Person $p
-     */
-    public static function get_common_ancestors($person1, $person2) {
-        if (!$person1 || !$person2) {
-            return null;
-        }
-
-        $p1 = self::get_all_ancestors_ids($person1);
-        $p2 = self::get_all_ancestors_ids($person2);
-
-        $common = self::get_common_ancestors_ids($p1, $p2);
-
-        $ancestors = array();
+    private static function get_kinship_lists($common, $ancestors1, $ancestors2) {
+        $kinships = array();
 
         foreach ($common as $id) {
-            $ancestors[] = DataObject::get_by_id('Person', (int) $id);
+            $list1 = explode(',', $ancestors1[1][$id]);
+            $list2 = explode(',', $ancestors2[1][$id]);
+            $k = array();
+            $k[] = self::get_person($id);
+            $k[] = self::create_kinship($id, $list1);
+            $k[] = self::create_kinship($id, $list2);
+
+            $kinships[] = $k;
+//            var_dump($kinships[$id]);
+//            $kinships[] = self::create_kinship($id, $list1);
+//            $kinships[] = self::create_kinship($id, $list2);
         }
 
-        return new ArrayList($ancestors);
+        return $kinships;
+    }
+
+    private static function create_kinship($id, $list) {
+        $series = array();
+//        $series[] = self::get_person($id);
+        foreach ($list as $value) {
+            $series[] = self::get_person($value);
+        }
+
+        return $series;
+    }
+
+    private static function is_cild_of($id1, $id2) {
+        $p1 = self::get_person($id1);
+
+        return ($p1->FatherID == $id2 || $p1->MotherID == $id2);
     }
 
     /// Counts ///
     /**
      * Counts the of all descendants.
-     * 
+     *
      * @param Person $person person object
      * @param int $state either 1/$STATE_ALIVE or 2/$STATE_DEAD or 0
      * @return number
@@ -203,7 +262,7 @@ class GenealogistHelper {
 
     /**
      * Counts the of all male descendants.
-     * 
+     *
      * @param Person $person person object
      * @param int $state either 1/$STATE_ALIVE or 2/$STATE_DEAD or 0
      * @return number
@@ -236,7 +295,7 @@ class GenealogistHelper {
 
     /**
      * Counts the of all female descendants.
-     * 
+     *
      * @param Person $person person object
      * @param int $state either 1/$STATE_ALIVE or 2/$STATE_DEAD or 0
      * @return number
@@ -271,7 +330,7 @@ class GenealogistHelper {
 
     /**
      * Counts the of sons.
-     * 
+     *
      * @param Person $person person object
      * @param int $state either 1/$STATE_ALIVE or 2/$STATE_DEAD or 0
      * @return number
@@ -287,7 +346,7 @@ class GenealogistHelper {
             switch ($state) {
                 case self::$STATE_ALIVE:
 //                    $count += !$child->IsDead && !$child->isClan() ? 1 : 0;
-                    $count += !$child->IsDead ? 1 : 0;
+                    $count +=!$child->IsDead ? 1 : 0;
                     break;
 
                 case self::$STATE_DEAD:
@@ -307,7 +366,7 @@ class GenealogistHelper {
 
     /**
      * Counts the of daughters.
-     * 
+     *
      * @param Person $person person object
      * @param int $state either 1/$STATE_ALIVE or 2/$STATE_DEAD or 0
      * @return number
@@ -322,7 +381,7 @@ class GenealogistHelper {
         foreach ($person->Daughters() as $child) {
             switch ($state) {
                 case self::$STATE_ALIVE:
-                    $count += !$child->IsDead ? 1 : 0;
+                    $count +=!$child->IsDead ? 1 : 0;
                     break;
 
                 case self::$STATE_DEAD:

@@ -158,12 +158,13 @@ class GenealogyPage_Controller
             $p2 = DataObject::get_by_id('Person', (int) $other);
         }
 
-        $ancestors = GenealogistHelper::get_common_ancestors($p1, $p2);
+        $kinships = GenealogistHelper::get_kinships($p1, $p2);
 
         if ($p1 && $p2) {
             return $this
                             ->customise(array(
-                                'Ancestors' => $ancestors,
+                                'Ancestors' => $kinships,
+                                'Leaves' => $this->getKinshipLeaves($kinships[0]),
                                 'Person1' => $p1,
                                 'Person2' => $p2,
                                 'Title' => $p1->Name . ' : ' . $p2->Name
@@ -174,7 +175,7 @@ class GenealogyPage_Controller
         }
     }
 
-/// Forms ///
+    /// Forms ///
     public function Form_Suggest($personID = null) {
         $subjects = array(
             'General' => _t('Genealogist.SUBJECT', 'Subject'),
@@ -244,6 +245,45 @@ class GenealogyPage_Controller
      */
     public function hasPermission() {
         return GenealogistHelper::is_genealogists();
+    }
+
+    private function addKinshipLeaf($kinship = array(), $index = 0) {
+        if ($index > count($kinship) || $kinship[$index] == false) {
+            return '';
+        }
+
+        $person = $kinship[$index];
+        $noFemales = !$this->hasPermission() && $person->isFemale();
+        $name = $noFemales ? _t('Genealogist.MOTHER', 'Mother') : $person->getPersonName();
+        $title = $noFemales ? '' : $person->getFullName();
+
+        $index++;
+        $html = <<<HTML
+            <li class="{$person->CSSClasses()}">
+                <a href="#" title="{$title}" data-url="{$person->InfoLink()}" class="info-item">{$name}</a>
+                <ul>
+                    {$this->addKinshipLeaf($kinship, $index)}
+                </ul>
+            </li>
+HTML;
+
+        return $html;
+    }
+
+    public function getKinshipLeaves($kinships = array()) {
+        $root = $kinships[0];
+
+        $html = <<<HTML
+            <li class="{$root->CSSClasses()}">
+                <a href="#" title="{$root->getFullName()}" data-url="{$root->InfoLink()}" class="info-item">{$root->getPersonName()}</a>
+                <ul>
+                    {$this->addKinshipLeaf($kinships[1])}
+                    {$this->addKinshipLeaf($kinships[2])}
+                </ul>
+            </li>
+HTML;
+
+        return $html;
     }
 
 }

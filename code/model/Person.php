@@ -588,4 +588,10 @@ HTML;
         return $html;
     }
 
+    public function __debugInfo() {
+        return array(
+            $this->ID . ' : ' . $this->Name
+        );
+    }
+
 }
