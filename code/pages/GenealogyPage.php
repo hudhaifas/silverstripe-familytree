@@ -65,16 +65,14 @@ class GenealogyPage_Controller
     private static $allowed_actions = array(
         'info',
         'suggest',
-        'relation',
         'Form_Suggest',
         'doSuggest',
     );
     private static $url_handlers = array(
         'person-info/$ID' => 'info',
         'suggest/$ID' => 'suggest',
-        'relation/$ID/$Other' => 'relation',
         'Form_Suggest' => 'Form_Suggest', // list all forms before the index in the handlers array
-        '$ID' => 'index', // any action redirects to the index MUST be added at the end of the array
+        '$ID/$Other' => 'index', // any action redirects to the index MUST be added at the end of the array
     );
 
     public function init() {
@@ -95,6 +93,11 @@ class GenealogyPage_Controller
     /// Actions ///
     public function index(SS_HTTPRequest $request) {
         $id = $this->getRequest()->param('ID');
+        $other = $this->getRequest()->param('Other');
+
+        if ($other) {
+            return $this->relation($id, $other);
+        }
 
         if ($id) {
             $root = DataObject::get_by_id('Person', (int) $id);
@@ -146,10 +149,7 @@ class GenealogyPage_Controller
         }
     }
 
-    public function relation() {
-        $id = $this->getRequest()->param('ID');
-        $other = $this->getRequest()->param('Other');
-
+    private function relation($id, $other) {
         if ($id) {
             $p1 = DataObject::get_by_id('Person', (int) $id);
         }
