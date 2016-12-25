@@ -36,14 +36,14 @@
   margin-left: auto;
   margin-right: auto;
 }
-#genealogy-tree {
+.genealogy-tree {
   overflow: scroll;
   height: 97vh;
   max-height: 97vh;
   background-color: #fff;
   /* The node */
 }
-#genealogy-tree .node {
+.genealogy-tree .node {
   width: 80px;
   height: 30px;
   margin: 0 2px;
@@ -52,30 +52,30 @@
   border-radius: .25rem;
   box-shadow: inset 0 1px 1px rgba(0, 0, 0, 0.075);
 }
-#genealogy-tree .node.male {
+.genealogy-tree .node.male {
   background-color: #d9edf7;
 }
-#genealogy-tree .node.male,
-#genealogy-tree .node.male a {
+.genealogy-tree .node.male,
+.genealogy-tree .node.male a {
   color: #31708f;
 }
-#genealogy-tree .node.male.dead {
+.genealogy-tree .node.male.dead {
   background-color: #eef7fb;
 }
-#genealogy-tree .node.female {
+.genealogy-tree .node.female {
   background-color: #f2dede;
 }
-#genealogy-tree .node.female,
-#genealogy-tree .node.female a {
+.genealogy-tree .node.female,
+.genealogy-tree .node.female a {
   color: #a94442;
 }
-#genealogy-tree .node.female.dead {
+.genealogy-tree .node.female.dead {
   background-color: #f9f0f0;
 }
-#genealogy-tree .node.dead {
+.genealogy-tree .node.dead {
   position: relative;
 }
-#genealogy-tree .node.dead:after {
+.genealogy-tree .node.dead:after {
   content: '';
   position: absolute;
   top: 0;
@@ -84,24 +84,24 @@
   height: 14px;
   background-image: url('data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAA4AAAAOCAYAAAAfSC3RAAAAH0lEQVR42mNgIB78R8OjmkY1kaGJgVxNDORqYiBXEwCsHzHPnvWrZgAAAABJRU5ErkJggg==');
 }
-#genealogy-tree .node.clan {
+.genealogy-tree .node.clan {
   background-color: #dff0d8;
 }
-#genealogy-tree .node.clan,
-#genealogy-tree .node.clan a {
+.genealogy-tree .node.clan,
+.genealogy-tree .node.clan a {
   color: #3c763d;
 }
-#genealogy-tree .node.clan.dead {
+.genealogy-tree .node.clan.dead {
   background-color: #dff0d8;
 }
-#genealogy-tree .node.clan.dead,
-#genealogy-tree .node.clan.dead a {
+.genealogy-tree .node.clan.dead,
+.genealogy-tree .node.clan.dead a {
   color: #3c763d;
 }
-#genealogy-tree .node.clan:after {
+.genealogy-tree .node.clan:after {
   background-image: none;
 }
-#genealogy-tree .node a {
+.genealogy-tree .node a {
   cursor: help;
   word-wrap: break-word;
 }

@@ -96,7 +96,7 @@ class GenealogyPage_Controller
         $other = $this->getRequest()->param('Other');
 
         if ($other) {
-            return $this->relation($id, $other);
+            return $this->kinship($id, $other);
         }
 
         if ($id) {
@@ -149,7 +149,7 @@ class GenealogyPage_Controller
         }
     }
 
-    private function relation($id, $other) {
+    private function kinship($id, $other) {
         if ($id) {
             $p1 = DataObject::get_by_id('Person', (int) $id);
         }
@@ -159,17 +159,24 @@ class GenealogyPage_Controller
         }
 
         $kinships = GenealogistHelper::get_kinships($p1, $p2);
+        $trees = array();
+        foreach ($kinships as $kinship) {
+            $trees[] = $this->getKinshipLeaves($kinship);
+            var_dump(count($kinship));
+        }
 
+        $columns = 12 / count($kinships);
         if ($p1 && $p2) {
             return $this
                             ->customise(array(
                                 'Ancestors' => $kinships,
                                 'Leaves' => $this->getKinshipLeaves($kinships[0]),
+                                'Cols' => $columns,
                                 'Person1' => $p1,
                                 'Person2' => $p2,
                                 'Title' => $p1->Name . ' : ' . $p2->Name
                             ))
-                            ->renderWith(array('GenealogyPage_Relation', 'Page'));
+                            ->renderWith(array('GenealogyPage_Kinship', 'Page'));
         } else {
             return $this->httpError(404, 'That person could not be found!');
         }

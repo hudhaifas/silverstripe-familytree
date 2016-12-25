@@ -554,7 +554,6 @@ HTML;
         return $html;
     }
 
-    /// UI ///
     private function getAncestorsLeaves() {
         $noFemales = !$this->hasPermission() && $this->isFemale();
         $name = $noFemales ? _t('Genealogist.MOTHER', 'Mother') : $this->getPersonName();

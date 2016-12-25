@@ -86,6 +86,8 @@ ar:
     SUGGEST_EDIT_MESSAGE_1: 'نرجو المعذرة لعدم دقة البيانات في هذه الشجرة، '
     CLICK_HERE: 'اضغط هنا'
     SUGGEST_EDIT_MESSAGE_2: 'لتزويدنا بأي بيانات تعرفها.'
+    BETA: 'تجريبي'
+    BETA_MESSAGE_1: 'هذه نسخة تجريبية، '
     NOTE: 'ملاحظة'
     COMMENTS: 'التعليقات'
     FROM: 'من'

@@ -12,7 +12,7 @@
     <% end_loop %>
 </ul>
 
-<div id="genealogy-tree" class="dragscroll"></div>
+<div id="genealogy-tree" class="genealogy-tree dragscroll"></div>
 
 <div id="tree-loader" class="ajax-loader">
     <span></span>
