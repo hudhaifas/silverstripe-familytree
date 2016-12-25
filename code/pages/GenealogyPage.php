@@ -106,7 +106,7 @@ class GenealogyPage_Controller
         }
 
         $data = array(
-            'Clans' => $root,
+            'Roots' => $root,
 //            'Title' => $root->Name,
         );
 
@@ -159,9 +159,9 @@ class GenealogyPage_Controller
         }
 
         $kinships = GenealogistHelper::get_kinships($p1, $p2);
-        $trees = array();
+        $roots = array();
         foreach ($kinships as $kinship) {
-            $trees[] = $this->getKinshipLeaves($kinship);
+            $roots[] = ArrayData::create(array('Kinship' => $this->getKinshipLeaves($kinship)));
             var_dump(count($kinship));
         }
 
@@ -170,7 +170,7 @@ class GenealogyPage_Controller
             return $this
                             ->customise(array(
                                 'Ancestors' => $kinships,
-                                'Leaves' => $this->getKinshipLeaves($kinships[0]),
+                                'Roots' => new ArrayList($roots),
                                 'Cols' => $columns,
                                 'Person1' => $p1,
                                 'Person2' => $p2,

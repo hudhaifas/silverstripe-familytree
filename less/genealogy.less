@@ -76,6 +76,10 @@
     height: @tree-h;
     max-height: @tree-h;
     background-color: #fff;
+    /*    border: 1px solid #ddd;
+        border-radius: 4px;*/
+    overflow-x: auto;
+    overflow-y: auto;
 
     /* The node */
     .node {
@@ -137,7 +141,7 @@
                 }
 
             }
-            
+
             &:after {
                 background-image: none;
             }

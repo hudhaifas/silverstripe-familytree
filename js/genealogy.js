@@ -71,12 +71,19 @@ var updateInfo = function (url) {
 };
 
 var initTree = function () {
+    $('.genealogy-kinship').each(function () {
+        kinship = $(this).attr('data-kinship');
+        $(this).jOrgChart({
+            chartElement: '#' + kinship
+        });
+    });
+
     $("#genealogy-relations").jOrgChart({
         chartElement: '#genealogy-tree'
     });
 
     registerLinks();
-    $('#genealogy-tree').dragScroll({});
+    $('.genealogy-tree').dragScroll({});
 
     window.onpopstate = function (e) {
         console.log('e: ' + e);
@@ -104,8 +111,8 @@ var initFilters = function () {
 
 
     $('input.options-check').each(function () {
-        id = $(this).attr('id');
-        status = params[id];
+        kinship = $(this).attr('id');
+        status = params[kinship];
         $(this).prop('checked', status == 1 ? true : false);
     });
 
@@ -117,10 +124,10 @@ var appendFilters = function (url) {
 
     var params = {};
     $('input[type=checkbox].options-check').each(function () {
-        id = $(this).attr('id');
+        kinship = $(this).attr('id');
         value = this.checked ? 1 : 0;
 
-        params[id] = value;
+        params[kinship] = value;
     });
     uri.setSearch(params);
 

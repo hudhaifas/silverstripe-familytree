@@ -41,6 +41,10 @@
   height: 97vh;
   max-height: 97vh;
   background-color: #fff;
+  /*    border: 1px solid #ddd;
+        border-radius: 4px;*/
+  overflow-x: auto;
+  overflow-y: auto;
   /* The node */
 }
 .genealogy-tree .node {
