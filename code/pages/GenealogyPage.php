@@ -95,20 +95,7 @@ class GenealogyPage_Controller
         $id = $this->getRequest()->param('ID');
         $other = $this->getRequest()->param('Other');
 
-        if ($other) {
-            return $this->kinship($id, $other);
-        }
-
-        if ($id) {
-            $root = DataObject::get_by_id('Person', (int) $id);
-        } else {
-            $root = $this->Roots()->first();
-        }
-
-        $data = array(
-            'Roots' => $root,
-//            'Title' => $root->Name,
-        );
+        $data = $other ? $this->kinship($id, $other) : $this->tree($id);
 
         if ($request->isAjax()) {
             return $this
@@ -149,6 +136,23 @@ class GenealogyPage_Controller
         }
     }
 
+    private function tree($id) {
+        $person = $id ? DataObject::get_by_id('Person', (int) $id) : $this->Roots()->first();
+
+        if (!$person) {
+            return $this->httpError(404, 'No books could be found!');
+        }
+
+        $trees = array(
+            ArrayData::create(array('Tree' => $person->getDescendantsLeaves()))
+        );
+
+        return array(
+            'Trees' => new ArrayList($trees),
+            'Cols' => 12,
+        );
+    }
+
     private function kinship($id, $other) {
         if ($id) {
             $p1 = DataObject::get_by_id('Person', (int) $id);
@@ -158,27 +162,84 @@ class GenealogyPage_Controller
             $p2 = DataObject::get_by_id('Person', (int) $other);
         }
 
-        $kinships = GenealogistHelper::get_kinships($p1, $p2);
-        $roots = array();
-        foreach ($kinships as $kinship) {
-            $roots[] = ArrayData::create(array('Kinship' => $this->getKinshipLeaves($kinship)));
+        if (!$p1 || !$p2) {
+            return $this->httpError(404, 'No books could be found!');
         }
 
-        $columns = 12 / count($kinships);
-        if ($p1 && $p2) {
-            return $this
-                            ->customise(array(
-                                'Ancestors' => $kinships,
-                                'Roots' => new ArrayList($roots),
-                                'Cols' => $columns,
-                                'Person1' => $p1,
-                                'Person2' => $p2,
-                                'Title' => $p1->Name . ' : ' . $p2->Name
-                            ))
-                            ->renderWith(array('GenealogyPage_Kinship', 'Page'));
-        } else {
-            return $this->httpError(404, 'That person could not be found!');
+        $kinships = GenealogistHelper::get_kinships($p1, $p2);
+        $trees = array();
+        foreach ($kinships as $kinship) {
+            $trees[] = ArrayData::create(array('Tree' => $this->getKinshipLeaves($kinship)));
         }
+
+        $columns = 12 / count($trees);
+
+        return array(
+            'Trees' => new ArrayList($trees),
+            'Cols' => $columns,
+            'Title' => $p1->Name . ' : ' . $p2->Name
+        );
+    }
+
+    public function getKinshipLeaves($kinships = array()) {
+        $root = $kinships[0];
+        $noFemales = !$this->hasPermission() && $root->isFemale();
+        $name = $noFemales ? _t('Genealogist.MOTHER', 'Mother') : $root->getPersonName();
+        $title = $noFemales ? '' : $root->getFullName();
+
+        $html = <<<HTML
+            <li class="{$root->CSSClasses()}">
+                <a href="#" title="{$title}" data-url="{$root->InfoLink()}" class="info-item">{$name}</a>
+                <ul>
+                    {$this->appendLeaf($kinships[1])}
+                    {$this->appendLeaf($kinships[2])}
+                </ul>
+            </li>
+HTML;
+//        return $html;
+        return $this->appendParents($root, $html);
+    }
+
+    private function appendParents($person, $html3) {
+        if (!$person || !$person->Father()->exists()) {
+            return $html3;
+        }
+
+        $father = $person->Father();
+
+        $html4 = <<<HTML
+            <li class="{$father->CSSClasses()}">
+                <a href="#" title="{$father->getFullName()}" data-url="{$father->InfoLink()}" class="info-item">{$father->getPersonName()}</a>
+                <ul>
+                    {$html3}
+                </ul>
+            </li>
+HTML;
+
+        return $this->appendParents($father, $html4);
+    }
+
+    private function appendLeaf($kinship = array(), $index = 0) {
+        if ($index > count($kinship) || $kinship[$index] == false) {
+            return '';
+        }
+
+        $person = $kinship[$index];
+        $noFemales = !$this->hasPermission() && $person->isFemale();
+        $name = $noFemales ? _t('Genealogist.MOTHER', 'Mother') : $person->getPersonName();
+        $title = $noFemales ? '' : $person->getFullName();
+
+        $index++;
+        $html = <<<HTML
+            <li class="{$person->CSSClasses()}">
+                <a href="#" title="{$title}" data-url="{$person->InfoLink()}" class="info-item">{$name}</a>
+                <ul>
+                    {$this->appendLeaf($kinship, $index)}
+                </ul>
+            </li>
+HTML;
+
+        return $html;
     }
 
     /// Forms ///
@@ -251,67 +312,6 @@ class GenealogyPage_Controller
      */
     public function hasPermission() {
         return GenealogistHelper::is_genealogists();
-    }
-
-    public function getKinshipLeaves($kinships = array()) {
-        $root = $kinships[0];
-        $noFemales = !$this->hasPermission() && $root->isFemale();
-        $name = $noFemales ? _t('Genealogist.MOTHER', 'Mother') : $root->getPersonName();
-        $title = $noFemales ? '' : $root->getFullName();
-
-        $html = <<<HTML
-            <li class="{$root->CSSClasses()}">
-                <a href="#" title="{$title}" data-url="{$root->InfoLink()}" class="info-item">{$name}</a>
-                <ul>
-                    {$this->appendLeaf($kinships[1])}
-                    {$this->appendLeaf($kinships[2])}
-                </ul>
-            </li>
-HTML;
-//        return $html;
-        return $this->appendParents($root, $html);
-    }
-
-    private function appendParents($person, $html3) {
-        if (!$person || !$person->Father()->exists()) {
-            return $html3;
-        }
-
-        $father = $person->Father();
-
-        $html4 = <<<HTML
-            <li class="{$father->CSSClasses()}">
-                <a href="#" title="{$father->getFullName()}" data-url="{$father->InfoLink()}" class="info-item">{$father->getPersonName()}</a>
-                <ul>
-                    {$html3}
-                </ul>
-            </li>
-HTML;
-
-        return $this->appendParents($father, $html4);
-    }
-
-    private function appendLeaf($kinship = array(), $index = 0) {
-        if ($index > count($kinship) || $kinship[$index] == false) {
-            return '';
-        }
-
-        $person = $kinship[$index];
-        $noFemales = !$this->hasPermission() && $person->isFemale();
-        $name = $noFemales ? _t('Genealogist.MOTHER', 'Mother') : $person->getPersonName();
-        $title = $noFemales ? '' : $person->getFullName();
-
-        $index++;
-        $html = <<<HTML
-            <li class="{$person->CSSClasses()}">
-                <a href="#" title="{$title}" data-url="{$person->InfoLink()}" class="info-item">{$name}</a>
-                <ul>
-                    {$this->appendLeaf($kinship, $index)}
-                </ul>
-            </li>
-HTML;
-
-        return $html;
     }
 
 }

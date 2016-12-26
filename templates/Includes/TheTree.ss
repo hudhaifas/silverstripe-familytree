@@ -6,9 +6,9 @@
     <%t Genealogist.SUGGEST_EDIT_MESSAGE_2 ' to provide us with any data.' value=$Link(suggest) %>
 </div>
 
-<% loop Roots %>
+<% loop Trees %>
     <ul id="genealogy-relations" class="genealogy-kinship" style="display:none" data-kinship="k{$Pos}">
-        $DescendantsLeaves
+        $Tree
     </ul>
 
     <div id="k{$Pos}" class="genealogy-tree dragscroll col-md-{$Up.Cols}"></div>
