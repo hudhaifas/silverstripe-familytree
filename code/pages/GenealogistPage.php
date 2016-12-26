@@ -78,6 +78,29 @@ class GenealogistPage_Controller
         'edit/$ID' => 'edit',
     );
 
+    public function init() {
+        parent::init();
+
+
+//        Requirements::customCSS(
+//                <<<CSS
+//        .ui-autocomplete { 
+//            max-height: 240px; 
+//            overflow-x: hidden; 
+//            overflow-y: auto;
+//            /** sorry about the !important but the specificity of other selectors mandates it over writing out very specific selectors **/ 
+//        }
+//        
+//        .ui-autocomplete-loading { 
+//            background-image: url(../images/throbber.gif) !important; 
+//            background-position: 97% center !important; 
+//            background-repeat: no-repeat !important; 
+//            background-size: auto !important; 
+//        }
+//CSS
+//        );
+    }
+
     /// Actions ///
     public function edit() {
         $id = $this->getRequest()->param('ID');
@@ -186,17 +209,15 @@ class GenealogistPage_Controller
         // Create fields          
         $fields = new FieldList(
                 HiddenField::create('PersonID', 'PersonID', $id), //
-                TextField::create('FatherID', _t('Genealogist.FATHER_ID', 'Father ID'))
-                // TODO: use autocomplete field instead
-//                AutoPersonField::create(
-//                        'FatherID', //
-//                        'Father', //
-//                        '', //
-//                        null, //
-//                        null, //
-//                        'Male', //
-//                        array('IndexedName', 'Name', 'NickName') //
-//                )
+                AutoPersonField::create(
+                        'FatherID', //
+                        _t('Genealogist.FATHER', 'Father'), //
+                        '', //
+                        null, //
+                        null, //
+                        'Male', //
+                        array('IndexedName', 'Name', 'NickName') //
+                )
         );
 
         // Create action
@@ -230,7 +251,15 @@ class GenealogistPage_Controller
         // Create fields          
         $fields = new FieldList(
                 HiddenField::create('PersonID', 'PersonID', $id), //
-                TextField::create('MotherID', _t('Genealogist.MOTHER_ID', 'Mother ID'))
+                AutoPersonField::create(
+                        'MotherID', //
+                        _t('Genealogist.MOTHER', 'Mother'), //
+                        '', //
+                        null, //
+                        null, //
+                        'Female', //
+                        array('IndexedName', 'Name', 'NickName') //
+                )
         );
 
         // Create action

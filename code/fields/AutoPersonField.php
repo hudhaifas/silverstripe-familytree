@@ -21,6 +21,14 @@ class AutoPersonField
         'Suggest'
     );
 
+    public function Field($properties = array()) {
+        $field = parent::Field($properties);
+
+        Requirements::css("genealogist/css/autocomplete.css");
+
+        return $field;
+    }
+
     /**
      * Handle a request for an Autocomplete list.
      *
@@ -45,11 +53,10 @@ class AutoPersonField
 
         $filters = array();
 
-//        foreach (preg_split('/[\s,]+/', $q) as $keyword) {
         foreach ($sourceFields as $sourceField) {
             $filters["{$sourceField}:PartialMatch"] = $q;
         }
-//        }
+
         // Generate query
         $query = DataList::create($sourceClass)
                 ->filterAny($filters)
@@ -75,6 +82,15 @@ class AutoPersonField
 
         // the response body
         return json_encode($items);
+    }
+
+    public function getSuggestURL() {
+        if (!empty($this->suggestURL)) {
+            return $this->suggestURL;
+        }
+
+        // Attempt to link back to itself
+        return parse_url($this->Link(), PHP_URL_PATH) . '/Suggest?SubsiteID=' . Subsite::currentSubsiteID();
     }
 
 }
