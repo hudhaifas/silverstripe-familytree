@@ -174,7 +174,8 @@ class GenealogyPage_Controller
             $trees[] = ArrayData::create(array('Tree' => $this->getKinshipLeaves($kinship)));
         }
 
-        $columns = 12 / count($trees);
+        $count = count($trees);
+        $columns = $count > 0 ? 12 / count($trees) : 12;
 
         return array(
             'Trees' => new ArrayList($trees),
