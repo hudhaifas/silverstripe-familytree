@@ -67,11 +67,13 @@ class GenealogyPage_Controller
         'suggest',
         'Form_Suggest',
         'doSuggest',
+        'Form_Kinship',
     );
     private static $url_handlers = array(
         'person-info/$ID' => 'info',
         'suggest/$ID' => 'suggest',
         'Form_Suggest' => 'Form_Suggest', // list all forms before the index in the handlers array
+        'Form_Kinship' => 'Form_Kinship', // list all forms before the index in the handlers array
         '$ID/$Other' => 'index', // any action redirects to the index MUST be added at the end of the array
     );
 
@@ -243,6 +245,44 @@ HTML;
     }
 
     /// Forms ///
+    public function Form_Kinship($personID = null) {
+        // Create fields
+
+        $link = $this->AbsoluteLink();
+        $fields = new FieldList(
+                AutoPersonField::create(
+                        'Person1', //
+                        _t('Genealogist.FIRST_PERSON', 'First Person'), //
+                        '', //
+                        null, //
+                        null, //
+                        'Person', //
+                        array('IndexedName', 'Name', 'NickName') //
+                ), //
+                AutoPersonField::create(
+                        'Person2', //
+                        _t('Genealogist.SECOND_PERSON', 'Second Person'), //
+                        '', //
+                        null, //
+                        null, //
+                        'Person', //
+                        array('IndexedName', 'Name', 'NickName') //
+                )
+        );
+
+        // Create action
+        $actions = new FieldList(
+                $button = new FormAction('findKinship', _t('Genealogist.FIND', 'Find'))
+        );
+        $button->addExtraClass('kinship-btn');
+        $button->setAttribute('data-url', $this->Link());
+
+        // Create Validators
+        $validator = new RequiredFields('Person1', 'Person2');
+
+        return new Form($this, 'Form_Kinship', $fields, $actions, $validator);
+    }
+
     public function Form_Suggest($personID = null) {
         $subjects = array(
             'General' => _t('Genealogist.SUBJECT', 'Subject'),

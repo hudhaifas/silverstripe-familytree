@@ -64,6 +64,8 @@ en:
     UPDATE: 'Update'
     EDIT: 'Edit'
     SAVE: 'Save'
+    FIND: 'Find'
+    KINSHIP: 'Kinship'
     SEARCH: 'Search'
     SEARCH_RESULTS: 'Search Results'
     SEARCH_RESULTS_COUNT: '{value} results'

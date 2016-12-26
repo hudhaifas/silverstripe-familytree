@@ -120,7 +120,6 @@ var initFilters = function () {
 
 var appendFilters = function (url) {
     var uri = URI(url);
-    localStorage.setItem("myvar", "Smith");
 
     var params = {};
     $('input[type=checkbox].options-check').each(function () {
@@ -165,6 +164,24 @@ var registerLinks = function () {
 
         url = $(this).attr('href');
         showPerson(url);
+    });
+
+    // Kinship form action
+    $("#Form_Form_Kinship_action_findKinship").click(function (event) {
+        event.preventDefault();
+
+        if (locked) {
+            return;
+        }
+
+        p1 = $("[name='Person1']").val();
+        p2 = $("[name='Person2']").val();
+
+        var uri = URI(url);
+        uri.segment(2, p1);
+        uri.segment(3, p2);
+
+        showPerson(uri.toString());
     });
 
     // Full-screen link

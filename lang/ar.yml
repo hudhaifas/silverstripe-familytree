@@ -64,6 +64,8 @@ ar:
     UPDATE: 'تحديث'
     EDIT: 'تعديل'
     SAVE: 'حفظ'
+    FIND: 'أوجد'
+    KINSHIP: 'صلة القربى'
     SEARCH: 'بحث'
     SEARCH_RESULTS: 'نتائج البحث'
     SEARCH_RESULTS_COUNT: '{value} نتيجة'

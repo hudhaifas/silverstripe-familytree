@@ -3,6 +3,8 @@
         <div class="panel-group" id="accordion">
             <% include Side_Roots %>
 
+            <% include Side_Kinship %>
+
             <div class="panel panel-default" id="panel-info">
                 <div class="panel-heading">
                     <h4 class="panel-title">
