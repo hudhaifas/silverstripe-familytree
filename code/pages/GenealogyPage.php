@@ -162,7 +162,6 @@ class GenealogyPage_Controller
         $roots = array();
         foreach ($kinships as $kinship) {
             $roots[] = ArrayData::create(array('Kinship' => $this->getKinshipLeaves($kinship)));
-            var_dump(count($kinship));
         }
 
         $columns = 12 / count($kinships);
@@ -254,6 +253,41 @@ class GenealogyPage_Controller
         return GenealogistHelper::is_genealogists();
     }
 
+    public function getKinshipLeaves($kinships = array()) {
+        $root = $kinships[0];
+
+        $html = <<<HTML
+            <li class="{$root->CSSClasses()}">
+                <a href="#" title="{$root->getFullName()}" data-url="{$root->InfoLink()}" class="info-item">{$root->getPersonName()}</a>
+                <ul>
+                    {$this->addKinshipLeaf($kinships[1])}
+                    {$this->addKinshipLeaf($kinships[2])}
+                </ul>
+            </li>
+HTML;
+
+        return $this->appendParents($root, $html);
+    }
+
+    private function appendParents($person, $html3) {
+        if (!$person || !$person->Father()->exists()) {
+            return $html3;
+        }
+
+        $father = $person->Father();
+
+        $html4 = <<<HTML
+            <li class="{$father->CSSClasses()}">
+                <a href="#" title="{$father->getFullName()}" data-url="{$father->InfoLink()}" class="info-item">{$father->getPersonName()}</a>
+                <ul>
+                    {$html3}
+                </ul>
+            </li>
+HTML;
+
+        return $this->appendParents($father, $html4);
+    }
+
     private function addKinshipLeaf($kinship = array(), $index = 0) {
         if ($index > count($kinship) || $kinship[$index] == false) {
             return '';
@@ -270,22 +304,6 @@ class GenealogyPage_Controller
                 <a href="#" title="{$title}" data-url="{$person->InfoLink()}" class="info-item">{$name}</a>
                 <ul>
                     {$this->addKinshipLeaf($kinship, $index)}
-                </ul>
-            </li>
-HTML;
-
-        return $html;
-    }
-
-    public function getKinshipLeaves($kinships = array()) {
-        $root = $kinships[0];
-
-        $html = <<<HTML
-            <li class="{$root->CSSClasses()}">
-                <a href="#" title="{$root->getFullName()}" data-url="{$root->InfoLink()}" class="info-item">{$root->getPersonName()}</a>
-                <ul>
-                    {$this->addKinshipLeaf($kinships[1])}
-                    {$this->addKinshipLeaf($kinships[2])}
                 </ul>
             </li>
 HTML;
