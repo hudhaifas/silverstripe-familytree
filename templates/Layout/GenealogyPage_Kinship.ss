@@ -1,8 +1,6 @@
 <div class="tree-container row">
     <div class=" col-md-3 col-sm-12">
         <div class="panel-group" id="accordion">
-            <% include Side_Roots %>
-
             <div class="panel panel-default" id="panel-info">
                 <div class="panel-heading">
                     <h4 class="panel-title">
@@ -10,7 +8,6 @@
                     </h4>
                 </div>
             </div>
-
         </div>
     </div>
 

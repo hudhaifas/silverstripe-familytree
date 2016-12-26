@@ -255,17 +255,20 @@ class GenealogyPage_Controller
 
     public function getKinshipLeaves($kinships = array()) {
         $root = $kinships[0];
+        $noFemales = !$this->hasPermission() && $root->isFemale();
+        $name = $noFemales ? _t('Genealogist.MOTHER', 'Mother') : $root->getPersonName();
+        $title = $noFemales ? '' : $root->getFullName();
 
         $html = <<<HTML
             <li class="{$root->CSSClasses()}">
-                <a href="#" title="{$root->getFullName()}" data-url="{$root->InfoLink()}" class="info-item">{$root->getPersonName()}</a>
+                <a href="#" title="{$title}" data-url="{$root->InfoLink()}" class="info-item">{$name}</a>
                 <ul>
-                    {$this->addKinshipLeaf($kinships[1])}
-                    {$this->addKinshipLeaf($kinships[2])}
+                    {$this->appendLeaf($kinships[1])}
+                    {$this->appendLeaf($kinships[2])}
                 </ul>
             </li>
 HTML;
-
+//        return $html;
         return $this->appendParents($root, $html);
     }
 
@@ -288,7 +291,7 @@ HTML;
         return $this->appendParents($father, $html4);
     }
 
-    private function addKinshipLeaf($kinship = array(), $index = 0) {
+    private function appendLeaf($kinship = array(), $index = 0) {
         if ($index > count($kinship) || $kinship[$index] == false) {
             return '';
         }
@@ -303,7 +306,7 @@ HTML;
             <li class="{$person->CSSClasses()}">
                 <a href="#" title="{$title}" data-url="{$person->InfoLink()}" class="info-item">{$name}</a>
                 <ul>
-                    {$this->addKinshipLeaf($kinship, $index)}
+                    {$this->appendLeaf($kinship, $index)}
                 </ul>
             </li>
 HTML;
