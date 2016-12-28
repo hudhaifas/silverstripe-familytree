@@ -22,9 +22,6 @@
 @color-bg-clan: #dff0d8;
 @color-fg-clan: #3c763d;
 
-@black-sign-url: url('data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAA4AAAAOCAYAAAAfSC3RAAAAH0lEQVR42mNgIB78R8OjmkY1kaGJgVxNDORqYiBXEwCsHzHPnvWrZgAAAABJRU5ErkJggg==');
-@black-sign-size: 14px;
-
 .conatiner-fluid {
     & > div {
         padding: 5px;
@@ -119,12 +116,17 @@
 
             &:after {
                 content: '';
+                border-top: 3px solid black;
+                border-radius: 3px;
+                
                 position: absolute;
-                top: 0;
-                left: 0;
-                width: @black-sign-size;
-                height: @black-sign-size;
-                background-image: @black-sign-url;
+                
+                width: 20px;
+                height: 20px;
+                top: 2px;
+                left: 2px;
+                
+                -webkit-transform: rotate(-45deg);
             }
         }
 

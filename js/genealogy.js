@@ -78,10 +78,6 @@ var initTree = function () {
         });
     });
 
-    $("#genealogy-relations").jOrgChart({
-        chartElement: '#genealogy-tree'
-    });
-
     registerLinks();
     $('.genealogy-tree').dragScroll({});
 
@@ -178,8 +174,8 @@ var registerLinks = function () {
         p2 = $("[name='Person2']").val();
 
         var uri = URI(url);
-        uri.segment(1, p1);
-        uri.segment(2, p2);
+        uri.segment(2, p1);
+        uri.segment(3, p2);
 
         showPerson(uri.toString());
     });

@@ -590,7 +590,7 @@ HTML;
     /// JSON for future work
     public function toJSON() {
         $js = $this->buildJSON();
-        var_dump($js);
+//        var_dump($js);
 
         return json_encode($js, JSON_UNESCAPED_UNICODE);
     }
@@ -598,6 +598,7 @@ HTML;
     private function buildJSON() {
         $person = array();
         $person['name'] = $this->getPersonName();
+        $person['title'] = $this->getAliasName();
 
         if ($this->Children()->exists()) {
             $person['children'] = array();

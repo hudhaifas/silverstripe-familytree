@@ -27,74 +27,42 @@
         }
         $appendTo.append($container);
 
-        // add drag and drop if enabled
-        if (opts.dragAndDrop) {
-            $('div.node').draggable({
-                cursor: 'move',
-                distance: 40,
-                helper: 'clone',
-                opacity: 0.8,
-                revert: 'invalid',
-                revertDuration: 100,
-                snap: 'div.node.expanded',
-                snapMode: 'inner',
-                stack: 'div.node'
-            });
+        if (opts.zoom) {
+            $appendTo
+                    .on('wheel', function (event) {
+                        event.preventDefault();
+                        var newScale = 1 + (event.originalEvent.deltaY > 0 ? -(opts.stepZoom) : opts.stepZoom);
+                        setZoomScale($container, newScale, opts);
+                    });
 
-            $('div.node').droppable({
-                accept: '.node',
-                activeClass: 'drag-active',
-                hoverClass: 'drop-hover'
-            });
+            $appendTo
+                    .on('touchstart', function (e) {
+                        if (e.touches && e.touches.length === 2) {
+                            $container.data('pinching', true);
+                            var dist = getPinchDist(e);
+                            $container.data('pinchDistStart', dist);
+                        }
+                    });
 
-            // Drag start event handler for nodes
-            $('div.node').bind("dragstart", function handleDragStart(event, ui) {
-
-                var sourceNode = $(this);
-                sourceNode.parentsUntil('.node-container')
-                        .find('*')
-                        .filter('.node')
-                        .droppable('disable');
-            });
-
-            // Drag stop event handler for nodes
-            $('div.node').bind("dragstop", function handleDragStop(event, ui) {
-
-                /* reload the plugin */
-                $(opts.chartElement).children().remove();
-                $this.jOrgChart(opts);
-            });
-
-            // Drop event handler for nodes
-            $('div.node').bind("drop", function handleDropEvent(event, ui) {
-
-                var targetID = $(this).data("tree-node");
-                var targetLi = $this.find("li").filter(function () {
-                    return $(this).data("tree-node") === targetID;
-                });
-                var targetUl = targetLi.children('ul');
-
-                var sourceID = ui.draggable.data("tree-node");
-                var sourceLi = $this.find("li").filter(function () {
-                    return $(this).data("tree-node") === sourceID;
-                });
-                var sourceUl = sourceLi.parent('ul');
-
-                if (targetUl.length > 0) {
-                    targetUl.append(sourceLi);
-                } else {
-                    targetLi.append("<ul></ul>");
-                    targetLi.children('ul').append(sourceLi);
-                }
-
-                //Removes any empty lists
-                if (sourceUl.children().length === 0) {
-                    sourceUl.remove();
-                }
-
-            }); // handleDropEvent
-
-        } // Drag and drop
+            $(document)
+                    .on('touchmove', function (e) {
+                        if ($container.data('pinching')) {
+                            var dist = getPinchDist(e);
+                            $container.data('pinchDistEnd', dist);
+                        }
+                    })
+                    .on('touchend', function (e) {
+                        if ($container.data('pinching')) {
+                            $container.data('pinching', false);
+                            var diff = $container.data('pinchDistEnd') - $container.data('pinchDistStart');
+                            if (diff > 0) {
+                                setZoomScale($container, 1.2);
+                            } else if (diff < 0) {
+                                setZoomScale($container, 0.8);
+                            }
+                        }
+                    });
+        }
     };
 
     // Option defaults
@@ -102,7 +70,11 @@
         chartElement: 'body',
         depth: -1,
         chartClass: "jOrgChart",
-        dragAndDrop: false
+        dragAndDrop: false,
+        zoom: true,
+        minZoom: 0.4,
+        maxZoom: 1.2,
+        stepZoom: 0.2
     };
 
     var nodeCount = 0;
@@ -234,6 +206,53 @@
             console.log(e);
             e.stopPropagation();
         });
+    }
+
+    function setZoomScale($container, newScale, opts) {
+        currentScale = getCurrentScale($container);
+        if ((newScale > 1 && currentScale > opts.maxZoom) || (newScale < 1 && currentScale < opts.minZoom)) {
+            return;
+        }
+
+        var lastTf = $container.css('transform');
+
+        if (lastTf === 'none') {
+            $container.css('transform', 'scale(' + newScale + ',' + newScale + ')');
+
+        } else {
+            if (lastTf.indexOf('3d') === -1) {
+                $container.css('transform', lastTf + ' scale(' + newScale + ',' + newScale + ')');
+            } else {
+                $container.css('transform', lastTf + ' scale3d(' + newScale + ',' + newScale + ', 1)');
+            }
+        }
+    }
+
+    function parseMatrix(_str) {
+        return _str.replace(/^matrix(3d)?\((.*)\)$/, '$2').split(/, /);
+    }
+
+    function getCurrentScale($element) {
+        var matrix = parseMatrix(getMatrix($element));
+        var scale = 1;
+
+        if (matrix[0] !== 'none') {
+            var a = matrix[0];
+            var b = matrix[1];
+            var d = 10;
+            scale = Math.round(Math.sqrt(a * a + b * b) * d) / d;
+        }
+
+        return scale;
+    }
+
+    function getMatrix($element) {
+        var matrix = $element.css("-webkit-transform") ||
+                $element.css("-moz-transform") ||
+                $element.css("-ms-transform") ||
+                $element.css("-o-transform") ||
+                $element.css("transform");
+        return matrix;
     }
 
 })(jQuery);

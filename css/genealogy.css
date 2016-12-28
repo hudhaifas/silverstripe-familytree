@@ -81,12 +81,14 @@
 }
 .genealogy-tree .node.dead:after {
   content: '';
+  border-top: 3px solid black;
+  border-radius: 3px;
   position: absolute;
-  top: 0;
-  left: 0;
-  width: 14px;
-  height: 14px;
-  background-image: url('data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAA4AAAAOCAYAAAAfSC3RAAAAH0lEQVR42mNgIB78R8OjmkY1kaGJgVxNDORqYiBXEwCsHzHPnvWrZgAAAABJRU5ErkJggg==');
+  width: 20px;
+  height: 20px;
+  top: 2px;
+  left: 2px;
+  -webkit-transform: rotate(-45deg);
 }
 .genealogy-tree .node.clan {
   background-color: #dff0d8;
