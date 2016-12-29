@@ -166,16 +166,16 @@ class GenealogistHelper {
 
             $ancestors[] = $p->ID;
 
-            $father = $p->Father();
-            if ($father && $father->exists()) {
-                array_push($stack, $father);
-                $paths[$father->ID] = $p->ID . ',' . $paths[$p->ID];
-            }
-
             $mother = $p->Mother();
             if ($mother && $mother->exists()) {
                 array_push($stack, $mother);
                 $paths[$mother->ID] = $p->ID . ',' . $paths[$p->ID];
+            }
+
+            $father = $p->Father();
+            if ($father && $father->exists()) {
+                array_push($stack, $father);
+                $paths[$father->ID] = $p->ID . ',' . $paths[$p->ID];
             }
 
             $level++;
