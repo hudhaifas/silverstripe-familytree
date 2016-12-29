@@ -22,25 +22,38 @@ var showPerson = function (url) {
     $('#genealogy-tree').html('');
 
     lockLinks();
+    $('#tree-holder').load(ajaxUrl, function () {
+        initTree();
 
-    $.ajax(ajaxUrl)
-            .done(function (response) {
-                $('#tree-holder').html(response);
-                initTree();
+        window.history.pushState(
+                {url: cleanUrl},
+                document.title,
+                cleanUrl
+                );
 
-                window.history.pushState(
-                        {url: cleanUrl},
-                        document.title,
-                        cleanUrl
-                        );
+        $('#tree-loader').hide();
 
-                $('#tree-loader').hide();
+        releaseLinks();
+    });
 
-                releaseLinks();
-            })
-            .fail(function (xhr) {
-                alert('Error: ' + xhr.responseText);
-            });
+//    $.ajax(ajaxUrl)
+//            .done(function (response) {
+//                $('#tree-holder').html(response);
+//                initTree();
+//
+//                window.history.pushState(
+//                        {url: cleanUrl},
+//                        document.title,
+//                        cleanUrl
+//                        );
+//
+//                $('#tree-loader').hide();
+//
+//                releaseLinks();
+//            })
+//            .fail(function (xhr) {
+//                alert('Error: ' + xhr.responseText);
+//            });
 };
 
 /**
@@ -56,18 +69,26 @@ var updateInfo = function (url) {
     $('#info-body').html('');
     lockLinks();
 
-    $.ajax(ajaxUrl)
-            .done(function (response) {
-                $("#panel-info").html(response);
-                registerLinks();
-                $('#info-loader').hide();
-                $('#collapse-info-btn').trigger('click');
+    $("#panel-info").load(ajaxUrl, function () {
+        registerLinks();
+        $('#info-loader').hide();
+        $('#collapse-info-btn').trigger('click');
 
-                releaseLinks();
-            })
-            .fail(function (xhr) {
-                alert('Error: ' + xhr.responseText);
-            });
+        releaseLinks();
+    });
+
+//    $.ajax(ajaxUrl)
+//            .done(function (response) {
+//                $("#panel-info").html(response);
+//                registerLinks();
+//                $('#info-loader').hide();
+//                $('#collapse-info-btn').trigger('click');
+//
+//                releaseLinks();
+//            })
+//            .fail(function (xhr) {
+//                alert('Error: ' + xhr.responseText);
+//            });
 };
 
 var initTree = function () {
@@ -76,10 +97,14 @@ var initTree = function () {
         $(this).jOrgChart({
             chartElement: '#' + kinship
         });
+        $('#' + kinship).dragScroll({});
+
+        centerTree('#' + kinship + ' table', '#' + kinship);
     });
 
+
     registerLinks();
-    $('.genealogy-tree').dragScroll({});
+//    $('.genealogy-tree').dragScroll({});
 
     window.onpopstate = function (e) {
         console.log('e: ' + e);
@@ -229,3 +254,12 @@ var registerLinks = function () {
         showPerson(url);
     });
 };
+
+var centerTree= function (target, outer) {
+    var out = $(outer);
+    var tar = $(target);
+    var x = out.width();
+    var y = tar.outerWidth(true);
+    var z = tar.index();
+    out.scrollLeft(Math.max(0, (y * z) - (x - y) / 2));
+}

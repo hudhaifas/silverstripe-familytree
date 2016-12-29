@@ -30,7 +30,7 @@
  * @version 1.0, Dec 10, 2016 - 12:27:32 PM
  */
 class GenealogistPage
-        extends Page {
+        extends AbstractGenealogy {
 
     private static $has_many = array(
     );
@@ -53,12 +53,10 @@ class GenealogistPage
 }
 
 class GenealogistPage_Controller
-        extends Page_Controller {
+        extends AbstractGenealogy_Controller {
 
     private static $allowed_actions = array(
         'edit',
-        'SearchPerson',
-        'doSearchPerson',
         'Form_AddFather',
         'doAddFather',
         'Form_ChangeFather',
@@ -80,25 +78,6 @@ class GenealogistPage_Controller
 
     public function init() {
         parent::init();
-
-
-//        Requirements::customCSS(
-//                <<<CSS
-//        .ui-autocomplete { 
-//            max-height: 240px; 
-//            overflow-x: hidden; 
-//            overflow-y: auto;
-//            /** sorry about the !important but the specificity of other selectors mandates it over writing out very specific selectors **/ 
-//        }
-//        
-//        .ui-autocomplete-loading { 
-//            background-image: url(../images/throbber.gif) !important; 
-//            background-position: 97% center !important; 
-//            background-repeat: no-repeat !important; 
-//            background-size: auto !important; 
-//        }
-//CSS
-//        );
     }
 
     /// Actions ///
@@ -120,47 +99,6 @@ class GenealogistPage_Controller
                             ->renderWith(array('GenealogistPage_Edit', 'Page'));
         } else {
             return $this->httpError(404, 'That person could not be found!');
-        }
-    }
-
-    /// Search Person ///
-    public function SearchPerson() {
-        $fields = new FieldList(
-                TextField::create('SearchTerm', _t('Genealogist.SEARCH', 'Search'))
-                        ->setAttribute('placeholder', 'City, State, Country, etc...')
-        );
-
-        // Create Validators
-        $validator = new RequiredFields('SearchTerm');
-
-        $form = new Form($this, 'SearchPerson', $fields, new FieldList(new FormAction('doSearchPerson')), $validator);
-        $form->setTemplate('Form_SearchPerson');
-
-        return $form;
-    }
-
-    public function doSearchPerson($data, $form) {
-        $term = $data['SearchTerm'];
-
-        $people = GenealogistHelper::search_all_people($this->request, $term);
-        $title = _t('Genealogist.SEARCH_RESULTS', 'Search Results') . ': ' . $term;
-
-        if ($people) {
-            $paginate = PaginatedList::create(
-                            $people, $this->request
-                    )->setPageLength(50)
-                    ->setPaginationGetVar('s');
-
-
-            return $this
-                            ->customise(array(
-                                'People' => $people,
-                                'Results' => $paginate,
-                                'Title' => $title
-                            ))
-                            ->renderWith(array('GenealogistPage', 'Page'));
-        } else {
-            return $this->httpError(404, 'No books could be found!');
         }
     }
 
@@ -443,23 +381,6 @@ class GenealogistPage_Controller
         GenealogistHelper::delete_person($id);
 
         return $this->owner->redirect($this->Link('edit/' . $parent));
-    }
-
-    /// Utils ///
-    public function getDBVersion() {
-        return DB::get_conn()->getVersion();
-    }
-
-    public function getClans() {
-        return Clan::get();
-    }
-
-    public function getPerson($id) {
-        return DataObject::get_by_id('Person', (int) $id);
-    }
-
-    public function getRootClans() {
-        return GenealogistHelper::get_root_clans();
     }
 
 }

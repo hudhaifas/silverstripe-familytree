@@ -17,7 +17,7 @@
         </div>
     </div>
 
-    <div id="tree-holder" class="col-md-9 col-sm-12">
+    <div id="tree-holder" class="tree-holder col-md-9 col-sm-12">
         <% include TheTree %>
     </div>
 </div>

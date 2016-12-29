@@ -14,8 +14,6 @@
     <div id="k{$Pos}" class="genealogy-tree dragscroll col-md-{$Up.Cols}"></div>
 <% end_loop %>
     
-<div id="chart-container" class="genealogy-tree dragscroll col-md-12"></div>
-
 <div id="tree-loader" class="ajax-loader">
     <span></span>
     <img src="genealogist/images/ajax-loader.gif" alt="Loading Tree.." />

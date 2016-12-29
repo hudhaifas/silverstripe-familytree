@@ -32,7 +32,7 @@
                     .on('wheel', function (event) {
                         event.preventDefault();
                         var newScale = 1 + (event.originalEvent.deltaY > 0 ? -(opts.stepZoom) : opts.stepZoom);
-                        setZoomScale($container, newScale, opts);
+                        changeZoom($container, newScale, opts);
                     });
 
             $appendTo
@@ -56,9 +56,9 @@
                             $container.data('pinching', false);
                             var diff = $container.data('pinchDistEnd') - $container.data('pinchDistStart');
                             if (diff > 0) {
-                                setZoomScale($container, 1.2);
+                                changeZoom($container, 1.2);
                             } else if (diff < 0) {
-                                setZoomScale($container, 0.8);
+                                changeZoom($container, 0.8);
                             }
                         }
                     });
@@ -70,7 +70,6 @@
         chartElement: 'body',
         depth: -1,
         chartClass: "jOrgChart",
-        dragAndDrop: false,
         zoom: true,
         minZoom: 0.4,
         maxZoom: 1.2,
@@ -208,7 +207,7 @@
         });
     }
 
-    function setZoomScale($container, newScale, opts) {
+    function changeZoom($container, newScale, opts) {
         currentScale = getCurrentScale($container);
         if ((newScale > 1 && currentScale > opts.maxZoom) || (newScale < 1 && currentScale < opts.minZoom)) {
             return;

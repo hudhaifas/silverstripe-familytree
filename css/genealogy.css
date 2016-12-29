@@ -7,6 +7,23 @@
   margin: 0 auto;
   position: relative;
 }
+.tree-container .tree-holder {
+  position: relative;
+}
+.tree-container .tree-holder .alert {
+  position: absolute;
+  top: 0;
+  right: 0;
+  left: 0;
+  z-index: 100;
+  opacity: 0.92;
+  -webkit-transition: opacity 0.5s ease;
+  -moz-transition: opacity 0.5s ease;
+  transition: opacity 0.5s ease;
+}
+.tree-container .tree-holder .alert:hover {
+  opacity: 1;
+}
 .tree-container .tree-menu {
   float: left;
   width: 25%;
@@ -119,13 +136,6 @@ a[disabled] {
   .tree-container {
     height: 98vh;
     max-height: 98vh;
-  }
-  .tree-container .tree-holder {
-    float: left;
-    width: 75%;
-    height: 97vh;
-    max-height: 97vh;
-    padding-left: 10px;
   }
 }
 .hidden {

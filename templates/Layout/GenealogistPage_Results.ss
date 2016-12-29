@@ -1,7 +1,7 @@
 <div class="row">
     <% if $Results %>
         <% loop $Results %>
-            <div class="col-md-6">
+            <div class="search-result col-md-6">
                 <a href="$EditLink" title="$FullName">
                     <h5>$Name <span style="font-size: 90%; font-weight: normal;">$Father.FullName.LimitCharacters(45)</span></h5>
                 </a>

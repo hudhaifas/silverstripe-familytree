@@ -30,7 +30,7 @@
  * @version 1.0, Nov 2, 2016 - 2:45:38 PM
  */
 class GenealogyPage
-        extends Page {
+        extends AbstractGenealogy {
 
     private static $has_many = array(
         'Roots' => 'Person'
@@ -60,7 +60,7 @@ class GenealogyPage
 }
 
 class GenealogyPage_Controller
-        extends Page_Controller {
+        extends AbstractGenealogy_Controller {
 
     private static $allowed_actions = array(
         'info',
@@ -331,30 +331,6 @@ HTML;
         GenealogistHelper::suggest_change($name, $email, $phone, $personID, $subject, $message);
 
         return $this->owner->redirectBack();
-    }
-
-    public function getDBVersion() {
-        return DB::get_conn()->getVersion();
-    }
-
-    public function getClans() {
-        return GenealogistHelper::get_all_clans();
-    }
-
-    public function getPerson($id) {
-        return GenealogistHelper::get_person($id);
-    }
-
-    public function getRootClans() {
-        return GenealogistHelper::get_root_clans();
-    }
-
-    /**
-     * Checks if the user is an authorized member
-     * @return boolean true if the user is an authorized member
-     */
-    public function hasPermission() {
-        return GenealogistHelper::is_genealogists();
     }
 
 }

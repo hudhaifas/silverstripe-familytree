@@ -33,6 +33,26 @@
     margin: 0 auto;
     position: relative;
 
+    .tree-holder {
+        position: relative;
+
+        .alert {
+            position: absolute;
+            top: 0;
+            right: 0;
+            left: 0;
+            z-index: 100;
+            opacity: 0.92;
+            -webkit-transition: opacity 0.5s ease;
+            -moz-transition: opacity 0.5s ease;
+            transition: opacity 0.5s ease;
+
+            &:hover {
+                opacity: 1;
+            }
+        }
+    }
+
     .tree-menu {
         float: left;
         width: @menu-w;
@@ -118,14 +138,14 @@
                 content: '';
                 border-top: 3px solid black;
                 border-radius: 3px;
-                
+
                 position: absolute;
-                
+
                 width: 20px;
                 height: 20px;
                 top: 2px;
                 left: 2px;
-                
+
                 -webkit-transform: rotate(-45deg);
             }
         }
@@ -164,15 +184,6 @@ a.disabled, a[disabled] {
     .tree-container {
         height: @container-h;
         max-height: @container-h;
-
-        .tree-holder {
-            float: left;
-            width: @holder-w;
-            height: @holder-h;
-            max-height: @holder-h;
-
-            padding-left: 10px;
-        }
     }
 }
 
