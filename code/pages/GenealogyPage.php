@@ -178,7 +178,8 @@ class GenealogyPage_Controller
 
         $count = count($trees);
         $columns = $count > 0 ? 12 / count($trees) : 12;
-
+        $columns = $columns < 4 ? 4 : $columns;
+        
         return array(
             'Trees' => new ArrayList($trees),
             'Cols' => $columns,
