@@ -203,7 +203,7 @@ class GenealogistHelper {
         }
 
         $common = array_diff($intersect, $toUnset);
-        var_dump($common);
+//        var_dump($common);
 
         return $common;
     }
