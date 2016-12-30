@@ -33,7 +33,7 @@ class AbstractGenealogy
         extends Page {
 
     private static $group_code = 'genealogists';
-    private static $group_title = 'genealogists';
+    private static $group_title = 'Genealogists';
     private static $group_permission = 'CMS_ACCESS_CMSMain';
 
     public function canCreate($member = false) {
