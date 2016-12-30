@@ -35,25 +35,6 @@ var showPerson = function (url) {
 
         releaseLinks();
     });
-
-//    $.ajax(ajaxUrl)
-//            .done(function (response) {
-//                $('#tree-holder').html(response);
-//                initTree();
-//
-//                window.history.pushState(
-//                        {url: cleanUrl},
-//                        document.title,
-//                        cleanUrl
-//                        );
-//
-//                $('#tree-loader').hide();
-//
-//                releaseLinks();
-//            })
-//            .fail(function (xhr) {
-//                alert('Error: ' + xhr.responseText);
-//            });
 };
 
 /**
@@ -76,35 +57,24 @@ var updateInfo = function (url) {
 
         releaseLinks();
     });
-
-//    $.ajax(ajaxUrl)
-//            .done(function (response) {
-//                $("#panel-info").html(response);
-//                registerLinks();
-//                $('#info-loader').hide();
-//                $('#collapse-info-btn').trigger('click');
-//
-//                releaseLinks();
-//            })
-//            .fail(function (xhr) {
-//                alert('Error: ' + xhr.responseText);
-//            });
 };
 
 var initTree = function () {
-    $('.genealogy-kinship').each(function () {
+    $kinships = $('.genealogy-kinship');
+    dir = $kinships.length > 1 ? 'l2r' : 't2b';
+
+    $kinships.each(function () {
         kinship = $(this).attr('data-kinship');
         $(this).jOrgChart({
-            chartElement: '#' + kinship
+            chartElement: '#' + kinship,
+//            direction: dir
         });
         $('#' + kinship).dragScroll({});
 
         centerTree('#' + kinship + ' table', '#' + kinship);
     });
 
-
     registerLinks();
-//    $('.genealogy-tree').dragScroll({});
 
     window.onpopstate = function (e) {
         console.log('e: ' + e);
@@ -255,7 +225,7 @@ var registerLinks = function () {
     });
 };
 
-var centerTree= function (target, outer) {
+var centerTree = function (target, outer) {
     var out = $(outer);
     var tar = $(target);
     var x = out.width();

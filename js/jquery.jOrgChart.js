@@ -19,7 +19,7 @@
 
         // build the tree
         $this = $(this);
-        var $container = $("<div class='" + opts.chartClass + "'/>");
+        var $container = $("<div class='" + opts.chartClass + " " + opts.direction + "'/>");
         if ($this.is("ul")) {
             buildNode($this.find("li:first"), $container, 0, opts);
         } else if ($this.is("li")) {
@@ -70,6 +70,7 @@
         chartElement: 'body',
         depth: -1,
         chartClass: "jOrgChart",
+        direction: "t2b",
         zoom: true,
         minZoom: 0.4,
         maxZoom: 1.2,
@@ -208,6 +209,17 @@
     }
 
     function changeZoom($container, newScale, opts) {
+        $parent = $container.parent();
+        pW = $parent.width();
+        pH = $parent.height();
+        cW = $container.width();
+        cH = $container.height();
+
+        console.log('Container: [' + cW + ',' + cH + ']');
+        console.log('Parent: [' + pW + ',' + pH + ']');
+
+
+
         currentScale = getCurrentScale($container);
         if ((newScale > 1 && currentScale > opts.maxZoom) || (newScale < 1 && currentScale < opts.minZoom)) {
             return;
