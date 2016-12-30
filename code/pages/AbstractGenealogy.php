@@ -32,8 +32,43 @@
 class AbstractGenealogy
         extends Page {
 
+    private static $group_code = 'genealogists';
+    private static $group_title = 'genealogists';
+    private static $group_permission = 'CMS_ACCESS_CMSMain';
+
     public function canCreate($member = false) {
         return false;
+    }
+
+    protected function onBeforeWrite() {
+        parent::onBeforeWrite();
+        $this->getUserGroup();
+    }
+
+    /**
+     * Returns/Creates the genealogists group to assign CMS access.
+     *
+     * @return Group Librarians group
+     */
+    protected function getUserGroup() {
+        $code = $this->config()->group_code;
+
+        $group = Group::get()->filter('Code', $code)->first();
+
+        if (!$group) {
+            $group = new Group();
+            $group->Title = $this->config()->group_title;
+            $group->Code = $code;
+
+            $group->write();
+
+            $permission = new Permission();
+            $permission->Code = $this->config()->group_permission;
+
+            $group->Permissions()->add($permission);
+        }
+
+        return $group;
     }
 
 }
