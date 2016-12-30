@@ -155,8 +155,6 @@ class GenealogistHelper {
         $paths = array();
         $paths[$person->ID] = '';
 
-        $level = 1;
-
         while ($stack) {
             $p = array_pop($stack);
 
@@ -177,8 +175,6 @@ class GenealogistHelper {
                 array_push($stack, $father);
                 $paths[$father->ID] = $p->ID . ',' . $paths[$p->ID];
             }
-
-            $level++;
         }
 
         return array($ancestors, $paths);
@@ -197,7 +193,7 @@ class GenealogistHelper {
         foreach ($intersect as $c1) {
             foreach ($intersect as $c2) {
                 if (self::is_cild_of($c1, $c2)) {
-                    $toUnset[] = $c2;
+//                    $toUnset[] = $c2;
                 }
             }
         }
@@ -214,12 +210,20 @@ class GenealogistHelper {
         foreach ($common as $id) {
             $list1 = explode(',', $ancestors1[1][$id]);
             $list2 = explode(',', $ancestors2[1][$id]);
+
+            // Find common children in both trees
+            while (isset($list1[0], $list2[0]) && $list1[0] == $list2[0]) {
+                $id = $list1[0];
+                array_shift($list1);
+                array_shift($list2);
+            }
+            
             $k = array();
             $k[] = self::get_person($id);
             $k[] = self::create_kinship($id, $list1);
             $k[] = self::create_kinship($id, $list2);
 
-            $kinships[] = $k;
+            $kinships[$id] = $k;
 //            var_dump($kinships[$id]);
 //            $kinships[] = self::create_kinship($id, $list1);
 //            $kinships[] = self::create_kinship($id, $list2);

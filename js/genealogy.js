@@ -67,6 +67,7 @@ var initTree = function () {
         kinship = $(this).attr('data-kinship');
         $(this).jOrgChart({
             chartElement: '#' + kinship,
+//            depth: 3
 //            direction: dir
         });
         $('#' + kinship).dragScroll({});
@@ -169,8 +170,8 @@ var registerLinks = function () {
         p2 = $("[name='Person2']").val();
 
         var uri = URI(url);
-        uri.segment(1, p1);
-        uri.segment(2, p2);
+        uri.segment(2, p1);
+        uri.segment(3, p2);
 
         showPerson(uri.toString());
     });
