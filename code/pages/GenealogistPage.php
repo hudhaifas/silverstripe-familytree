@@ -198,7 +198,7 @@ class GenealogistPage_Controller
                             _t('Genealogist.MOTHER', 'Mother'), //
                             $mothers, //
                             $person->MotherID
-                    )->setEmptyString(_t('Librarian.CHOOSE_MOTHER', 'Choose Mother'));
+                    )->setEmptyString(_t('Genealogist.CHOOSE_MOTHER', 'Choose Mother'));
         } else {
             $motherField = AutoPersonField::create(
                             'MotherID', //
