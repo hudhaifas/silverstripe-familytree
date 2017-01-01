@@ -51,6 +51,7 @@ ar:
     FEMALES: 'الإناث'
     FATHER_ID: 'رقم الوالد'
     MOTHER_ID: 'رقم الأم'
+    CHOOSE_MOTHER: 'اختر الأم'
     FATHER_NAME: 'اسم الوالد'
     SONS_NAMES: 'أسماء الأولاد (استخدم | للفصل بين الأسماء)'
     DAUGHTERS_NAMES: 'أسماء البنات (استخدم | للفصل بين الأسماء)'

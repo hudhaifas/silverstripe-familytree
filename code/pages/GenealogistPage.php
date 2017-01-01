@@ -186,18 +186,43 @@ class GenealogistPage_Controller
             $id = $personID;
         }
 
+        $person = GenealogistHelper::get_person($id);
+        $mothers = array();
+        if ($person->Father()->exists()) {
+//            die($person->Name);
+            $mothers = $person->Father()->Wives()->map();
+        }
+        if (count($mothers)) {
+            $motherField = DropdownField::create(
+                            'MotherID', //
+                            _t('Genealogist.MOTHER', 'Mother'), //
+                            $mothers, //
+                            $person->MotherID
+                    )->setEmptyString(_t('Librarian.CHOOSE_MOTHER', 'Choose Mother'));
+        } else {
+            $motherField = AutoPersonField::create(
+                            'MotherID', //
+                            _t('Genealogist.MOTHER', 'Mother'), //
+                            '', //
+                            null, //
+                            null, //
+                            'Female', //
+                            array('IndexedName', 'Name', 'NickName') //
+            );
+        }
         // Create fields          
         $fields = new FieldList(
                 HiddenField::create('PersonID', 'PersonID', $id), //
-                AutoPersonField::create(
-                        'MotherID', //
-                        _t('Genealogist.MOTHER', 'Mother'), //
-                        '', //
-                        null, //
-                        null, //
-                        'Female', //
-                        array('IndexedName', 'Name', 'NickName') //
-                )
+                $motherField
+//                AutoPersonField::create(
+//                        'MotherID', //
+//                        _t('Genealogist.MOTHER', 'Mother'), //
+//                        '', //
+//                        null, //
+//                        null, //
+//                        'Female', //
+//                        array('IndexedName', 'Name', 'NickName') //
+//                )
         );
 
         // Create action

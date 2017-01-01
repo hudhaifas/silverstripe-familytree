@@ -51,6 +51,7 @@ en:
     FEMALES: 'Females'
     FATHER_ID: 'Father ID'
     MOTHER_ID: 'Mother ID'
+    CHOOSE_MOTHER: 'Choose Mother'
     FATHER_NAME: 'Father Name'
     SONS_NAMES: 'Sons Names (Use | to seperate the names)'
     DAUGHTERS_NAMES: 'Daughters Names (Use | to seperate the names)'
