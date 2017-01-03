@@ -139,6 +139,11 @@ a.disabled,
 a[disabled] {
   pointer-events: none;
 }
+.panel-danger .btn {
+  color: #fff;
+  background-color: #d9534f;
+  border-color: #d43f3a;
+}
 @media (min-width: 979px) {
   .tree-container {
     height: 98vh;

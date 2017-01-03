@@ -461,6 +461,8 @@ class GenealogistPage_Controller
                 $button = new FormAction('doDeletePerson', _t('Genealogist.DELETE', 'Delete'))
         );
         $button->setAttribute('class', 'btn btn-danger');
+        $button->useButtonTag = true;
+        $button->addExtraClass('btn btn-danger');
 
         // Create Validators
         $validator = new RequiredFields();

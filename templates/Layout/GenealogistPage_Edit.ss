@@ -144,11 +144,11 @@
             </div>
             <% end_if %>
 
-            <div class="panel panel-default">
+            <div class="panel panel-danger">
                 <div class="panel-heading">
                     <h4 class="panel-title">
                         <a data-toggle="collapse" data-parent="#accordion" href="#collapse-delete-person">
-                            <%t Genealogist.DELETE_PERSON 'Delete Person' %>
+                            <%t Genealogist.DELETE_PERSON 'Delete This Person' %>
                         </a>
                     </h4>
                 </div>

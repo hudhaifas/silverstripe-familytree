@@ -77,7 +77,7 @@ ar:
     ADD_WIFE: 'إضافة زوجة'
     ADD_HUSBAND: 'إضافة زوج'
     SPOUSE_NAME: 'اسم الزوج'
-    DELETE_PERSON: 'حذف شخص'
+    DELETE_PERSON: 'حذف هذا الشخص'
     ADD: 'إضافة'
     UPDATE: 'تحديث'
     EDIT: 'تعديل'
