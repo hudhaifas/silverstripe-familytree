@@ -466,6 +466,10 @@ class GenealogistHelper {
         echo 'Add ' . count($namesList) . ' daughters to: ' . $parent->getTitle() . '<br />';
 
         foreach ($namesList as $name) {
+            if (!$name || strlen($name) == 0) {
+                continue;
+            }
+
             $daughter = new Female();
             $daughter->Name = $name;
             $daughter->FatherID = $id;
@@ -482,6 +486,10 @@ class GenealogistHelper {
         echo 'Add ' . count($namesList) . ' sons to: ' . $parent->getTitle() . '<br />';
 
         foreach ($namesList as $name) {
+            if (!$name || strlen($name) == 0) {
+                continue;
+            }
+
             $son = new Male();
             $son->Name = $name;
             $son->FatherID = $id;
@@ -489,6 +497,28 @@ class GenealogistHelper {
 
             echo '&emsp;Sone: ' . $name . ' has ID: ' . $son->ID . '<br />';
         }
+    }
+
+    public static function add_spouse($id, $spouseID = null, $spouseName = null) {
+        $person = DataObject::get_by_id('Person', (int) $id);
+        $isMale = $person->isMale();
+
+        if ($spouseID) {
+            $spouce = DataObject::get_by_id('Person', (int) $spouseID);
+        }
+
+        if (!$spouce) {
+            $spouce = $isMale ? new Female() : new Male();
+            $spouce->Name = $spouseName ? $spouseName : ($isMale ? _t('Genealogist.WIFE', 'Wife') : _t('Genealogist.HUSBAND', 'Husband'));
+            $spouce->write();
+        }
+
+        if ($isMale) {
+            $person->Wives()->add($spouce);
+        } else {
+            $person->Husbands()->add($spouce);
+        }
+        $person->write();
     }
 
     public static function delete_person($id, $reconnect = false) {

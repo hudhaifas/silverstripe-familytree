@@ -106,6 +106,26 @@
                 </div>
             </div>
 
+            <div class="panel panel-default">
+                <div class="panel-heading">
+                    <h4 class="panel-title">
+                        <a data-toggle="collapse" data-parent="#accordion" href="#collapse-add-spouse">
+                            <% if $isMale %>
+                                <%t Genealogist.ADD_WIFE 'Add Wife' %>
+                            <% else %>
+                                <%t Genealogist.ADD_HUSBAND 'Add Husband' %>
+                            <% end_if %>
+                        </a>
+                    </h4>
+                </div>
+
+                <div id="collapse-add-spouse" class="panel-collapse collapse">
+                    <div class="panel-body">
+                        $Up.Form_AddSpouse($ID)
+                    </div>
+                </div>
+            </div>
+
             <% if isMale %>
             <div class="panel panel-default">
                 <div class="panel-heading">
@@ -124,7 +144,6 @@
             </div>
             <% end_if %>
 
-            <%-- 
             <div class="panel panel-default">
                 <div class="panel-heading">
                     <h4 class="panel-title">
@@ -140,7 +159,6 @@
                     </div>
                 </div>
             </div>
-            --%>
         </div>    
     </div>
 </article>

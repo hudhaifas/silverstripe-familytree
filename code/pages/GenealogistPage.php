@@ -71,6 +71,8 @@ class GenealogistPage_Controller
         'doAddDaughters',
         'Form_SingleWife',
         'doSingleWife',
+        'Form_AddSpouse',
+        'doAddSpouse',
         'Form_DeletePerson',
         'doDeletePerson',
     );
@@ -401,6 +403,41 @@ class GenealogistPage_Controller
     public function doSingleWife($data, $form) {
         $id = $data['PersonID'];
         GenealogistHelper::single_wife($id);
+
+        return $this->owner->redirectBack();
+    }
+
+    /// Add spouse ///
+    public function Form_AddSpouse($personID) {
+        if ($personID instanceof SS_HTTPRequest) {
+            $id = $personID->postVar('PersonID');
+        } else {
+            $id = $personID;
+        }
+
+        // Create fields          
+        $fields = new FieldList(
+                HiddenField::create('PersonID', 'PersonID', $id), //
+                TextField::create('Name', _t('Genealogist.SPOUSE_NAME', 'Spouse Name'))
+        );
+
+        // Create action
+        $actions = new FieldList(
+                new FormAction('doAddSpouse', _t('Genealogist.ADD', 'Add'))
+        );
+
+        // Create Validators
+        $validator = new RequiredFields('Name');
+
+        return new Form($this, 'Form_AddSpouse', $fields, $actions, $validator);
+    }
+
+    public function doAddSpouse($data, $form) {
+        $id = $data['PersonID'];
+        $spouseID = null;
+        $spouseName = $data['Name'];
+
+        GenealogistHelper::add_spouse($id, $spouseID, $spouseName);
 
         return $this->owner->redirectBack();
     }
