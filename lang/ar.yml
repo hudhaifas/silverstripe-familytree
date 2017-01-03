@@ -80,6 +80,8 @@ ar:
     EDIT: 'تعديل'
     SAVE: 'حفظ'
     FIND: 'أوجد'
+    SINGLE_WIFE: 'هذا الشخص لديه زوجة واحدة'
+    ASSIGN_MOTHER: 'اجعلها أما لكل أبنائه'
     KINSHIP: 'صلة القربى'
     SEARCH: 'بحث'
     SEARCH_RESULTS: 'نتائج البحث'

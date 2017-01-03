@@ -57,6 +57,8 @@ class GenealogistPage_Controller
 
     private static $allowed_actions = array(
         'edit',
+        'Form_EditPerson',
+        'doEditPerson',
         'Form_AddFather',
         'doAddFather',
         'Form_ChangeFather',
@@ -67,8 +69,8 @@ class GenealogistPage_Controller
         'doAddSons',
         'Form_AddDaughters',
         'doAddDaughters',
-        'Form_EditPerson',
-        'doEditPerson',
+        'Form_SingleWife',
+        'doSingleWife',
         'Form_DeletePerson',
         'doDeletePerson',
     );
@@ -103,6 +105,64 @@ class GenealogistPage_Controller
     }
 
     /// Forms ///
+    public function Form_EditPerson($personID) {
+        if ($personID instanceof SS_HTTPRequest) {
+            $id = $personID->postVar('PersonID');
+        } else {
+            $id = $personID;
+        }
+
+        $person = DataObject::get_by_id('Person', (int) $id);
+
+        // Create fields          
+        $fields = new FieldList(
+                HiddenField::create('PersonID', 'PersonID', $id), //
+                TextField::create('Name', _t('Genealogist.NAME', 'Name'), $person->Name), //
+                TextField::create('NickName', _t('Genealogist.NICKNAME', 'NickName'), $person->NickName), //
+                TextField::create('Note', _t('Genealogist.NOTE', 'Note'), $person->Note), //
+                TextField::create('BirthDate', _t('Genealogist.BIRTHDATE', 'Birth Date'), $person->BirthDate), //
+                TextField::create('DeathDate', _t('Genealogist.DEATHDATE', 'Death Date'), $person->DeathDate), //
+                CheckboxField::create('IsDead', _t('Genealogist.ISDEAD', 'Is Dead'), $person->IsDead), //
+                TextareaField::create('Comments', _t('Genealogist.COMMENTS', 'Comments'), $person->Comments) //
+        );
+
+        // Create action
+        $actions = new FieldList(
+                new FormAction('doEditPerson', _t('Genealogist.SAVE', 'Save'))
+        );
+
+        // Create Validators
+        $validator = new RequiredFields();
+
+        return new Form($this, 'Form_EditPerson', $fields, $actions, $validator);
+    }
+
+    public function doEditPerson($data, $form) {
+        $id = $data['PersonID'];
+        $name = $data['Name'];
+        $nickname = $data['NickName'];
+        $note = $data['Note'];
+        $birthdate = $data['BirthDate'];
+        $deathdate = $data['DeathDate'];
+        $isDead = $data['IsDead'];
+        $comments = $data['Comments'];
+
+        $person = DataObject::get_by_id('Person', (int) $id);
+
+        $person->Name = $name;
+        $person->NickName = $nickname;
+        $person->Note = $note;
+        $person->BirthDate = $birthdate;
+        $person->DeathDate = $deathdate;
+        $person->IsDead = $isDead;
+        $person->Comments = $comments;
+
+        $person->write();
+
+        return $this->owner->redirectBack();
+    }
+
+    /// Append Father int the tree ///
     public function Form_AddFather($personID = null) {
         if ($personID instanceof SS_HTTPRequest) {
             $id = $personID->postVar('PersonID');
@@ -136,7 +196,7 @@ class GenealogistPage_Controller
         return $this->owner->redirectBack();
     }
 
-    /////
+    /// Change Father ///
     public function Form_ChangeFather($personID = null) {
         if ($personID instanceof SS_HTTPRequest) {
             $id = $personID->postVar('PersonID');
@@ -178,7 +238,7 @@ class GenealogistPage_Controller
         return $this->owner->redirectBack();
     }
 
-    /////
+    /// Change Mother ///
     public function Form_ChangeMother($personID = null) {
         if ($personID instanceof SS_HTTPRequest) {
             $id = $personID->postVar('PersonID');
@@ -245,7 +305,7 @@ class GenealogistPage_Controller
         return $this->owner->redirectBack();
     }
 
-    /////
+    /// Add Sons ///
     public function Form_AddSons($parentID = null) {
         if ($parentID instanceof SS_HTTPRequest) {
             $id = $parentID->postVar('ParentID');
@@ -256,7 +316,7 @@ class GenealogistPage_Controller
         // Create fields          
         $fields = new FieldList(
                 HiddenField::create('ParentID', 'ParentID', $id), //
-                TextareaField::create('Names', _t('Genealogist.SONS_NAMES', 'Sons Names (Use | to seperate the names)'))
+                TextField::create('Names', _t('Genealogist.SONS_NAMES', 'Sons Names (Use | to seperate the names)'))
         );
 
         // Create action
@@ -279,7 +339,7 @@ class GenealogistPage_Controller
         return $this->owner->redirectBack();
     }
 
-    /////
+    /// Add Daughters ///
     public function Form_AddDaughters($parentID = null) {
         if ($parentID instanceof SS_HTTPRequest) {
             $id = $parentID->postVar('ParentID');
@@ -290,7 +350,7 @@ class GenealogistPage_Controller
         // Create fields          
         $fields = new FieldList(
                 HiddenField::create('ParentID', 'ParentID', $id), //
-                TextareaField::create('Names', _t('Genealogist.DAUGHTERS_NAMES', 'Daughters Names (Use | to seperate the names)'))
+                TextField::create('Names', _t('Genealogist.DAUGHTERS_NAMES', 'Daughters Names (Use | to seperate the names)'))
         );
 
         // Create action
@@ -313,65 +373,39 @@ class GenealogistPage_Controller
         return $this->owner->redirectBack();
     }
 
-    /////
-    public function Form_EditPerson($personID) {
+    /// Has single wife ///
+    public function Form_SingleWife($personID) {
         if ($personID instanceof SS_HTTPRequest) {
             $id = $personID->postVar('PersonID');
         } else {
             $id = $personID;
         }
 
-        $person = DataObject::get_by_id('Person', (int) $id);
-
         // Create fields          
         $fields = new FieldList(
-                HiddenField::create('PersonID', 'PersonID', $id), //
-                TextField::create('Name', _t('Genealogist.NAME', 'Name'), $person->Name), //
-                TextField::create('NickName', _t('Genealogist.NICKNAME', 'NickName'), $person->NickName), //
-                TextField::create('Note', _t('Genealogist.NOTE', 'Note'), $person->Note), //
-                TextField::create('BirthDate', _t('Genealogist.BIRTHDATE', 'Birth Date'), $person->BirthDate), //
-                TextField::create('DeathDate', _t('Genealogist.DEATHDATE', 'Death Date'), $person->DeathDate), //
-                CheckboxField::create('IsDead', _t('Genealogist.ISDEAD', 'Is Dead'), $person->IsDead), //
-                TextareaField::create('Comments', _t('Genealogist.COMMENTS', 'Comments'), $person->Comments) //
+                HiddenField::create('PersonID', 'PersonID', $id)
         );
 
         // Create action
         $actions = new FieldList(
-                new FormAction('doEditPerson', _t('Genealogist.SAVE', 'Save'))
+                $button = new FormAction('doSingleWife', _t('Genealogist.ASSIGN_MOTHER', 'Assign Mother To All Children'))
         );
+        $button->setAttribute('class', 'btn btn-danger');
 
         // Create Validators
         $validator = new RequiredFields();
 
-        return new Form($this, 'Form_EditPerson', $fields, $actions, $validator);
+        return new Form($this, 'Form_SingleWife', $fields, $actions, $validator);
     }
 
-    public function doEditPerson($data, $form) {
+    public function doSingleWife($data, $form) {
         $id = $data['PersonID'];
-        $name = $data['Name'];
-        $nickname = $data['NickName'];
-        $note = $data['Note'];
-        $birthdate = $data['BirthDate'];
-        $deathdate = $data['DeathDate'];
-        $isDead = $data['IsDead'];
-        $comments = $data['Comments'];
-
-        $person = DataObject::get_by_id('Person', (int) $id);
-
-        $person->Name = $name;
-        $person->NickName = $nickname;
-        $person->Note = $note;
-        $person->BirthDate = $birthdate;
-        $person->DeathDate = $deathdate;
-        $person->IsDead = $isDead;
-        $person->Comments = $comments;
-
-        $person->write();
+        GenealogistHelper::single_wife($id);
 
         return $this->owner->redirectBack();
     }
 
-    /////
+    /// Delete Person ///
     public function Form_DeletePerson($personID) {
         if ($personID instanceof SS_HTTPRequest) {
             $id = $personID->postVar('PersonID');

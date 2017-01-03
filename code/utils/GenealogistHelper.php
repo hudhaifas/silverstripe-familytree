@@ -217,7 +217,7 @@ class GenealogistHelper {
                 array_shift($list1);
                 array_shift($list2);
             }
-            
+
             $k = array();
             $k[] = self::get_person($id);
             $k[] = self::create_kinship($id, $list1);
@@ -495,6 +495,23 @@ class GenealogistHelper {
         $person = DataObject::get_by_id('Person', (int) $id);
 
         $person->delete();
+    }
+
+    /**
+     * If the person has only one wife, then assign this wife as a mother of all his children
+     * @param type $id
+     */
+    public static function single_wife($id) {
+        $person = DataObject::get_by_id('Person', (int) $id);
+
+        if ($person->isMale() && $person->Wives()->Count() == 1) {
+            $wife = $person->Wives()->first();
+
+            foreach ($person->Children() as $child) {
+                $child->MotherID = $wife->ID;
+                $child->write();
+            }
+        }
     }
 
     public static function suggest_change($name, $email, $phone, $personID, $subject, $message) {

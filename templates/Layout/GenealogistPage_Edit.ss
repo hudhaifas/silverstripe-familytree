@@ -1,7 +1,7 @@
 <% with Person %>
 <article class="col-md-8 col-lg-8">
     <div class="row">
-            $Up.SearchPerson
+        $Up.SearchPerson
     </div>
 
     <div class="row">
@@ -13,13 +13,13 @@
             <div class="panel panel-default">
                 <div class="panel-heading">
                     <h4 class="panel-title">
-                        <a data-toggle="collapse" data-parent="#accordion" href="#collapse1">
+                        <a data-toggle="collapse" data-parent="#accordion" href="#collapse-edit-person">
                             <%t Genealogist.EDIT 'Edit' %>
                         </a>
                     </h4>
                 </div>
 
-                <div id="collapse1" class="panel-collapse collapse in">
+                <div id="collapse-edit-person" class="panel-collapse collapse">
                     <div class="panel-body">
                         $Up.Form_EditPerson($ID)
                     </div>
@@ -29,13 +29,13 @@
             <div class="panel panel-default">
                 <div class="panel-heading">
                     <h4 class="panel-title">
-                        <a data-toggle="collapse" data-parent="#accordion" href="#collapse2">
+                        <a data-toggle="collapse" data-parent="#accordion" href="#collapse-add-father">
                             <%t Genealogist.ADD_FATHER 'Add Father' %>
                         </a>
                     </h4>
                 </div>
 
-                <div id="collapse2" class="panel-collapse collapse">
+                <div id="collapse-add-father" class="panel-collapse collapse">
                     <div class="panel-body">
                         $Up.Form_AddFather($ID)
                     </div>
@@ -45,13 +45,13 @@
             <div class="panel panel-default">
                 <div class="panel-heading">
                     <h4 class="panel-title">
-                        <a data-toggle="collapse" data-parent="#accordion" href="#collapse3">
+                        <a data-toggle="collapse" data-parent="#accordion" href="#collapse-change-father">
                             <%t Genealogist.CAHNGE_FATHER 'Change Father' %>
                         </a>
                     </h4>
                 </div>
 
-                <div id="collapse3" class="panel-collapse collapse">
+                <div id="collapse-change-father" class="panel-collapse collapse">
                     <div class="panel-body">
                         $Up.Form_ChangeFather($ID)
                     </div>
@@ -61,13 +61,13 @@
             <div class="panel panel-default">
                 <div class="panel-heading">
                     <h4 class="panel-title">
-                        <a data-toggle="collapse" data-parent="#accordion" href="#collapse-methor">
+                        <a data-toggle="collapse" data-parent="#accordion" href="#collapse-change-methor">
                             <%t Genealogist.CHANGE_MOTHER 'Change Mother' %>
                         </a>
                     </h4>
                 </div>
 
-                <div id="collapse-methor" class="panel-collapse collapse">
+                <div id="collapse-change-methor" class="panel-collapse collapse">
                     <div class="panel-body">
                         $Up.Form_ChangeMother($ID)
                     </div>
@@ -77,13 +77,13 @@
             <div class="panel panel-default">
                 <div class="panel-heading">
                     <h4 class="panel-title">
-                        <a data-toggle="collapse" data-parent="#accordion" href="#collapse4">
+                        <a data-toggle="collapse" data-parent="#accordion" href="#collapse-add-sons">
                             <%t Genealogist.ADD_SONS 'Add Sons' %>
                         </a>
                     </h4>
                 </div>
 
-                <div id="collapse4" class="panel-collapse collapse">
+                <div id="collapse-add-sons" class="panel-collapse collapse">
                     <div class="panel-body">
                         $Up.Form_AddSons($ID)
                     </div>
@@ -93,30 +93,48 @@
             <div class="panel panel-default">
                 <div class="panel-heading">
                     <h4 class="panel-title">
-                        <a data-toggle="collapse" data-parent="#accordion" href="#collapse5">
+                        <a data-toggle="collapse" data-parent="#accordion" href="#collapse-add-daughers">
                             <%t Genealogist.ADD_DAUGHTERS 'Add Daughters' %>
                         </a>
                     </h4>
                 </div>
 
-                <div id="collapse5" class="panel-collapse collapse">
+                <div id="collapse-add-daughers" class="panel-collapse collapse">
                     <div class="panel-body">
                         $Up.Form_AddDaughters($ID)
                     </div>
                 </div>
             </div>
 
+            <% if isMale %>
+            <div class="panel panel-default">
+                <div class="panel-heading">
+                    <h4 class="panel-title">
+                        <a data-toggle="collapse" data-parent="#accordion" href="#collapse-single-wife">
+                            <%t Genealogist.SINGLE_WIFE 'This Person Has One Wife Only' %>
+                        </a>
+                    </h4>
+                </div>
+
+                <div id="collapse-single-wife" class="panel-collapse collapse">
+                    <div class="panel-body">
+                        $Up.Form_SingleWife($ID)
+                    </div>
+                </div>
+            </div>
+            <% end_if %>
+
             <%-- 
             <div class="panel panel-default">
                 <div class="panel-heading">
                     <h4 class="panel-title">
-                        <a data-toggle="collapse" data-parent="#accordion" href="#collapse6">
+                        <a data-toggle="collapse" data-parent="#accordion" href="#collapse-delete-person">
                             <%t Genealogist.DELETE_PERSON 'Delete Person' %>
                         </a>
                     </h4>
                 </div>
 
-                <div id="collapse6" class="panel-collapse collapse">
+                <div id="collapse-delete-person" class="panel-collapse collapse">
                     <div class="panel-body">
                         $Up.Form_DeletePerson($ID)
                     </div>
@@ -139,47 +157,47 @@
 
     <b><%t Genealogist.FATHER 'Father' %></b><br />
     <a href="{$Father.EditLink()}">$Father.FullName</a>
-    
-    <% if Mother %>
-        <hr />
 
-        <b><%t Genealogist.MOTHER 'Mother' %></b><br />
-        <a href="{$Mother.EditLink()}">$Mother.FullName</a>
-        <br />
+    <% if Mother %>
+    <hr />
+
+    <b><%t Genealogist.MOTHER 'Mother' %></b><br />
+    <a href="{$Mother.EditLink()}">$Mother.FullName</a>
+    <br />
     <% end_if %>
 
     <% if Husbands %>
-        <hr />
-        <b><%t Genealogist.HUSBANDS 'Husbands' %></b><br />
-        <% loop Husbands %>
-            <a href="{$EditLink()}">$FullName</a><br />
-        <% end_loop %>
+    <hr />
+    <b><%t Genealogist.HUSBANDS 'Husbands' %></b><br />
+    <% loop Husbands %>
+    <a href="{$EditLink()}">$FullName</a><br />
+    <% end_loop %>
 
     <% else_if $hasPermission && Wives %>
-        <hr />
+    <hr />
 
-        <b><%t Genealogist.WIVES 'Wives' %></b><br />
-        <% loop Wives %>
-            <a href="{$EditLink()}">$FullName</a><br />
-        <% end_loop %>
+    <b><%t Genealogist.WIVES 'Wives' %></b><br />
+    <% loop Wives %>
+    <a href="{$EditLink()}">$FullName</a><br />
+    <% end_loop %>
     <% end_if %>
 
     <% if Sons %>
-        <hr />
+    <hr />
 
-        <b><%t Genealogist.SONS 'Sons' %></b>: $SonsCount<br />
-        <% loop Sons.sort('BirthDate DESC').sort('Created ASC') %>
-            <a href="{$EditLink()}" title="$FullName">$AliasName</a><% if not Last %><%t Genealogist.COMMA ',' %><% end_if %>
-        <% end_loop %>
-        <br />
+    <b><%t Genealogist.SONS 'Sons' %></b>: $SonsCount<br />
+    <% loop Sons.sort('BirthDate DESC').sort('Created ASC') %>
+    <a href="{$EditLink()}" title="$FullName">$AliasName</a><% if not Last %><%t Genealogist.COMMA ',' %><% end_if %>
+    <% end_loop %>
+    <br />
     <% end_if %>
 
     <% if Daughters %>
-        <hr />
-        <b><%t Genealogist.DAUGHTERS 'Daughters' %></b>: $DaughtersCount<br />
-        <% loop Daughters.sort('BirthDate DESC').sort('Created ASC') %>
-            <a href="{$EditLink()}" title="$FullName">$AliasName</a><% if not Last %><%t Genealogist.COMMA ',' %><% end_if %>
-        <% end_loop %>
+    <hr />
+    <b><%t Genealogist.DAUGHTERS 'Daughters' %></b>: $DaughtersCount<br />
+    <% loop Daughters.sort('BirthDate DESC').sort('Created ASC') %>
+    <a href="{$EditLink()}" title="$FullName">$AliasName</a><% if not Last %><%t Genealogist.COMMA ',' %><% end_if %>
+    <% end_loop %>
     <% end_if %>
 
 </article>

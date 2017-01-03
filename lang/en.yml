@@ -80,6 +80,8 @@ en:
     EDIT: 'Edit'
     SAVE: 'Save'
     FIND: 'Find'
+    SINGLE_WIFE: 'This Person Has One Wife Only'
+    ASSIGN_MOTHER: 'Assign Mother To All Children'
     KINSHIP: 'Kinship'
     SEARCH: 'Search'
     SEARCH_RESULTS: 'Search Results'
