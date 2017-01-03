@@ -53,6 +53,7 @@ class Person
         'Sons' => 'Male',
         'Daughters' => 'Female',
         'Suggestions' => 'Suggestion',
+        'Documents' => 'DocumentFile',
     );
     private static $many_many = array(
     );
@@ -103,6 +104,8 @@ class Person
         $labels['IsDead'] = _t('Genealogist.ISDEAD', 'Is Dead');
         $labels['Note'] = _t('Genealogist.NOTE', 'Note');
         $labels['Comments'] = _t('Genealogist.COMMENTS', 'Comments');
+        
+        $labels['Documents'] = _t('Genealogist.DOCUMENTS', 'Documents');
 
         $labels['Suggestions'] = _t('Genealogist.SUGGESTIONS', 'Suggestions');
         $labels['Page'] = _t('Genealogist.PAGE', 'Page');
@@ -355,7 +358,7 @@ class Person
         GenealogistHelper::get_children($this);
     }
 
-    public function ThumbCover() {
+    public function ThumbPhoto() {
         return $this->Photo()->CMSThumbnail();
     }
 

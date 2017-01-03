@@ -16,6 +16,12 @@ ar:
   Suggestion:
     PLURALNAME: 'الاقتراحات'
     SINGULARNAME: 'الاقتراحات'
+  DocumentFile:
+    PLURALNAME: 'الوثائق'
+    SINGULARNAME: 'الوثائق'
+  DocumentTag:
+    PLURALNAME: 'الوسوم'
+    SINGULARNAME: 'الوسوم'
   Genealogist:
     PHOTO: 'الصورة'
     NAME: 'الاسم'
@@ -40,6 +46,14 @@ ar:
     OVERVIEW: 'نبذة'
     DETAILS: 'التفاصيل'
     PAGE: 'الصفحة'
+    DOCUMENTS: 'الوثائق'
+    DOCUEMENT: 'الوثيقة'
+    TITLE: 'العنوان'
+    DESCRIPTION: 'الوصف'
+    PERSON: 'الشخص'
+    DATE: 'التاريخ'
+    NUMBER_OF_DOCUMENTS: 'عدد الوثائق'
+    TAGS: 'الوسوم'
     FILTERS: 'المرشحات'
     INFORMATION: 'معلومات'
     ROOTS: 'الجذور'

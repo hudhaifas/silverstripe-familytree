@@ -27,36 +27,37 @@
 /**
  *
  * @author Hudhaifa Shatnawi <hudhaifa.shatnawi@gmail.com>
- * @version 1.0, Nov 2, 2016 - 10:56:51 AM
+ * @version 1.0, Jan 3, 2017 - 10:02:19 AM
  */
-class GenealogistAdmin
-        extends ModelAdmin {
+class DocumentTag
+        extends DataObject {
 
-    private static $managed_models = array(
-        'Clan',
-        'Male',
-        'Female',
-        'Person',
-        'Suggestion',
-        'DocumentFile',
-        'DocumentTag',
+    private static $db = array(
+        'Title' => 'Varchar(255)',
     );
-    private static $url_segment = 'genealogist';
-    private static $menu_title = "Genealogist";
-    private static $menu_icon = "genealogist/images/genealogy.png";
-    public $showImportForm = false;
-    private static $tree_class = 'Genealogy';
+    private static $has_one = array(
+    );
+    private static $has_many = array(
+    );
+    private static $belongs_many_many = array(
+        'Files' => 'DocumentFile',
+    );
+    private static $searchable_fields = array(
+        'Title',
+    );
+    private static $summary_fields = array(
+        'Title',
+        'Files.Count',
+    );
 
-    public function getEditForm($id = null, $fields = null) {
-        $form = parent::getEditForm($id, $fields);
+    public function fieldLabels($includerelations = true) {
+        $labels = parent::fieldLabels($includerelations);
 
-        $grid = $form->Fields()->dataFieldByName('Genealogy');
-        if ($grid) {
-            $grid->getConfig()->removeComponentsByType('GridFieldDetailForm');
-            $grid->getConfig()->addComponent(new GridFieldSubsiteDetailForm());
-        }
+        $labels['Title'] = _t('Genealogist.TITLE', 'Title');
+        $labels['Files.Count'] = _t('Genealogist.NUMBER_OF_DOCUMENTS', 'Number Of Documents');
+        $labels['Files'] = _t('Genealogist.DOCUMENTS', 'Documents');
 
-        return $form;
+        return $labels;
     }
 
 }

@@ -16,6 +16,12 @@ en:
   Suggestion:
     PLURALNAME: 'Suggestions'
     SINGULARNAME: 'Suggestions'
+  DocumentFile:
+    PLURALNAME: 'Docuements'
+    SINGULARNAME: 'Docuements'
+  DocumentTag:
+    PLURALNAME: 'Tags'
+    SINGULARNAME: 'Tags'
   Genealogist:
     PHOTO: 'Photo'
     NAME: 'Name'
@@ -40,6 +46,14 @@ en:
     OVERVIEW: 'Overview'
     DETAILS: 'Details'
     PAGE: 'Page'
+    DOCUMENTS: 'Documents'
+    DOCUEMENT: 'Docuement'
+    TITLE: 'Title'
+    DESCRIPTION: 'Description'
+    PERSON: 'Person'
+    DATE: 'Date'
+    NUMBER_OF_DOCUMENTS: 'Number Of Documents'
+    TAGS: 'Tags'
     FILTERS: 'Filters'
     INFORMATION: 'Information'
     ROOTS: 'Roots'
