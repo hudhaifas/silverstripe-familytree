@@ -109,6 +109,8 @@ en:
     SUGGEST_EDIT_MESSAGE_1: 'Please forgive for the lack of accuracy of the data in this tree,'
     CLICK_HERE: 'click here'
     SUGGEST_EDIT_MESSAGE_2: 'to provide us with any data or suggestions.'
+    FULLSCREEN: 'Toggle Full Screen'
+    TOGGLE_NODES: 'Collapse/Expand All Nodes'
     NOTE: 'Note'
     COMMENTS: 'Comments'
     FROM: 'From'

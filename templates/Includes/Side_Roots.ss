@@ -9,7 +9,7 @@
             <a href="{$ShowLink}" id="export-tree" title="<%t Genealogist.EXPORT_PIC 'Export the tree in an image' %>"><i class="fa fa-picture-o" aria-hidden="true"></i></a>
             --%>
             <a href="#" id="toggle-nodes" title="<%t Genealogist.TOGGLE_NODES 'Collapse/Expand All Nodes' %>" class="hidden-phone hidden-tablet"><i class="fa fa-compress" aria-hidden="true"></i></a>
-            <a href="#" id="toggle-fullscreen" title="<%t Genealogist.FULLSCREEN 'Fullscreen' %>" class="hidden-phone hidden-tablet"><i class="fa fa-arrows-alt" aria-hidden="true"></i></a>
+            <a href="#" id="toggle-fullscreen" title="<%t Genealogist.FULLSCREEN 'Toggle Full Screen' %>" class="hidden-phone hidden-tablet"><i class="fa fa-arrows-alt" aria-hidden="true"></i></a>
         </div>
     </div>
 

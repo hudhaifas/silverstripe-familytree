@@ -109,6 +109,8 @@ ar:
     SUGGEST_EDIT_MESSAGE_1: 'نرجو المعذرة لعدم دقة البيانات في هذه الشجرة، '
     CLICK_HERE: 'اضغط هنا'
     SUGGEST_EDIT_MESSAGE_2: 'لتزويدنا بأي اقتراحات أو بيانات.'
+    FULLSCREEN: 'ملء الشاشة'
+    TOGGLE_NODES: 'ضم/توسيع جميع العقد'
     NOTE: 'ملاحظة'
     COMMENTS: 'التعليقات'
     FROM: 'من'
