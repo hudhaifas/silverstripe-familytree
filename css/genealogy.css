@@ -36,20 +36,21 @@
   max-height: 25%;
 }
 .tree-container .ajax-loader {
+  background-color: rgba(100, 100, 100, 0.1);
+  z-index: 100;
   display: none;
   position: absolute;
   top: 0;
   bottom: 0;
   left: 0;
   right: 0;
-  vertical-align: middle;
 }
 .tree-container .ajax-loader span {
   display: block;
   height: 50%;
   vertical-align: middle;
 }
-.tree-container .ajax-loader img {
+.tree-container .ajax-loader i {
   display: block;
   vertical-align: middle;
   margin-left: auto;

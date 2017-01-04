@@ -16,5 +16,5 @@
     
 <div id="tree-loader" class="ajax-loader">
     <span></span>
-    <img src="genealogist/images/ajax-loader.gif" alt="Loading Tree.." />
+    <i class="fa fa-spinner fa-pulse fa-4x fa-fw"></i>
 </div>

@@ -25,6 +25,8 @@
         } else if ($this.is("li")) {
             buildNode($this, $container, 0, opts);
         }
+        
+        $this.remove();
         $appendTo.append($container);
 
         if (opts.zoom) {
