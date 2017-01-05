@@ -63,6 +63,7 @@ ar:
     SPOUSE: 'الزوج'
     MALES: 'الذكور'
     FEMALES: 'الإناث'
+    HIDDEN: 'مخفي'
     FATHER_ID: 'رقم الوالد'
     MOTHER_ID: 'رقم الأم'
     CHOOSE_MOTHER: 'اختر الأم'

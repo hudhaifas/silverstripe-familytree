@@ -63,6 +63,7 @@ en:
     SPOUSE: 'Spouse'
     MALES: 'Males'
     FEMALES: 'Females'
+    HIDDEN: 'Hidden'
     FATHER_ID: 'Father ID'
     MOTHER_ID: 'Mother ID'
     CHOOSE_MOTHER: 'Choose Mother'
