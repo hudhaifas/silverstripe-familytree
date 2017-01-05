@@ -59,29 +59,21 @@ class Female
         return true;
     }
 
-    public function getCMSFields() {
-        $self = & $this;
-
-        $this->beforeUpdateCMSFields(function ($fields) use ($self) {
-            $self->reorderField($fields, 'Name', 'Root.Main', 'Root.Main');
-            $self->reorderField($fields, 'NickName', 'Root.Main', 'Root.Main');
-            $self->reorderField($fields, 'Note', 'Root.Main', 'Root.Main');
-            $self->reorderField($fields, 'BirthDate', 'Root.Main', 'Root.Main');
-            $self->reorderField($fields, 'DeathDate', 'Root.Main', 'Root.Main');
-            $self->reorderField($fields, 'DeathDate', 'Root.Main', 'Root.Main');
-            $self->reorderField($fields, 'IsDead', 'Root.Main', 'Root.Main');
-            $self->reorderField($fields, 'Comments', 'Root.Main', 'Root.Main');
-
-            $self->reorderField($fields, 'FatherID', 'Root.Main', 'Root.Main');
-            $self->reorderField($fields, 'MotherID', 'Root.Main', 'Root.Main');
-
-            $self->reorderField($fields, 'Photo', 'Root.Main', 'Root.Details');
-            $self->reorderField($fields, 'PageID', 'Root.Main', 'Root.Details');
-        });
-
-        $fields = parent::getCMSFields();
-
-        return $fields;
+    
+    /**
+     * Returns the formated person's name
+     * @return strnig
+     */
+    public function getPersonName() {
+        return $this->hasPermission() ? $this->getAliasName() : _t('Genealogist.HIDDEN', 'Hidden');
+    }
+    
+    /**
+     * Returns the formated person's name
+     * @return strnig
+     */
+    public function getName() {
+        return $this->hasPermission() ? $this->Name : _t('Genealogist.HIDDEN', 'Hidden');
     }
 
 }

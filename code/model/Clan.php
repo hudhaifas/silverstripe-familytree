@@ -34,7 +34,6 @@ class Clan
         extends Male {
 
     private static $db = array(
-        'Overview' => 'Text',
     );
     private static $has_one = array(
     );
@@ -57,41 +56,6 @@ class Clan
 
     public function canEdit($member = false) {
         return true;
-    }
-
-    public function fieldLabels($includerelations = true) {
-        $labels = parent::fieldLabels($includerelations);
-
-        $labels['Overview'] = _t('Genealogist.OVERVIEW', 'Overview');
-
-        return $labels;
-    }
-
-    public function getCMSFields() {
-        $self = & $this;
-
-        $this->beforeUpdateCMSFields(function ($fields) use ($self) {
-            $self->reorderField($fields, 'Name', 'Root.Main', 'Root.Main');
-            $self->reorderField($fields, 'NickName', 'Root.Main', 'Root.Main');
-            $self->reorderField($fields, 'Note', 'Root.Main', 'Root.Main');
-            $self->reorderField($fields, 'BirthDate', 'Root.Main', 'Root.Main');
-            $self->reorderField($fields, 'DeathDate', 'Root.Main', 'Root.Main');
-            $self->reorderField($fields, 'DeathDate', 'Root.Main', 'Root.Main');
-            $self->reorderField($fields, 'IsDead', 'Root.Main', 'Root.Main');
-            $self->reorderField($fields, 'Comments', 'Root.Main', 'Root.Main');
-
-            $self->reorderField($fields, 'FatherID', 'Root.Main', 'Root.Main');
-            $self->reorderField($fields, 'MotherID', 'Root.Main', 'Root.Main');
-            $self->reorderField($fields, 'WifeID', 'Root.Main', 'Root.Main');
-
-            $self->reorderField($fields, 'TwonsID', 'Root.Main', 'Root.Details');
-            $self->reorderField($fields, 'PageID', 'Root.Main', 'Root.Details');
-            $self->reorderField($fields, 'Overview', 'Root.Main', 'Root.Details');
-        });
-
-        $fields = parent::getCMSFields();
-
-        return $fields;
     }
 
     public function getPersonName() {

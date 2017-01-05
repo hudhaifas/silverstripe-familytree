@@ -40,6 +40,7 @@ class Person
         'DeathDate' => 'Date',
         'IsDead' => 'Boolean',
         'Note' => 'Varchar(255)',
+        'Overview' => 'HTMLText',
         'Comments' => 'Text',
         'IndexedName' => 'Text',
     );
@@ -106,6 +107,7 @@ class Person
         $labels['IsDead'] = _t('Genealogist.ISDEAD', 'Is Dead');
         $labels['Note'] = _t('Genealogist.NOTE', 'Note');
         $labels['Comments'] = _t('Genealogist.COMMENTS', 'Comments');
+        $labels['Overview'] = _t('Genealogist.OVERVIEW', 'Overview');
 
         $labels['Documents'] = _t('Genealogist.DOCUMENTS', 'Documents');
 
@@ -127,6 +129,11 @@ class Person
             if ($field = $fields->fieldByName('Root.Main.DeathDate')) {
                 $field->setConfig('showcalendar', true);
                 $field->setConfig('dateformat', 'dd-MM-yyyy');
+            }
+
+            if ($field = $fields->fieldByName('Root.Main.Photo')) {
+                $field->getValidator()->setAllowedExtensions(array('jpg', 'jpeg', 'png', 'gif'));
+                $field->setFolderName("genealogist/photos");
             }
 
             $fields->removeFieldFromTab('Root.Main', 'ParentID');
@@ -157,6 +164,21 @@ class Person
                         array('IndexedName', 'Name', 'NickName') //
                 )
             ));
+
+            $self->reorderField($fields, 'Photo', 'Root.Main', 'Root.Main');
+            $self->reorderField($fields, 'Name', 'Root.Main', 'Root.Main');
+            $self->reorderField($fields, 'NickName', 'Root.Main', 'Root.Main');
+            $self->reorderField($fields, 'Note', 'Root.Main', 'Root.Main');
+            $self->reorderField($fields, 'BirthDate', 'Root.Main', 'Root.Main');
+            $self->reorderField($fields, 'DeathDate', 'Root.Main', 'Root.Main');
+            $self->reorderField($fields, 'IsDead', 'Root.Main', 'Root.Main');
+            $self->reorderField($fields, 'DeathDate', 'Root.Main', 'Root.Main');
+            $self->reorderField($fields, 'FatherID', 'Root.Main', 'Root.Main');
+            $self->reorderField($fields, 'MotherID', 'Root.Main', 'Root.Main');
+            $self->reorderField($fields, 'Overview', 'Root.Main', 'Root.Main');
+
+            $self->reorderField($fields, 'Comments', 'Root.Main', 'Root.Details');
+            $self->reorderField($fields, 'PageID', 'Root.Main', 'Root.Details');
         });
 
         $fields = parent::getCMSFields();
@@ -561,7 +583,7 @@ HTML;
 
     private function getAncestorsLeaves() {
         $noFemales = !$this->hasPermission() && $this->isFemale();
-        $name = $noFemales ? _t('Genealogist.MOTHER', 'Mother') : $this->getPersonName();
+        $name = $this->getPersonName();
         $title = $noFemales ? '' : $this->getFullName();
 
         $html = <<<HTML
