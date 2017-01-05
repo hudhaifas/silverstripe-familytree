@@ -53,9 +53,11 @@ class Person
         'Sons' => 'Male',
         'Daughters' => 'Female',
         'Suggestions' => 'Suggestion',
-        'Documents' => 'DocumentFile',
     );
     private static $many_many = array(
+    );
+    private static $belongs_many_many = array(
+        'Documents' => 'DocumentFile',
     );
     private static $searchable_fields = array(
         'Name' => array(
@@ -104,7 +106,7 @@ class Person
         $labels['IsDead'] = _t('Genealogist.ISDEAD', 'Is Dead');
         $labels['Note'] = _t('Genealogist.NOTE', 'Note');
         $labels['Comments'] = _t('Genealogist.COMMENTS', 'Comments');
-        
+
         $labels['Documents'] = _t('Genealogist.DOCUMENTS', 'Documents');
 
         $labels['Suggestions'] = _t('Genealogist.SUGGESTIONS', 'Suggestions');

@@ -39,12 +39,12 @@ class DocumentFile
     );
     private static $has_one = array(
         'Docuement' => 'Image',
-        'Person' => 'Person',
     );
     private static $has_many = array(
     );
     private static $many_many = array(
         'Tags' => 'DocumentTag',
+        'People' => 'Person',
     );
     private static $searchable_fields = array(
         'Title' => array(
@@ -93,6 +93,15 @@ class DocumentFile
                 $field->setConfig('showcalendar', true);
                 $field->setConfig('dateformat', 'dd-MM-yyyy');
             }
+
+            $fields->removeFieldFromTab('Root', 'People');
+            $peopleField = TagField::create(
+                            'People', //
+                            _t('Genealogist.PEOPLE', 'People'), //
+                            Person::get(), //
+                            $self->People()
+            );
+            $fields->addFieldToTab('Root.Main', $peopleField);
 
             $fields->removeFieldFromTab('Root', 'Tags');
             $tagsField = TagField::create(
