@@ -59,20 +59,11 @@ class Female
         return true;
     }
 
-    
     /**
      * Returns the formated person's name
      * @return strnig
      */
-    public function getPersonName() {
-        return $this->hasPermission() ? $this->getAliasName() : _t('Genealogist.HIDDEN', 'Hidden');
-    }
-    
-    /**
-     * Returns the formated person's name
-     * @return strnig
-     */
-    public function getName() {
+    public function getFirstName() {
         return $this->hasPermission() ? $this->Name : _t('Genealogist.HIDDEN', 'Hidden');
     }
 

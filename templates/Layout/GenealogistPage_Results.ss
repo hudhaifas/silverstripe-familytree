@@ -3,7 +3,7 @@
         <% loop $Results %>
             <div class="search-result col-md-6">
                 <a href="$EditLink" title="$FullName">
-                    <h5>$Name <span style="font-size: 90%; font-weight: normal;">$Father.FullName.LimitCharacters(45)</span></h5>
+                    <h5>$FirstName <span style="font-size: 90%; font-weight: normal;">$Father.FullName.LimitCharacters(45)</span></h5>
                 </a>
                 <% if Mother %>
                     <sub><%t Genealogist.MOTHER 'Mother' %>: $Mother.FullName</sub>

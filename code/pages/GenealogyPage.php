@@ -183,7 +183,7 @@ class GenealogyPage_Controller
         return array(
             'Trees' => new ArrayList($trees),
             'Cols' => $columns,
-            'Title' => $p1->Name . ' : ' . $p2->Name
+            'Title' => $p1->getFirstName() . ' : ' . $p2->getFirstName()
         );
     }
 

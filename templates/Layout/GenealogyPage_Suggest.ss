@@ -2,7 +2,7 @@
 <article class="col-md-8 col-lg-8">
     <div class="row">
         <p><%t Genealogist.SUGGEST_EDIT_ON 'Suggest edit on' %></p>
-        <h1>$Name <span style="font-size: 50%;">$Father.FullName</span></h1>
+        <h1>$FirstName <span style="font-size: 50%;">$Father.FullName</span></h1>
     </div>
 
     <div class="row">

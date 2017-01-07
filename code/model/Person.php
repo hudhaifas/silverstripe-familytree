@@ -277,12 +277,16 @@ class Person
         return $this->getFullName();
     }
 
+    public function getFirstName() {
+        return $this->Name;
+    }
+
     /**
      * Returns the formated person's name
      * @return strnig
      */
     public function getPersonName() {
-//        return $this->Name;
+//        return $this->getFirstName();
         return $this->getAliasName();
     }
 
@@ -291,7 +295,7 @@ class Person
      * @return string
      */
     public function getAliasName() {
-        $name = $this->Name;
+        $name = $this->getFirstName();
 
         if ($this->NickName) {
             $name .= ' (' . $this->NickName . ')';
@@ -339,7 +343,7 @@ class Person
 
         while ($person->Father()->exists()) {
             $person = $person->Father();
-            $name .= ' ' . $person->Name;
+            $name .= ' ' . $person->getFirstName();
         }
 
         return $name;
@@ -640,7 +644,7 @@ HTML;
 
     public function __debugInfo() {
         return array(
-            $this->ID . ' : ' . $this->Name
+            $this->ID . ' : ' . $this->getFirstName()
         );
     }
 
