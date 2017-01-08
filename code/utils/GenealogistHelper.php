@@ -272,27 +272,54 @@ class GenealogistHelper {
      * @return number
      */
     public static function count_males($person, $state = 0) {
-        if (!$person) {
-            return 0;
+        $stack = array();
+        $count = 0;
+        array_push($stack, $person);
+
+        while ($stack) {
+            $p = array_pop($stack);
+            $isMale = $p->isMale();
+            switch ($state) {
+                case self::$STATE_ALIVE:
+                    $count += $isMale && !$p->IsDead ? 1 : 0;
+                    break;
+
+                case self::$STATE_DEAD:
+                    $count += $isMale && $p->IsDead ? 1 : 0;
+                    break;
+
+                default:
+                    $count += $isMale ? 1 : 0;
+                    break;
+            }
+
+            foreach ($p->Sons() as $child) {
+                array_push($stack, $child);
+            }
         }
 
-        switch ($state) {
-            case self::$STATE_ALIVE:
-                $count = $person->isMale() && !$person->IsDead ? 1 : 0;
-                break;
-
-            case self::$STATE_DEAD:
-                $count = $person->isMale() && $person->IsDead ? 1 : 0;
-                break;
-
-            default:
-                $count = $person->isMale() ? 1 : 0;
-                break;
-        }
-
-        foreach ($person->Sons() as $child) {
-            $count += self::count_males($child, $state);
-        }
+        // Recursive
+//        if (!$person) {
+//            return 0;
+//        }
+//
+//        switch ($state) {
+//            case self::$STATE_ALIVE:
+//                $count = $person->isMale() && !$person->IsDead ? 1 : 0;
+//                break;
+//
+//            case self::$STATE_DEAD:
+//                $count = $person->isMale() && $person->IsDead ? 1 : 0;
+//                break;
+//
+//            default:
+//                $count = $person->isMale() ? 1 : 0;
+//                break;
+//        }
+//
+//        foreach ($person->Sons() as $child) {
+//            $count += self::count_males($child, $state);
+//        }
 
         return $count;
     }
@@ -305,29 +332,57 @@ class GenealogistHelper {
      * @return number
      */
     public static function count_females($person, $state = 0) {
-        if (!$person) {
-            return 0;
+        $stack = array();
+        $count = 0;
+        array_push($stack, $person);
+
+        while ($stack) {
+            $p = array_pop($stack);
+            $isFemale = $p->isFemale();
+            switch ($state) {
+                case self::$STATE_ALIVE:
+                    $count += $isFemale && !$p->IsDead ? 1 : 0;
+                    break;
+
+                case self::$STATE_DEAD:
+                    $count += $isFemale && $p->IsDead ? 1 : 0;
+                    break;
+
+                default:
+                    $count += $isFemale ? 1 : 0;
+                    break;
+            }
+
+            $count += self::count_daughters($p, $state);
+
+            foreach ($p->Sons() as $child) {
+                array_push($stack, $child);
+            }
         }
 
-        switch ($state) {
-            case self::$STATE_ALIVE:
-                $count = $person->isFemale() && !$person->IsDead ? 1 : 0;
-                break;
-
-            case self::$STATE_DEAD:
-                $count = $person->isFemale() && $person->IsDead ? 1 : 0;
-                break;
-
-            default:
-                $count = $person->isFemale() ? 1 : 0;
-                break;
-        }
-
-        $count += self::count_daughters($person, $state);
-
-        foreach ($person->Sons() as $child) {
-            $count += self::count_females($child, $state);
-        }
+//        if (!$person) {
+//            return 0;
+//        }
+//
+//        switch ($state) {
+//            case self::$STATE_ALIVE:
+//                $count = $person->isFemale() && !$person->IsDead ? 1 : 0;
+//                break;
+//
+//            case self::$STATE_DEAD:
+//                $count = $person->isFemale() && $person->IsDead ? 1 : 0;
+//                break;
+//
+//            default:
+//                $count = $person->isFemale() ? 1 : 0;
+//                break;
+//        }
+//
+//        $count += self::count_daughters($person, $state);
+//
+//        foreach ($person->Sons() as $child) {
+//            $count += self::count_females($child, $state);
+//        }
 
         return $count;
     }
@@ -350,7 +405,7 @@ class GenealogistHelper {
             switch ($state) {
                 case self::$STATE_ALIVE:
 //                    $count += !$child->IsDead && !$child->isClan() ? 1 : 0;
-                    $count += !$child->IsDead ? 1 : 0;
+                    $count +=!$child->IsDead ? 1 : 0;
                     break;
 
                 case self::$STATE_DEAD:
@@ -385,7 +440,7 @@ class GenealogistHelper {
         foreach ($person->Daughters() as $child) {
             switch ($state) {
                 case self::$STATE_ALIVE:
-                    $count += !$child->IsDead ? 1 : 0;
+                    $count +=!$child->IsDead ? 1 : 0;
                     break;
 
                 case self::$STATE_DEAD:
