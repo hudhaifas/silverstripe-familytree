@@ -452,7 +452,7 @@ class Person
      */
     public function MalesCount($state = 0) {
         if ($this->Stats()->exists()) {
-            return $state ? $this->Stats()->Males : $this->Stats()->LiveMales;
+            return $state ? $this->Stats()->LiveMales : $this->Stats()->Males;
         }
         return GenealogistHelper::count_males($this, $state);
     }
@@ -464,7 +464,7 @@ class Person
      */
     public function FemalesCount($state = 0) {
         if ($this->Stats()->exists()) {
-            return $state ? $this->Stats()->Females : $this->Stats()->LiveFemales;
+            return $state ? $this->Stats()->LiveFemales : $this->Stats()->Females;
         }
         return GenealogistHelper::count_females($this, $state);
     }
@@ -476,7 +476,7 @@ class Person
      */
     public function SonsCount($state = 0) {
         if ($this->Stats()->exists()) {
-            return $state ? $this->Stats()->Sons : $this->Stats()->LiveSons;
+            return $state ? $this->Stats()->LiveSons : $this->Stats()->Sons;
         }
         return GenealogistHelper::count_sons($this, $state);
     }
@@ -488,7 +488,7 @@ class Person
      */
     public function DaughtersCount($state = 0) {
         if ($this->Stats()->exists()) {
-            return $state ? $this->Stats()->Daughters : $this->Stats()->LiveDaughters;
+            return $state ? $this->Stats()->LiveDaughters : $this->Stats()->Daughters;
         }
         return GenealogistHelper::count_daughters($this, $state);
     }
