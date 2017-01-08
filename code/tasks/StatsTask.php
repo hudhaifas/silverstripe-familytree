@@ -48,16 +48,15 @@ class StatsTask
             $people = Person::get();
         } else {
             $people = Person::get()->where('StatsID = 0');
-//            $people = Person::get()->where('IndexedName IS NULL');
         }
-
-        echo $people->count() . ' records has been indexed.';
 
         foreach ($people as $person) {
             $this->indexStats($person);
 
             $person->write();
         }
+
+        echo $people->count() . ' records has been indexed.';
     }
 
     private function indexName($person) {
@@ -65,11 +64,13 @@ class StatsTask
     }
 
     private function indexStats($person) {
-        if ($person->Stats()->exists()) {
+        echo ( '   - ' . $person->StatsID . '<br />');
+        if ($person->Stats()->exists() || $person->StatsID) {
             $stats = $person->Stats();
+            echo 'Updating the index of : ' . $person->Name . '... <br />';
         } else {
             $stats = new PersonStats();
-            $stats->PersonID = $person->ID;
+            echo 'Indexing: ' . $person->Name . '... <br />';
         }
 
         $stats->Sons = GenealogistHelper::count_sons($person);
@@ -82,6 +83,7 @@ class StatsTask
         $stats->LiveMales = GenealogistHelper::count_males($person, 1);
         $stats->LiveFemales = GenealogistHelper::count_females($person, 1);
         $stats->LiveTotal = GenealogistHelper::count_descendants($person, 1);
+        $stats->PersonID = $person->ID;
         $stats->write();
 
         $person->StatsID = $stats->ID;

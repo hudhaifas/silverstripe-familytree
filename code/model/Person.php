@@ -439,7 +439,11 @@ class Person
      * @return number
      */
     public function DescendantsCount($state = 0) {
-        return GenealogistHelper::count_descendants($this, $state);
+        if ($this->Stats()->exists()) {
+            return $this->MalesCount($state) + $this->FemalesCount($state);
+        }
+        return 0;
+//        return GenealogistHelper::count_descendants($this, $state);
     }
 
     /**
@@ -448,7 +452,11 @@ class Person
      * @return number
      */
     public function MalesCount($state = 0) {
-        return GenealogistHelper::count_males($this, $state);
+        if ($this->Stats()->exists()) {
+            return $state ? $this->Stats()->Males : $this->Stats()->LiveMales;
+        }
+        return 0;
+//        return GenealogistHelper::count_males($this, $state);
     }
 
     /**
@@ -457,7 +465,11 @@ class Person
      * @return number
      */
     public function FemalesCount($state = 0) {
-        return GenealogistHelper::count_females($this, $state);
+        if ($this->Stats()->exists()) {
+            return $state ? $this->Stats()->Females : $this->Stats()->LiveFemales;
+        }
+        return 0;
+//        return GenealogistHelper::count_females($this, $state);
     }
 
     /**
@@ -466,7 +478,11 @@ class Person
      * @return number
      */
     public function SonsCount($state = 0) {
-        return GenealogistHelper::count_sons($this, $state);
+        if ($this->Stats()->exists()) {
+            return $state ? $this->Stats()->Sons : $this->Stats()->LiveSons;
+        }
+        return 0;
+//        return GenealogistHelper::count_sons($this, $state);
     }
 
     /**
@@ -475,7 +491,11 @@ class Person
      * @return number
      */
     public function DaughtersCount($state = 0) {
-        return GenealogistHelper::count_daughters($this, $state);
+        if ($this->Stats()->exists()) {
+            return $state ? $this->Stats()->Daughters : $this->Stats()->LiveDaughters;
+        }
+        return 0;
+//        return GenealogistHelper::count_daughters($this, $state);
     }
 
     /// Utils ///
