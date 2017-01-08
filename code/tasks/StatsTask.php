@@ -64,7 +64,6 @@ class StatsTask
     }
 
     private function indexStats($person) {
-        echo ( '   - ' . $person->StatsID . '<br />');
         if ($person->Stats()->exists() || $person->StatsID) {
             $stats = $person->Stats();
             echo 'Updating the index of : ' . $person->Name . '... <br />';
