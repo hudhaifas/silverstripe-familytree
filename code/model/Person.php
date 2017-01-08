@@ -442,8 +442,7 @@ class Person
         if ($this->Stats()->exists()) {
             return $this->MalesCount($state) + $this->FemalesCount($state);
         }
-        return 0;
-//        return GenealogistHelper::count_descendants($this, $state);
+        return GenealogistHelper::count_descendants($this, $state);
     }
 
     /**
@@ -455,8 +454,7 @@ class Person
         if ($this->Stats()->exists()) {
             return $state ? $this->Stats()->Males : $this->Stats()->LiveMales;
         }
-        return 0;
-//        return GenealogistHelper::count_males($this, $state);
+        return GenealogistHelper::count_males($this, $state);
     }
 
     /**
@@ -468,8 +466,7 @@ class Person
         if ($this->Stats()->exists()) {
             return $state ? $this->Stats()->Females : $this->Stats()->LiveFemales;
         }
-        return 0;
-//        return GenealogistHelper::count_females($this, $state);
+        return GenealogistHelper::count_females($this, $state);
     }
 
     /**
@@ -481,8 +478,7 @@ class Person
         if ($this->Stats()->exists()) {
             return $state ? $this->Stats()->Sons : $this->Stats()->LiveSons;
         }
-        return 0;
-//        return GenealogistHelper::count_sons($this, $state);
+        return GenealogistHelper::count_sons($this, $state);
     }
 
     /**
@@ -494,8 +490,7 @@ class Person
         if ($this->Stats()->exists()) {
             return $state ? $this->Stats()->Daughters : $this->Stats()->LiveDaughters;
         }
-        return 0;
-//        return GenealogistHelper::count_daughters($this, $state);
+        return GenealogistHelper::count_daughters($this, $state);
     }
 
     /// Utils ///
