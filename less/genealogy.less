@@ -1,8 +1,8 @@
 @import "mixins/transform.less";
 @color-tree-branches: black;
 
-@container-w: 96vw;
-@container-h: 98vh;
+@container-w: 90vw;
+@container-h: 88vh;
 
 @menu-w: 25%;
 @menu-h: @container-h - 1;
@@ -40,17 +40,17 @@
         position: relative;
 
         .alert {
-            position: absolute;
-            top: 0;
-            right: 0;
-            left: 0;
-            z-index: 100;
-            opacity: 0.90;
-            .transition(opacity 0.4s ease);
+            /*            position: absolute;
+                        top: 0;
+                        right: 0;
+                        left: 0;
+                        z-index: 100;
+                        opacity: 0.90;*/
+            .transition(all 0.4s ease);
 
-            &:hover {
-                opacity: 1;
-            }
+            /*            &:hover {
+                            opacity: 1;
+                        }*/
         }
     }
 
@@ -74,7 +74,7 @@
         bottom: 0;
         left: 0;
         right: 0;
-        
+
         span {
             display: block;
             height: 50%;
@@ -95,7 +95,7 @@
     height: @tree-h;
     max-height: @tree-h;
     background-color: #fff;
-    /*border: 1px solid #ddd;*/
+    border: 1px solid #ddd;
     /*border-radius: 4px;*/
     /*overflow-x: auto;*/
     /*overflow-y: auto;*/
@@ -196,6 +196,14 @@ a.disabled, a[disabled] {
     .tree-container {
         height: @container-h;
         max-height: @container-h;
+    }
+}
+
+@media (max-width: 979px) {
+    .tree-container {
+        .tree-holder {
+            float: none;
+        }
     }
 }
 

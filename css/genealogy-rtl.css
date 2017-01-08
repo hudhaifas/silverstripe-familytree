@@ -23,4 +23,9 @@
 .jOrgChart .node a {
   font-size: 12px;
 }
+@media (max-width: 979px) {
+  .tree-container .tree-holder {
+    float: none;
+  }
+}
 /*# sourceMappingURL=genealogy-rtl.css.map */

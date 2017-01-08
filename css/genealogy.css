@@ -3,7 +3,7 @@
   padding: 5px;
 }
 .tree-container {
-  width: 96vw;
+  width: 90vw;
   margin: 0 auto;
   position: relative;
 }
@@ -11,25 +11,25 @@
   position: relative;
 }
 .tree-container .tree-holder .alert {
-  position: absolute;
-  top: 0;
-  right: 0;
-  left: 0;
-  z-index: 100;
-  opacity: 0.90;
-  -webkit-transition: opacity 0.4s ease;
-  -moz-transition: opacity 0.4s ease;
-  -ms-transition: opacity 0.4s ease;
-  -o-transition: opacity 0.4s ease;
-  transition: opacity 0.4s ease;
-}
-.tree-container .tree-holder .alert:hover {
-  opacity: 1;
+  /*            position: absolute;
+                        top: 0;
+                        right: 0;
+                        left: 0;
+                        z-index: 100;
+                        opacity: 0.90;*/
+  -webkit-transition: all 0.4s ease;
+  -moz-transition: all 0.4s ease;
+  -ms-transition: all 0.4s ease;
+  -o-transition: all 0.4s ease;
+  transition: all 0.4s ease;
+  /*            &:hover {
+                            opacity: 1;
+                        }*/
 }
 .tree-container .tree-menu {
   float: left;
   width: 25%;
-  height: 97vh;
+  height: 87vh;
   max-height: 25%;
 }
 .tree-container .tree-menu .panel-group {
@@ -58,10 +58,10 @@
 }
 .genealogy-tree {
   overflow: scroll;
-  height: 97vh;
-  max-height: 97vh;
+  height: 87vh;
+  max-height: 87vh;
   background-color: #fff;
-  /*border: 1px solid #ddd;*/
+  border: 1px solid #ddd;
   /*border-radius: 4px;*/
   /*overflow-x: auto;*/
   /*overflow-y: auto;*/
@@ -147,8 +147,13 @@ a[disabled] {
 }
 @media (min-width: 979px) {
   .tree-container {
-    height: 98vh;
-    max-height: 98vh;
+    height: 88vh;
+    max-height: 88vh;
+  }
+}
+@media (max-width: 979px) {
+  .tree-container .tree-holder {
+    float: none;
   }
 }
 .hidden {
