@@ -27,14 +27,14 @@
 /**
  *
  * @author Hudhaifa Shatnawi <hudhaifa.shatnawi@gmail.com>
- * @version 1.0, Dec 17, 2016 - 10:29:00 PM
+ * @version 1.0, Jan 8, 2017 - 7:51:02 AM
  */
-class IndexingTask
+class StatsTask
         extends BuildTask {
 
-    protected $title = 'Indexing people full names';
+    protected $title = 'Indexing people statistics';
     protected $description = "
-            Indexing all people full name for searching purposes
+            Indexing all people statistics
             
             Parameters:
                 - level: all - to index all records, otherwise index only non-indexed records.
@@ -47,15 +47,44 @@ class IndexingTask
         if ($level == 'all') {
             $people = Person::get();
         } else {
-            $people = Person::get()->where('IndexedName IS NULL');
+            $people = Person::get()->where('StatsID = 0');
+//            $people = Person::get()->where('IndexedName IS NULL');
         }
 
         echo $people->count() . ' records has been indexed.';
 
         foreach ($people as $person) {
-            $person->IndexedName = $person->getFullName();
+            $this->indexStats($person);
+
             $person->write();
         }
+    }
+
+    private function indexName($person) {
+        $person->IndexedName = $person->getFullName();
+    }
+
+    private function indexStats($person) {
+        if ($person->Stats()->exists()) {
+            $stats = $person->Stats();
+        } else {
+            $stats = new PersonStats();
+            $stats->PersonID = $person->ID;
+        }
+
+        $stats->Sons = GenealogistHelper::count_sons($person);
+        $stats->Daughters = GenealogistHelper::count_daughters($person);
+        $stats->Males = GenealogistHelper::count_males($person);
+        $stats->Females = GenealogistHelper::count_females($person);
+        $stats->Total = GenealogistHelper::count_descendants($person);
+        $stats->LiveSons = GenealogistHelper::count_sons($person, 1);
+        $stats->LiveDaughters = GenealogistHelper::count_daughters($person, 1);
+        $stats->LiveMales = GenealogistHelper::count_males($person, 1);
+        $stats->LiveFemales = GenealogistHelper::count_females($person, 1);
+        $stats->LiveTotal = GenealogistHelper::count_descendants($person, 1);
+        $stats->write();
+
+        $person->StatsID = $stats->ID;
     }
 
 }
