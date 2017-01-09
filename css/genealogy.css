@@ -119,6 +119,9 @@
   -o-transform: rotate(-45deg);
   transform: rotate(-45deg);
 }
+.genealogy-tree .node.dead.exporting:after {
+  display: none;
+}
 .genealogy-tree .node.clan {
   background-color: #dff0d8;
 }

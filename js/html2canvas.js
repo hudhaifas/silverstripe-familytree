@@ -2234,6 +2234,9 @@ NodeParser.prototype.paintText = function(container) {
     var textList = (!this.options.letterRendering || noLetterSpacing(container)) && !hasUnicode(container.node.data) ? getWords(characters) : characters.map(function(character) {
         return punycode.ucs2.encode([character]);
     });
+    // Added by Hudhaifa Shatnawi
+    // To solve arabic characters
+    var textList = getWords(characters);
 
     var weight = container.parent.fontWeight();
     var size = container.parent.css('fontSize');

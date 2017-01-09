@@ -83,6 +83,7 @@ class GenealogyPage_Controller
         Requirements::css("genealogist/css/jquery.jOrgChart.css");
         Requirements::css("genealogist/css/genealogy.css");
         Requirements::css("genealogist/css/genealogy-rtl.css");
+        Requirements::css("genealogist/css/export.css");
 
         Requirements::javascript("genealogist/js/jquery.jOrgChart.js");
         Requirements::javascript("genealogist/js/jquery.dragscroll.js");

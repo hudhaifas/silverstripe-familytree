@@ -235,15 +235,7 @@ var registerLinks = function () {
             return;
         }
 
-        var sourceChart = $('.jOrgChart table');
-
-        html2canvas(sourceChart, {
-            width: sourceChart.clientWidth,
-            height: sourceChart.clientHeight,
-            onrendered: function (canvas) {
-                document.body.appendChild(canvas);
-            }
-        });
+        exportTree();
     });
 
     $('input[type=checkbox]#f').change(function () {
@@ -295,5 +287,45 @@ var centerTree = function (target, outer) {
 };
 
 var exportTree = function () {
+    $html = $('html');
+    dir = $html.attr('dir');
+    $html.attr("dir", "ltr");
+    $html.addClass('exporting');
+    
+    var $treeContainer = $('.jOrgChart');
+    var $parent = $treeContainer.parent();
+    var $saveButton = $('#save-tree');
+    var $treeTable = $treeContainer.find('table');
 
+    // Pre export
+    var transform = $treeContainer.css('transform');
+    var left = $parent.scrollLeft();
+    var top = $parent.scrollTop();
+    
+    $treeContainer.css('transform', '');
+    $('.genealogy-tree .node.dead').addClass('exporting');
+
+    $parent.css('width', $treeTable.outerWidth());
+    $parent.css('height', $treeTable.outerHeight());
+
+    // Export
+    html2canvas($treeTable, {
+        width: $treeTable.outerWidth(),
+        height: $treeTable.outerHeight(),
+        background: '#eee',
+        onrendered: function (canvas) {
+//            document.body.appendChild(canvas);
+            $saveButton.attr('href', canvas.toDataURL())[0].click();
+        }
+    });
+
+    // Post export
+    $treeContainer.css('transform', transform);
+    $('.genealogy-tree .node.dead').removeClass('exporting');
+    $parent.css('width', '');
+    $parent.css('height', '');
+    $parent.scrollLeft(left);
+    $parent.scrollTop(top);
+    $('html').removeClass('exporting');
+    $html.attr('dir', dir);
 };
