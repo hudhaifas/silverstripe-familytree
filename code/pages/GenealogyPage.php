@@ -84,12 +84,11 @@ class GenealogyPage_Controller
         Requirements::css("genealogist/css/genealogy.css");
         Requirements::css("genealogist/css/genealogy-rtl.css");
 
-        Requirements::javascript("genealogist/js/jquery-transformer.js");
         Requirements::javascript("genealogist/js/jquery.jOrgChart.js");
         Requirements::javascript("genealogist/js/jquery.dragscroll.js");
         Requirements::javascript("genealogist/js/jquery.fullscreen.js");
         Requirements::javascript("genealogist/js/URI.js");
-//        Requirements::javascript("genealogist/js/html2canvas.js");
+        Requirements::javascript("genealogist/js/html2canvas.js");
         Requirements::javascript("genealogist/js/genealogy.js");
     }
 

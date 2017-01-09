@@ -228,6 +228,24 @@ var registerLinks = function () {
         }
     });
 
+    // Collapse/Expand link
+    $('#export-tree').on('click', function () {
+        event.preventDefault();
+        if (locked) {
+            return;
+        }
+
+        var sourceChart = $('.jOrgChart table');
+
+        html2canvas(sourceChart, {
+            width: sourceChart.clientWidth,
+            height: sourceChart.clientHeight,
+            onrendered: function (canvas) {
+                document.body.appendChild(canvas);
+            }
+        });
+    });
+
     $('input[type=checkbox]#f').change(function () {
         event.preventDefault();
         if (!this.checked) {
@@ -274,4 +292,8 @@ var centerTree = function (target, outer) {
     var y = tar.outerWidth(true);
     var z = tar.index();
     out.scrollLeft(Math.max(0, (y * z) - (x - y) / 2));
+};
+
+var exportTree = function () {
+
 };
