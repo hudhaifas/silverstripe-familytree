@@ -157,7 +157,7 @@ var releaseLinks = function () {
 };
 
 var unregisterLinks = function () {
-    $("#toggle-fullscreen, #toggle-nodes, input[type=checkbox]").unbind("click");
+    $("#toggle-fullscreen, #toggle-nodes, #export-tree, input[type=checkbox]").unbind("click");
 };
 
 var registerLinks = function () {
