@@ -232,13 +232,12 @@ HTML;
 
         $person = $kinship[$index];
         $noFemales = !$this->hasPermission() && $person->isFemale();
-        $name = $noFemales ? _t('Genealogist.MOTHER', 'Mother') : $person->getPersonName();
         $title = $noFemales ? '' : $person->getFullName();
 
         $index++;
         $html = <<<HTML
             <li class="{$person->CSSClasses()}">
-                <a href="#" title="{$title}" data-url="{$person->InfoLink()}" class="info-item">{$name}</a>
+                <a href="#" title="{$title}" data-url="{$person->InfoLink()}" class="info-item">{$person->getPersonName()}</a>
                 <ul>
                     {$this->appendLeaf($kinship, $index)}
                 </ul>
