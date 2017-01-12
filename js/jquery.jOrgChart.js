@@ -15,23 +15,23 @@
 
     $.fn.jOrgChart = function (options) {
         var opts = $.extend({}, $.fn.jOrgChart.defaults, options);
-        var $appendTo = $(opts.chartElement);
+        var $container = $(opts.chartElement);
 
         // build the tree
         $this = $(this);
-        var $container = $("<div class='" + opts.chartClass + " " + opts.direction + "'/>");
+        var $chartPane = $("<div class='" + opts.chartClass + " " + opts.direction + "'/>");
         if ($this.is("ul")) {
-            buildNode($this.find("li:first"), $container, 0, opts);
+            buildNode($this.find("li:first"), $chartPane, 0, opts);
         } else if ($this.is("li")) {
-            buildNode($this, $container, 0, opts);
+            buildNode($this, $chartPane, 0, opts);
         }
 
         $this.remove();
-        $appendTo.append($container);
-        appendControls($appendTo, $container, opts);
+        $container.append($chartPane);
+        appendControls($container, $chartPane, opts);
 
         if (opts.zoom && opts.zoomScroller) {
-            setupZoom($appendTo, $container, opts);
+            setupZoom($container, $chartPane, opts);
         }
     };
 
@@ -59,7 +59,7 @@
 
     var nodeCount = 0;
     // Method that recursively builds the tree
-    function buildNode($node, $appendTo, level, opts) {
+    function buildNode($node, $container, level, opts) {
         var $table = $("<table cellpadding='0' cellspacing='0' border='0'/>");
         var $tbody = $("<tbody/>");
 
@@ -179,7 +179,7 @@
         }
 
         $table.append($tbody);
-        $appendTo.append($table);
+        $container.append($table);
 
         /* Prevent trees collapsing if a link inside a node is clicked */
         $nodeDiv.children('a').click(function (e) {
@@ -188,26 +188,26 @@
         });
     }
 
-    function appendControls($appendTo, $container, opts) {
+    function appendControls($container, $chartPane, opts) {
         $controls = $('<div class="chart-controls"></div>');
 
         if (opts.fullscreen) {
             var $fullscreen = createButton('window-maximize', function () {
 
                 event.preventDefault();
-                $appendTo.toggleFullScreen();
+                $container.toggleFullScreen();
             });
             $fullscreen.appendTo($controls);
 
             $(document).bind("fullscreenchange", function () {
-                strechScreen($appendTo, $appendTo.fullScreen());
-                $appendTo.find('.fa-window-maximize, .fa-window-restore').toggleClass('fa-window-maximize fa-window-restore');
+                strechScreen($container, $container.fullScreen());
+                $container.find('.fa-window-maximize, .fa-window-restore').toggleClass('fa-window-maximize fa-window-restore');
             });
         }
 
         var $collapse = createButton('compress', function () {
             event.preventDefault();
-            if (toggleAllNodes($appendTo)) {
+            if (toggleAllNodes($container)) {
                 $(this).find('.fa').removeClass('fa-expand').addClass('fa-compress');
             } else {
                 $(this).find('.fa').removeClass('fa-compress').addClass('fa-expand');
@@ -216,19 +216,19 @@
         $collapse.appendTo($controls);
 
         if (opts.dragScroller) {
-            $appendTo.dragScroll({});
+            $container.dragScroll({});
         }
 
         if (opts.zoom) {
             var $zoomIn = createButton('plus', function () {
                 event.preventDefault();
                 var newScale = 1 + opts.stepZoom;
-                changeZoom($container, newScale, opts);
+                changeZoom($chartPane, newScale, opts);
             });
             var $zoomOut = createButton('minus', function () {
                 event.preventDefault();
                 var newScale = 1 + -(opts.stepZoom);
-                changeZoom($container, newScale, opts);
+                changeZoom($chartPane, newScale, opts);
             });
 
             $zoomIn.appendTo($controls);
@@ -239,7 +239,7 @@
             var $export = createButton('picture-o', function () {
                 event.preventDefault();
 
-                exportTree($appendTo);
+                exportTree($container);
             });
             var $save = $('<a href="#" id="save-tree" class="hidden" download="' + opts.exportFile + '"></a>');
 
@@ -247,7 +247,7 @@
             $save.appendTo($controls);
         }
 
-        $controls.appendTo($appendTo);
+        $controls.appendTo($container);
     }
 
     function createButton(icon, onclick) {
@@ -257,8 +257,8 @@
         return $btn;
     }
 
-    function toggleAllNodes($container) {
-        $nodeDiv = $container.find('div.node');
+    function toggleAllNodes($chartPane) {
+        $nodeDiv = $chartPane.find('div.node');
         var $tr = $nodeDiv.closest("tr");
 
         if ($tr.hasClass('contracted')) {
@@ -278,17 +278,17 @@
         }
     }
 
-    function strechScreen($appendTo, strech) {
+    function strechScreen($container, strech) {
         if (strech) {
-            $appendTo.css('width', '100%');
-            $appendTo.css('max-width', '100%');
-            $appendTo.css('height', '100%');
-            $appendTo.css('max-height', '100%');
+            $container.css('width', '100%');
+            $container.css('max-width', '100%');
+            $container.css('height', '100%');
+            $container.css('max-height', '100%');
         } else {
-            $appendTo.css('width', '');
-            $appendTo.css('max-width', '');
-            $appendTo.css('height', '');
-            $appendTo.css('max-height', '');
+            $container.css('width', '');
+            $container.css('max-width', '');
+            $container.css('height', '');
+            $container.css('max-height', '');
         }
     }
 
@@ -340,70 +340,70 @@
         $html.attr('dir', dir);
     }
 
-    function setupZoom($appendTo, $container, opts) {
-        $appendTo
+    function setupZoom($container, $chartPane, opts) {
+        $container
                 .on('wheel', function (event) {
                     event.preventDefault();
                     var newScale = 1 + (event.originalEvent.deltaY > 0 ? -(opts.stepZoom) : opts.stepZoom);
-                    changeZoom($container, newScale, opts);
+                    changeZoom($chartPane, newScale, opts);
                 });
 
-        $appendTo
+        $container
                 .on('touchstart', function (e) {
                     if (e.touches && e.touches.length === 2) {
-                        $container.data('pinching', true);
+                        $chartPane.data('pinching', true);
                         var dist = getPinchDist(e);
-                        $container.data('pinchDistStart', dist);
+                        $chartPane.data('pinchDistStart', dist);
                     }
                 });
 
         $(document)
                 .on('touchmove', function (e) {
-                    if ($container.data('pinching')) {
+                    if ($chartPane.data('pinching')) {
                         var dist = getPinchDist(e);
-                        $container.data('pinchDistEnd', dist);
+                        $chartPane.data('pinchDistEnd', dist);
                     }
                 })
                 .on('touchend', function (e) {
-                    if ($container.data('pinching')) {
-                        $container.data('pinching', false);
-                        var diff = $container.data('pinchDistEnd') - $container.data('pinchDistStart');
+                    if ($chartPane.data('pinching')) {
+                        $chartPane.data('pinching', false);
+                        var diff = $chartPane.data('pinchDistEnd') - $chartPane.data('pinchDistStart');
                         if (diff > 0) {
-                            changeZoom($container, 1.2);
+                            changeZoom($chartPane, 1.2);
                         } else if (diff < 0) {
-                            changeZoom($container, 0.8);
+                            changeZoom($chartPane, 0.8);
                         }
                     }
                 });
     }
 
-    function changeZoom($container, newScale, opts) {
-        $parent = $container.parent();
+    function changeZoom($chartPane, newScale, opts) {
+        $parent = $chartPane.parent();
         pW = $parent.width();
         pH = $parent.height();
-        cW = $container.width();
-        cH = $container.height();
+        cW = $chartPane.width();
+        cH = $chartPane.height();
 
         console.log('Container: [' + cW + ',' + cH + ']');
         console.log('Parent: [' + pW + ',' + pH + ']');
 
 
 
-        currentScale = getCurrentScale($container);
+        currentScale = getCurrentScale($chartPane);
         if ((newScale > 1 && currentScale > opts.maxZoom) || (newScale < 1 && currentScale < opts.minZoom)) {
             return;
         }
 
-        var lastTf = $container.css('transform');
+        var lastTf = $chartPane.css('transform');
 
         if (lastTf === 'none') {
-            $container.css('transform', 'scale(' + newScale + ',' + newScale + ')');
+            $chartPane.css('transform', 'scale(' + newScale + ',' + newScale + ')');
 
         } else {
             if (lastTf.indexOf('3d') === -1) {
-                $container.css('transform', lastTf + ' scale(' + newScale + ',' + newScale + ')');
+                $chartPane.css('transform', lastTf + ' scale(' + newScale + ',' + newScale + ')');
             } else {
-                $container.css('transform', lastTf + ' scale3d(' + newScale + ',' + newScale + ', 1)');
+                $chartPane.css('transform', lastTf + ' scale3d(' + newScale + ',' + newScale + ', 1)');
             }
         }
     }
