@@ -256,3 +256,42 @@ a.disabled, a[disabled] {
         }
     }
 }
+
+.chart-controls {
+    position: absolute;
+    width: 31px;
+    top: 10px;
+    right: 10px;
+    opacity: 0.7;
+    z-index: 100;
+    .transition(opacity 0.4s ease);
+
+    &:hover {
+        opacity: 1;
+    }
+
+    .chart-control {
+        background-color: #eee;
+        color: #888;
+
+        width: 31px;
+        height: 31px;
+
+        border-radius: 2px;
+
+        cursor: pointer;
+        overflow: hidden;
+        /*margin: 1px 1px;*/
+        .transition(color 0.4s ease);
+
+        &:hover {
+            color: #000;
+        }
+
+        i {
+            width: 31px;
+            height: 31px;
+            text-align: center;
+        }
+    }
+}

@@ -25,45 +25,13 @@
         } else if ($this.is("li")) {
             buildNode($this, $container, 0, opts);
         }
-        
+
         $this.remove();
         $appendTo.append($container);
+        appendControls($appendTo, $container, opts);
 
-        if (opts.zoom) {
-            $appendTo
-                    .on('wheel', function (event) {
-                        event.preventDefault();
-                        var newScale = 1 + (event.originalEvent.deltaY > 0 ? -(opts.stepZoom) : opts.stepZoom);
-                        changeZoom($container, newScale, opts);
-                    });
-
-            $appendTo
-                    .on('touchstart', function (e) {
-                        if (e.touches && e.touches.length === 2) {
-                            $container.data('pinching', true);
-                            var dist = getPinchDist(e);
-                            $container.data('pinchDistStart', dist);
-                        }
-                    });
-
-            $(document)
-                    .on('touchmove', function (e) {
-                        if ($container.data('pinching')) {
-                            var dist = getPinchDist(e);
-                            $container.data('pinchDistEnd', dist);
-                        }
-                    })
-                    .on('touchend', function (e) {
-                        if ($container.data('pinching')) {
-                            $container.data('pinching', false);
-                            var diff = $container.data('pinchDistEnd') - $container.data('pinchDistStart');
-                            if (diff > 0) {
-                                changeZoom($container, 1.2);
-                            } else if (diff < 0) {
-                                changeZoom($container, 0.8);
-                            }
-                        }
-                    });
+        if (opts.zoom && opts.zoomScroller) {
+            setupZoom($appendTo, $container, opts);
         }
     };
 
@@ -72,8 +40,18 @@
         chartElement: 'body',
         depth: -1,
         chartClass: "jOrgChart",
+        // Direction options
         direction: "t2b",
+        // Fullscree options
+        fullscreen: true,
+        // Drag scroller options
+        dragScroller: true,
+        // Export options
+        exportImage: true,
+        exportFile: 'family.png',
+        // Zoom options
         zoom: true,
+        zoomScroller: false,
         minZoom: 0.4,
         maxZoom: 1.2,
         stepZoom: 0.2
@@ -208,6 +186,195 @@
             console.log(e);
             e.stopPropagation();
         });
+    }
+
+    function appendControls($appendTo, $container, opts) {
+        $controls = $('<div class="chart-controls"></div>');
+
+        if (opts.fullscreen) {
+            var $fullscreen = createButton('window-maximize', function () {
+
+                event.preventDefault();
+                $appendTo.toggleFullScreen();
+            });
+            $fullscreen.appendTo($controls);
+
+            $(document).bind("fullscreenchange", function () {
+                strechScreen($appendTo, $appendTo.fullScreen());
+                $appendTo.find('.fa-window-maximize, .fa-window-restore').toggleClass('fa-window-maximize fa-window-restore');
+            });
+        }
+
+        var $collapse = createButton('compress', function () {
+            event.preventDefault();
+            if (toggleAllNodes($appendTo)) {
+                $(this).find('.fa').removeClass('fa-expand').addClass('fa-compress');
+            } else {
+                $(this).find('.fa').removeClass('fa-compress').addClass('fa-expand');
+            }
+        });
+        $collapse.appendTo($controls);
+
+        if (opts.dragScroller) {
+            $appendTo.dragScroll({});
+        }
+
+        if (opts.zoom) {
+            var $zoomIn = createButton('plus', function () {
+                event.preventDefault();
+                var newScale = 1 + opts.stepZoom;
+                changeZoom($container, newScale, opts);
+            });
+            var $zoomOut = createButton('minus', function () {
+                event.preventDefault();
+                var newScale = 1 + -(opts.stepZoom);
+                changeZoom($container, newScale, opts);
+            });
+
+            $zoomIn.appendTo($controls);
+            $zoomOut.appendTo($controls);
+        }
+
+        if (opts.exportImage) {
+            var $export = createButton('picture-o', function () {
+                event.preventDefault();
+
+                exportTree($appendTo);
+            });
+            var $save = $('<a href="#" id="save-tree" class="hidden" download="' + opts.exportFile + '"></a>');
+
+            $export.appendTo($controls);
+            $save.appendTo($controls);
+        }
+
+        $controls.appendTo($appendTo);
+    }
+
+    function createButton(icon, onclick) {
+        $btn = $('<a class="chart-control"><i class="fa fa-' + icon + '"></i></a> ');
+        $btn.on('click', onclick);
+
+        return $btn;
+    }
+
+    function toggleAllNodes($container) {
+        $nodeDiv = $container.find('div.node');
+        var $tr = $nodeDiv.closest("tr");
+
+        if ($tr.hasClass('contracted')) {
+            $nodeDiv.css('cursor', 'zoom-out');
+            $tr.removeClass('contracted').addClass('expanded');
+            $tr.nextAll("tr").css('visibility', '');
+            $tr.nextAll("tr").css('display', '');
+
+            return true;
+        } else {
+            $nodeDiv.css('cursor', 'zoom-in');
+            $tr.removeClass('expanded').addClass('contracted');
+            $tr.nextAll("tr").css('visibility', 'hidden');
+            $tr.nextAll("tr").css('display', 'none');
+
+            return false;
+        }
+    }
+
+    function strechScreen($appendTo, strech) {
+        if (strech) {
+            $appendTo.css('width', '100%');
+            $appendTo.css('max-width', '100%');
+            $appendTo.css('height', '100%');
+            $appendTo.css('max-height', '100%');
+        } else {
+            $appendTo.css('width', '');
+            $appendTo.css('max-width', '');
+            $appendTo.css('height', '');
+            $appendTo.css('max-height', '');
+        }
+    }
+
+    function exportTree($parent) {
+        $html = $('html');
+        dir = $html.attr('dir');
+        $html.attr("dir", "ltr");
+        $html.addClass('exporting');
+
+        var $treeContainer = $parent.find('.jOrgChart');
+        var $saveButton = $('#save-tree');
+        var $treeTable = $treeContainer.find('table');
+
+        // Pre export
+        // Set the HTML page to:
+        // - direction: ltr 
+        // - float: left
+        // - scale:1
+        // - width: 
+        var transform = $treeContainer.css('transform');
+        var left = $parent.scrollLeft();
+        var top = $parent.scrollTop();
+
+        $treeContainer.css('transform', '');
+        $('.genealogy-tree .node.dead').addClass('exporting');
+
+        $parent.css('width', $treeTable.outerWidth());
+        $parent.css('height', $treeTable.outerHeight());
+
+        // Export
+        html2canvas($treeTable, {
+            width: $treeTable.outerWidth(),
+            height: $treeTable.outerHeight(),
+            background: '#eee',
+            onrendered: function (canvas) {
+//            document.body.appendChild(canvas);
+                $saveButton.attr('href', canvas.toDataURL())[0].click();
+            }
+        });
+
+        // Post export
+        $treeContainer.css('transform', transform);
+        $('.genealogy-tree .node.dead').removeClass('exporting');
+        $parent.css('width', '');
+        $parent.css('height', '');
+        $parent.scrollLeft(left);
+        $parent.scrollTop(top);
+        $('html').removeClass('exporting');
+        $html.attr('dir', dir);
+    }
+
+    function setupZoom($appendTo, $container, opts) {
+        $appendTo
+                .on('wheel', function (event) {
+                    event.preventDefault();
+                    var newScale = 1 + (event.originalEvent.deltaY > 0 ? -(opts.stepZoom) : opts.stepZoom);
+                    changeZoom($container, newScale, opts);
+                });
+
+        $appendTo
+                .on('touchstart', function (e) {
+                    if (e.touches && e.touches.length === 2) {
+                        $container.data('pinching', true);
+                        var dist = getPinchDist(e);
+                        $container.data('pinchDistStart', dist);
+                    }
+                });
+
+        $(document)
+                .on('touchmove', function (e) {
+                    if ($container.data('pinching')) {
+                        var dist = getPinchDist(e);
+                        $container.data('pinchDistEnd', dist);
+                    }
+                })
+                .on('touchend', function (e) {
+                    if ($container.data('pinching')) {
+                        $container.data('pinching', false);
+                        var diff = $container.data('pinchDistEnd') - $container.data('pinchDistStart');
+                        if (diff > 0) {
+                            changeZoom($container, 1.2);
+                        } else if (diff < 0) {
+                            changeZoom($container, 0.8);
+                        }
+                    }
+                });
     }
 
     function changeZoom($container, newScale, opts) {

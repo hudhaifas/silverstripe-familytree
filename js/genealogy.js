@@ -70,7 +70,7 @@ var initTree = function () {
 //            depth: 3
 //            direction: dir
         });
-        $('#' + kinship).dragScroll({});
+//        $('#' + kinship).dragScroll({});
 
         centerTree('#' + kinship + ' table', '#' + kinship);
     });
@@ -86,27 +86,6 @@ var initTree = function () {
             e.preventDefault();
         }
     };
-};
-
-var toggleAllNodes = function () {
-    $nodeDiv = $('div.node');
-    var $tr = $nodeDiv.closest("tr");
-
-    if ($tr.hasClass('contracted')) {
-        $nodeDiv.css('cursor', 'zoom-out');
-        $tr.removeClass('contracted').addClass('expanded');
-        $tr.nextAll("tr").css('visibility', '');
-        $tr.nextAll("tr").css('display', '');
-
-        return true;
-    } else {
-        $nodeDiv.css('cursor', 'zoom-in');
-        $tr.removeClass('expanded').addClass('contracted');
-        $tr.nextAll("tr").css('visibility', 'hidden');
-        $tr.nextAll("tr").css('display', 'none');
-
-        return false;
-    }
 };
 
 var initFilters = function () {
@@ -203,41 +182,6 @@ var registerLinks = function () {
         showPerson(uri.toString());
     });
 
-    // Full-screen link
-    $('#toggle-fullscreen').on('click', function () {
-        event.preventDefault();
-        if (locked) {
-            return;
-        }
-
-        $('.tree-container').toggleFullScreen();
-
-    });
-
-    // Collapse/Expand link
-    $('#toggle-nodes').on('click', function () {
-        event.preventDefault();
-        if (locked) {
-            return;
-        }
-
-        if (toggleAllNodes()) {
-            $(this).find('.fa').removeClass('fa-expand').addClass('fa-compress');
-        } else {
-            $(this).find('.fa').removeClass('fa-compress').addClass('fa-expand');
-        }
-    });
-
-    // Collapse/Expand link
-    $('#export-tree').on('click', function () {
-        event.preventDefault();
-        if (locked) {
-            return;
-        }
-
-        exportTree();
-    });
-
     $('input[type=checkbox]#f').change(function () {
         event.preventDefault();
         if (!this.checked) {
@@ -284,48 +228,4 @@ var centerTree = function (target, outer) {
     var y = tar.outerWidth(true);
     var z = tar.index();
     out.scrollLeft(Math.max(0, (y * z) - (x - y) / 2));
-};
-
-var exportTree = function () {
-    $html = $('html');
-    dir = $html.attr('dir');
-    $html.attr("dir", "ltr");
-    $html.addClass('exporting');
-    
-    var $treeContainer = $('.jOrgChart');
-    var $parent = $treeContainer.parent();
-    var $saveButton = $('#save-tree');
-    var $treeTable = $treeContainer.find('table');
-
-    // Pre export
-    var transform = $treeContainer.css('transform');
-    var left = $parent.scrollLeft();
-    var top = $parent.scrollTop();
-    
-    $treeContainer.css('transform', '');
-    $('.genealogy-tree .node.dead').addClass('exporting');
-
-    $parent.css('width', $treeTable.outerWidth());
-    $parent.css('height', $treeTable.outerHeight());
-
-    // Export
-    html2canvas($treeTable, {
-        width: $treeTable.outerWidth(),
-        height: $treeTable.outerHeight(),
-        background: '#eee',
-        onrendered: function (canvas) {
-//            document.body.appendChild(canvas);
-            $saveButton.attr('href', canvas.toDataURL())[0].click();
-        }
-    });
-
-    // Post export
-    $treeContainer.css('transform', transform);
-    $('.genealogy-tree .node.dead').removeClass('exporting');
-    $parent.css('width', '');
-    $parent.css('height', '');
-    $parent.scrollLeft(left);
-    $parent.scrollTop(top);
-    $('html').removeClass('exporting');
-    $html.attr('dir', dir);
 };
