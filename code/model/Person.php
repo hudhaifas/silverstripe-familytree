@@ -74,7 +74,7 @@ class Person
         'Age',
         'Note',
     );
-    private static $default_sort = 'BirthDate DESC, Created ASC';
+    private static $default_sort = 'Created ASC';
     public static $STATE_ALIVE = 1;
     public static $STATE_DEAD = 2;
 

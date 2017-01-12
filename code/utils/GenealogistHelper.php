@@ -114,7 +114,7 @@ class GenealogistHelper {
         }
 
         return (new ArrayList($children))
-                        ->sort('BirthDate DESC')
+//                        ->sort('BirthDate DESC')
                         ->sort('Created ASC')
 //                        ->sort('BirthDate ASC')
         ;
