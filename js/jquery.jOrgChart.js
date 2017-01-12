@@ -16,6 +16,9 @@
     $.fn.jOrgChart = function (options) {
         var opts = $.extend({}, $.fn.jOrgChart.defaults, options);
         var $container = $(opts.chartElement);
+        $container.addClass('chart-container');
+        $contentPane = $('<div class="chart-content-pane"></div>');
+        $container.append($contentPane);
 
         // build the tree
         $this = $(this);
@@ -27,19 +30,27 @@
         }
 
         $this.remove();
-        $container.append($chartPane);
-        appendControls($container, $chartPane, opts);
+        $contentPane.append($chartPane);
+        $controls = createControls($container, $contentPane, $chartPane, opts);
+        $container.append($controls);
 
         if (opts.zoom && opts.zoomScroller) {
             setupZoom($container, $chartPane, opts);
         }
+
+        $chartTable = $chartPane.find('table');
+//        $chartPane.css('width', $chartTable.outerWidth());
+//        $chartPane.css('height', $chartTable.outerHeight());
+
+//        centerTree($chartPane.find('table'), $contentPane);
+        centerTree($chartTable, $contentPane);
     };
 
-    // Option defaults
+    // Default options
     $.fn.jOrgChart.defaults = {
         chartElement: 'body',
-        depth: -1,
-        chartClass: "jOrgChart",
+        depth: -1, // all
+        chartClass: "chart-pane",
         // Direction options
         direction: "t2b",
         // Fullscree options
@@ -188,16 +199,16 @@
         });
     }
 
-    function appendControls($container, $chartPane, opts) {
+    function createControls($container, $contentPane, $chartPane, opts) {
         $controls = $('<div class="chart-controls"></div>');
 
         if (opts.fullscreen) {
-            var $fullscreen = createButton('window-maximize', function () {
+            var $fullscreenBtn = createButton('window-maximize', function () {
 
                 event.preventDefault();
                 $container.toggleFullScreen();
             });
-            $fullscreen.appendTo($controls);
+            $fullscreenBtn.appendTo($controls);
 
             $(document).bind("fullscreenchange", function () {
                 strechScreen($container, $container.fullScreen());
@@ -205,7 +216,7 @@
             });
         }
 
-        var $collapse = createButton('compress', function () {
+        var $collapseBtn = createButton('compress', function () {
             event.preventDefault();
             if (toggleAllNodes($container)) {
                 $(this).find('.fa').removeClass('fa-expand').addClass('fa-compress');
@@ -213,41 +224,41 @@
                 $(this).find('.fa').removeClass('fa-compress').addClass('fa-expand');
             }
         });
-        $collapse.appendTo($controls);
+        $collapseBtn.appendTo($controls);
 
         if (opts.dragScroller) {
-            $container.dragScroll({});
+            $contentPane.dragScroll({});
         }
 
         if (opts.zoom) {
-            var $zoomIn = createButton('plus', function () {
+            var $zoomInBtn = createButton('plus', function () {
                 event.preventDefault();
                 var newScale = 1 + opts.stepZoom;
                 changeZoom($chartPane, newScale, opts);
             });
-            var $zoomOut = createButton('minus', function () {
+            var $zoomOutBtn = createButton('minus', function () {
                 event.preventDefault();
                 var newScale = 1 + -(opts.stepZoom);
                 changeZoom($chartPane, newScale, opts);
             });
 
-            $zoomIn.appendTo($controls);
-            $zoomOut.appendTo($controls);
+            $zoomInBtn.appendTo($controls);
+            $zoomOutBtn.appendTo($controls);
         }
 
         if (opts.exportImage) {
-            var $export = createButton('picture-o', function () {
+            var $saveBtn = $('<a href="#" id="save-tree" class="hidden" download="' + opts.exportFile + '"></a>');
+            var $exportBtn = createButton('picture-o', function () {
                 event.preventDefault();
 
-                exportTree($container);
+                exportTree($container, $contentPane, $chartPane, $saveBtn);
             });
-            var $save = $('<a href="#" id="save-tree" class="hidden" download="' + opts.exportFile + '"></a>');
 
-            $export.appendTo($controls);
-            $save.appendTo($controls);
+            $exportBtn.appendTo($controls);
+            $saveBtn.appendTo($controls);
         }
 
-        $controls.appendTo($container);
+        return $controls;
     }
 
     function createButton(icon, onclick) {
@@ -292,50 +303,50 @@
         }
     }
 
-    function exportTree($parent) {
+    function exportTree($container, $contentPane, $chartPane, $saveBtn) {
+        $container.fullScreen(false);
+
         $html = $('html');
         dir = $html.attr('dir');
         $html.attr("dir", "ltr");
         $html.addClass('exporting');
 
-        var $treeContainer = $parent.find('.jOrgChart');
-        var $saveButton = $('#save-tree');
-        var $treeTable = $treeContainer.find('table');
+        var $chartTable = $chartPane.find('table');
 
         // Pre export
-        // Set the HTML page to:
+        // Set the HTML page to defaults:
         // - direction: ltr 
         // - float: left
         // - scale:1
         // - width: 
-        var transform = $treeContainer.css('transform');
-        var left = $parent.scrollLeft();
-        var top = $parent.scrollTop();
+        var transform = $chartPane.css('transform');
+        var left = $contentPane.scrollLeft();
+        var top = $contentPane.scrollTop();
 
-        $treeContainer.css('transform', '');
+        $chartPane.css('transform', '');
         $('.genealogy-tree .node.dead').addClass('exporting');
 
-        $parent.css('width', $treeTable.outerWidth());
-        $parent.css('height', $treeTable.outerHeight());
+        $container.css('width', $chartTable.outerWidth());
+        $container.css('height', $chartTable.outerHeight());
 
         // Export
-        html2canvas($treeTable, {
-            width: $treeTable.outerWidth(),
-            height: $treeTable.outerHeight(),
+        html2canvas($chartTable, {
+            width: $chartTable.outerWidth(),
+            height: $chartTable.outerHeight(),
             background: '#eee',
             onrendered: function (canvas) {
 //            document.body.appendChild(canvas);
-                $saveButton.attr('href', canvas.toDataURL())[0].click();
+                $saveBtn.attr('href', canvas.toDataURL())[0].click();
             }
         });
 
         // Post export
-        $treeContainer.css('transform', transform);
+        $chartPane.css('transform', transform);
         $('.genealogy-tree .node.dead').removeClass('exporting');
-        $parent.css('width', '');
-        $parent.css('height', '');
-        $parent.scrollLeft(left);
-        $parent.scrollTop(top);
+        $container.css('width', '');
+        $container.css('height', '');
+        $contentPane.scrollLeft(left);
+        $contentPane.scrollTop(top);
         $('html').removeClass('exporting');
         $html.attr('dir', dir);
     }
@@ -384,10 +395,8 @@
         cW = $chartPane.width();
         cH = $chartPane.height();
 
-        console.log('Container: [' + cW + ',' + cH + ']');
-        console.log('Parent: [' + pW + ',' + pH + ']');
-
-
+//        console.log('Container: [' + cW + ',' + cH + ']');
+//        console.log('Parent: [' + pW + ',' + pH + ']');
 
         currentScale = getCurrentScale($chartPane);
         if ((newScale > 1 && currentScale > opts.maxZoom) || (newScale < 1 && currentScale < opts.minZoom)) {
@@ -434,5 +443,14 @@
                 $element.css("transform");
         return matrix;
     }
+
+    var centerTree = function (table, container) {
+        var out = $(container);
+        var tar = $(table);
+        var x = out.width();
+        var y = tar.outerWidth(true);
+        var z = tar.index();
+        out.scrollLeft(Math.max(0, (y * z) - (x - y) / 2));
+    };
 
 })(jQuery);

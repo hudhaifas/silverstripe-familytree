@@ -56,19 +56,15 @@
   margin-left: auto;
   margin-right: auto;
 }
-.genealogy-tree {
-  overflow: scroll;
+.chart-container {
   height: 87vh;
   max-height: 87vh;
   background-color: #fff;
   border: 1px solid #ddd;
   border-radius: 4px;
-  /*overflow-x: auto;*/
-  /*overflow-y: auto;*/
-  overflow: auto;
   /* The node */
 }
-.genealogy-tree .node {
+.chart-container .node {
   width: 80px;
   height: 30px;
   margin: 0 2px;
@@ -77,34 +73,34 @@
   border-radius: .25rem;
   box-shadow: inset 0 1px 1px rgba(0, 0, 0, 0.075);
 }
-.genealogy-tree .node,
-.genealogy-tree .node a {
+.chart-container .node,
+.chart-container .node a {
   /*text-align: justify;*/
 }
-.genealogy-tree .node.male {
+.chart-container .node.male {
   background-color: #d9edf7;
 }
-.genealogy-tree .node.male,
-.genealogy-tree .node.male a {
+.chart-container .node.male,
+.chart-container .node.male a {
   color: #31708f;
 }
-.genealogy-tree .node.male.dead {
+.chart-container .node.male.dead {
   background-color: #eef7fb;
 }
-.genealogy-tree .node.female {
+.chart-container .node.female {
   background-color: #f2dede;
 }
-.genealogy-tree .node.female,
-.genealogy-tree .node.female a {
+.chart-container .node.female,
+.chart-container .node.female a {
   color: #a94442;
 }
-.genealogy-tree .node.female.dead {
+.chart-container .node.female.dead {
   background-color: #f9f0f0;
 }
-.genealogy-tree .node.dead {
+.chart-container .node.dead {
   position: relative;
 }
-.genealogy-tree .node.dead:after {
+.chart-container .node.dead:after {
   content: '';
   border-top: 3px solid black;
   border-radius: 3px;
@@ -119,27 +115,27 @@
   -o-transform: rotate(-45deg);
   transform: rotate(-45deg);
 }
-.genealogy-tree .node.dead.exporting:after {
+.chart-container .node.dead.exporting:after {
   display: none;
 }
-.genealogy-tree .node.clan {
+.chart-container .node.clan {
   background-color: #dff0d8;
 }
-.genealogy-tree .node.clan,
-.genealogy-tree .node.clan a {
+.chart-container .node.clan,
+.chart-container .node.clan a {
   color: #3c763d;
 }
-.genealogy-tree .node.clan.dead {
+.chart-container .node.clan.dead {
   background-color: #dff0d8;
 }
-.genealogy-tree .node.clan.dead,
-.genealogy-tree .node.clan.dead a {
+.chart-container .node.clan.dead,
+.chart-container .node.clan.dead a {
   color: #3c763d;
 }
-.genealogy-tree .node.clan:after {
+.chart-container .node.clan:after {
   border-top: none;
 }
-.genealogy-tree .node a {
+.chart-container .node a {
   cursor: help;
   word-wrap: break-word;
 }
@@ -213,7 +209,7 @@ a[disabled] {
     display: none !important;
   }
 }
-.jOrgChart.l2r {
+.chart-pane.l2r {
   -webkit-transform: scaleX(-1);
   -moz-transform: scaleX(-1);
   -ms-transform: scaleX(-1);
@@ -227,11 +223,11 @@ a[disabled] {
   -o-transform: rotate(-90deg);
   transform: rotate(-90deg);
 }
-.jOrgChart.l2r .node {
+.chart-pane.l2r .node {
   width: 30px;
   height: 80px;
 }
-.jOrgChart.l2r .node a {
+.chart-pane.l2r .node a {
   display: inline-block;
   -webkit-transform: rotate(90deg) translateX(24px);
   -moz-transform: rotate(90deg) translateX(24px);
@@ -239,7 +235,7 @@ a[disabled] {
   -o-transform: rotate(90deg) translateX(24px);
   transform: rotate(90deg) translateX(24px);
 }
-.jOrgChart.l2r .node.dead:after {
+.chart-pane.l2r .node.dead:after {
   -webkit-transform: rotate(45deg);
   -moz-transform: rotate(45deg);
   -ms-transform: rotate(45deg);
@@ -249,7 +245,7 @@ a[disabled] {
   left: auto;
   right: 3px;
 }
-.jOrgChart.r2l {
+.chart-pane.r2l {
   -webkit-transform: scaleX(-1);
   -moz-transform: scaleX(-1);
   -ms-transform: scaleX(-1);
@@ -263,12 +259,12 @@ a[disabled] {
   -o-transform: rotate(90deg);
   transform: rotate(90deg);
 }
-.jOrgChart.r2l .node {
+.chart-pane.r2l .node {
   /*.rotate(-90deg);*/
   width: 30px;
   height: 80px;
 }
-.jOrgChart.r2l .node a {
+.chart-pane.r2l .node a {
   display: inline-block;
   -webkit-transform: rotate(-90deg) translateX(-24px);
   -moz-transform: rotate(-90deg) translateX(-24px);
@@ -276,7 +272,7 @@ a[disabled] {
   -o-transform: rotate(-90deg) translateX(-24px);
   transform: rotate(-90deg) translateX(-24px);
 }
-.jOrgChart.r2l .node.dead:after {
+.chart-pane.r2l .node.dead:after {
   -webkit-transform: rotate(225deg);
   -moz-transform: rotate(225deg);
   -ms-transform: rotate(225deg);

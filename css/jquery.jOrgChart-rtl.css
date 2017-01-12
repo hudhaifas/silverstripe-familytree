@@ -1,18 +1,18 @@
 /* Basic styling */
-.jOrgChart .left {
+.chart-pane .left {
   border-left: 2px solid black;
   border-right: 0;
 }
-.jOrgChart .right {
+.chart-pane .right {
   border-left: 0;
   border-right: 2px solid black;
 }
-.jOrgChart .node {
+.chart-pane .node {
   width: 80px;
   height: 30px;
   margin: 0 2px;
 }
-.jOrgChart .node a {
+.chart-pane .node a {
   font-size: 12px;
 }
-/*# sourceMappingURL=genealogy-rtl.css.map */
+/*# sourceMappingURL=jquery.jOrgChart-rtl.css.map */

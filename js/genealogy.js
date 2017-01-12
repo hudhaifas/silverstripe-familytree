@@ -72,7 +72,6 @@ var initTree = function () {
         });
 //        $('#' + kinship).dragScroll({});
 
-        centerTree('#' + kinship + ' table', '#' + kinship);
     });
 
     registerLinks();
@@ -219,13 +218,4 @@ var registerLinks = function () {
         url = $(location).attr('href');
         showPerson(url);
     });
-};
-
-var centerTree = function (target, outer) {
-    var out = $(outer);
-    var tar = $(target);
-    var x = out.width();
-    var y = tar.outerWidth(true);
-    var z = tar.index();
-    out.scrollLeft(Math.max(0, (y * z) - (x - y) / 2));
 };

@@ -1,42 +1,47 @@
 /* Basic styling */
-.jOrgChart {
+.chart-container .chart-content-pane {
+  width: 100%;
+  height: 100%;
+  overflow: auto;
+}
+.chart-pane {
   /* Draw the lines */
   /* node cell */
   /* The node */
 }
-.jOrgChart .line {
+.chart-pane .line {
   height: 20px;
   width: 4px;
 }
-.jOrgChart .down {
+.chart-pane .down {
   background-color: black;
   margin: 0px auto;
 }
-.jOrgChart .top {
+.chart-pane .top {
   border-top: 2px solid black;
 }
-.jOrgChart .left {
+.chart-pane .left {
   border-right: 2px solid black;
 }
-.jOrgChart .right {
+.chart-pane .right {
   border-left: 2px solid black;
 }
-.jOrgChart table {
+.chart-pane table {
   margin: 0 auto;
   /* or margin: 0 auto 0 auto */
 }
-.jOrgChart td {
+.chart-pane td {
   text-align: center;
   vertical-align: top;
   padding: 0;
 }
-.jOrgChart .node {
-  background-color: #35363B;
+.chart-pane .node {
   display: inline-block;
+  background-color: #d9edf7;
+  color: #31708f;
   width: 80px;
-  height: 38px;
+  height: 30px;
   z-index: 10;
   margin: 0 2px;
-  color: #fff;
 }
 /*# sourceMappingURL=jquery.jOrgChart.css.map */

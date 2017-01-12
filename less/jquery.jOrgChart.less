@@ -1,29 +1,45 @@
-@color-tree-branches: black;
+@node-w: 80px;
+@node-h: 30px;
+@node-z: 10;
+@node-bg: #d9edf7;
+@node-fg: #31708f;
+
+@tree-branches-fg: black;
+@tree-branches-w: 4px;
+@tree-branches-h: 20px;
 
 /* Basic styling */
-.jOrgChart {
+.chart-container {
+    .chart-content-pane{
+        width: 100%;
+        height: 100%;
+        overflow: auto;
+    }
+}
+
+.chart-pane {
 
     /* Draw the lines */
     .line {
-        height: 20px;
-        width: 4px;
+        height: @tree-branches-h;
+        width: @tree-branches-w;
     }
 
     .down {
-        background-color: @color-tree-branches;	
+        background-color: @tree-branches-fg;	
         margin: 0px auto;
     }
 
     .top {
-        border-top: 2px solid @color-tree-branches;
+        border-top: 2px solid @tree-branches-fg;
     }
 
     .left {
-        border-right: 2px solid @color-tree-branches;
+        border-right: 2px solid @tree-branches-fg;
     }
 
     .right {
-        border-left: 2px solid @color-tree-branches;
+        border-left: 2px solid @tree-branches-fg;
     }
 
     table {
@@ -39,12 +55,14 @@
 
     /* The node */
     .node {
-        background-color: #35363B;
         display: inline-block;
-        width: 80px;
-        height: 38px;
-        z-index: 10;
+        background-color: @node-bg;
+        color: @node-fg;        
+        
+        width: @node-w;
+        height: @node-h;
+        
+        z-index: @node-z;
         margin: 0 2px;
-        color: #fff;        
     }
 }
