@@ -5,7 +5,7 @@
  * http://twitter.com/wesnolte
  *
  * Based on the work of Mark Lee
- * http://www.capricasoftware.co.uk 
+ * http://www.capricasoftware.co.uk
  *
  * Copyright (c) 2011 Wesley Nolte
  * Dual licensed under the MIT and GPL licenses.
@@ -138,7 +138,7 @@
                 var $downLineCell = $("<td/>").attr("colspan", $childNodes.length * 2);
                 $downLineRow.append($downLineCell);
 
-                // draw the connecting line from the parent node to the horizontal line 
+                // draw the connecting line from the parent node to the horizontal line
                 $downLine = $("<div></div>").addClass("line down");
                 $downLineCell.append($downLine);
                 $tbody.append($downLineRow);
@@ -203,7 +203,7 @@
         $controls = $('<div class="chart-controls"></div>');
 
         if (opts.fullscreen) {
-            var $fullscreenBtn = createButton('window-maximize', function () {
+            var $fullscreenBtn = createButton('fullscreen hidden-phone hidden-tablet', function () {
 
                 event.preventDefault();
                 $container.toggleFullScreen();
@@ -212,17 +212,14 @@
 
             $(document).bind("fullscreenchange", function () {
                 strechScreen($container, $container.fullScreen());
-                $container.find('.fa-window-maximize, .fa-window-restore').toggleClass('fa-window-maximize fa-window-restore');
+                $container.find('.fullscreen, .fullscreen-exit').toggleClass('fullscreen fullscreen-exit');
             });
         }
 
-        var $collapseBtn = createButton('compress', function () {
+        var $collapseBtn = createButton('collapse-all', function () {
             event.preventDefault();
-            if (toggleAllNodes($container)) {
-                $(this).find('.fa').removeClass('fa-expand').addClass('fa-compress');
-            } else {
-                $(this).find('.fa').removeClass('fa-compress').addClass('fa-expand');
-            }
+            toggleAllNodes($container);
+            $container.find('.collapse-all, .expand-all').toggleClass('collapse-all expand-all');
         });
         $collapseBtn.appendTo($controls);
 
@@ -231,12 +228,12 @@
         }
 
         if (opts.zoom) {
-            var $zoomInBtn = createButton('plus', function () {
+            var $zoomInBtn = createButton('zoom-in', function () {
                 event.preventDefault();
                 var newScale = 1 + opts.stepZoom;
                 changeZoom($chartPane, newScale, opts);
             });
-            var $zoomOutBtn = createButton('minus', function () {
+            var $zoomOutBtn = createButton('zoom-out', function () {
                 event.preventDefault();
                 var newScale = 1 + -(opts.stepZoom);
                 changeZoom($chartPane, newScale, opts);
@@ -248,7 +245,7 @@
 
         if (opts.exportImage) {
             var $saveBtn = $('<a href="#" id="save-tree" class="hidden" download="' + opts.exportFile + '"></a>');
-            var $exportBtn = createButton('picture-o', function () {
+            var $exportBtn = createButton('export hidden-phone hidden-tablet', function () {
                 event.preventDefault();
 
                 exportTree($container, $contentPane, $chartPane, $saveBtn);
@@ -262,7 +259,7 @@
     }
 
     function createButton(icon, onclick) {
-        $btn = $('<a class="chart-control"><i class="fa fa-' + icon + '"></i></a> ');
+        $btn = $('<div class="chart-control ' + icon + '"></div> ');
         $btn.on('click', onclick);
 
         return $btn;
@@ -295,11 +292,14 @@
             $container.css('max-width', '100%');
             $container.css('height', '100%');
             $container.css('max-height', '100%');
+            $container.find('.export').hide();
+
         } else {
             $container.css('width', '');
             $container.css('max-width', '');
             $container.css('height', '');
             $container.css('max-height', '');
+            $container.find('.export').show();
         }
     }
 
@@ -315,10 +315,10 @@
 
         // Pre export
         // Set the HTML page to defaults:
-        // - direction: ltr 
+        // - direction: ltr
         // - float: left
         // - scale:1
-        // - width: 
+        // - width:
         var transform = $chartPane.css('transform');
         var left = $contentPane.scrollLeft();
         var top = $contentPane.scrollTop();
