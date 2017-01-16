@@ -35,6 +35,8 @@ class AbstractGenealogy
     private static $group_code = 'genealogists';
     private static $group_title = 'Genealogists';
     private static $group_permission = 'CMS_ACCESS_CMSMain';
+    private static $co_group_code = 'co-genealogists';
+    private static $co_group_title = 'Co-Genealogists';
 
     public function canCreate($member = false) {
         return false;
@@ -43,6 +45,7 @@ class AbstractGenealogy
     protected function onBeforeWrite() {
         parent::onBeforeWrite();
         $this->getUserGroup();
+        $this->getCoUserGroup();
     }
 
     /**
@@ -66,6 +69,27 @@ class AbstractGenealogy
             $permission->Code = $this->config()->group_permission;
 
             $group->Permissions()->add($permission);
+        }
+
+        return $group;
+    }
+
+    /**
+     * Returns/Creates the genealogists group to assign CMS access.
+     *
+     * @return Group Librarians group
+     */
+    protected function getCoUserGroup() {
+        $code = $this->config()->co_group_code;
+
+        $group = Group::get()->filter('Code', $code)->first();
+
+        if (!$group) {
+            $group = new Group();
+            $group->Title = $this->config()->co_group_title;
+            $group->Code = $code;
+
+            $group->write();
         }
 
         return $group;
