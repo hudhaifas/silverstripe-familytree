@@ -69,10 +69,12 @@ class StatsTask
     private function indexStats($person) {
         if ($person->Stats()->exists() || $person->StatsID) {
             $stats = $person->Stats();
-            echo 'Updating the index of : ' . $person->Name . '... <br />';
+//            echo 'Updating the index of : ' . $person->Name . '... <br />';
+            echo '.';
         } else {
             $stats = new PersonStats();
-            echo 'Indexing: ' . $person->Name . '... <br />';
+//            echo 'Indexing: ' . $person->Name . '... <br />';
+            echo '.';
         }
 
         $stats->Sons = GenealogistHelper::count_sons($person);
