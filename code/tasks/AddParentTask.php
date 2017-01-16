@@ -50,7 +50,7 @@ class AddParentTask
 
         GenealogistHelper::add_father($id, $name);
 
-        echo 'Task finished.';
+        echo 'Task finished.<br />';
     }
 
 }

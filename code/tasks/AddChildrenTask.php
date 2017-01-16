@@ -50,7 +50,7 @@ class AddChildrenTask
 
         GenealogistHelper::add_sons($id, $names);
 
-        echo 'Task finished.';
+        echo 'Task finished.<br />';
     }
 
 }

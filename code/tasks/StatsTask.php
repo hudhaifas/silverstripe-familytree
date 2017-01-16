@@ -59,7 +59,7 @@ class StatsTask
             $person->write();
         }
 
-        echo $people->count() . ' records has been indexed.';
+        echo $people->count() . ' records has been indexed.<br />';
     }
 
     private function indexName($person) {
