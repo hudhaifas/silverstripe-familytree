@@ -93,12 +93,15 @@ class StatsTask
 
     private function reset() {
         $people = Person::get();
+        echo 'Deleting: ' . $people->Count() . ' person records... <br />';
         foreach ($people as $person) {
             $person->StatsID = 0;
             $person->write();
         }
 
         $stats = PersonStats::get();
+        echo 'Deleting: ' . $stats->Count() . ' stats records... <br />';
+
         foreach ($stats as $stat) {
             $stat->delete();
         }
