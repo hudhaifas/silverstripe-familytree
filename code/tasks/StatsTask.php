@@ -46,6 +46,9 @@ class StatsTask
 
         if ($level == 'all') {
             $people = Person::get();
+        } else if ($level == 'reset') {
+            $this->reset();
+            return;
         } else {
             $people = Person::get()->where('StatsID = 0');
         }
@@ -86,6 +89,19 @@ class StatsTask
         $stats->write();
 
         $person->StatsID = $stats->ID;
+    }
+
+    private function reset() {
+        $people = Person::get();
+        foreach ($people as $person) {
+            $person->StatsID = 0;
+            $person->write();
+        }
+
+        $stats = PersonStats::get();
+        foreach ($stats as $stat) {
+            $stat->delete();
+        }
     }
 
 }
