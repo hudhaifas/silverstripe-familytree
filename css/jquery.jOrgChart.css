@@ -30,7 +30,7 @@
   background-color: #eee;
   background-repeat: no-repeat;
   background-position: center;
-  color: #888;
+  opacity: 0.5;
   width: 31px;
   height: 31px;
   border-radius: 2px;
@@ -38,14 +38,14 @@
   overflow: hidden;
   margin-bottom: 2px;
   /*margin: 1px 1px;*/
-  -webkit-transition: color 0.4s ease;
-  -moz-transition: color 0.4s ease;
-  -ms-transition: color 0.4s ease;
-  -o-transition: color 0.4s ease;
-  transition: color 0.4s ease;
+  -webkit-transition: all 0.4s ease;
+  -moz-transition: all 0.4s ease;
+  -ms-transition: all 0.4s ease;
+  -o-transition: all 0.4s ease;
+  transition: all 0.4s ease;
 }
 .chart-container .chart-controls .chart-control:hover {
-  color: #000;
+  opacity: 1;
 }
 .chart-container .chart-controls .chart-control.fullscreen {
   background-image: url(data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABgAAAAYCAYAAADgdz34AAAABHNCSVQICAgIfAhkiAAAAAlwSFlzAAALEwAACxMBAJqcGAAAAK9JREFUSIntlEEOwiAQRV8ar2DgJN5/06S2XWnUy9jURW2c4kwFYdOkL2HDDP8PMAA7W6YHRmUsqDIMnhlrAb26JshxwI2VHaQa1CLugft7/pJjoOGBhxA/lja4BuIwHV9t5CcbtEAnxE0OK7EzMBix0y/hkvR8d1cSnunMWyOefLmyIsenW7pSBvMCx7LPrQv922B+oaF41B8UY2BV3pQ0sP6gaLR3IHu/UuZ2NsYL5fpb9uGg/vAAAAAASUVORK5CYII=);
