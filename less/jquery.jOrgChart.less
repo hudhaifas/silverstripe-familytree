@@ -41,8 +41,7 @@
             background-color: #eee;
             background-repeat: no-repeat;
             background-position: center;
-
-            color: #888;
+            opacity: 0.5;
 
             width: 31px;
             height: 31px;
@@ -53,10 +52,10 @@
             overflow: hidden;
             margin-bottom: 2px;
             /*margin: 1px 1px;*/
-            .transition(color 0.4s ease);
+            .transition(all 0.4s ease);
 
             &:hover {
-                color: #000;
+                opacity: 1;
             }
 
             &.fullscreen {
