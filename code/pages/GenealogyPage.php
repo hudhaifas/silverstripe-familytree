@@ -134,7 +134,7 @@ class GenealogyPage_Controller
             $person = DataObject::get_by_id('Person', (int) $id);
         }
 
-        if ($person && ($person->PublicFigure || $this->hasPermission())) {
+        if ($person && ($person->PublicFigure || $person->isClan() || $this->hasPermission())) {
             return $this
                             ->customise(array(
                                 'Person' => $person,

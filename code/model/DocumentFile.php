@@ -35,7 +35,7 @@ class DocumentFile
     private static $db = array(
         'Title' => 'Varchar(255)',
         'Date' => 'Date',
-        'Description' => 'Text',
+        'Description' => 'HTMLText',
     );
     private static $has_one = array(
         'Docuement' => 'Image',
@@ -94,6 +94,10 @@ class DocumentFile
                 $field->setConfig('dateformat', 'dd-MM-yyyy');
             }
 
+            $self->reorderField($fields, 'Document', 'Root.Main', 'Root.Main');
+            $self->reorderField($fields, 'Title', 'Root.Main', 'Root.Main');
+            $self->reorderField($fields, 'Date', 'Root.Main', 'Root.Main');
+
             $fields->removeFieldFromTab('Root', 'People');
             $peopleField = TagField::create(
                             'People', //
@@ -111,6 +115,8 @@ class DocumentFile
                             $self->Tags()
             );
             $fields->addFieldToTab('Root.Main', $tagsField);
+
+            $self->reorderField($fields, 'Description', 'Root.Main', 'Root.Main');
         });
 
         $fields = parent::getCMSFields();
@@ -161,6 +167,42 @@ class DocumentFile
 
     public function ThumbDocuement() {
         return $this->Docuement()->CMSThumbnail();
+    }
+
+    /// Utils ///
+    function reorderField($fields, $name, $fromTab, $toTab, $disabled = false) {
+        $field = $fields->fieldByName($fromTab . '.' . $name);
+
+        if ($field) {
+            $fields->removeFieldFromTab($fromTab, $name);
+            $fields->addFieldToTab($toTab, $field);
+
+            if ($disabled) {
+                $field = $field->performDisabledTransformation();
+            }
+        }
+
+        return $field;
+    }
+
+    function removeField($fields, $name, $fromTab) {
+        $field = $fields->fieldByName($fromTab . '.' . $name);
+
+        if ($field) {
+            $fields->removeFieldFromTab($fromTab, $name);
+        }
+
+        return $field;
+    }
+
+    function trim($field) {
+        if ($this->$field) {
+            $this->$field = trim($this->$field);
+        }
+    }
+
+    public function toString() {
+        return $this->getTitle();
     }
 
 }

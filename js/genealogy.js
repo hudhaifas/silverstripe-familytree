@@ -6,9 +6,11 @@ jQuery(document).ready(function () {
     initFilters();
 
     // Scroll to the tree div
-    $('html, body').animate({
-        scrollTop: $('.tree-container').offset().top
-    }, 'slow');
+    if ($('.tree-container').length) {
+        $('html, body').animate({
+            scrollTop: $('.tree-container').offset().top
+        }, 'slow');
+    }
 });
 
 var showPerson = function (url) {
