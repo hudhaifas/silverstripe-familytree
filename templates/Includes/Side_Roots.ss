@@ -7,8 +7,8 @@
 
     <div id="collapse-roots" class="list-group panel-collapse collapse in">
         <div class="panel-body" style="max-height: 360px; overflow-y: auto;">
-            <% loop Roots.Sort(Name, ASC) %>
-            <div class="list-group-item"><a href="{$ShowLink}" class="options-item">$Name</a></div>
+            <% loop RootClans.Sort(Name, ASC) %>
+                <div class="list-group-item"><a href="{$ShowLink}" class="options-item">$Name</a></div>
             <% end_loop %>
         </div>
     </div>

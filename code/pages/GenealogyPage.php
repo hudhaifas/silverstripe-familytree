@@ -32,22 +32,7 @@
 class GenealogyPage
         extends AbstractGenealogy {
 
-    private static $has_many = array(
-        'Roots' => 'Person'
-    );
     private static $icon = "genealogist/images/genealogy.png";
-
-    public function getCMSFields() {
-        $fields = parent::getCMSFields();
-        $fields->addFieldToTab('Root.Roots', GridField::create(
-                        'Roots', //
-                        'Roots', //
-                        $this->Roots(), //
-                        GridFieldConfig_RecordEditor::create() //
-        ));
-
-        return $fields;
-    }
 
     public function canCreate($member = false) {
         if (!$member || !(is_a($member, 'Member')) || is_numeric($member)) {
@@ -140,7 +125,7 @@ class GenealogyPage_Controller
     }
 
     private function tree($id) {
-        $person = $id ? DataObject::get_by_id('Person', (int) $id) : $this->Roots()->first();
+        $person = $id ? DataObject::get_by_id('Person', (int) $id) : $this->getRootClans()->first();
 
         if (!$person) {
             return $this->httpError(404, 'No books could be found!');

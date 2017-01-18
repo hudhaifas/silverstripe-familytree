@@ -53,7 +53,6 @@ class Person
         'Photo' => 'Image',
         'Father' => 'Male',
         'Mother' => 'Female',
-        'Page' => 'GenealogyPage',
         'Stats' => 'PersonStats',
     );
     private static $has_many = array(
@@ -119,7 +118,6 @@ class Person
         $labels['Documents'] = _t('Genealogist.DOCUMENTS', 'Documents');
 
         $labels['Suggestions'] = _t('Genealogist.SUGGESTIONS', 'Suggestions');
-        $labels['Page'] = _t('Genealogist.PAGE', 'Page');
 
         return $labels;
     }
@@ -192,7 +190,6 @@ class Person
             $detailsTab = new Tab('Details', _t('Genealogist.DETAILS', 'Details'));
             $fields->insertAfter('Documents', $detailsTab);
             $self->reorderField($fields, 'Comments', 'Root.Main', 'Root.Details');
-            $self->reorderField($fields, 'PageID', 'Root.Main', 'Root.Details');
         });
 
         $fields = parent::getCMSFields();
