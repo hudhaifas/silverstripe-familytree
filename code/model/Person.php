@@ -36,13 +36,18 @@ class Person
     private static $db = array(
         'Name' => 'Varchar(255)',
         'NickName' => 'Varchar(255)',
+        // Birth
         'BirthDate' => 'Date',
         'DeathDate' => 'Date',
         'IsDead' => 'Boolean',
+        // Notes
         'Note' => 'Varchar(255)',
-        'Overview' => 'HTMLText',
         'Comments' => 'Text',
+        // Indexing
         'IndexedName' => 'Text',
+        // Biography
+        'PublicFigure' => 'Boolean',
+        'Biography' => 'HTMLText',
     );
     private static $has_one = array(
         'Photo' => 'Image',
@@ -108,7 +113,8 @@ class Person
         $labels['IsDead'] = _t('Genealogist.ISDEAD', 'Is Dead');
         $labels['Note'] = _t('Genealogist.NOTE', 'Note');
         $labels['Comments'] = _t('Genealogist.COMMENTS', 'Comments');
-        $labels['Overview'] = _t('Genealogist.OVERVIEW', 'Overview');
+        $labels['Biography'] = _t('Genealogist.BIOGRAPHY', 'Biography');
+        $labels['PublicFigure'] = _t('Genealogist.PUBLIC_FIGURE', 'Public Figure');
 
         $labels['Documents'] = _t('Genealogist.DOCUMENTS', 'Documents');
 
@@ -139,6 +145,7 @@ class Person
 
             $fields->removeFieldFromTab('Root.Main', 'ParentID');
             $fields->removeFieldFromTab('Root.Main', 'IndexedName');
+            $fields->removeFieldFromTab('Root.Main', 'StatsID');
 
             $fields->removeFieldFromTab('Root.Main', 'FatherID');
             $fields->addFieldsToTab('Root.Main', array(
@@ -176,8 +183,14 @@ class Person
             $self->reorderField($fields, 'DeathDate', 'Root.Main', 'Root.Main');
             $self->reorderField($fields, 'FatherID', 'Root.Main', 'Root.Main');
             $self->reorderField($fields, 'MotherID', 'Root.Main', 'Root.Main');
-            $self->reorderField($fields, 'Overview', 'Root.Main', 'Root.Main');
+            
+            $biographyTab = new Tab('BiographyTab', _t('Genealogist.BIOGRAPHY', 'Biography'));
+            $fields->insertAfter('Main', $biographyTab);
+            $self->reorderField($fields, 'PublicFigure', 'Root.Main', 'Root.BiographyTab');
+            $self->reorderField($fields, 'Biography', 'Root.Main', 'Root.BiographyTab');
 
+            $detailsTab = new Tab('Details', _t('Genealogist.DETAILS', 'Details'));
+            $fields->insertAfter('Documents', $detailsTab);
             $self->reorderField($fields, 'Comments', 'Root.Main', 'Root.Details');
             $self->reorderField($fields, 'PageID', 'Root.Main', 'Root.Details');
         });
