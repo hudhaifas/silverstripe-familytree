@@ -50,6 +50,7 @@ class GenealogyPage_Controller
     private static $allowed_actions = array(
         'info',
         'suggest',
+        'show',
         'Form_Suggest',
         'doSuggest',
         'Form_Kinship',
@@ -57,6 +58,7 @@ class GenealogyPage_Controller
     private static $url_handlers = array(
         'person-info/$ID' => 'info',
         'suggest/$ID' => 'suggest',
+        'show/$ID' => 'show',
         'Form_Suggest' => 'Form_Suggest', // list all forms before the index in the handlers array
         'Form_Kinship' => 'Form_Kinship', // list all forms before the index in the handlers array
         '$ID/$Other' => 'index', // any action redirects to the index MUST be added at the end of the array
@@ -121,6 +123,26 @@ class GenealogyPage_Controller
                             ->customise(array())
                             ->renderWith(array('GenealogyPage_SuggestAny', 'Page'));
 //            return $this->httpError(404, 'That person could not be found!');
+        }
+    }
+
+    public function show() {
+        $id = $this->getRequest()->param('ID');
+        $person = null;
+
+        if ($id) {
+            $person = DataObject::get_by_id('Person', (int) $id);
+        }
+
+        if ($person && ($person->PublicFigure || $this->hasPermission())) {
+            return $this
+                            ->customise(array(
+                                'Person' => $person,
+                                'Title' => $person->FullName
+                            ))
+                            ->renderWith(array('GenealogyPage_Show', 'Page'));
+        } else {
+            return $this->httpError(404, 'That person could not be found!');
         }
     }
 
