@@ -1,0 +1,34 @@
+/* documents */
+.doc {
+  padding: 0;
+  margin-bottom: 1em;
+}
+.doc .doc-img {
+  float: left;
+  /*width: 40%;*/
+  margin-right: 5%;
+}
+.doc .doc-img img {
+  max-width: 102px;
+  height: 149px;
+}
+.doc .doc-desc {
+  overflow: hidden;
+}
+.doc .doc-desc .title {
+  font-size: 16px;
+  margin: 0 0 6px;
+}
+.doc .doc-desc .author {
+  font-size: 14px;
+  margin: 0 0 4px;
+}
+.doc .doc-desc .line {
+  font-size: 12px;
+  margin: 0 0 2px;
+  color: #999;
+}
+.doc .doc-space {
+  height: 12px;
+}
+/*# sourceMappingURL=docs.css.map */

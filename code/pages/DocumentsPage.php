@@ -39,6 +39,11 @@ class DocumentsPage_Controller
 
     public function init() {
         parent::init();
+
+        Requirements::css("genealogist/css/docs.css");
+        if ($this->isRTL()) {
+            Requirements::css("genealogist/css/docs-rtl.css");
+        }
     }
 
     /// Sub Pages ///

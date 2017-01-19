@@ -60,17 +60,16 @@
                     <% end_loop %>
                 </div>
             <% end_if %>
-
         </div>
     </div>
 </div>
 
 <div class="col-md-3">
     <% if $Related %>
-        <h3 class="m_1"><%t Genealogist.ALSO_READ "Also Read" %></h3>
+        <h3 class="m_1"><%t Genealogist.ALSO_SEE "Also See" %></h3>
 
         <% loop $Related.Limit(4) %>
-            <% include Related_Volume %>
+            <% include Related_Doc %>
         <% end_loop %>
     <% end_if %>
 </div>

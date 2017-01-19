@@ -214,4 +214,8 @@ class DocumentFile
         return $this->getTitle();
     }
 
+    public function getRelated() {
+        return DocumentFile::get()->sort('RAND()');
+    }
+
 }
