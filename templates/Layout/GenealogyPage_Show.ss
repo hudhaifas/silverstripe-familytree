@@ -1,60 +1,3 @@
-<script>
-    $(document).ready(function () {
-
-        loadGallery(true, 'a.thumbnail');
-
-        //This function disables buttons when needed
-        function disableButtons(counter_max, counter_current) {
-            $('#prev-doc, #next-doc').show();
-            if (counter_max == counter_current) {
-                $('#next-doc').hide();
-            } else if (counter_current == 1) {
-                $('#prev-doc').hide();
-            }
-        }
-
-        /**
-         *
-         * @param setIDs        Sets IDs when DOM is loaded. If using a PHP counter, set to false.
-         * @param setClickAttr  Sets the attribute for the click handler.
-         */
-        function loadGallery(setIDs, setClickAttr) {
-            var current_image,
-                    selector,
-                    counter = 0;
-
-            $('#next-doc, #prev-doc').click(function () {
-                if ($(this).attr('id') == 'prev-doc') {
-                    current_image--;
-                } else {
-                    current_image++;
-                }
-
-                selector = $('[data-image-id="' + current_image + '"]');
-                updateGallery(selector);
-            });
-
-            function updateGallery(selector) {
-                current_image = selector.data('image-id');
-                $('#doc-caption').html(selector.find('#caption').html());
-                $('#doc-title').text(selector.data('title'));
-                $('#doc-image').attr('src', selector.data('image'));
-                disableButtons(counter, selector.data('image-id'));
-            }
-
-            if (setIDs == true) {
-                $('[data-image-id]').each(function () {
-                    counter++;
-                    $(this).attr('data-image-id', counter);
-                });
-            }
-            $(setClickAttr).on('click', function () {
-                updateGallery($(this));
-            });
-        }
-    });
-</script>
-
 <% with Person %>
 <div class="col-md-9">
     <div class="row">
@@ -63,7 +6,7 @@
         </div>
 
         <div class="col-lg-9 col-md-6 col-xs-12">
-            <h2>$FullName <a href="{$ShowLink}" target="_blanck" title="<%t Genealogist.SHOW_THIS 'Show this person tree' %>"><i class="fa fa-external-link" aria-hidden="true" style="font-size: 50%;"></i></a></h2>
+            <h2>$FullName <a href="{$TreeLink}" target="_blanck" title="<%t Genealogist.SHOW_THIS 'Show this person tree' %>"><i class="fa fa-external-link" aria-hidden="true" style="font-size: 50%;"></i></a></h2>
 
             <% if BirthDate %><%t Genealogist.BIRTHDATE 'Birth Date' %>: $BirthDate<br /><% end_if %>
             <% if DeathDate %><%t Genealogist.DEATHDATE 'Death Date' %>: $DeathDate<br /><% end_if %>
@@ -96,52 +39,27 @@
                     <div>
                     <% loop Documents %>
                         <div class="col-lg-3 col-md-4 col-xs-6 thumb">
-                            <a class="thumbnail" href="#"
-                               data-image-id=""
-                               data-toggle="modal"
-                               data-title="{$Title}"
-                               data-caption=""
-                               data-image="{$Docuement.URL}"
-                               data-target="#image-gallery">
-                                <img class="img-responsive" src="$Docuement.PaddedImage(280, 410).URL" />
-                                <div class="hidden" id="caption">{$Description}</div>
-                            </a>
-                        </div>
-                    <% end_loop %>
+                            <a href="$Link">
+                    <div class="thumbnail text-center books-default">
+                        <% if $Docuement %>
+                            <img src="$Docuement.PaddedImage(207,303).URL" alt="image" class="img-responsive zoom-img" />
+                        <% else %>
+                            <img alt="" class="img-responsive" src= "librarian/images/book-cover.jpg" />
+
+                            <div class="caption" style="">
+                                <h4>$Title.LimitCharacters(110)</h4>
+                            </div>
+                        <% end_if %>
                     </div>
 
-                    <div class="modal fade" id="image-gallery" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
-                        <div class="modal-dialog" style="width: 90%;">
-                            <div class="modal-content">
-                                <div class="modal-header">
-                                    <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">×</span><span class="sr-only">Close</span></button>
-                                    <h4 class="modal-title" id="doc-title"></h4>
-                                </div>
-
-                                <div class="modal-body">
-                                    <div class="row">
-                                        <div class="col-md-6">
-                                            <img id="doc-image" class="img-responsive" src="" />
-                                        </div>
-                                        <div class="col-md-6 text-justify" id="doc-caption">
-                                            This text will be overwritten by jQuery
-                                        </div>
-                                    </div>
-                                </div>
-
-                                <div class="modal-footer">
-                                    <div class="row">
-                                        <div class="col-md-6">
-                                            <button type="button" id="prev-doc" class="btn btn-default pull-left">Previous</button>
-                                        </div>
-
-                                        <div class="col-md-6">
-                                            <button type="button" id="next-doc" class="btn btn-default pull-right">Next</button>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
+                    <div>
+                        <h5>$Title.LimitCharacters(70)</h5>
+                        <h6>$Author.Title.LimitCharacters(70)</h6>
+                        <p>$Subject.LimitCharacters(27)</p>
+                    </div>		
+                </a>
                         </div>
+                    <% end_loop %>
                     </div>
                 </div>
             <% end_if %>
@@ -153,14 +71,14 @@
 <div class="col-md-3">
     <% if $Father %>
         <b><%t Genealogist.FATHER 'Father' %></b><br />
-        <a href="{$Father.ShowLink()}" target="_blanck">$Father.FullName</a>
+        <a href="{$Father.TreeLink()}" target="_blanck">$Father.FullName</a>
     <% end_if %>
 
     <% if Mother %>
         <hr />
         <b><%t Genealogist.MOTHER 'Mother' %></b><br />
 
-        <a href="{$Mother.ShowLink()}" target="_blanck">$Mother.FullName</a>
+        <a href="{$Mother.TreeLink()}" target="_blanck">$Mother.FullName</a>
         <br />
     <% end_if %>
 
@@ -169,7 +87,7 @@
         <b><%t Genealogist.HUSBANDS 'Husbands' %></b><br />
 
         <% loop Husbands %>
-            <a href="{$ShowLink()}" target="_blanck">$FullName</a><br />
+            <a href="{$TreeLink()}" target="_blanck">$FullName</a><br />
         <% end_loop %>
 
     <% else_if Wives %>
@@ -177,7 +95,7 @@
         <b><%t Genealogist.WIVES 'Wives' %></b><br />
 
         <% loop Wives %>
-            <a href="{$ShowLink()}" target="_blanck">$FullName</a><br />
+            <a href="{$TreeLink()}" target="_blanck">$FullName</a><br />
         <% end_loop %>
     <% end_if %>
 
@@ -186,7 +104,7 @@
         <b><%t Genealogist.SONS 'Sons' %></b>: $SonsCount<br />
 
         <% loop Sons.sort('BirthDate DESC').sort('Created ASC') %>
-            <a href="{$ShowLink()}" target="_blanck" title="$FullName">$AliasName</a><% if not Last %><%t Genealogist.COMMA ',' %><% end_if %>
+            <a href="{$TreeLink()}" target="_blanck" title="$FullName">$AliasName</a><% if not Last %><%t Genealogist.COMMA ',' %><% end_if %>
         <% end_loop %>
         <br />
     <% end_if %>
@@ -196,7 +114,7 @@
         <b><%t Genealogist.DAUGHTERS 'Daughters' %></b>: $DaughtersCount<br />
 
         <% loop Daughters.sort('BirthDate DESC').sort('Created ASC') %>
-            <a href="{$ShowLink()}" target="_blanck" title="$FullName">$AliasName</a><% if not Last %><%t Genealogist.COMMA ',' %><% end_if %>
+            <a href="{$TreeLink()}" target="_blanck" title="$FullName">$AliasName</a><% if not Last %><%t Genealogist.COMMA ',' %><% end_if %>
         <% end_loop %>
     <% end_if %>
 </div>

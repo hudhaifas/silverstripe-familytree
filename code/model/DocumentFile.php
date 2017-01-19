@@ -163,7 +163,7 @@ class DocumentFile
     }
 
     function Link($action = null) {
-        return Director::get_current_page()->Link("doc/$this->ID");
+        return DocumentsPage::get()->first()->Link("doc/$this->ID");
     }
 
     /**

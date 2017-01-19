@@ -5,7 +5,7 @@
     </div>
 
     <div class="row">
-        <h1>$AliasName <span style="font-size: 50%;">$Father.FullName <a href="{$ShowLink}" target="_blanck" title="<%t Genealogist.SHOW_THIS 'Show this person tree' %>"><i class="fa fa-external-link" aria-hidden="true"></i></a></span></h1>
+        <h1>$AliasName <span style="font-size: 50%;">$Father.FullName <a href="{$TreeLink}" target="_blanck" title="<%t Genealogist.SHOW_THIS 'Show this person tree' %>"><i class="fa fa-external-link" aria-hidden="true"></i></a></span></h1>
     </div>
 
     <div class="row">
@@ -164,7 +164,7 @@
 </article>
 
 <article class="col-md-4 col-lg-4">
-    <a href="{$ShowLink}" target="_blanck" title="<%t Genealogist.SHOW_THIS 'Show this person tree' %>"><%t Genealogist.SHOW_THIS 'Show this person tree' %></a>
+    <a href="{$TreeLink}" target="_blanck" title="<%t Genealogist.SHOW_THIS 'Show this person tree' %>"><%t Genealogist.SHOW_THIS 'Show this person tree' %></a>
     <br />
 
     <% if BirthDate %><%t Genealogist.BIRTHDATE 'Birth Date' %>: $BirthDate<br /><% end_if %>

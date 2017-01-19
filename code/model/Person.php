@@ -280,8 +280,12 @@ class Person
         return GenealogistPage::get()->first()->Link("edit/$this->ID");
     }
 
-    function ShowLink($action = null) {
+    function TreeLink($action = null) {
         return $this->personLink("$this->ID");
+    }
+
+    function ShowLink($action = null) {
+        return $this->personLink("show/$this->ID");
     }
 
     /// Getters ///

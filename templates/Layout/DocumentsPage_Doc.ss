@@ -50,7 +50,13 @@
             <% if People %>
                 <div id="people" class="tab-pane fade in">
                     <% loop People %>
-                        <h5><a href="$Link" >$FullName</a></h5>
+                        <h5>
+                            <% if PublicFigure || hasPermission %>
+                                <a href="$ShowLink" >$FullName</a>
+                            <% else %>
+                                $FullName
+                            <% end_if %>
+                        </h5>
                     <% end_loop %>
                 </div>
             <% end_if %>
