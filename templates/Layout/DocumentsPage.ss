@@ -44,8 +44,8 @@
 
                     <div>
                         <h5>$Title.LimitCharacters(70)</h5>
-                        <h6>$Author.Title.LimitCharacters(70)</h6>
-                        <p>$Subject.LimitCharacters(27)</p>
+                        <% if Date %><p class="line"><%t Genealogist.DATE "Date" %>: $Date</p><% end_if %>
+                        <% if Collector %><p class="line"><%t Genealogist.COLLECTION "Collection" %>: $Collector</p><% end_if %>
                     </div>		
                 </a>
             </div>
