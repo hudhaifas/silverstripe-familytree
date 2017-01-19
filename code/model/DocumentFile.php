@@ -36,6 +36,9 @@ class DocumentFile
         'Title' => 'Varchar(255)',
         'Date' => 'Date',
         'Description' => 'HTMLText',
+        'Collector' => 'Varchar(255)',
+        'Texts' => 'HTMLText',
+        'IsPrivate' => 'Boolean',
     );
     private static $has_one = array(
         'Docuement' => 'Image',
@@ -73,6 +76,8 @@ class DocumentFile
 
         $labels['Title'] = _t('Genealogist.TITLE', 'Title');
         $labels['Description'] = _t('Genealogist.DESCRIPTION', 'Description');
+        $labels['Texts'] = _t('Genealogist.TEXTS', 'Texts');
+        $labels['Collector'] = _t('Genealogist.COLLECTOR', 'Collector');
         $labels['Person'] = _t('Genealogist.PERSON', 'Person');
         $labels['Date'] = _t('Genealogist.DATE', 'Date');
         $labels['Tags'] = _t('Genealogist.TAGS', 'Tags');
@@ -97,6 +102,7 @@ class DocumentFile
             $self->reorderField($fields, 'Document', 'Root.Main', 'Root.Main');
             $self->reorderField($fields, 'Title', 'Root.Main', 'Root.Main');
             $self->reorderField($fields, 'Date', 'Root.Main', 'Root.Main');
+            $self->reorderField($fields, 'Collector', 'Root.Main', 'Root.Main');
 
             $fields->removeFieldFromTab('Root', 'People');
             $peopleField = TagField::create(
@@ -117,6 +123,7 @@ class DocumentFile
             $fields->addFieldToTab('Root.Main', $tagsField);
 
             $self->reorderField($fields, 'Description', 'Root.Main', 'Root.Main');
+            $self->reorderField($fields, 'Texts', 'Root.Main', 'Root.Main');
         });
 
         $fields = parent::getCMSFields();
@@ -155,6 +162,10 @@ class DocumentFile
 
     public function canEdit($member = false) {
         return $this->hasPermission();
+    }
+
+    function Link($action = null) {
+        return Director::get_current_page()->Link("doc/$this->ID");
     }
 
     /**

@@ -48,6 +48,7 @@ class Person
         // Biography
         'PublicFigure' => 'Boolean',
         'Biography' => 'HTMLText',
+        'IsPrivate' => 'Boolean',
     );
     private static $has_one = array(
         'Photo' => 'Image',

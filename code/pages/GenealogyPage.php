@@ -51,8 +51,6 @@ class GenealogyPage_Controller
         'info',
         'suggest',
         'show',
-        'docs',
-        'doc',
         'Form_Suggest',
         'doSuggest',
         'Form_Kinship',
@@ -61,8 +59,6 @@ class GenealogyPage_Controller
         'person-info/$ID' => 'info',
         'suggest/$ID' => 'suggest',
         'show/$ID' => 'show',
-        'docs/$action/$ID' => 'docs',
-        'doc/$ID' => 'doc',
         'Form_Suggest' => 'Form_Suggest', // list all forms before the index in the handlers array
         'Form_Kinship' => 'Form_Kinship', // list all forms before the index in the handlers array
         '$ID/$Other' => 'index', // any action redirects to the index MUST be added at the end of the array
@@ -151,55 +147,6 @@ class GenealogyPage_Controller
     }
 
     /// Sub Pages ///
-    public function docs() {
-        $action = $this->getRequest()->param('action');
-        $id = $this->getRequest()->param('ID');
-        $person = null;
-
-        if ($action == 'person' && $id) {
-            $person = DataObject::get_by_id('Person', $id);
-            $docs = $person->Documents();
-        } else if ($action == 'tag' && $id) {
-            $docs = DataObject::get_by_id('DocumentTag', $id)->Files();
-        } else {
-            $docs = DocumentFile::get();
-        }
-
-        if ($docs) {
-            $paginate = $this->getPaginated($docs);
-
-            return $this
-                            ->customise(array(
-                                'Docs' => $docs,
-                                'Results' => $paginate,
-                                'Person' => $person,
-                                'Title' => _t('Genealogy.DOC_LIST', 'Documents List')
-                            ))
-                            ->renderWith(array('GenealogyPage_Docs', 'Page'));
-        } else {
-            return $this->httpError(404, 'No documentss could be found!');
-        }
-    }
-
-    public function doc() {
-        $id = $this->getRequest()->param('ID');
-
-        $doc = DocumentFile::get()->byID($id);
-
-        if ($doc) {
-            $this->etalage(140, 205);
-
-            return $this
-                            ->customise(array(
-                                'Doc' => $doc,
-                                'Title' => $doc->Title
-                            ))
-                            ->renderWith(array('GenealogyPage_Doc', 'Page'));
-        } else {
-            return $this->httpError(404, 'That document could not be found!');
-        }
-    }
-
     private function tree($id) {
         $person = $id ? DataObject::get_by_id('Person', (int) $id) : $this->getRootClans()->first();
 
@@ -393,32 +340,6 @@ HTML;
         GenealogistHelper::suggest_change($name, $email, $phone, $personID, $subject, $message);
 
         return $this->owner->redirectBack();
-    }
-
-    /// Pagination ///
-    public function getPaginated($list, $length = 9) {
-        $paginate = new PaginatedList($list, $this->request);
-        $paginate->setPageLength($length);
-
-        return $paginate;
-    }
-
-    private function etalage($w, $h) {
-        $dir = $this->isRTL() ? 'right' : 'left';
-
-        Requirements::customScript(<<<JS
-            jQuery(document).ready(function ($) {
-                $('#etalage, .etalager').etalage({
-                    thumb_image_width: $w,
-                    thumb_image_height: $h,
-                    source_image_width: 900,
-                    source_image_height: 1200,
-                    show_hint: true,
-                    align: "$dir",
-                });
-            });
-JS
-        );
     }
 
 }
