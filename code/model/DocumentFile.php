@@ -35,7 +35,7 @@ class DocumentFile
     private static $db = array(
         'Title' => 'Varchar(255)',
         'Date' => 'Date',
-        'Description' => 'HTMLText',
+        'Description' => 'Text',
         'Collector' => 'Varchar(255)',
         'Texts' => 'HTMLText',
         'IsPrivate' => 'Boolean',
