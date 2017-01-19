@@ -122,6 +122,7 @@ class DocumentFile
 
             $self->reorderField($fields, 'Description', 'Root.Main', 'Root.Main');
             $self->reorderField($fields, 'Texts', 'Root.Main', 'Root.Main');
+            $self->reorderField($fields, 'IsPrivate', 'Root.Main', 'Root.Main');
         });
 
         $fields = parent::getCMSFields();
