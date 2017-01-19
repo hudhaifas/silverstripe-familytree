@@ -65,8 +65,6 @@ class DocumentFile
         'Date',
         'Description',
     );
-    public static $STATE_ALIVE = 1;
-    public static $STATE_DEAD = 2;
 
     public function fieldLabels($includerelations = true) {
         $labels = parent::fieldLabels($includerelations);
