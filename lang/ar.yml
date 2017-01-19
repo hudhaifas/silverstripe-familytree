@@ -53,6 +53,8 @@ ar:
     DESCRIPTION: 'الوصف'
     TEXTS: 'النصوص'
     COLLECTOR: 'المقتني'
+    COLLECTION: 'من مقتنيات'
+    ALSO_SEE: 'انظر أيضا'
     PERSON: 'الشخص'
     PEOPLE: 'الأشخاص'
     DATE: 'التاريخ'

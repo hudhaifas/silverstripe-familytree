@@ -53,6 +53,8 @@ en:
     DESCRIPTION: 'Description'
     TEXTS: 'Texts'
     COLLECTOR: 'Collector'
+    COLLECTION: 'Collection'
+    ALSO_SEE: 'Also See'
     PERSON: 'Person'
     PEOPLE: 'People'
     DATE: 'Date'

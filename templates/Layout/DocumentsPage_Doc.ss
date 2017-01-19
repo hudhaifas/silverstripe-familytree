@@ -9,7 +9,7 @@
             <% if $Title %><h1><a href="$Link">$Title</a></h1><% end_if %>
 
             <% if $Date %><p class="information"><%t Genealogist.DATE "Date" %>: $Date</p><% end_if %>
-            <% if $Collector %><p class="information"><%t Genealogist.COLLECTOR "Collector" %>: $Collector</p><% end_if %>
+            <% if $Collector %><p class="information"><%t Genealogist.COLLECTION "Collection" %>: $Collector</p><% end_if %>
 
             <!-- Catagories -->
             <% if Tags %>
@@ -66,7 +66,7 @@
 
 <div class="col-md-3">
     <% if $Related %>
-        <h3 class="m_1"><%t Genealogist.ALSO_SEE "Also See" %></h3>
+        <h3 class="m_1"><%t Genealogist.ALSO_SEE 'Also See' %></h3>
 
         <% loop $Related.Limit(4) %>
             <% include Related_Doc %>
