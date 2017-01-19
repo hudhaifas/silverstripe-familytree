@@ -17,7 +17,7 @@
 
     <div class="doc-desc">
         <p class="title"><a href="$Link" title="$BookName">$Title.LimitCharacters(30)</a></p>
-        <p class="author">$Author.Title.LimitCharacters(28)</p>
         <% if Date %><p class="line"><%t Genealogist.DATE "Date" %>: $Date</p><% end_if %>
+        <% if Collector %><p class="line"><%t Genealogist.COLLECTOR "Collector" %>: $Collector</p><% end_if %>
     </div>
 </div>
