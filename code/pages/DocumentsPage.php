@@ -67,7 +67,6 @@ class DocumentsPage_Controller
             'Docs' => $docs,
             'Results' => $paginate,
             'Individual' => $person,
-            'Title' => _t('Genealogy.DOC_LIST', 'Documents List')
         );
 
         return $data;
