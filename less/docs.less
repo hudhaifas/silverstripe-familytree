@@ -1,4 +1,60 @@
 /* documents */
+@import "mixins/transform.less";
+
+a.thumbnail {
+    &:hover, &:focus, &.active {
+        border-color: transparent;
+        color: #D80000;
+        border-bottom: 0px;
+    }
+}
+
+.thumbnail {
+    position: relative;
+    /*background: #b3b3b3;*/
+    margin-bottom: auto;
+    padding: 0;
+    border: 0;
+
+    .caption {
+        position: absolute;
+        top: 20%;
+        left: 0;
+        width: 100%;
+        bottom: 0px;
+
+        background:#000;
+        background: -webkit-linear-gradient(bottom, rgba(0, 0, 0, 0.6) 20%, rgba(0, 0, 0, 0) 100%) repeat scroll 0 0 rgba(0, 0, 0, 0);
+        background:    -moz-linear-gradient(bottom, rgba(0, 0, 0, 0.6) 20%, rgba(0, 0, 0, 0) 100%) repeat scroll 0 0 rgba(0, 0, 0, 0);
+        background:      -o-linear-gradient(bottom, rgba(0, 0, 0, 0.6) 20%, rgba(0, 0, 0, 0) 100%) repeat scroll 0 0 rgba(0, 0, 0, 0);
+        background:         linear-gradient(to top, rgba(0, 0, 0, 0.6) 20%, rgba(0, 0, 0, 0) 100%) repeat scroll 0 0 rgba(0, 0, 0, 0);
+
+        h4 {
+            padding-left: 5px;
+            padding-right: 5px;
+
+            color: #000;
+            font-size: 12px;
+            .font-smoothing();
+            .selectNone();
+        }
+
+    }
+
+    &.related-default {
+        .image-size(102px);
+
+        .caption {
+            h4 {
+                padding-left: 2px;
+                padding-right: 2px;
+                line-height: 12px;
+                font-size: 10px;
+            }
+        }
+    }
+
+}
 
 // Related Documents
 .doc {

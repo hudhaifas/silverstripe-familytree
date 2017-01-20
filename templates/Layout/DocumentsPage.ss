@@ -32,9 +32,9 @@
                 <a href="$Link">
                     <div class="thumbnail text-center books-default">
                         <% if $Docuement %>
-                            <img src="$Docuement.PaddedImage(207,303).URL" alt="image" class="img-responsive zoom-img" />
+                            <img src="$Docuement.PaddedImage(210,297).URL" alt="image" class="img-responsive zoom-img" />
                         <% else %>
-                            <img alt="" class="img-responsive" src= "librarian/images/book-cover.jpg" />
+                            <img alt="" class="img-responsive" src= "genealogist/images/default-doc.jpg" />
 
                             <div class="caption" style="">
                                 <h4>$Title.LimitCharacters(110)</h4>

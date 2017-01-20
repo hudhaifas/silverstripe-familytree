@@ -34,7 +34,9 @@ class Person
         extends DataObject {
 
     private static $db = array(
+        'Prefix' => 'Varchar(255)',
         'Name' => 'Varchar(255)',
+        'Postfix' => 'Varchar(255)',
         'NickName' => 'Varchar(255)',
         // Birth
         'BirthDate' => 'Date',

@@ -3,9 +3,9 @@
         <a href="$Link" title="$Title">
             <div class="thumbnail text-center related-default">
                 <% if $Docuement %>
-                    <img src="$Docuement.SetSize(102,149).URL" class="img-responsive related-img" alt="" />
+                    <img src="$Docuement.SetSize(105,149).URL" class="img-responsive related-img" alt="" />
                 <% else %>
-                    <img alt="" class="img-responsive" src= "librarian/images/book-cover.jpg" />
+                    <img alt="" class="img-responsive" src= "genealogist/images/default-doc.jpg" />
 
                     <div class="caption" style="">
                         <h4>$Title.LimitCharacters(100)</h4>
