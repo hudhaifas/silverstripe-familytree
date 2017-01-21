@@ -217,7 +217,7 @@ class GenealogistPage_Controller
                         null, //
                         'Male', //
                         array('IndexedName', 'Name', 'NickName') //
-                )
+                )->setSourceSort('CHAR_LENGTH(IndexedName) ASC')
         );
 
         // Create action

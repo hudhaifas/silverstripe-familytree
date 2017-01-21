@@ -270,7 +270,7 @@ HTML;
                         null, //
                         $source, //
                         array('IndexedName', 'Name', 'NickName') //
-                ), //
+                )->setSourceSort('CHAR_LENGTH(IndexedName) ASC'), //
                 AutoPersonField::create(
                         'Person2', //
                         _t('Genealogist.SECOND_PERSON', 'Second Person'), //
@@ -279,7 +279,7 @@ HTML;
                         null, //
                         $source, //
                         array('IndexedName', 'Name', 'NickName') //
-                )
+                )->setSourceSort('CHAR_LENGTH(IndexedName) ASC')
         );
 
         // Create action
