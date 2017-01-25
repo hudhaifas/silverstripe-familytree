@@ -31,7 +31,8 @@
  * @version 1.0, Nov 2, 2016 - 10:59:52 AM
  */
 class Person
-        extends DataObject {
+        extends DataObject
+        implements SingleDataObject {
 
     private static $db = array(
         'Prefix' => 'Varchar(255)',
@@ -184,7 +185,7 @@ class Person
             $self->reorderField($fields, 'DeathDate', 'Root.Main', 'Root.Main');
             $self->reorderField($fields, 'FatherID', 'Root.Main', 'Root.Main');
             $self->reorderField($fields, 'MotherID', 'Root.Main', 'Root.Main');
-            
+
             $biographyTab = new Tab('BiographyTab', _t('Genealogist.BIOGRAPHY', 'Biography'));
             $fields->insertAfter('Main', $biographyTab);
             $self->reorderField($fields, 'PublicFigure', 'Root.Main', 'Root.BiographyTab');
@@ -679,6 +680,86 @@ HTML;
         return array(
             $this->ID . ' : ' . $this->getFirstName()
         );
+    }
+
+    public function getObjectDetails() {
+        $lists = array();
+
+        $link = '<a href="' . $this->TreeLink() . '" target="_blank">'
+                . _t('Genealogist.SHOW_TREE', 'Show genealogist tree')
+                . '</a>';
+
+        $lists[] = array(
+            'Value' => $link
+        );
+
+        if ($this->BirthDate) {
+            $lists[] = array(
+                'Title' => _t('Genealogist.BIRTHDATE', 'BirthDate'),
+                'Value' => $this->BirthDate
+            );
+        }
+
+        if ($this->DeathDate) {
+            $lists[] = array(
+                'Title' => _t('Genealogist.DEATHDATE', 'DeathDate'),
+                'Value' => $this->DeathDate
+            );
+        }
+
+        if ($this->Age) {
+            $lists[] = array(
+                'Title' => _t('Genealogist.AGE', 'Age'),
+                'Value' => $this->Age
+            );
+        }
+
+        return new ArrayList($lists);
+    }
+
+    public function getObjectImage() {
+        return $this->Photo();
+    }
+
+    public function getObjectLink() {
+        return FiguresPage::get()->first()->Link("$this->ID");
+    }
+
+    public function getObjectRelated() {
+        return DataObject::get('Person', "`PublicFigure` = 1 OR `ClassName` = 'Clan'")->sort('RAND()');
+//        return DataObject::get('Person')->sort('RAND()');
+    }
+
+    public function isObjectDisabled() {
+        return $this->IsPrivate || !($this->PublicFigure || $this->isClan());
+    }
+
+    public function getObjectTabs() {
+        $lists = array();
+        $lists[] = array(
+            'Title' => _t('Genealogist.FAMILY', 'Family'),
+            'Content' => $this->renderWith('Person_Family')
+        );
+
+        if ($this->Biography) {
+            $lists[] = array(
+                'Title' => _t('Genealogist.BIOGRAPHY', 'Biography'),
+                'Content' => $this->Biography
+            );
+        }
+
+        if ($this->Documents()->Count()) {
+            $lists[] = array(
+                'Title' => _t('Genealogist.DOCUMENTS', 'Documents'),
+                'Content' => $this
+                        ->customise(array(
+                            'Results' => $this->Documents()->where("`IsPrivate` = 0")
+                        ))
+                        ->renderWith('List_Grid')
+            );
+        }
+
+        return new ArrayList($lists);
     }
 
 }

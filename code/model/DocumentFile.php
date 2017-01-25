@@ -30,7 +30,8 @@
  * @version 1.0, Jan 3, 2017 - 9:34:12 AM
  */
 class DocumentFile
-        extends DataObject {
+        extends DataObject
+        implements SingleDataObject {
 
     private static $db = array(
         'Title' => 'Varchar(255)',
@@ -41,7 +42,7 @@ class DocumentFile
         'IsPrivate' => 'Boolean',
     );
     private static $has_one = array(
-        'Docuement' => 'Image',
+        'Document' => 'Image',
     );
     private static $has_many = array(
     );
@@ -60,7 +61,7 @@ class DocumentFile
         ),
     );
     private static $summary_fields = array(
-        'ThumbDocuement',
+        'ThumbDocument',
         'Title',
         'Date',
         'Description',
@@ -69,8 +70,8 @@ class DocumentFile
     public function fieldLabels($includerelations = true) {
         $labels = parent::fieldLabels($includerelations);
 
-        $labels['Docuement'] = _t('Genealogist.DOCUEMENT', 'Docuement');
-        $labels['ThumbDocuement'] = _t('Genealogist.DOCUEMENT', 'Docuement');
+        $labels['Document'] = _t('Genealogist.DOCUMENT', 'Document');
+        $labels['ThumbDocument'] = _t('Genealogist.DOCUMENT', 'Document');
 
         $labels['Title'] = _t('Genealogist.TITLE', 'Title');
         $labels['Description'] = _t('Genealogist.DESCRIPTION', 'Description');
@@ -87,7 +88,7 @@ class DocumentFile
         $self = & $this;
 
         $this->beforeUpdateCMSFields(function ($fields) use ($self) {
-            if ($field = $fields->fieldByName('Root.Main.Docuement')) {
+            if ($field = $fields->fieldByName('Root.Main.Document')) {
                 $field->getValidator()->setAllowedExtensions(array('jpg', 'jpeg', 'png', 'gif'));
                 $field->setFolderName("genealogist/docs");
             }
@@ -164,7 +165,7 @@ class DocumentFile
     }
 
     function Link($action = null) {
-        return DocumentsPage::get()->first()->Link("doc/$this->ID");
+        return DocPage::get()->first()->Link("doc/$this->ID");
     }
 
     /**
@@ -175,8 +176,8 @@ class DocumentFile
         return GenealogistHelper::is_genealogists();
     }
 
-    public function ThumbDocuement() {
-        return $this->Docuement()->CMSThumbnail();
+    public function ThumbDocument() {
+        return $this->Document()->CMSThumbnail();
     }
 
     /// Utils ///
@@ -217,6 +218,72 @@ class DocumentFile
 
     public function getRelated() {
         return DocumentFile::get()->sort('RAND()');
+    }
+
+    public function getObjectDetails() {
+        $lists = array();
+        if ($this->Date) {
+            $lists[] = array(
+                'Title' => _t('Genealogist.DATE', 'Date'),
+                'Value' => $this->Date
+            );
+        }
+
+        if ($this->Collector) {
+            $lists[] = array(
+                'Title' => _t('Genealogist.COLLECTOR', 'Collector'),
+                'Value' => $this->Collector
+            );
+        }
+
+        if ($this->Collector) {
+            $lists[] = array(
+                'Title' => _t('Genealogist.DESCRIPTION', 'Description'),
+                'Value' => '<br />' . $this->Description
+            );
+        }
+
+        return new ArrayList($lists);
+    }
+
+    public function getObjectImage() {
+        return $this->Document();
+    }
+
+    public function getObjectLink() {
+        return DocPage::get()->first()->Link("$this->ID");
+    }
+
+    public function getObjectRelated() {
+        return DocumentFile::get()->sort('RAND()');
+    }
+
+    public function isObjectDisabled() {
+        return false;
+    }
+
+    public function getObjectTabs() {
+        $lists = array();
+        if ($this->Texts) {
+            $lists[] = array(
+                'Title' => _t('Genealogist.TEXTS', 'Texts'),
+                'Content' => $this->Texts
+            );
+        }
+
+        if ($this->People()->Count()) {
+            $lists[] = array(
+                'Title' => _t('Genealogist.PEOPLE', 'People'),
+                'Content' => $this
+                        ->customise(array(
+//                            'Results' => $this->People()->where("`PublicFigure` = 1 OR `ClassName` = 'Clan'")
+                            'Results' => $this->People()
+                        ))
+                        ->renderWith('List_Grid')
+            );
+        }
+
+        return new ArrayList($lists);
     }
 
 }
