@@ -277,7 +277,7 @@ class DocumentFile
                 'Content' => $this
                         ->customise(array(
 //                            'Results' => $this->People()->where("`PublicFigure` = 1 OR `ClassName` = 'Clan'")
-                            'Results' => $this->People()
+                            'Results' => $this->People()->sort('Name ASC')
                         ))
                         ->renderWith('List_Grid')
             );
