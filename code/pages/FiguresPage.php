@@ -28,19 +28,29 @@ class FiguresPage_Controller
         extends DataObjectPage_Controller {
 
     protected function getObjectsList() {
-        return DataObject::get('Person', "`PublicFigure` = 1 OR `ClassName` = 'Clan'");
-//        return DataObject::get('Person');
+        if ($this->hasPermission()) {
+            return DataObject::get('Person');
+        } else {
+            return DataObject::get('Person', "`PublicFigure` = 1 OR `ClassName` = 'Clan'");
+        }
     }
 
     protected function getPageLength() {
-        return 18;
+        return 24;
     }
 
     protected function searchObjects($list, $keywords) {
-//        die('Filterd');
-        return $list->filter(array(
-                    'IndexedName:PartialMatch' => $keywords
+        return $list->filterAny(array(
+                    'IndexedName:PartialMatch' => $keywords,
         ));
+    }
+
+    /**
+     * Checks if the user is an authorized member
+     * @return boolean true if the user is an authorized member
+     */
+    public function hasPermission() {
+        return GenealogistHelper::is_genealogists();
     }
 
 }

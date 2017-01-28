@@ -682,7 +682,7 @@ HTML;
         );
     }
 
-    public function getObjectDetails() {
+    public function getObjectSummary() {
         $lists = array();
 
         $link = '<a href="' . $this->TreeLink() . '" target="_blank">'
@@ -722,7 +722,7 @@ HTML;
     }
 
     public function getObjectLink() {
-        return FiguresPage::get()->first()->Link("$this->ID");
+        return FiguresPage::get()->first()->Link("show/$this->ID");
     }
 
     public function getObjectRelated() {
@@ -760,6 +760,10 @@ HTML;
         }
 
         return new ArrayList($lists);
+    }
+
+    public function getObjectTitle() {
+        return $this->getTitle();
     }
 
 }

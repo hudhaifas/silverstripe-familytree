@@ -220,7 +220,7 @@ class DocumentFile
         return DocumentFile::get()->sort('RAND()');
     }
 
-    public function getObjectDetails() {
+    public function getObjectSummary() {
         $lists = array();
         if ($this->Date) {
             $lists[] = array(
@@ -251,7 +251,7 @@ class DocumentFile
     }
 
     public function getObjectLink() {
-        return DocPage::get()->first()->Link("$this->ID");
+        return DocPage::get()->first()->Link("show/$this->ID");
     }
 
     public function getObjectRelated() {
@@ -284,6 +284,10 @@ class DocumentFile
         }
 
         return new ArrayList($lists);
+    }
+
+    public function getObjectTitle() {
+        return $this->getTitle();
     }
 
 }

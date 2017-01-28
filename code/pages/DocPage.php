@@ -32,7 +32,7 @@ class DocPage_Controller
     }
 
     protected function getPageLength() {
-        return 12;
+        return 24;
     }
 
     protected function searchObjects($list, $keywords) {
@@ -46,11 +46,11 @@ class DocPage_Controller
     protected function getFiltersList() {
         $lists = array(
             array(
-                'Title' => 'People',
+                'Title' => _t('Genealogist.PEOPLE', 'People'),
                 'Items' => $this->getPeople()
             ),
             array(
-                'Title' => 'Tags',
+                'Title' => _t('Genealogist.TAGS', 'Tags'),
                 'Items' => $this->getTags()
             )
         );
@@ -62,7 +62,10 @@ class DocPage_Controller
         $people = array();
         foreach ($this->getObjectsList() as $doc) {
             foreach ($doc->People() as $person) {
-                $people[] = $person;
+                $people[] = array(
+                    'Title' => $person->getTitle(),
+                    'Link' => $person->getObjectLink(),
+                );
             }
         }
 
@@ -76,7 +79,9 @@ class DocPage_Controller
         $tags = array();
         foreach ($this->getObjectsList() as $doc) {
             foreach ($doc->Tags() as $tag) {
-                $tags[] = $tag;
+                $tags[] = array(
+                    'Title' => $tag->getTitle(),
+                );
             }
         }
 
