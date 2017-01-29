@@ -731,7 +731,7 @@ HTML;
     }
 
     public function isObjectDisabled() {
-        return $this->IsPrivate || !($this->PublicFigure || $this->isClan());
+        return $this->IsPrivate || !($this->PublicFigure || $this->hasPermission());
     }
 
     public function getObjectTabs() {

@@ -62,4 +62,7 @@ class Clan
         return $this->getAliasName();
     }
 
+    public function isObjectDisabled() {
+        return false;
+    }
 }
