@@ -23,8 +23,6 @@ class GenealogistSearchHelper {
         $keywords = self::words_ends_with($keywords, array("ة", "ه", "ى", "ئ", "ء"));
         $keywords = self::words_starts_with($keywords, array("أ", "إ", "آ", "ا"));
 
-        var_dump($keywords);
-
         $r2 = self::search_round($list, $keywords);
 
         $results = self::merge($r1, $r2);
