@@ -40,6 +40,9 @@ class FiguresPage_Controller
     }
 
     protected function searchObjects($list, $keywords) {
+        $vowels = array("أ", "إ", "آ", "ا", "ة", "ه", "ى");
+        $keywords = str_replace($vowels, "_", $keywords);
+        
         return $list->filterAny(array(
                     'IndexedName:PartialMatch' => $keywords,
         ));
