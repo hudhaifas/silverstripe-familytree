@@ -30,8 +30,13 @@
  * @version 1.0, Nov 2, 2016 - 2:45:38 PM
  */
 class GenealogyPage
-        extends AbstractGenealogy {
+        extends Page {
 
+    private static $group_code = 'genealogists';
+    private static $group_title = 'Genealogists';
+    private static $group_permission = 'CMS_ACCESS_CMSMain';
+    private static $co_group_code = 'co-genealogists';
+    private static $co_group_title = 'Co-Genealogists';
     private static $icon = "genealogist/images/genealogy.png";
 
     public function canCreate($member = false) {
@@ -42,10 +47,63 @@ class GenealogyPage
         return (DataObject::get($this->owner->class)->count() > 0) ? false : true;
     }
 
+    protected function onBeforeWrite() {
+        parent::onBeforeWrite();
+        $this->getUserGroup();
+        $this->getCoUserGroup();
+    }
+
+    /**
+     * Returns/Creates the genealogists group to assign CMS access.
+     *
+     * @return Group Librarians group
+     */
+    protected function getUserGroup() {
+        $code = $this->config()->group_code;
+
+        $group = Group::get()->filter('Code', $code)->first();
+
+        if (!$group) {
+            $group = new Group();
+            $group->Title = $this->config()->group_title;
+            $group->Code = $code;
+
+            $group->write();
+
+            $permission = new Permission();
+            $permission->Code = $this->config()->group_permission;
+
+            $group->Permissions()->add($permission);
+        }
+
+        return $group;
+    }
+
+    /**
+     * Returns/Creates the genealogists group to assign CMS access.
+     *
+     * @return Group Librarians group
+     */
+    protected function getCoUserGroup() {
+        $code = $this->config()->co_group_code;
+
+        $group = Group::get()->filter('Code', $code)->first();
+
+        if (!$group) {
+            $group = new Group();
+            $group->Title = $this->config()->co_group_title;
+            $group->Code = $code;
+
+            $group->write();
+        }
+
+        return $group;
+    }
+
 }
 
 class GenealogyPage_Controller
-        extends AbstractGenealogy_Controller {
+        extends Page_Controller {
 
     private static $allowed_actions = array(
         'info',
@@ -318,6 +376,31 @@ HTML;
         GenealogistHelper::suggest_change($name, $email, $phone, $personID, $subject, $message);
 
         return $this->owner->redirectBack();
+    }
+
+    /// Utils ///
+    public function getDBVersion() {
+        return DB::get_conn()->getVersion();
+    }
+
+    public function getClans() {
+        return GenealogistHelper::get_all_clans();
+    }
+
+    public function getPerson($id) {
+        return GenealogistHelper::get_person($id);
+    }
+
+    public function getRootClans() {
+        return GenealogistHelper::get_root_clans();
+    }
+
+    /**
+     * Checks if the user is an authorized member
+     * @return boolean true if the user is an authorized member
+     */
+    public function hasPermission() {
+        return GenealogistHelper::is_genealogists();
     }
 
 }

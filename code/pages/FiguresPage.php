@@ -73,7 +73,7 @@ class FiguresPage_Controller
     protected function getObjectsList() {
         if ($this->hasPermission()) {
             return DataObject::get('Person')
-                            ->sort('IndexedName ASC');
+                            ->sort('RAND()');
         } else {
             return DataObject::get('Person')
                             ->filterAny(array(
