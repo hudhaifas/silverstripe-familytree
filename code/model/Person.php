@@ -280,7 +280,7 @@ class Person
     }
 
     function EditLink($action = null) {
-        return GenealogistPage::get()->first()->Link("edit/$this->ID");
+        return FiguresPage::get()->first()->Link("edit/$this->ID");
     }
 
     function TreeLink($action = null) {
@@ -683,38 +683,7 @@ HTML;
     }
 
     public function getObjectSummary() {
-        $lists = array();
-
-        $link = '<a href="' . $this->TreeLink() . '" target="_blank">'
-                . _t('Genealogist.SHOW_TREE', 'Show genealogist tree')
-                . '</a>';
-
-        $lists[] = array(
-            'Value' => $link
-        );
-
-        if ($this->BirthDate) {
-            $lists[] = array(
-                'Title' => _t('Genealogist.BIRTHDATE', 'BirthDate'),
-                'Value' => $this->BirthDate
-            );
-        }
-
-        if ($this->DeathDate) {
-            $lists[] = array(
-                'Title' => _t('Genealogist.DEATHDATE', 'DeathDate'),
-                'Value' => $this->DeathDate
-            );
-        }
-
-        if ($this->Age) {
-            $lists[] = array(
-                'Title' => _t('Genealogist.AGE', 'Age'),
-                'Value' => $this->Age
-            );
-        }
-
-        return new ArrayList($lists);
+        return $this->renderWith('Person_Summary');
     }
 
     public function getObjectImage() {

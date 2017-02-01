@@ -50,7 +50,6 @@ class GenealogyPage_Controller
     private static $allowed_actions = array(
         'info',
         'suggest',
-        'show',
         'Form_Suggest',
         'doSuggest',
         'Form_Kinship',
@@ -58,7 +57,6 @@ class GenealogyPage_Controller
     private static $url_handlers = array(
         'person-info/$ID' => 'info',
         'suggest/$ID' => 'suggest',
-        'show/$ID' => 'show',
         'Form_Suggest' => 'Form_Suggest', // list all forms before the index in the handlers array
         'Form_Kinship' => 'Form_Kinship', // list all forms before the index in the handlers array
         '$ID/$Other' => 'index', // any action redirects to the index MUST be added at the end of the array
@@ -126,26 +124,6 @@ class GenealogyPage_Controller
         }
     }
 
-    public function show() {
-        $id = $this->getRequest()->param('ID');
-        $person = null;
-
-        if ($id) {
-            $person = DataObject::get_by_id('Person', (int) $id);
-        }
-
-        if ($person && ($person->PublicFigure || $person->isClan() || $this->hasPermission())) {
-            return $this
-                            ->customise(array(
-                                'Person' => $person,
-                                'Title' => $person->FullName
-                            ))
-                            ->renderWith(array('GenealogyPage_Show', 'Page'));
-        } else {
-            return $this->httpError(404, 'That person could not be found!');
-        }
-    }
-
     /// Sub Pages ///
     private function tree($id) {
         $person = $id ? DataObject::get_by_id('Person', (int) $id) : $this->getRootClans()->first();
@@ -195,7 +173,7 @@ class GenealogyPage_Controller
         );
     }
 
-    public function getKinshipLeaves($kinships = array()) {
+    private function getKinshipLeaves($kinships = array()) {
         $root = $kinships[0];
         $noFemales = !$this->hasPermission() && $root->isFemale();
         $name = $noFemales ? _t('Genealogist.MOTHER', 'Mother') : $root->getPersonName();

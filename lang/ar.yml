@@ -104,7 +104,7 @@ ar:
     SHOW_TREE: 'عرض شجرة النسب'
     SHOW_FATHER: 'عرض شجرة والد هذا الشخص'
     SHOW_CLAN: 'عرض شجرة عائلة هذا الشخص'
-    EDIT_THIS: 'تعديل الشخص'
+    EDIT_THIS: 'تعديل البيانات'
     SHOW_FEMALES_TREE: 'عرض شجرة الإناث'
     SHOW_FEMALES: 'إظهار الإناث'
     SHOW_FEMALES_CHILDREN: 'إظهار ذرية الإناث'

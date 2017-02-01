@@ -221,30 +221,8 @@ class DocumentFile
     }
 
     public function getObjectSummary() {
-        $lists = array();
-        if ($this->Date) {
-            $lists[] = array(
-                'Title' => _t('Genealogist.DATE', 'Date'),
-                'Value' => $this->Date
-            );
+        return $this->renderWith('Doc_Summary');
         }
-
-        if ($this->Collector) {
-            $lists[] = array(
-                'Title' => _t('Genealogist.COLLECTOR', 'Collector'),
-                'Value' => $this->Collector
-            );
-        }
-
-        if ($this->Collector) {
-            $lists[] = array(
-                'Title' => _t('Genealogist.DESCRIPTION', 'Description'),
-                'Value' => '<br />' . $this->Description
-            );
-        }
-
-        return new ArrayList($lists);
-    }
 
     public function getObjectImage() {
         return $this->Document();
