@@ -42,6 +42,9 @@ class Female
     private static $belongs_many_many = array(
         'Husbands' => 'Male',
     );
+    private static $defaults = array(
+        'IsPrivate' => 1,
+    );
 
     public function canCreate($member = null) {
         return true;

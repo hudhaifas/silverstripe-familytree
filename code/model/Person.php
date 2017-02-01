@@ -37,8 +37,8 @@ class Person
     private static $db = array(
         'Prefix' => 'Varchar(255)',
         'Name' => 'Varchar(255)',
-        'Postfix' => 'Varchar(255)',
         'NickName' => 'Varchar(255)',
+        'Postfix' => 'Varchar(255)',
         // Birth
         'BirthDate' => 'Date',
         'DeathDate' => 'Date',
@@ -67,7 +67,6 @@ class Person
     private static $many_many = array(
     );
     private static $belongs_many_many = array(
-        'Documents' => 'DocumentFile',
     );
     private static $searchable_fields = array(
         'Name' => array(
@@ -92,7 +91,9 @@ class Person
         $labels['Photo'] = _t('Genealogist.PHOTO', 'Photo');
 
         $labels['AliasName'] = _t('Genealogist.NAME', 'Name');
+        $labels['Prefix'] = _t('Genealogist.PREFIX', 'Prefix');
         $labels['Name'] = _t('Genealogist.NAME', 'Name');
+        $labels['Postfix'] = _t('Genealogist.POSTFIX', 'Postfix');
         $labels['NickName'] = _t('Genealogist.NICKNAME', 'NickName');
 
         $labels['Parents'] = _t('Genealogist.PARENTS', 'Parents');
@@ -116,10 +117,10 @@ class Person
         $labels['IsDead'] = _t('Genealogist.ISDEAD', 'Is Dead');
         $labels['Note'] = _t('Genealogist.NOTE', 'Note');
         $labels['Comments'] = _t('Genealogist.COMMENTS', 'Comments');
+
         $labels['Biography'] = _t('Genealogist.BIOGRAPHY', 'Biography');
         $labels['PublicFigure'] = _t('Genealogist.PUBLIC_FIGURE', 'Public Figure');
-
-        $labels['Documents'] = _t('Genealogist.DOCUMENTS', 'Documents');
+        $labels['IsPrivate'] = _t('Genealogist.IS_PRIVATE', 'Hide Information');
 
         $labels['Suggestions'] = _t('Genealogist.SUGGESTIONS', 'Suggestions');
 
@@ -127,76 +128,75 @@ class Person
     }
 
     public function getCMSFields() {
-        $self = & $this;
-
-        $this->beforeUpdateCMSFields(function ($fields) use ($self) {
-            if ($field = $fields->fieldByName('Root.Main.BirthDate')) {
-                $field->setConfig('showcalendar', true);
-                $field->setConfig('dateformat', 'dd-MM-yyyy');
-            }
-
-            if ($field = $fields->fieldByName('Root.Main.DeathDate')) {
-                $field->setConfig('showcalendar', true);
-                $field->setConfig('dateformat', 'dd-MM-yyyy');
-            }
-
-            if ($field = $fields->fieldByName('Root.Main.Photo')) {
-                $field->getValidator()->setAllowedExtensions(array('jpg', 'jpeg', 'png', 'gif'));
-                $field->setFolderName("genealogist/photos");
-            }
-
-            $fields->removeFieldFromTab('Root.Main', 'ParentID');
-            $fields->removeFieldFromTab('Root.Main', 'IndexedName');
-            $fields->removeFieldFromTab('Root.Main', 'StatsID');
-
-            $fields->removeFieldFromTab('Root.Main', 'FatherID');
-            $fields->addFieldsToTab('Root.Main', array(
-                AutoPersonField::create(
-                        'FatherID', //
-                        _t('Genealogist.FATHER', 'Father'), //
-                        '', //
-                        null, //
-                        null, //
-                        'Male', //
-                        array('IndexedName', 'Name', 'NickName') //
-                )
-            ));
-
-            $fields->removeFieldFromTab('Root.Main', 'MotherID');
-            $fields->addFieldsToTab('Root.Main', array(
-                AutoPersonField::create(
-                        'MotherID', //
-                        _t('Genealogist.MOTHER', 'Mother'), //
-                        '', //
-                        null, //
-                        null, //
-                        'Female', //
-                        array('IndexedName', 'Name', 'NickName') //
-                )
-            ));
-
-            $self->reorderField($fields, 'Photo', 'Root.Main', 'Root.Main');
-            $self->reorderField($fields, 'Name', 'Root.Main', 'Root.Main');
-            $self->reorderField($fields, 'NickName', 'Root.Main', 'Root.Main');
-            $self->reorderField($fields, 'Note', 'Root.Main', 'Root.Main');
-            $self->reorderField($fields, 'BirthDate', 'Root.Main', 'Root.Main');
-            $self->reorderField($fields, 'DeathDate', 'Root.Main', 'Root.Main');
-            $self->reorderField($fields, 'IsDead', 'Root.Main', 'Root.Main');
-            $self->reorderField($fields, 'DeathDate', 'Root.Main', 'Root.Main');
-            $self->reorderField($fields, 'FatherID', 'Root.Main', 'Root.Main');
-            $self->reorderField($fields, 'MotherID', 'Root.Main', 'Root.Main');
-
-            $biographyTab = new Tab('BiographyTab', _t('Genealogist.BIOGRAPHY', 'Biography'));
-            $fields->insertAfter('Main', $biographyTab);
-            $self->reorderField($fields, 'PublicFigure', 'Root.Main', 'Root.BiographyTab');
-            $self->reorderField($fields, 'Biography', 'Root.Main', 'Root.BiographyTab');
-
-            $detailsTab = new Tab('Details', _t('Genealogist.DETAILS', 'Details'));
-            $fields->insertAfter('Documents', $detailsTab);
-            $self->reorderField($fields, 'Comments', 'Root.Main', 'Root.Details');
-        });
-
         $fields = parent::getCMSFields();
+
+        if ($field = $fields->fieldByName('Root.Main.BirthDate')) {
+            $field->setConfig('showcalendar', true);
+            $field->setConfig('dateformat', 'dd-MM-yyyy');
+        }
+
+        if ($field = $fields->fieldByName('Root.Main.DeathDate')) {
+            $field->setConfig('showcalendar', true);
+            $field->setConfig('dateformat', 'dd-MM-yyyy');
+        }
+
+        if ($field = $fields->fieldByName('Root.Main.Photo')) {
+            $field->getValidator()->setAllowedExtensions(array('jpg', 'jpeg', 'png', 'gif'));
+            $field->setFolderName("genealogist/photos");
+        }
+
+        $fields->removeFieldFromTab('Root.Main', 'ParentID');
+        $fields->removeFieldFromTab('Root.Main', 'IndexedName');
+        $fields->removeFieldFromTab('Root.Main', 'StatsID');
+
+        $fields->removeFieldFromTab('Root.Main', 'FatherID');
+        $fields->addFieldsToTab('Root.Main', array(
+            AutoPersonField::create(
+                    'FatherID', //
+                    _t('Genealogist.FATHER', 'Father'), //
+                    '', //
+                    null, //
+                    null, //
+                    'Male', //
+                    array('IndexedName', 'Name', 'NickName') //
+            )
+        ));
+
+        $fields->removeFieldFromTab('Root.Main', 'MotherID');
+        $fields->addFieldsToTab('Root.Main', array(
+            AutoPersonField::create(
+                    'MotherID', //
+                    _t('Genealogist.MOTHER', 'Mother'), //
+                    '', //
+                    null, //
+                    null, //
+                    'Female', //
+                    array('IndexedName', 'Name', 'NickName') //
+            )
+        ));
+
+        $this->reorderField($fields, 'Photo', 'Root.Main', 'Root.Main');
+        $this->reorderField($fields, 'Prefix', 'Root.Main', 'Root.Main');
+        $this->reorderField($fields, 'Name', 'Root.Main', 'Root.Main');
+        $this->reorderField($fields, 'NickName', 'Root.Main', 'Root.Main');
+        $this->reorderField($fields, 'Postfix', 'Root.Main', 'Root.Main');
+        $this->reorderField($fields, 'Note', 'Root.Main', 'Root.Main');
+        $this->reorderField($fields, 'BirthDate', 'Root.Main', 'Root.Main');
+        $this->reorderField($fields, 'DeathDate', 'Root.Main', 'Root.Main');
+        $this->reorderField($fields, 'IsDead', 'Root.Main', 'Root.Main');
+        $this->reorderField($fields, 'DeathDate', 'Root.Main', 'Root.Main');
+        $this->reorderField($fields, 'FatherID', 'Root.Main', 'Root.Main');
+        $this->reorderField($fields, 'MotherID', 'Root.Main', 'Root.Main');
+
+        $biographyTab = new Tab('BiographyTab', _t('Genealogist.BIOGRAPHY', 'Biography'));
+        $fields->insertAfter('Main', $biographyTab);
+        $this->reorderField($fields, 'PublicFigure', 'Root.Main', 'Root.BiographyTab');
+        $this->reorderField($fields, 'IsPrivate', 'Root.Main', 'Root.BiographyTab');
+        $this->reorderField($fields, 'Biography', 'Root.Main', 'Root.BiographyTab');
+
+        $detailsTab = new Tab('DetailsTab', _t('Genealogist.DETAILS', 'Details'));
+        $fields->insertAfter('Wives', $detailsTab);
+        $this->reorderField($fields, 'Comments', 'Root.Main', 'Root.DetailsTab');
 
         return $fields;
     }
@@ -717,16 +717,7 @@ HTML;
             );
         }
 
-        if ($this->Documents()->Count()) {
-            $lists[] = array(
-                'Title' => _t('Genealogist.DOCUMENTS', 'Documents'),
-                'Content' => $this
-                        ->customise(array(
-                            'Results' => $this->Documents()->where("`IsPrivate` = 0")
-                        ))
-                        ->renderWith('List_Grid')
-            );
-        }
+        $this->extend('extraTabs', $lists);
 
         return new ArrayList($lists);
     }
