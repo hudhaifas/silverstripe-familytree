@@ -44,18 +44,18 @@ class DocPage_Controller
     }
 
     protected function getFiltersList() {
-        $lists = array(
-            array(
-                'Title' => _t('Genealogist.PEOPLE', 'People'),
-                'Items' => $this->getPeople()
-            ),
-            array(
-                'Title' => _t('Genealogist.TAGS', 'Tags'),
-                'Items' => $this->getTags()
-            )
-        );
-        return new ArrayList($lists);
-//        return null;
+//        $lists = array(
+//            array(
+//                'Title' => _t('Genealogist.PEOPLE', 'People'),
+//                'Items' => $this->getPeople()
+//            ),
+//            array(
+//                'Title' => _t('Genealogist.TAGS', 'Tags'),
+//                'Items' => $this->getTags()
+//            )
+//        );
+//        return new ArrayList($lists);
+        return null;
     }
 
     private function getPeople() {
