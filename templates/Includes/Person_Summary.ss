@@ -1,9 +1,9 @@
 <p class="title"><a href="$ObjectLink" title="$Title">$Title.LimitCharacters(50)</a></p>
 
-<p class="details"><a href="{$TreeLink}" target="_blank"><%t Genealogist.SHOW_TREE 'Show genealogist tree' %></a></p>
+<p class="details"><a href="{$TreeLink}"><%t Genealogist.SHOW_TREE 'Show genealogist tree' %></a></p>
 
 <% if hasPermission %>
-    <p class="details edit"><a href="{$EditLink}" target="_blank"><%t Genealogist.EDIT_THIS 'Edit this person' %></a></p>
+    <p class="details edit"><a href="{$EditLink}"><%t Genealogist.EDIT_THIS 'Edit this person' %></a></p>
 <% end_if %>
 
 <% if $BirthDate %>
