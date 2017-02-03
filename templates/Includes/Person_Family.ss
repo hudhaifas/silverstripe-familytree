@@ -2,7 +2,7 @@
     <% if $Father %>
         <p>
             <b><%t Genealogist.FATHER 'Father' %></b><br />
-            <a href="{$Father.ObjectLink()}" target="_blanck">$Father.FullName</a>
+            <a href="{$Father.ObjectLink()}">$Father.FullName</a>
         </p>
     <% end_if %>
 
@@ -10,7 +10,7 @@
         <p>
             <b><%t Genealogist.MOTHER 'Mother' %></b><br />
 
-            <a href="{$Mother.ObjectLink()}" target="_blanck">$Mother.FullName</a>
+            <a href="{$Mother.ObjectLink()}">$Mother.FullName</a>
         </p>
     <% end_if %>
 
@@ -20,7 +20,7 @@
 
             <ul>
                 <% loop Husbands %>
-                    <li><a href="{$ObjectLink()}" target="_blanck">$FullName</a></li>
+                    <li><a href="{$ObjectLink()}">$FullName</a></li>
                 <% end_loop %>
             </ul>
         </p>
@@ -31,7 +31,7 @@
 
             <ul>
                 <% loop Wives %>
-                <li><a href="{$ObjectLink()}" target="_blanck">$FullName</a></li>
+                <li><a href="{$ObjectLink()}">$FullName</a></li>
                 <% end_loop %>
             </ul>
         </p>
