@@ -46,12 +46,14 @@ class Person
         // Notes
         'Note' => 'Varchar(255)',
         'Comments' => 'Text',
-        // Indexing
-        'IndexedName' => 'Text',
         // Biography
         'PublicFigure' => 'Boolean',
         'Biography' => 'HTMLText',
         'IsPrivate' => 'Boolean',
+        // Indexing
+        'IndexedName' => 'Text',
+        // Order
+        'SortOrder'=>'Int'
     );
     private static $has_one = array(
         'Photo' => 'Image',
@@ -81,7 +83,7 @@ class Person
         'Age',
         'Note',
     );
-    private static $default_sort = 'Created ASC';
+    private static $default_sort = 'SortOrder';
     public static $STATE_ALIVE = 1;
     public static $STATE_DEAD = 2;
 
@@ -231,7 +233,7 @@ class Person
     }
 
     public function canEdit($member = false) {
-        return false;
+        return true;
     }
 
     /**
