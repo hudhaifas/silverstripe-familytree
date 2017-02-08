@@ -148,6 +148,7 @@ class Person extends DataObject implements SingleDataObject {
         $fields->removeFieldFromTab('Root.Main', 'ParentID');
         $fields->removeFieldFromTab('Root.Main', 'IndexedName');
         $fields->removeFieldFromTab('Root.Main', 'StatsID');
+        $fields->removeFieldFromTab('Root.Main', 'SortOrder');
 
         $fields->removeFieldFromTab('Root.Main', 'FatherID');
         $fields->addFieldsToTab('Root.Main', array(
