@@ -142,6 +142,10 @@ class GenealogistSearchHelper {
         return trim($newwords);
     }
 
+    /**
+     * 
+     * @see http://php.net/manual/en/function.levenshtein.php
+     */
     private static function correct($input) {
         // no shortest distance found, yet
         $shortest = -1;
