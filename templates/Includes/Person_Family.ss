@@ -41,7 +41,7 @@
         <p>
             <b><%t Genealogist.SONS 'Sons' %></b>: $SonsCount<br />
 
-            <% loop Sons.sort('BirthDate DESC').sort('Created ASC') %>
+            <% loop Sons %>
                 <a href="{$ObjectLink()}" target="_blanck" title="$FullName">$AliasName</a><% if not Last %><%t Genealogist.COMMA ',' %><% end_if %>
             <% end_loop %>
         </p>
@@ -51,7 +51,7 @@
         <p>
             <b><%t Genealogist.DAUGHTERS 'Daughters' %></b>: $DaughtersCount<br />
 
-            <% loop Daughters.sort('BirthDate DESC').sort('Created ASC') %>
+            <% loop Daughters %>
                 <a href="{$ObjectLink()}" target="_blanck" title="$FullName">$AliasName</a><% if not Last %><%t Genealogist.COMMA ',' %><% end_if %>
             <% end_loop %>
         </p>
