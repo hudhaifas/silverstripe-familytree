@@ -162,6 +162,7 @@ class FiguresPage_Controller
 
     public function doEditPerson($data, $form) {
         $id = $data['PersonID'];
+        $isPrivate = $data['IsPrivate'];
         $name = $data['Name'];
         $nickname = $data['NickName'];
         $note = $data['Note'];
@@ -173,6 +174,7 @@ class FiguresPage_Controller
         $person = DataObject::get_by_id('Person', (int) $id);
 
         $person->Name = $name;
+        $person->IsPrivate = $isPrivate;
         $person->NickName = $nickname;
         $person->Note = $note;
         $person->BirthDate = $birthdate;
