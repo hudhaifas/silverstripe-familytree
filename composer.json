@@ -17,7 +17,8 @@
     "require": {
         "silverstripe/cms": "~3.0",
         "silverstripe/framework": "~3.0",
-        "tractorcow/silverstripe-autocomplete": "^3.4"
+        "tractorcow/silverstripe-autocomplete": "^3.4",
+        "ajshort/silverstripe-gridfieldextensions": "^1.1"
     },
     "extra": {
         "installer-name": "genealogist"
