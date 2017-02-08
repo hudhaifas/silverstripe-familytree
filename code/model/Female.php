@@ -30,8 +30,7 @@
  * @author Hudhaifa Shatnawi <hudhaifa.shatnawi@gmail.com>
  * @version 1.0, Nov 2, 2016 - 11:05:49 AM
  */
-class Female
-        extends Person {
+class Female extends Person {
 
     private static $has_one = array(
         'Parent' => 'Person',
@@ -60,14 +59,6 @@ class Female
 
     public function canEdit($member = false) {
         return true;
-    }
-
-    /**
-     * Returns the formated person's name
-     * @return strnig
-     */
-    public function getFirstName() {
-        return $this->hasPermission() ? $this->Name : _t('Genealogist.HIDDEN', 'Hidden');
     }
 
 }

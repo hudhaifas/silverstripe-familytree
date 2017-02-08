@@ -30,9 +30,7 @@
  * @author Hudhaifa Shatnawi <hudhaifa.shatnawi@gmail.com>
  * @version 1.0, Nov 2, 2016 - 10:59:52 AM
  */
-class Person
-        extends DataObject
-        implements SingleDataObject {
+class Person extends DataObject implements SingleDataObject {
 
     private static $db = array(
         'Prefix' => 'Varchar(255)',
@@ -53,7 +51,7 @@ class Person
         // Indexing
         'IndexedName' => 'Text',
         // Order
-        'SortOrder'=>'Int'
+        'SortOrder' => 'Int'
     );
     private static $has_one = array(
         'Photo' => 'Image',
@@ -299,7 +297,7 @@ class Person
     }
 
     public function getFirstName() {
-        return $this->Name;
+        return $this->hasPermission() || !$this->IsPrivate ? $this->Name : _t('Genealogist.HIDDEN', 'Hidden');
     }
 
     /**

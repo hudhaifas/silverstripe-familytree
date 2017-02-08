@@ -30,8 +30,7 @@
  * @author Hudhaifa Shatnawi <hudhaifa.shatnawi@gmail.com>
  * @version 1.0, Nov 2, 2016 - 11:56:42 AM
  */
-class Clan
-        extends Male {
+class Clan extends Male {
 
     private static $db = array(
     );
@@ -65,4 +64,9 @@ class Clan
     public function isObjectDisabled() {
         return false;
     }
+
+    public function getFirstName() {
+        return $this->Name;
+    }
+
 }
