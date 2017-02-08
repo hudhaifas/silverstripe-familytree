@@ -29,8 +29,7 @@
  * @author Hudhaifa Shatnawi <hudhaifa.shatnawi@gmail.com>
  * @version 1.0, Nov 2, 2016 - 2:45:38 PM
  */
-class GenealogyPage
-        extends Page {
+class GenealogyPage extends Page {
 
     private static $group_code = 'genealogists';
     private static $group_title = 'Genealogists';
@@ -102,8 +101,7 @@ class GenealogyPage
 
 }
 
-class GenealogyPage_Controller
-        extends Page_Controller {
+class GenealogyPage_Controller extends Page_Controller {
 
     private static $allowed_actions = array(
         'info',
@@ -139,6 +137,10 @@ class GenealogyPage_Controller
     /// Actions ///
     public function index(SS_HTTPRequest $request) {
         $id = $this->getRequest()->param('ID');
+        if (!$id) {
+            return array();
+        }
+        
         $other = $this->getRequest()->param('Other');
 
         $data = $other ? $this->kinship($id, $other) : $this->tree($id);
@@ -184,7 +186,7 @@ class GenealogyPage_Controller
 
     /// Sub Pages ///
     private function tree($id) {
-        $person = $id ? DataObject::get_by_id('Person', (int) $id) : $this->getRootClans()->first();
+        $person = $id ? DataObject::get_by_id('Person', (int) $id) : $this->getRootClans()->last();
 
         if (!$person) {
             return $this->httpError(404, 'No books could be found!');
