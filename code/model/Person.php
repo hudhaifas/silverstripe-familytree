@@ -80,6 +80,7 @@ class Person
         'AliasName',
         'Parents',
         'Mother.Name',
+        'BirthDate',
         'Age',
         'Note',
     );
