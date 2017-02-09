@@ -84,4 +84,12 @@ class Female
         return $fields;
     }
 
+    /**
+     * Returns the formated person's name
+     * @return strnig
+     */
+    public function getFirstName() {
+        return $this->hasPermission() ? $this->Name : _t('Genealogist.HIDDEN', 'Hidden');
+    }
+
 }
