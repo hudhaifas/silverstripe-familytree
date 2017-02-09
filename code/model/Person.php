@@ -30,7 +30,9 @@
  * @author Hudhaifa Shatnawi <hudhaifa.shatnawi@gmail.com>
  * @version 1.0, Nov 2, 2016 - 10:59:52 AM
  */
-class Person extends DataObject implements SingleDataObject {
+class Person
+        extends DataObject
+        implements SingleDataObject {
 
     private static $db = array(
         'Prefix' => 'Varchar(255)',
@@ -298,7 +300,8 @@ class Person extends DataObject implements SingleDataObject {
     }
 
     public function getFirstName() {
-        return $this->hasPermission() || !$this->IsPrivate ? $this->Name : _t('Genealogist.HIDDEN', 'Hidden');
+//        return $this->hasPermission() || !$this->IsPrivate ? $this->Name : _t('Genealogist.HIDDEN', 'Hidden');
+        return $this->Name;
     }
 
     /**

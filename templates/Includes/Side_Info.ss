@@ -65,7 +65,7 @@
                 <%t Genealogist.DAUGHTERS 'Daughters' %>: $DaughtersCount<br />
     
                 <%--
-                <% loop Daughters %>
+                <% loop Daughters.sort('BirthDate DESC').sort('Created ASC') %>
                     <a href="#" data-url="{$InfoLink()}" class="info-item">$AliasName</a><% if not Last %><%t Genealogist.COMMA ',' %><% end_if %>
                 <% end_loop %>
                 <br /><br />

@@ -25,11 +25,11 @@
             <a href="$Link(suggest)" target="_blank"><u><%t Genealogist.CLICK_HERE 'click here' %></u></a> <i class="fa fa-comment" aria-hidden="true"></i>
             <%t Genealogist.SUGGEST_EDIT_MESSAGE_2 ' to provide us with any data.' value=$Link(suggest) %>
         </div>
-        
+
         <% if Trees.Count %>
             <% include TheTree %>
         <% else %>
-            <% include TheIntro %>
+            $Content
         <% end_if %>
     </div>
 </div>
