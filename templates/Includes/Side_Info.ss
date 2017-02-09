@@ -36,7 +36,7 @@
         <% if Husbands %>
             <hr />
             <b><%t Genealogist.HUSBANDS 'Husbands' %></b><br />
-            <% loop Husbands %>
+            <% loop Husbands.Sort(HusbandOrder) %>
                 <a href="#" data-url="{$InfoLink()}" class="info-item">$FullName</a><br />
             <% end_loop %>
 
@@ -44,7 +44,7 @@
             <hr />
 
             <b><%t Genealogist.WIVES 'Wives' %></b><br />
-            <% loop Wives %>
+            <% loop Wives.Sort(WifeOrder) %>
                 <a href="#" data-url="{$InfoLink()}" class="info-item">$FullName</a><br />
             <% end_loop %>
         <% end_if %>

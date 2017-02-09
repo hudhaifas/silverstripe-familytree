@@ -32,6 +32,10 @@
  */
 class Male extends Person {
 
+    private static $db = array(
+        // Order
+        'HusbandOrder' => 'Int'
+    );
     private static $has_one = array(
         'Parent' => 'Person',
     );
@@ -63,12 +67,24 @@ class Male extends Person {
         $fields->removeFieldFromTab('Root.Children', 'Children');
 
         $config = GridFieldConfig_RelationEditor::create(15);
-        $config->addComponent(new GridFieldOrderableRows('SortOrder'));
+        $config->addComponent(new GridFieldOrderableRows('ChildOrder'));
 
         $fields->addFieldToTab('Root.Children', new GridField(
                 'Children', //
                 _t('Genealogist.CHILDREN', 'Children'), //
                 $this->Children(), //
+                $config
+        ));
+
+        $fields->removeFieldFromTab('Root.Wives', 'Wives');
+
+        $config = GridFieldConfig_RelationEditor::create(15);
+        $config->addComponent(new GridFieldOrderableRows('WifeOrder'));
+
+        $fields->addFieldToTab('Root.Wives', new GridField(
+                'Wives', //
+                _t('Genealogist.WIVES', 'Wives'), //
+                $this->Wives(), //
                 $config
         ));
 

@@ -30,8 +30,13 @@
  * @author Hudhaifa Shatnawi <hudhaifa.shatnawi@gmail.com>
  * @version 1.0, Nov 2, 2016 - 11:05:49 AM
  */
-class Female extends Person {
+class Female
+        extends Person {
 
+    private static $db = array(
+        // Order
+        'WifeOrder' => 'Int'
+    );
     private static $has_one = array(
         'Parent' => 'Person',
     );
@@ -59,6 +64,24 @@ class Female extends Person {
 
     public function canEdit($member = false) {
         return true;
+    }
+
+    public function getCMSFields() {
+        $fields = parent::getCMSFields();
+
+        $fields->removeFieldFromTab('Root.Husbands', 'Husbands');
+
+        $config = GridFieldConfig_RelationEditor::create(15);
+        $config->addComponent(new GridFieldOrderableRows('HusbandOrder'));
+
+        $fields->addFieldToTab('Root.Husbands', new GridField(
+                'Husbands', //
+                _t('Genealogist.HUSBANDS', 'Husbands'), //
+                $this->Husbands(), //
+                $config
+        ));
+
+        return $fields;
     }
 
 }

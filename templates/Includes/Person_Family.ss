@@ -19,7 +19,7 @@
             <b><%t Genealogist.HUSBANDS 'Husbands' %></b>: $Husbands.Count<br />
 
             <ul>
-                <% loop Husbands %>
+                <% loop Husbands.Sort(HusbandOrder) %>
                     <li><a href="{$ObjectLink()}">$FullName</a></li>
                 <% end_loop %>
             </ul>
@@ -30,7 +30,7 @@
             <b><%t Genealogist.WIVES 'Wives' %></b>: $Wives.Count<br />
 
             <ul>
-                <% loop Wives %>
+                <% loop Wives.Sort(WifeOrder) %>
                 <li><a href="{$ObjectLink()}">$FullName</a></li>
                 <% end_loop %>
             </ul>
