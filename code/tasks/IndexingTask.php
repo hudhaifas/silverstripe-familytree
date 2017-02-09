@@ -53,7 +53,7 @@ class IndexingTask
         echo $people->count() . ' records has been indexed.<br />';
 
         foreach ($people as $person) {
-            $person->IndexedName = $person->getFullName();
+            $person->IndexedName = $person->toIndexName();
             $person->write();
         }
     }

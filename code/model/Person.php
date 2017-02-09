@@ -342,6 +342,19 @@ class Person
     }
 
     /**
+     * Returns the person's full name
+     * @return string
+     */
+    public function toIndexName() {
+        $name = $this->Name;
+        if (!$this->Father()->exists()) {
+            return $name;
+        }
+
+        return $name . ' ' . $this->Father()->toIndexName();
+    }
+
+    /**
      * Returns the person's age
      * @return string
      */
