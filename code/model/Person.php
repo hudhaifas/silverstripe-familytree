@@ -53,7 +53,7 @@ class Person
         // Indexing
         'IndexedName' => 'Text',
         // Order
-        'SortOrder' => 'Int'
+        'ChildOrder' => 'Int'
     );
     private static $has_one = array(
         'Photo' => 'Image',
@@ -83,7 +83,7 @@ class Person
         'Age',
         'Note',
     );
-    private static $default_sort = 'SortOrder';
+    private static $default_sort = 'ChildOrder';
     public static $STATE_ALIVE = 1;
     public static $STATE_DEAD = 2;
 
@@ -150,7 +150,7 @@ class Person
         $fields->removeFieldFromTab('Root.Main', 'ParentID');
         $fields->removeFieldFromTab('Root.Main', 'IndexedName');
         $fields->removeFieldFromTab('Root.Main', 'StatsID');
-        $fields->removeFieldFromTab('Root.Main', 'SortOrder');
+        $fields->removeFieldFromTab('Root.Main', 'ChildOrder');
 
         $fields->removeFieldFromTab('Root.Main', 'FatherID');
         $fields->addFieldsToTab('Root.Main', array(
