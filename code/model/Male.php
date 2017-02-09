@@ -64,7 +64,9 @@ class Male extends Person {
 
     public function getCMSFields() {
         $fields = parent::getCMSFields();
+
         $fields->removeFieldFromTab('Root.Children', 'Children');
+        $fields->removeFieldFromTab('Root.Main', 'HusbandOrder');
 
         $config = GridFieldConfig_RelationEditor::create(15);
         $config->addComponent(new GridFieldOrderableRows('ChildOrder'));

@@ -70,6 +70,7 @@ class Female
         $fields = parent::getCMSFields();
 
         $fields->removeFieldFromTab('Root.Husbands', 'Husbands');
+        $fields->removeFieldFromTab('Root.Main', 'WifeOrder');
 
         $config = GridFieldConfig_RelationEditor::create(15);
         $config->addComponent(new GridFieldOrderableRows('HusbandOrder'));
