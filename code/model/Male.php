@@ -30,7 +30,8 @@
  * @author Hudhaifa Shatnawi <hudhaifa.shatnawi@gmail.com>
  * @version 1.0, Nov 2, 2016 - 11:05:40 AM
  */
-class Male extends Person {
+class Male
+        extends Person {
 
     private static $db = array(
         // Order
@@ -64,9 +65,13 @@ class Male extends Person {
 
     public function getCMSFields() {
         $fields = parent::getCMSFields();
-
-        $fields->removeFieldFromTab('Root.Children', 'Children');
         $fields->removeFieldFromTab('Root.Main', 'HusbandOrder');
+
+        if (!$this->ID) {
+            return $fields;
+        }
+        
+        $fields->removeFieldFromTab('Root.Children', 'Children');
 
         $config = GridFieldConfig_RelationEditor::create(15);
         $config->addComponent(new GridFieldOrderableRows('ChildOrder'));

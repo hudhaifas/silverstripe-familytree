@@ -41,7 +41,9 @@ class Person
         'Postfix' => 'Varchar(255)',
         // Birth
         'BirthDate' => 'Date',
+        'BirthDateEstimated' => 'Boolean',
         'DeathDate' => 'Date',
+        'DeathDateEstimated' => 'Boolean',
         'IsDead' => 'Boolean',
         // Notes
         'Note' => 'Varchar(255)',
@@ -72,6 +74,10 @@ class Person
     );
     private static $searchable_fields = array(
         'Name' => array(
+            'field' => 'TextField',
+            'filter' => 'PartialMatchFilter',
+        ),
+        'NickName' => array(
             'field' => 'TextField',
             'filter' => 'PartialMatchFilter',
         ),
@@ -115,9 +121,12 @@ class Person
         $labels['Daughters'] = _t('Genealogist.DAUGHTERS', 'Daughters');
 
         $labels['BirthDate'] = _t('Genealogist.BIRTHDATE', 'Birth Date');
+        $labels['BirthDateEstimated'] = _t('Genealogist.BIRTHDATE_ESTIMATED', 'Birth Date Estimated');
         $labels['DeathDate'] = _t('Genealogist.DEATHDATE', 'Death Date');
+        $labels['DeathDateEstimated'] = _t('Genealogist.DEATHDATE_ESTIMATED', 'Death Date Estimated');
         $labels['Age'] = _t('Genealogist.AGE', 'Age');
         $labels['IsDead'] = _t('Genealogist.ISDEAD', 'Is Dead');
+
         $labels['Note'] = _t('Genealogist.NOTE', 'Note');
         $labels['Comments'] = _t('Genealogist.COMMENTS', 'Comments');
 
@@ -185,10 +194,18 @@ class Person
         $this->reorderField($fields, 'NickName', 'Root.Main', 'Root.Main');
         $this->reorderField($fields, 'Postfix', 'Root.Main', 'Root.Main');
         $this->reorderField($fields, 'Note', 'Root.Main', 'Root.Main');
-        $this->reorderField($fields, 'BirthDate', 'Root.Main', 'Root.Main');
-        $this->reorderField($fields, 'DeathDate', 'Root.Main', 'Root.Main');
-        $this->reorderField($fields, 'IsDead', 'Root.Main', 'Root.Main');
-        $this->reorderField($fields, 'DeathDate', 'Root.Main', 'Root.Main');
+
+        $datesTab = new Tab('DatesTab', _t('Genealogist.DATES', 'Dates'));
+        $fields->insertAfter('Main', $datesTab);
+        $this->reorderField($fields, 'BirthDate', 'Root.Main', 'Root.DatesTab');
+        $this->reorderField($fields, 'BirthDateEstimated', 'Root.Main', 'Root.DatesTab');
+        $this->reorderField($fields, 'DeathDate', 'Root.Main', 'Root.DatesTab');
+        $this->reorderField($fields, 'DeathDateEstimated', 'Root.Main', 'Root.DatesTab');
+        $this->reorderField($fields, 'IsDead', 'Root.Main', 'Root.DatesTab');
+        $fields->addFieldsToTab('Root.DatesTab', array(
+            ReadonlyField::create('Age', _t('Genealogist.AGE', 'Age'), $this->getAge())
+        ));
+
         $this->reorderField($fields, 'FatherID', 'Root.Main', 'Root.Main');
         $this->reorderField($fields, 'MotherID', 'Root.Main', 'Root.Main');
 
@@ -255,10 +272,6 @@ class Person
         if ($this->DeathDate) {
             $this->IsDead = 1;
         }
-    }
-
-    protected function onBeforeDelete() {
-        parent::onBeforeDelete();
     }
 
     /// Links ///
@@ -405,21 +418,6 @@ class Person
      * @return ArrayList
      */
     public function getChildren() {
-//        $children = array();
-//
-//        if ($this->Sons()->exists()) {
-//            foreach ($this->Sons() as $child) {
-//                $children[] = $child;
-//            }
-//        }
-//
-//        if ($this->Daughters()->exists()) {
-//            foreach ($this->Daughters() as $child) {
-//                $children[] = $child;
-//            }
-//        }
-//
-//        return (new ArrayList($children))->sort('BirthDate ASC');
         GenealogistHelper::get_children($this);
     }
 
