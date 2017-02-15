@@ -30,8 +30,7 @@
  * @author Hudhaifa Shatnawi <hudhaifa.shatnawi@gmail.com>
  * @version 1.0, Nov 2, 2016 - 11:05:40 AM
  */
-class Male
-        extends Person {
+class Male extends Person {
 
     private static $db = array(
         // Order
@@ -71,30 +70,27 @@ class Male
             return $fields;
         }
 
-        $fields->removeFieldFromTab('Root.Children', 'Children');
+        // Sons
+        $config = $this->personConfigs();
 
+        $field = $fields->fieldByName('Root.Sons.Sons');
+        $field->setConfig($config);
+
+        // Daughters
+        $field = $fields->fieldByName('Root.Daughters.Daughters');
+        $field->setConfig($config);
+
+        // Children
+        $field = $fields->fieldByName('Root.Children.Children');
         $config = $this->personConfigs();
         $config->addComponent(new GridFieldOrderableRows('ChildOrder'));
+        $field->setConfig($config);
 
-        $fields->addFieldToTab('Root.Children', new GridField(
-                'Children', //
-                _t('Genealogist.CHILDREN', 'Children'), //
-                $this->Children(), //
-                $config
-        ));
-
-        $fields->removeFieldFromTab('Root.Wives', 'Wives');
-
+        // Husbands
+        $field = $fields->fieldByName('Root.Wives.Wives');
         $config = $this->personConfigs(true);
-//        $config = GridFieldConfig_RelationEditor::create(15);
         $config->addComponent(new GridFieldOrderableRows('WifeOrder'));
-
-        $fields->addFieldToTab('Root.Wives', new GridField(
-                'Wives', //
-                _t('Genealogist.WIVES', 'Wives'), //
-                $this->Wives(), //
-                $config
-        ));
+        $field->setConfig($config);
 
         return $fields;
     }

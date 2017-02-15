@@ -30,8 +30,7 @@
  * @author Hudhaifa Shatnawi <hudhaifa.shatnawi@gmail.com>
  * @version 1.0, Nov 2, 2016 - 11:05:49 AM
  */
-class Female
-        extends Person {
+class Female extends Person {
 
     private static $db = array(
         // Order
@@ -73,18 +72,24 @@ class Female
         if (!$this->ID) {
             return $fields;
         }
+
+        // Sons
+        $config = $this->personConfigs(true, false, false);
         
-        $fields->removeFieldFromTab('Root.Husbands', 'Husbands');
+        $field = $fields->fieldByName('Root.Sons.Sons');
+        $field->setConfig($config);
 
-        $config = GridFieldConfig_RelationEditor::create(15);
-        $config->addComponent(new GridFieldOrderableRows('HusbandOrder'));
+        // Daughters
+        $field = $fields->fieldByName('Root.Daughters.Daughters');
+        $field->setConfig($config);
 
-        $fields->addFieldToTab('Root.Husbands', new GridField(
-                'Husbands', //
-                _t('Genealogist.HUSBANDS', 'Husbands'), //
-                $this->Husbands(), //
-                $config
-        ));
+        // Children
+        $field = $fields->fieldByName('Root.Children.Children');
+        $field->setConfig($config);
+
+        // Husbands
+        $field = $fields->fieldByName('Root.Husbands.Husbands');
+        $field->setConfig($this->personConfigs(true));
 
         return $fields;
     }
