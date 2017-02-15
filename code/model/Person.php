@@ -215,104 +215,6 @@ class Person extends DataObject implements SingleDataObject {
         return $fields;
     }
 
-    protected function personConfigs($showFather = false, $showMother = true, $allowCreate = true) {
-        $config = GridFieldConfig::create();
-        $config->addComponent(new GridFieldPaginator(15));
-        $config->addComponent(new GridFieldButtonRow('before'));
-        $config->addComponent(new GridFieldToolbarHeader());
-        $config->addComponent(new GridFieldTitleHeader());
-        $config->addComponent(new GridFieldFilterHeader());
-        if ($allowCreate) {
-            $config->addComponent(new GridFieldAddNewInlineButton());
-        }
-        $config->addComponent(new GridFieldAddExistingAutocompleter('buttons-before-right', array('IndexedName', 'Name')));
-        $config->addComponent(new GridFieldDetailForm());
-//        $config->addComponent(new GridFieldAddNewMultiClass());
-//        $config->addComponent(new GridFieldAddNewButton());
-
-        $columns = array();
-        $columns['Name'] = array(
-            'title' => _t('Genealogist.NAME', 'Name'),
-            'field' => 'TextField'
-        );
-        $columns['NickName'] = array(
-            'title' => _t('Genealogist.NICKNAME', 'NickName'),
-            'field' => 'TextField'
-        );
-        $columns['IsDead'] = array(
-            'title' => _t('Genealogist.ISDEAD', 'Is Dead'),
-            'field' => 'CheckboxField'
-        );
-
-        if ($showFather) {
-            $columns['Parents'] = array(
-                'title' => _t('Genealogist.FATHER_NAME', 'Father Name'),
-                'callback' => function($record, $column, $grid) {
-                    $field = ReadonlyField::create($column);
-                    $father = $record->getParents();
-                    $field->setValue($father);
-                    return $field;
-                }
-            );
-        }
-
-        if ($showMother) {
-            $columns['MotherID'] = array(
-                'title' => _t('Genealogist.MOTHER_NAME', 'Mother Name'),
-                'callback' => function($record, $column, $grid) {
-                    if ($record->Father()->exists()) {
-                        $mothers = $record->Father()->Wives()->map();
-                        return DropdownField::create($column)
-                                        ->setSource($mothers)
-                                        ->setValue($record->MotherID)
-                                        ->setEmptyString(_t('Genealogist.CHOOSE_MOTHER', 'Choose Mother'));
-                    }
-
-                    return ReadonlyField::create($column);
-                }
-            );
-        }
-
-        $columns['BirthDate'] = array(
-            'title' => _t('Genealogist.BIRTHDATE', 'Birth Date'),
-            'callback' => function($record, $column, $grid) {
-                $field = DateField::create($column);
-                $field->setConfig('showcalendar', true);
-                $field->setConfig('dateformat', 'dd-MM-yyyy');
-                return $field;
-            }
-        );
-        $columns['BirthDateEstimated'] = array(
-            'field' => 'CheckboxField'
-        );
-        $columns['DeathDate'] = array(
-            'title' => _t('Genealogist.DEATHDATE', 'Death Date'),
-            'callback' => function($record, $column, $grid) {
-                $field = DateField::create($column);
-                $field->setConfig('showcalendar', true);
-                $field->setConfig('dateformat', 'dd-MM-yyyy');
-                return $field;
-            }
-        );
-        $columns['DeathDateEstimated'] = array(
-            'field' => 'CheckboxField'
-        );
-        $columns['Note'] = array(
-            'title' => _t('Genealogist.NOTE', 'Note'),
-            'field' => 'TextField'
-        );
-
-        $edit = new GridFieldEditableColumns();
-        $edit->setDisplayFields($columns);
-
-        $config->addComponent($edit);
-
-        $config->addComponent(new GridFieldEditButton());
-        $config->addComponent(new GridFieldDeleteAction(true));
-
-        return $config;
-    }
-
     protected function getMotherField($record, $column) {
         if ($record->Father()->exists()) {
             $mothers = $record->Father()->Wives()->map();
@@ -383,7 +285,7 @@ class Person extends DataObject implements SingleDataObject {
      * @param string $action Optional controller action (method).
      * @return string
      */
-    private function personLink($action = null) {
+    function personLink($action = null) {
         return GenealogyPage::get()->first()->Link($action);
     }
 
