@@ -70,10 +70,10 @@ class Male
         if (!$this->ID) {
             return $fields;
         }
-        
+
         $fields->removeFieldFromTab('Root.Children', 'Children');
 
-        $config = GridFieldConfig_RelationEditor::create(15);
+        $config = $this->personConfigs();
         $config->addComponent(new GridFieldOrderableRows('ChildOrder'));
 
         $fields->addFieldToTab('Root.Children', new GridField(
@@ -85,7 +85,8 @@ class Male
 
         $fields->removeFieldFromTab('Root.Wives', 'Wives');
 
-        $config = GridFieldConfig_RelationEditor::create(15);
+        $config = $this->personConfigs(true);
+//        $config = GridFieldConfig_RelationEditor::create(15);
         $config->addComponent(new GridFieldOrderableRows('WifeOrder'));
 
         $fields->addFieldToTab('Root.Wives', new GridField(

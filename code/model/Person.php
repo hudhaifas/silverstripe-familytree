@@ -77,10 +77,6 @@ class Person
             'field' => 'TextField',
             'filter' => 'PartialMatchFilter',
         ),
-        'NickName' => array(
-            'field' => 'TextField',
-            'filter' => 'PartialMatchFilter',
-        ),
     );
     private static $summary_fields = array(
         'AliasName',
@@ -162,6 +158,17 @@ class Person
         $fields->removeFieldFromTab('Root.Main', 'StatsID');
         $fields->removeFieldFromTab('Root.Main', 'ChildOrder');
 
+//        $fields->removeFieldFromTab('Root.Sons', 'Sons');
+//
+//        $config = $this->personConfigs();
+////        $config = GridFieldConfig_RelationEditor::create(15);
+//        $fields->addFieldToTab('Root.Sons', new GridField(
+//                'Sons', //
+//                _t('Genealogist.SONS', 'Sons'), //
+//                $this->Sons(), //
+//                $config
+//        ));
+
         $fields->removeFieldFromTab('Root.Main', 'FatherID');
         $fields->addFieldsToTab('Root.Main', array(
             AutoPersonField::create(
@@ -220,6 +227,102 @@ class Person
         $this->reorderField($fields, 'Comments', 'Root.Main', 'Root.DetailsTab');
 
         return $fields;
+    }
+
+    protected function personConfigs($showParent = false) {
+        $config = GridFieldConfig_RelationEditor::create(15);
+        $config = GridFieldConfig::create();
+        $config->addComponent(new GridFieldButtonRow('before'));
+        $config->addComponent(new GridFieldToolbarHeader());
+        $config->addComponent(new GridFieldTitleHeader());
+        $config->addComponent(new GridFieldAddNewInlineButton());
+        $config->addComponent(new GridFieldAddExistingAutocompleter());
+//        $config->addComponent(new GridFieldAddNewButton());
+
+        $columns = array(
+            'Name' => array(
+                'title' => _t('Genealogist.NAME', 'Name'),
+                'field' => 'TextField'
+            ),
+            'NickName' => array(
+                'title' => _t('Genealogist.NICKNAME', 'NickName'),
+                'field' => 'TextField'
+            ),
+            'IsDead' => array(
+                'title' => _t('Genealogist.IS_DEAD', 'Is Dead'),
+                'field' => 'CheckboxField'
+            ),
+            'MotherID' => array(
+                'title' => _t('Genealogist.MOTHER_NAME', 'Mother Name'),
+                'callback' => function($record, $column, $grid) {
+                    if ($record->Father()->exists()) {
+                        $mothers = $record->Father()->Wives()->map();
+                        return DropdownField::create($column)
+                                        ->setSource($mothers)
+                                        ->setValue($record->MotherID)
+                                        ->setEmptyString(_t('Genealogist.CHOOSE_MOTHER', 'Choose Mother'));
+                    }
+
+                    return ReadonlyField::create($column);
+                }
+            ),
+            'BirthDate' => array(
+                'title' => _t('Genealogist.BIRTHDATE', 'Birth Date'),
+                'callback' => function($record, $column, $grid) {
+                    $field = DateField::create($column);
+                    $field->setConfig('showcalendar', true);
+                    $field->setConfig('dateformat', 'dd-MM-yyyy');
+                    return $field;
+                }
+            ),
+            'BirthDateEstimated' => array(
+                'field' => 'CheckboxField'
+            ),
+            'DeathDate' => array(
+                'title' => _t('Genealogist.DEATHDATE', 'Death Date'),
+                'callback' => function($record, $column, $grid) {
+                    $field = DateField::create($column);
+                    $field->setConfig('showcalendar', true);
+                    $field->setConfig('dateformat', 'dd-MM-yyyy');
+                    return $field;
+                }
+            ),
+            'DeathDateEstimated' => array(
+                'field' => 'CheckboxField'
+            ),
+        );
+
+        if ($showParent) {
+            $columns['FatherID'] = array(
+                'title' => _t('Genealogist.FATHER_NAME', 'Father Name'),
+                'callback' => function($record, $column, $grid) {
+                    $field = ReadonlyField::create($column);
+                    if ($record->Father()->exists()) {
+                        $father = $record->Father()->getFullName();
+//                        die($father);
+//                        $field = ReadonlyField::create($column)->setValue($father);
+//                        die($field->Value());
+                        $field->setValue($father);
+//                        die($field->Value());
+//                        $field = TextField::create($column, _t('Genealogist.NICKNAME', 'NickName'), $father);
+                        return $field;
+                    }
+
+//                        die($field->Value());
+                    return $field;
+                }
+            );
+        }
+
+        $edit = new GridFieldEditableColumns();
+        $edit->setDisplayFields($columns);
+
+        $config->addComponent($edit);
+
+        $config->addComponent(new GridFieldEditButton());
+        $config->addComponent(new GridFieldDeleteAction());
+
+        return $config;
     }
 
     public function getDefaultSearchContext() {
@@ -418,6 +521,21 @@ class Person
      * @return ArrayList
      */
     public function getChildren() {
+//        $children = array();
+//
+//        if ($this->Sons()->exists()) {
+//            foreach ($this->Sons() as $child) {
+//                $children[] = $child;
+//            }
+//        }
+//
+//        if ($this->Daughters()->exists()) {
+//            foreach ($this->Daughters() as $child) {
+//                $children[] = $child;
+//            }
+//        }
+//
+//        return (new ArrayList($children))->sort('BirthDate ASC');
         GenealogistHelper::get_children($this);
     }
 
