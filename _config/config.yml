@@ -12,4 +12,7 @@ GenealogistHelper:
 Person:
   extensions:
     - PersonCMSExtension
+    - PersonGetterExtension
+    - PersonUtilsExtension
+    - PersonUIExtension
       

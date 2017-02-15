@@ -121,4 +121,38 @@ class PersonCMSExtension extends DataExtension {
         return $this->owner->personLink($this->owner->ID);
     }
 
+    /// Links ///
+    /**
+     * Return the link for this {@link Person} object
+     * @param string $action Optional controller action (method).
+     * @return string
+     */
+    function personLink($action = null) {
+        return GenealogyPage::get()->first()->Link($action);
+    }
+
+    function Link($action = null) {
+        return Director::get_current_page()->Link($action);
+    }
+
+    function InfoLink($action = null) {
+        return $this->owner->personLink("person-info/{$this->owner->ID}");
+    }
+
+    function SuggestLink($action = null) {
+        return $this->owner->personLink("suggest/{$this->owner->ID}");
+    }
+
+    function EditLink($action = null) {
+        return FiguresPage::get()->first()->Link("edit/{$this->owner->ID}");
+    }
+
+    function TreeLink($action = null) {
+        return $this->owner->personLink("{$this->owner->ID}");
+    }
+
+    function ShowLink($action = null) {
+        return $this->owner->personLink("show/{$this->owner->ID}");
+    }
+
 }
