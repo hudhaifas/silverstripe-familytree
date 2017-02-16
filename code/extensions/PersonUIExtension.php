@@ -13,12 +13,6 @@
  */
 class PersonUIExtension extends DataExtension {
 
-    public function CSSClasses($stopAtClass = 'DataObject') {
-        $classes = strtolower(parent::CSSClasses($stopAtClass));
 
-        $classes .= $this->owner->IsDead ? ' dead' : '';
-
-        return $classes;
-    }
 
 }

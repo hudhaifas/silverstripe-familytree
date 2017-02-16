@@ -309,6 +309,14 @@ class Person extends DataObject implements SingleDataObject {
     }
 
     /// UI ///
+    public function CSSClasses($stopAtClass = 'DataObject') {
+        $classes = strtolower(parent::CSSClasses($stopAtClass));
+
+        $classes .= $this->IsDead ? ' dead' : '';
+
+        return $classes;
+    }
+
     public function getDescendantsLeaves($males = 1, $malesSeed = 1, $females = 0, $femalesSeed = 0) {
         if (isset($_GET['ancestral']) && $_GET['ancestral'] == 1) {
             return $this->getAncestorsLeaves();
