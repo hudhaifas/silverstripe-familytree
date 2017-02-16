@@ -284,6 +284,30 @@ class Person extends DataObject implements SingleDataObject {
         return $this->getFullName();
     }
 
+    /**
+     * Checks if this person is male
+     * @return boolean
+     */
+    public function isMale() {
+        return $this instanceof Male;
+    }
+
+    /**
+     * Checks if this person is female
+     * @return boolean
+     */
+    public function isFemale() {
+        return $this instanceof Female;
+    }
+
+    /**
+     * Checks if this person is a clan
+     * @return boolean
+     */
+    public function isClan() {
+        return $this instanceof Clan;
+    }
+
     /// UI ///
     public function getDescendantsLeaves($males = 1, $malesSeed = 1, $females = 0, $femalesSeed = 0) {
         if (isset($_GET['ancestral']) && $_GET['ancestral'] == 1) {

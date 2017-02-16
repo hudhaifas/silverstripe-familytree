@@ -13,8 +13,6 @@
  */
 class PersonGetterExtension extends DataExtension {
 
-
-
     public function getFirstName() {
 //        return $this->hasPermission() || !$this->IsPrivate ? $this->Name : _t('Genealogist.HIDDEN', 'Hidden');
         return $this->owner->Name;
@@ -133,30 +131,6 @@ class PersonGetterExtension extends DataExtension {
      */
     public function isAdult() {
         return $this->getAge() > 18;
-    }
-
-    /**
-     * Checks if this person is male
-     * @return boolean
-     */
-    public function isMale() {
-        return $this->owner instanceof Male;
-    }
-
-    /**
-     * Checks if this person is female
-     * @return boolean
-     */
-    public function isFemale() {
-        return $this->owner instanceof Female;
-    }
-
-    /**
-     * Checks if this person is a clan
-     * @return boolean
-     */
-    public function isClan() {
-        return $this->owner instanceof Clan;
     }
 
 }
