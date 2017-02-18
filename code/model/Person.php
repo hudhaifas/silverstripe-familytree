@@ -666,6 +666,20 @@ class Person extends DataObject implements SingleDataObject {
         return $classes;
     }
 
+    public function CSSBirth() {
+        if ($this->BirthDate) {
+            return $this->BirthDate->Year();
+        }
+        return null;
+    }
+
+    public function CSSDeath() {
+        if ($this->DeathDate) {
+            return $this->DeathDate->Year();
+        }
+        return null;
+    }
+
     public function getDescendantsLeaves($males = 1, $malesSeed = 1, $females = 0, $femalesSeed = 0) {
         if (isset($_GET['ancestral']) && $_GET['ancestral'] == 1) {
             return $this->getAncestorsLeaves();
@@ -690,7 +704,7 @@ class Person extends DataObject implements SingleDataObject {
         }
 
         $html = <<<HTML
-            <li class="{$this->CSSClasses()}">
+            <li class="{$this->CSSClasses()}" data-birth="{$this->CSSBirth()}" data-death="{$this->CSSDeath()}">
                 <a href="#" title="{$this->getFullName()}" data-url="{$this->InfoLink()}" class="info-item">{$this->getPersonName()}</a>
                 <ul>
                     {$this->getChildrenLeaves($males, $malesSeed, $females, $femalesSeed)}
@@ -729,7 +743,7 @@ HTML;
 
     private function getSelfLeaf() {
         $html = <<<HTML
-            <li class="{$this->CSSClasses()}">
+            <li class="{$this->CSSClasses()}" data-birth="{$this->CSSBirth()}" data-death="{$this->CSSDeath()}">
                 <a href="#" title="{$this->getFullName()}" data-url="{$this->InfoLink()}" class="info-item">{$this->getPersonName()}</a>
             </li>
 HTML;
@@ -743,7 +757,7 @@ HTML;
         $title = $noFemales ? '' : $this->getFullName();
 
         $html = <<<HTML
-            <li class="{$this->CSSClasses()}">
+            <li class="{$this->CSSClasses()}" data-birth="{$this->CSSBirth()}" data-death="{$this->CSSDeath()}">
                 <a href="#" title="{$title}" data-url="{$this->InfoLink()}" class="info-item">{$name}</a>
                 <ul>
                     {$this->getParentsLeaves()}

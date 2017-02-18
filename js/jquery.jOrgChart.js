@@ -189,6 +189,15 @@
             });
         }
 
+        if ($node.attr('data-birth') != undefined) {
+            item = $node.attr('data-birth');
+            $nodeDiv.attr('data-birth', item);
+        }
+        if ($node.attr('data-death') != undefined) {
+            item = $node.attr('data-death');
+            $nodeDiv.attr('data-death', item);
+        }
+
         $table.append($tbody);
         $container.append($table);
 
