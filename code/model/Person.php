@@ -30,9 +30,7 @@
  * @author Hudhaifa Shatnawi <hudhaifa.shatnawi@gmail.com>
  * @version 1.0, Nov 2, 2016 - 10:59:52 AM
  */
-class Person
-        extends DataObject
-        implements SingleDataObject {
+class Person extends DataObject implements SingleDataObject {
 
     private static $db = array(
         'Prefix' => 'Varchar(255)',
@@ -54,8 +52,6 @@ class Person
         'IsPrivate' => 'Boolean',
         // Indexing
         'IndexedName' => 'Text',
-        'IndexedClans' => 'Text',
-        'IndexedClansID' => 'Text',
         // Order
         'ChildOrder' => 'Int'
     );
@@ -157,8 +153,6 @@ class Person
 
         $fields->removeFieldFromTab('Root.Main', 'ParentID');
         $fields->removeFieldFromTab('Root.Main', 'IndexedName');
-        $fields->removeFieldFromTab('Root.Main', 'IndexedClans');
-        $fields->removeFieldFromTab('Root.Main', 'IndexedClansID');
         $fields->removeFieldFromTab('Root.Main', 'StatsID');
         $fields->removeFieldFromTab('Root.Main', 'ChildOrder');
 
@@ -313,7 +307,6 @@ class Person
 
         $config->addComponent($edit);
 
-        $config->addComponent(new GridFieldExternalLink());
         $config->addComponent(new GridFieldEditButton());
         $config->addComponent(new GridFieldDeleteAction(true));
 
@@ -418,17 +411,7 @@ class Person
         return $this->personLink("show/$this->ID");
     }
 
-    function getExternalLink($action = null) {
-//        return $this->personLink($this->ID);
-    }
-
-    public function getExternalLinkText() {
-        $title = _t('Genealogist.SHOW_THIS', 'Show this person tree');
-        return "<img src='genealogist/images/genealogy.png' title='$title'>";
-    }
-
     /// Getters ///
-
     public function getTitle() {
         return $this->getFullName();
     }
@@ -593,9 +576,9 @@ class Person
      * @return number
      */
     public function DescendantsCount($state = 0) {
-//        if ($this->Stats()->exists()) {
-//            return $this->MalesCount($state) + $this->FemalesCount($state);
-//        }
+        if ($this->Stats()->exists()) {
+            return $this->MalesCount($state) + $this->FemalesCount($state);
+        }
         return GenealogistHelper::count_descendants($this, $state);
     }
 
@@ -605,9 +588,9 @@ class Person
      * @return number
      */
     public function MalesCount($state = 0) {
-//        if ($this->Stats()->exists()) {
-//            return $state ? $this->Stats()->LiveMales : $this->Stats()->Males;
-//        }
+        if ($this->Stats()->exists()) {
+            return $state ? $this->Stats()->LiveMales : $this->Stats()->Males;
+        }
         return GenealogistHelper::count_males($this, $state);
     }
 
@@ -617,9 +600,9 @@ class Person
      * @return number
      */
     public function FemalesCount($state = 0) {
-//        if ($this->Stats()->exists()) {
-//            return $state ? $this->Stats()->LiveFemales : $this->Stats()->Females;
-//        }
+        if ($this->Stats()->exists()) {
+            return $state ? $this->Stats()->LiveFemales : $this->Stats()->Females;
+        }
         return GenealogistHelper::count_females($this, $state);
     }
 
@@ -629,9 +612,9 @@ class Person
      * @return number
      */
     public function SonsCount($state = 0) {
-//        if ($this->Stats()->exists()) {
-//            return $state ? $this->Stats()->LiveSons : $this->Stats()->Sons;
-//        }
+        if ($this->Stats()->exists()) {
+            return $state ? $this->Stats()->LiveSons : $this->Stats()->Sons;
+        }
         return GenealogistHelper::count_sons($this, $state);
     }
 
@@ -641,9 +624,9 @@ class Person
      * @return number
      */
     public function DaughtersCount($state = 0) {
-//        if ($this->Stats()->exists()) {
-//            return $state ? $this->Stats()->LiveDaughters : $this->Stats()->Daughters;
-//        }
+        if ($this->Stats()->exists()) {
+            return $state ? $this->Stats()->LiveDaughters : $this->Stats()->Daughters;
+        }
         return GenealogistHelper::count_daughters($this, $state);
     }
 

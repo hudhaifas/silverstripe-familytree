@@ -45,8 +45,7 @@ class StatsTask
         $level = $request->getVar('level');
 
         if ($level == 'all') {
-            $this->reset();
-            $people = Person::get()->sort('Created DESC');
+            $people = Person::get();
         } else if ($level == 'reset') {
             $this->reset();
             return;
@@ -54,16 +53,13 @@ class StatsTask
             $people = Person::get()->where('StatsID = 0');
         }
 
-        echo $people->count() . ' records to be indexed.\n';
-
         foreach ($people as $person) {
             $this->indexStats($person);
-            $this->indexName($person);
 
             $person->write();
         }
 
-        echo 'Task Completed.\n';
+        echo $people->count() . ' records has been indexed.\n';
     }
 
     private function indexName($person) {
@@ -73,24 +69,14 @@ class StatsTask
     private function indexStats($person) {
         if ($person->Stats()->exists() || $person->StatsID) {
             $stats = $person->Stats();
-//            echo 'Updating the index of : ' . $person->Name . '... \n';
+//            echo 'Updating the index of : ' . $person->Name . '... <br />';
             echo '.';
         } else {
             $stats = new PersonStats();
-//            echo 'Indexing: ' . $person->Name . '... \n';
+//            echo 'Indexing: ' . $person->Name . '... <br />';
             echo '.';
         }
 
-//        $stats->Sons = $person->SonsCount();
-//        $stats->Daughters = $person->DaughtersCount();
-//        $stats->Males = $person->MalesCount();
-//        $stats->Females = $person->FemalesCount();
-//        $stats->Total = $person->DescendantsCount();
-//        $stats->LiveSons = $person->SonsCount(1);
-//        $stats->LiveDaughters = $person->DaughtersCount(1);
-//        $stats->LiveMales = $person->MalesCount(1);
-//        $stats->LiveFemales = $person->FemalesCount(1);
-//        $stats->LiveTotal = $person->DescendantsCount(1);
         $stats->Sons = GenealogistHelper::count_sons($person);
         $stats->Daughters = GenealogistHelper::count_daughters($person);
         $stats->Males = GenealogistHelper::count_males($person);
@@ -109,14 +95,14 @@ class StatsTask
 
     private function reset() {
         $people = Person::get();
-        echo 'Deleting: ' . $people->Count() . ' person records... \n';
+        echo 'Deleting: ' . $people->Count() . ' person records... <br />';
         foreach ($people as $person) {
             $person->StatsID = 0;
             $person->write();
         }
 
         $stats = PersonStats::get();
-        echo 'Deleting: ' . $stats->Count() . ' stats records... \n';
+        echo 'Deleting: ' . $stats->Count() . ' stats records... <br />';
 
         foreach ($stats as $stat) {
             $stat->delete();

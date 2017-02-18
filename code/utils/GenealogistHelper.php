@@ -113,7 +113,11 @@ class GenealogistHelper {
             }
         }
 
-        return (new ArrayList($children));
+        return (new ArrayList($children))
+//                        ->sort('BirthDate DESC')
+//                        ->sort('Created ASC')
+//                        ->sort('BirthDate ASC')
+        ;
     }
 
     /// Find kinships between two persons ///
@@ -252,7 +256,11 @@ class GenealogistHelper {
      * @param int $state either 1/$STATE_ALIVE or 2/$STATE_DEAD or 0
      * @return number
      */
-    public static function count_descendants(Person $person, $state = 0) {
+    public static function count_descendants($person, $state = 0) {
+        if (!$person) {
+            return 0;
+        }
+
         return self::count_males($person, $state) + self::count_females($person, $state);
     }
 
@@ -263,23 +271,13 @@ class GenealogistHelper {
      * @param int $state either 1/$STATE_ALIVE or 2/$STATE_DEAD or 0
      * @return number
      */
-    public static function count_males(Person $person, $state = 0) {
-        if ($person->Stats()->exists()) {
-            return $state ? $person->Stats()->LiveMales : $person->Stats()->Males;
-        }
-
+    public static function count_males($person, $state = 0) {
         $stack = array();
         $count = 0;
         array_push($stack, $person);
 
         while ($stack) {
             $p = array_pop($stack);
-
-            if ($p->Stats()->exists()) {
-                $count += $state ? $p->Stats()->LiveMales : $p->Stats()->Males;
-                continue;
-            }
-
             $isMale = $p->isMale();
             switch ($state) {
                 case self::$STATE_ALIVE:
@@ -300,6 +298,29 @@ class GenealogistHelper {
             }
         }
 
+        // Recursive
+//        if (!$person) {
+//            return 0;
+//        }
+//
+//        switch ($state) {
+//            case self::$STATE_ALIVE:
+//                $count = $person->isMale() && !$person->IsDead ? 1 : 0;
+//                break;
+//
+//            case self::$STATE_DEAD:
+//                $count = $person->isMale() && $person->IsDead ? 1 : 0;
+//                break;
+//
+//            default:
+//                $count = $person->isMale() ? 1 : 0;
+//                break;
+//        }
+//
+//        foreach ($person->Sons() as $child) {
+//            $count += self::count_males($child, $state);
+//        }
+
         return $count;
     }
 
@@ -310,22 +331,13 @@ class GenealogistHelper {
      * @param int $state either 1/$STATE_ALIVE or 2/$STATE_DEAD or 0
      * @return number
      */
-    public static function count_females(Person $person, $state = 0) {
-        if ($person->Stats()->exists()) {
-            return $person ? $this->Stats()->LiveFemales : $person->Stats()->Females;
-        }
-
+    public static function count_females($person, $state = 0) {
         $stack = array();
         $count = 0;
         array_push($stack, $person);
 
         while ($stack) {
             $p = array_pop($stack);
-            if ($p->Stats()->exists()) {
-                $count += $state ? $p->Stats()->LiveFemales : $p->Stats()->Females;
-                continue;
-            }
-
             $isFemale = $p->isFemale();
             switch ($state) {
                 case self::$STATE_ALIVE:
@@ -348,6 +360,30 @@ class GenealogistHelper {
             }
         }
 
+//        if (!$person) {
+//            return 0;
+//        }
+//
+//        switch ($state) {
+//            case self::$STATE_ALIVE:
+//                $count = $person->isFemale() && !$person->IsDead ? 1 : 0;
+//                break;
+//
+//            case self::$STATE_DEAD:
+//                $count = $person->isFemale() && $person->IsDead ? 1 : 0;
+//                break;
+//
+//            default:
+//                $count = $person->isFemale() ? 1 : 0;
+//                break;
+//        }
+//
+//        $count += self::count_daughters($person, $state);
+//
+//        foreach ($person->Sons() as $child) {
+//            $count += self::count_females($child, $state);
+//        }
+
         return $count;
     }
 
@@ -358,9 +394,9 @@ class GenealogistHelper {
      * @param int $state either 1/$STATE_ALIVE or 2/$STATE_DEAD or 0
      * @return number
      */
-    public static function count_sons(Person $person, $state = 0) {
-        if ($person->Stats()->exists()) {
-            return $state ? $person->Stats()->LiveSons : $person->Stats()->Sons;
+    public static function count_sons($person, $state = 0) {
+        if (!$person) {
+            return 0;
         }
 
         $count = 0;
@@ -369,7 +405,7 @@ class GenealogistHelper {
             switch ($state) {
                 case self::$STATE_ALIVE:
 //                    $count += !$child->IsDead && !$child->isClan() ? 1 : 0;
-                    $count += !$child->IsDead ? 1 : 0;
+                    $count +=!$child->IsDead ? 1 : 0;
                     break;
 
                 case self::$STATE_DEAD:
@@ -394,9 +430,9 @@ class GenealogistHelper {
      * @param int $state either 1/$STATE_ALIVE or 2/$STATE_DEAD or 0
      * @return number
      */
-    public static function count_daughters(Person $person, $state = 0) {
-        if ($person->Stats()->exists()) {
-            return $state ? $person->Stats()->LiveDaughters : $person->Stats()->Daughters;
+    public static function count_daughters($person, $state = 0) {
+        if (!$person) {
+            return 0;
         }
 
         $count = 0;
@@ -404,7 +440,7 @@ class GenealogistHelper {
         foreach ($person->Daughters() as $child) {
             switch ($state) {
                 case self::$STATE_ALIVE:
-                    $count += !$child->IsDead ? 1 : 0;
+                    $count +=!$child->IsDead ? 1 : 0;
                     break;
 
                 case self::$STATE_DEAD:
