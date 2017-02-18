@@ -54,6 +54,8 @@ class Person
         'IsPrivate' => 'Boolean',
         // Indexing
         'IndexedName' => 'Text',
+        'IndexedClans' => 'Text',
+        'IndexedClansID' => 'Text',
         // Order
         'ChildOrder' => 'Int'
     );
@@ -155,6 +157,8 @@ class Person
 
         $fields->removeFieldFromTab('Root.Main', 'ParentID');
         $fields->removeFieldFromTab('Root.Main', 'IndexedName');
+        $fields->removeFieldFromTab('Root.Main', 'IndexedClans');
+        $fields->removeFieldFromTab('Root.Main', 'IndexedClansID');
         $fields->removeFieldFromTab('Root.Main', 'StatsID');
         $fields->removeFieldFromTab('Root.Main', 'ChildOrder');
 

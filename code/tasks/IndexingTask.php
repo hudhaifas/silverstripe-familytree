@@ -50,7 +50,7 @@ class IndexingTask
             $people = Person::get()->where('IndexedName IS NULL');
         }
 
-        echo $people->count() . ' records has been indexed.<br />';
+        echo $people->count() . ' records to be indexed.\n';
 
         foreach ($people as $person) {
             $person->IndexedName = $person->toIndexName();
