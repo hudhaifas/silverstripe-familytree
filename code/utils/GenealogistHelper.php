@@ -264,6 +264,10 @@ class GenealogistHelper {
      * @return number
      */
     public static function count_males(Person $person, $state = 0) {
+        if ($person->Stats()->exists()) {
+            return $state ? $person->Stats()->LiveMales : $person->Stats()->Males;
+        }
+
         $stack = array();
         $count = 0;
         array_push($stack, $person);
@@ -307,6 +311,10 @@ class GenealogistHelper {
      * @return number
      */
     public static function count_females(Person $person, $state = 0) {
+        if ($person->Stats()->exists()) {
+            return $person ? $this->Stats()->LiveFemales : $person->Stats()->Females;
+        }
+
         $stack = array();
         $count = 0;
         array_push($stack, $person);
