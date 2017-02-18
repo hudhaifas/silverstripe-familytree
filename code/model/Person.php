@@ -593,9 +593,9 @@ class Person
      * @return number
      */
     public function DescendantsCount($state = 0) {
-        if ($this->Stats()->exists()) {
-            return $this->MalesCount($state) + $this->FemalesCount($state);
-        }
+//        if ($this->Stats()->exists()) {
+//            return $this->MalesCount($state) + $this->FemalesCount($state);
+//        }
         return GenealogistHelper::count_descendants($this, $state);
     }
 
@@ -605,9 +605,9 @@ class Person
      * @return number
      */
     public function MalesCount($state = 0) {
-        if ($this->Stats()->exists()) {
-            return $state ? $this->Stats()->LiveMales : $this->Stats()->Males;
-        }
+//        if ($this->Stats()->exists()) {
+//            return $state ? $this->Stats()->LiveMales : $this->Stats()->Males;
+//        }
         return GenealogistHelper::count_males($this, $state);
     }
 
@@ -617,9 +617,9 @@ class Person
      * @return number
      */
     public function FemalesCount($state = 0) {
-        if ($this->Stats()->exists()) {
-            return $state ? $this->Stats()->LiveFemales : $this->Stats()->Females;
-        }
+//        if ($this->Stats()->exists()) {
+//            return $state ? $this->Stats()->LiveFemales : $this->Stats()->Females;
+//        }
         return GenealogistHelper::count_females($this, $state);
     }
 
@@ -629,9 +629,9 @@ class Person
      * @return number
      */
     public function SonsCount($state = 0) {
-        if ($this->Stats()->exists()) {
-            return $state ? $this->Stats()->LiveSons : $this->Stats()->Sons;
-        }
+//        if ($this->Stats()->exists()) {
+//            return $state ? $this->Stats()->LiveSons : $this->Stats()->Sons;
+//        }
         return GenealogistHelper::count_sons($this, $state);
     }
 
@@ -641,9 +641,9 @@ class Person
      * @return number
      */
     public function DaughtersCount($state = 0) {
-        if ($this->Stats()->exists()) {
-            return $state ? $this->Stats()->LiveDaughters : $this->Stats()->Daughters;
-        }
+//        if ($this->Stats()->exists()) {
+//            return $state ? $this->Stats()->LiveDaughters : $this->Stats()->Daughters;
+//        }
         return GenealogistHelper::count_daughters($this, $state);
     }
 
