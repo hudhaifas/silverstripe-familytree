@@ -8,11 +8,4 @@ GenealogistHelper:
     - librarians
     - genealogists
     - co-genealogists
-    
-Person:
-  extensions:
-    - PersonCMSExtension
-    - PersonGetterExtension
-    - PersonUtilsExtension
-    - PersonUIExtension
       

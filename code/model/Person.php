@@ -30,7 +30,9 @@
  * @author Hudhaifa Shatnawi <hudhaifa.shatnawi@gmail.com>
  * @version 1.0, Nov 2, 2016 - 10:59:52 AM
  */
-class Person extends DataObject implements SingleDataObject {
+class Person
+        extends DataObject
+        implements SingleDataObject {
 
     private static $db = array(
         'Prefix' => 'Varchar(255)',
@@ -215,6 +217,105 @@ class Person extends DataObject implements SingleDataObject {
         return $fields;
     }
 
+    protected function personConfigs($showFather = false, $showMother = true, $allowCreate = true) {
+        $config = GridFieldConfig::create();
+        $config->addComponent(new GridFieldPaginator(15));
+        $config->addComponent(new GridFieldButtonRow('before'));
+        $config->addComponent(new GridFieldToolbarHeader());
+        $config->addComponent(new GridFieldTitleHeader());
+        $config->addComponent(new GridFieldFilterHeader());
+        if ($allowCreate) {
+            $config->addComponent(new GridFieldAddNewInlineButton());
+        }
+        $config->addComponent(new GridFieldAddExistingAutocompleter('buttons-before-right', array('IndexedName', 'Name')));
+        $config->addComponent(new GridFieldDetailForm());
+//        $config->addComponent(new GridFieldAddNewMultiClass());
+//        $config->addComponent(new GridFieldAddNewButton());
+
+        $columns = array();
+        $columns['Name'] = array(
+            'title' => _t('Genealogist.NAME', 'Name'),
+            'field' => 'TextField'
+        );
+        $columns['NickName'] = array(
+            'title' => _t('Genealogist.NICKNAME', 'NickName'),
+            'field' => 'TextField'
+        );
+        $columns['IsDead'] = array(
+            'title' => _t('Genealogist.ISDEAD', 'Is Dead'),
+            'field' => 'CheckboxField'
+        );
+
+        if ($showFather) {
+            $columns['Parents'] = array(
+                'title' => _t('Genealogist.FATHER_NAME', 'Father Name'),
+                'callback' => function($record, $column, $grid) {
+                    $field = ReadonlyField::create($column);
+                    $father = $record->getParents();
+                    $field->setValue($father);
+                    return $field;
+                }
+            );
+        }
+
+        if ($showMother) {
+            $columns['MotherID'] = array(
+                'title' => _t('Genealogist.MOTHER_NAME', 'Mother Name'),
+                'callback' => function($record, $column, $grid) {
+                    if ($record->Father()->exists()) {
+                        $mothers = $record->Father()->Wives()->map();
+                        return DropdownField::create($column)
+                                        ->setSource($mothers)
+                                        ->setValue($record->MotherID)
+                                        ->setEmptyString(_t('Genealogist.CHOOSE_MOTHER', 'Choose Mother'));
+                    }
+
+                    return ReadonlyField::create($column);
+                }
+            );
+        }
+
+        $columns['BirthDate'] = array(
+            'title' => _t('Genealogist.BIRTHDATE', 'Birth Date'),
+            'callback' => function($record, $column, $grid) {
+                $field = DateField::create($column);
+                $field->setConfig('showcalendar', true);
+                $field->setConfig('dateformat', 'dd-MM-yyyy');
+                return $field;
+            }
+        );
+        $columns['BirthDateEstimated'] = array(
+            'field' => 'CheckboxField'
+        );
+        $columns['DeathDate'] = array(
+            'title' => _t('Genealogist.DEATHDATE', 'Death Date'),
+            'callback' => function($record, $column, $grid) {
+                $field = DateField::create($column);
+                $field->setConfig('showcalendar', true);
+                $field->setConfig('dateformat', 'dd-MM-yyyy');
+                return $field;
+            }
+        );
+        $columns['DeathDateEstimated'] = array(
+            'field' => 'CheckboxField'
+        );
+        $columns['Note'] = array(
+            'title' => _t('Genealogist.NOTE', 'Note'),
+            'field' => 'TextField'
+        );
+
+        $edit = new GridFieldEditableColumns();
+        $edit->setDisplayFields($columns);
+
+        $config->addComponent($edit);
+
+        $config->addComponent(new GridFieldExternalLink());
+        $config->addComponent(new GridFieldEditButton());
+        $config->addComponent(new GridFieldDeleteAction(true));
+
+        return $config;
+    }
+
     protected function getMotherField($record, $column) {
         if ($record->Father()->exists()) {
             $mothers = $record->Father()->Wives()->map();
@@ -279,9 +380,173 @@ class Person extends DataObject implements SingleDataObject {
         }
     }
 
+    /// Links ///
+    /**
+     * Return the link for this {@link Person} object
+     * @param string $action Optional controller action (method).
+     * @return string
+     */
+    private function personLink($action = null) {
+        return GenealogyPage::get()->first()->Link($action);
+    }
+
+    function Link($action = null) {
+        return Director::get_current_page()->Link($action);
+    }
+
+    function InfoLink($action = null) {
+        return $this->personLink("person-info/$this->ID");
+    }
+
+    function SuggestLink($action = null) {
+        return $this->personLink("suggest/$this->ID");
+    }
+
+    function EditLink($action = null) {
+        return FiguresPage::get()->first()->Link("edit/$this->ID");
+    }
+
+    function TreeLink($action = null) {
+        return $this->personLink("$this->ID");
+    }
+
+    function ShowLink($action = null) {
+        return $this->personLink("show/$this->ID");
+    }
+
+    function getExternalLink($action = null) {
+//        return $this->personLink($this->ID);
+    }
+
+    public function getExternalLinkText() {
+        $title = _t('Genealogist.SHOW_THIS', 'Show this person tree');
+        return "<img src='genealogist/images/genealogy.png' title='$title'>";
+    }
+
     /// Getters ///
+
     public function getTitle() {
         return $this->getFullName();
+    }
+
+    public function getFirstName() {
+//        return $this->hasPermission() || !$this->IsPrivate ? $this->Name : _t('Genealogist.HIDDEN', 'Hidden');
+        return $this->Name;
+    }
+
+    /**
+     * Returns the formated person's name
+     * @return strnig
+     */
+    public function getPersonName() {
+//        return $this->getFirstName();
+        return $this->getAliasName();
+    }
+
+    /**
+     * Returns the person's name and nickname
+     * @return string
+     */
+    public function getAliasName() {
+        $name = $this->getFirstName();
+
+        if ($this->NickName) {
+            $name .= ' (' . $this->NickName . ')';
+        }
+
+        return $name;
+    }
+
+    /**
+     * Returns the person's full name
+     * @return string
+     */
+    public function getFullName() {
+        $name = $this->getPersonName();
+        if (!$this->Father()->exists()) {
+            return $name;
+        }
+
+        return $name . ' ' . $this->Father()->getFullName();
+    }
+
+    /**
+     * Returns the person's full name
+     * @return string
+     */
+    public function toIndexName() {
+        $name = $this->Name;
+        if (!$this->Father()->exists()) {
+            return $name;
+        }
+
+        return $name . ' ' . $this->Father()->toIndexName();
+    }
+
+    /**
+     * Returns the person's age
+     * @return string
+     */
+    public function getAge() {
+        if ($this->DeathDate && $this->BirthDate) {
+            return $this->DeathDate - $this->BirthDate;
+        } else if ($this->BirthDate) {
+            $birth = new Date();
+            $birth->setValue($this->BirthDate);
+            return $birth->TimeDiff();
+        }
+
+        return null;
+    }
+
+    /**
+     * Returns the full name series of the person's parents.
+     * @return string
+     */
+    public function getParents() {
+        $person = $this;
+        $name = '';
+
+        while ($person->Father()->exists()) {
+            $person = $person->Father();
+            $name .= ' ' . $person->getFirstName();
+        }
+
+        return $name;
+    }
+
+    /**
+     * Returns the root of this person
+     * @return Person
+     */
+    public function getRoot() {
+        $person = $this;
+
+        while ($person->Father()->exists()) {
+            $person = $person->Father();
+        }
+
+        return $person;
+    }
+
+    /**
+     * Returns all sons and daughters
+     * @return ArrayList
+     */
+    public function getChildren() {
+        GenealogistHelper::get_children($this);
+    }
+
+    public function ThumbPhoto() {
+        return $this->Photo()->CMSThumbnail();
+    }
+
+    /**
+     * Checks if this person is older than 18 years
+     * @return boolean
+     */
+    public function isAdult() {
+        return $this->getAge() > 18;
     }
 
     /**
@@ -317,6 +582,104 @@ class Person extends DataObject implements SingleDataObject {
         return $classes;
     }
 
+    /// Counters ///
+    /**
+     * Counts the of all descendants
+     * @param int $state either 1/$STATE_ALIVE or 2/$STATE_DEAD or 0
+     * @return number
+     */
+    public function DescendantsCount($state = 0) {
+        if ($this->Stats()->exists()) {
+            return $this->MalesCount($state) + $this->FemalesCount($state);
+        }
+        return GenealogistHelper::count_descendants($this, $state);
+    }
+
+    /**
+     * Counts the of all male descendants
+     * @param int $state either 1/$STATE_ALIVE or 2/$STATE_DEAD or 0
+     * @return number
+     */
+    public function MalesCount($state = 0) {
+        if ($this->Stats()->exists()) {
+            return $state ? $this->Stats()->LiveMales : $this->Stats()->Males;
+        }
+        return GenealogistHelper::count_males($this, $state);
+    }
+
+    /**
+     * Counts the of all female descendants
+     * @param int $state either 1/$STATE_ALIVE or 2/$STATE_DEAD or 0
+     * @return number
+     */
+    public function FemalesCount($state = 0) {
+        if ($this->Stats()->exists()) {
+            return $state ? $this->Stats()->LiveFemales : $this->Stats()->Females;
+        }
+        return GenealogistHelper::count_females($this, $state);
+    }
+
+    /**
+     * Counts the of sons
+     * @param int $state either 1/$STATE_ALIVE or 2/$STATE_DEAD or 0
+     * @return number
+     */
+    public function SonsCount($state = 0) {
+        if ($this->Stats()->exists()) {
+            return $state ? $this->Stats()->LiveSons : $this->Stats()->Sons;
+        }
+        return GenealogistHelper::count_sons($this, $state);
+    }
+
+    /**
+     * Counts the of daughters
+     * @param int $state either 1/$STATE_ALIVE or 2/$STATE_DEAD or 0
+     * @return number
+     */
+    public function DaughtersCount($state = 0) {
+        if ($this->Stats()->exists()) {
+            return $state ? $this->Stats()->LiveDaughters : $this->Stats()->Daughters;
+        }
+        return GenealogistHelper::count_daughters($this, $state);
+    }
+
+    /// Utils ///
+    function reorderField($fields, $name, $fromTab, $toTab, $disabled = false) {
+        $field = $fields->fieldByName($fromTab . '.' . $name);
+
+        if ($field) {
+            $fields->removeFieldFromTab($fromTab, $name);
+            $fields->addFieldToTab($toTab, $field);
+
+            if ($disabled) {
+                $field = $field->performDisabledTransformation();
+            }
+        }
+
+        return $field;
+    }
+
+    function removeField($fields, $name, $fromTab) {
+        $field = $fields->fieldByName($fromTab . '.' . $name);
+
+        if ($field) {
+            $fields->removeFieldFromTab($fromTab, $name);
+        }
+
+        return $field;
+    }
+
+    function trim($field) {
+        if ($this->$field) {
+            $this->$field = trim($this->$field);
+        }
+    }
+
+    public function toString() {
+        return $this->getTitle();
+    }
+
+    /// UI ///
     public function getDescendantsLeaves($males = 1, $malesSeed = 1, $females = 0, $femalesSeed = 0) {
         if (isset($_GET['ancestral']) && $_GET['ancestral'] == 1) {
             return $this->getAncestorsLeaves();
@@ -419,6 +782,36 @@ HTML;
         }
 
         return $html;
+    }
+
+    /// JSON for future work
+    public function toJSON() {
+        $js = $this->buildJSON();
+//        var_dump($js);
+
+        return json_encode($js, JSON_UNESCAPED_UNICODE);
+    }
+
+    private function buildJSON() {
+        $person = array();
+        $person['name'] = $this->getPersonName();
+        $person['title'] = $this->getAliasName();
+
+        if ($this->Children()->exists()) {
+            $person['children'] = array();
+
+            foreach ($this->Children() as $child) {
+                $person['children'][] = $child->toJSON();
+            }
+        }
+
+        return $person;
+    }
+
+    public function __debugInfo() {
+        return array(
+            $this->ID . ' : ' . $this->getFirstName()
+        );
     }
 
     public function getObjectSummary() {
