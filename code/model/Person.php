@@ -668,14 +668,20 @@ class Person extends DataObject implements SingleDataObject {
 
     public function CSSBirth() {
         if ($this->BirthDate) {
-            return $this->BirthDate->Year();
+            $date = new Date();
+            $date->setValue($this->BirthDate);
+
+            return $date->Year();
         }
         return null;
     }
 
     public function CSSDeath() {
         if ($this->DeathDate) {
-            return $this->DeathDate->Year();
+            $date = new Date();
+            $date->setValue($this->DeathDate);
+            
+            return $date->Year();
         }
         return null;
     }
