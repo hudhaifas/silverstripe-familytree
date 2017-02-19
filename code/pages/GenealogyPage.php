@@ -29,7 +29,8 @@
  * @author Hudhaifa Shatnawi <hudhaifa.shatnawi@gmail.com>
  * @version 1.0, Nov 2, 2016 - 2:45:38 PM
  */
-class GenealogyPage extends Page {
+class GenealogyPage
+        extends Page {
 
     private static $group_code = 'genealogists';
     private static $group_title = 'Genealogists';
@@ -101,7 +102,8 @@ class GenealogyPage extends Page {
 
 }
 
-class GenealogyPage_Controller extends Page_Controller {
+class GenealogyPage_Controller
+        extends Page_Controller {
 
     private static $allowed_actions = array(
         'info',
@@ -123,14 +125,18 @@ class GenealogyPage_Controller extends Page_Controller {
 
         Requirements::css("genealogist/css/jquery.jOrgChart.css");
         Requirements::css("genealogist/css/jquery.jOrgChart-rtl.css");
-        Requirements::css("genealogist/css/genealogy.css");
         Requirements::css("genealogist/css/export.css");
+//        Requirements::css("https://cdnjs.cloudflare.com/ajax/libs/bootstrap-slider/9.7.2/css/bootstrap-slider.css");
+        Requirements::css("genealogist/css/bootstrap-slider.css");
+        Requirements::css("genealogist/css/genealogy.css");
 
         Requirements::javascript("genealogist/js/jquery.jOrgChart.js");
         Requirements::javascript("genealogist/js/jquery.dragscroll.js");
         Requirements::javascript("genealogist/js/jquery.fullscreen.js");
         Requirements::javascript("genealogist/js/URI.js");
         Requirements::javascript("genealogist/js/html2canvas.js");
+//        Requirements::javascript("https://cdnjs.cloudflare.com/ajax/libs/bootstrap-slider/9.7.2/bootstrap-slider.js");
+        Requirements::javascript("genealogist/js/bootstrap-slider.js");
         Requirements::javascript("genealogist/js/genealogy.js");
     }
 
@@ -140,7 +146,7 @@ class GenealogyPage_Controller extends Page_Controller {
         if (!$id) {
             return array();
         }
-        
+
         $other = $this->getRequest()->param('Other');
 
         $data = $other ? $this->kinship($id, $other) : $this->tree($id);

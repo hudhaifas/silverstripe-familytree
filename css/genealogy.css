@@ -280,4 +280,36 @@ a[disabled] {
   bottom: 2px;
   right: 6px;
 }
+/*#timeline-slider {
+    width: 100%;
+}*/
+.slider {
+  width: 100% !important;
+  margin-bottom: 20px;
+}
+.chart-container {
+  /* The node */
+}
+.chart-container .node {
+  border: 1px solid transparent;
+  border-color: black;
+  border-radius: .25rem;
+  box-shadow: inset 0 1px 1px rgba(0, 0, 0, 0.075);
+}
+.chart-container .node.male.gray-node,
+.chart-container .node.female.gray-node,
+.chart-container .node.dead.gray-node,
+.chart-container .node.clan.gray-node {
+  background-color: #444;
+}
+.chart-container .node.male.gray-node,
+.chart-container .node.female.gray-node,
+.chart-container .node.dead.gray-node,
+.chart-container .node.clan.gray-node,
+.chart-container .node.male.gray-node a,
+.chart-container .node.female.gray-node a,
+.chart-container .node.dead.gray-node a,
+.chart-container .node.clan.gray-node a {
+  color: #eee;
+}
 /*# sourceMappingURL=genealogy.css.map */

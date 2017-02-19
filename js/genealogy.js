@@ -5,6 +5,10 @@ jQuery(document).ready(function () {
 
     initFilters();
 
+    initTimeline();
+//    updateTimePeriod(1980, 2017);
+//    updateTimePoint(1979);
+
     // Scroll to the tree div
     if ($('.tree-container').length) {
         $('html, body').animate({
@@ -87,6 +91,97 @@ var initTree = function () {
             e.preventDefault();
         }
     };
+};
+
+var initTimeline = function () {
+    $('#timeline-input').bootstrapSlider({
+        ticks: ['1900', '1910', '1920', '1930', '1940', '1950', '1960', '1970', '1980', '1990', '2000', '2010', '2017'],
+        ticks_labels: ['1900', '1910', '1920', '1930', '1940', '1950', '1960', '1970', '1980', '1990', '2000', '2010', '2017'],
+        tooltip: 'always',
+    }).on("slideStop", function (evt) {
+        updateTimePoint(evt.value);
+    });
+
+    $('#ex20a').on('click', function (e) {
+        e.preventDefault();
+        $('#ex20a')
+                .parent()
+                .find(' >.well')
+                .toggle()
+                .find('input')
+                .bootstrapSlider('relayout');
+    });
+};
+
+var updateTimePeriod = function (start, end) {
+    $('.node').fadeTo("slow", 0.3);
+
+    $('.node').filter(function () {
+        isBorn = $(this).data('birth') <= end;
+        isLive = $(this).data('death') >= start;// || !$(this).data('death');
+
+        return isBorn && isLive;
+
+    }).fadeTo("slow", 1);
+
+//    $('.node').fadeTo("slow", 0.5);
+////    $('.node').hide();
+//    console.log('Fading...');
+//    $('.node').filter(function () {
+//        return $(this).data('birth') >= start || $(this).data('death') >= end;
+//    }).fadeTo("slow", 1);
+
+};
+
+var updateTimePoint = function (time) {
+    $('.node').fadeTo("fast", 0.25);
+
+    var $born = $('.node').filter(function () {
+        isBorn = $(this).data('birth') <= time && $(this).data('birth');
+        return isBorn;
+    });
+
+    var $aliveRow = $born.closest("tr");
+    $born.css('cursor', 'zoom-out');
+    $aliveRow.removeClass('contracted').addClass('expanded');
+    $aliveRow.nextAll("tr").css('visibility', '');
+    $aliveRow.nextAll("tr").css('display', '');
+
+    var $notBorb = $('.node').filter(function () {
+        isBorn = $(this).data('birth') <= time;
+        return !isBorn;
+    });
+
+    var $notAliveRow = $notBorb.closest("tr");
+    $notBorb.css('cursor', 'zoom-in');
+    $notAliveRow.removeClass('expanded').addClass('contracted');
+    $notAliveRow.nextAll("tr").css('visibility', 'hidden');
+    $notAliveRow.nextAll("tr").css('display', 'none');
+
+    $('.node').filter(function () {
+        isBorn = $(this).data('birth') <= time && $(this).data('birth');
+        isLive = $(this).data('death') >= time || !$(this).data('death');
+
+        return isBorn && isLive;
+
+    }).fadeTo("fast", 1);
+
+    $('.node').filter(function () {
+        isBorn = !$(this).data('birth');
+
+        return isBorn;
+
+    }).addClass("gray-node");
+
+//    $('.node').hide();
+//
+//    $('.node').filter(function () {
+//        isBorn = $(this).data('birth') <= time && $(this).data('birth');
+//        isLive = $(this).data('death') >= time || !$(this).data('death');
+//
+//        return isBorn && isLive;
+//
+//    }).show();
 };
 
 var initFilters = function () {
