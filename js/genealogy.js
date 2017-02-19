@@ -30,6 +30,7 @@ var showPerson = function (url) {
     lockLinks();
     $('#tree-holder').load(ajaxUrl, function () {
         initTree();
+        initTimeline();
 
         window.history.pushState(
                 {url: cleanUrl},
