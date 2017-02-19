@@ -1,5 +1,5 @@
-<% if Trees.Count == 1 %>
-    <a class="btn btn-primary" href="" id="ex20a"><%t Genealogist.TIMELINE 'Timeline' %></a>
+<% if ShowTimeline %>
+    <a class="btn btn-primary" href="" id="timeline-btn"><%t Genealogist.TIMELINE 'Timeline' %></a>
     <div class="well" style="display: none">
         <input 
             id="timeline-input" 

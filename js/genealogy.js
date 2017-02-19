@@ -95,22 +95,40 @@ var initTree = function () {
 };
 
 var initTimeline = function () {
+    if ($(window).width() < 800) {
+        ticks = ['1900', '1950', '2000', '2017'];
+        ticks_labels = ['1900', '1950', '2000', '2017'];
+    } else if ($(window).width() < 1200) {
+        ticks = ['1900', '1920', '1940', '1960', '1980', '2000', '2017'];
+        ticks_labels = ['1900', '1920', '1940', '1960', '1980', '2000', '2017'];
+    } else {
+        ticks = ['1900', '1910', '1920', '1930', '1940', '1950', '1960', '1970', '1980', '1990', '2000', '2010', '2017'];
+        ticks_labels = ['1900', '1910', '1920', '1930', '1940', '1950', '1960', '1970', '1980', '1990', '2000', '2010', '2017'];
+    }
+
+
     $('#timeline-input').bootstrapSlider({
-        ticks: ['1900', '1910', '1920', '1930', '1940', '1950', '1960', '1970', '1980', '1990', '2000', '2010', '2017'],
-        ticks_labels: ['1900', '1910', '1920', '1930', '1940', '1950', '1960', '1970', '1980', '1990', '2000', '2010', '2017'],
+        ticks: ticks,
+        ticks_labels: ticks_labels,
         tooltip: 'always',
     }).on("slideStop", function (evt) {
         updateTimePoint(evt.value);
     });
 
-    $('#ex20a').on('click', function (e) {
+    $('#timeline-btn').on('click', function (e) {
         e.preventDefault();
-        $('#ex20a')
+        $well = $('#timeline-btn')
                 .parent()
-                .find(' >.well')
-                .toggle()
+                .find(' >.well');
+
+        $well.toggle()
                 .find('input')
                 .bootstrapSlider('relayout');
+
+        if ($well.is(":visible")) {
+        } else {
+            disableTimePoint();
+        }
     });
 };
 
@@ -152,6 +170,7 @@ var updateTimePoint = function (time) {
         isBorn = $(this).data('birth') <= time;
         return !isBorn;
     });
+    $notBorb.addClass('empty-node');
 
     var $notAliveRow = $notBorb.closest("tr");
     $notBorb.css('cursor', 'zoom-in');
@@ -165,7 +184,7 @@ var updateTimePoint = function (time) {
 
         return isBorn && isLive;
 
-    }).fadeTo("fast", 1);
+    }).fadeTo("fast", 1).removeClass('empty-node');
 
     $('.node').filter(function () {
         isBorn = !$(this).data('birth');
@@ -173,16 +192,10 @@ var updateTimePoint = function (time) {
         return isBorn;
 
     }).addClass("gray-node");
+};
 
-//    $('.node').hide();
-//
-//    $('.node').filter(function () {
-//        isBorn = $(this).data('birth') <= time && $(this).data('birth');
-//        isLive = $(this).data('death') >= time || !$(this).data('death');
-//
-//        return isBorn && isLive;
-//
-//    }).show();
+var disableTimePoint = function () {
+    $('.node').fadeTo("fast", 1).removeClass('empty-node').removeClass('gray-node');
 };
 
 var initFilters = function () {

@@ -273,6 +273,18 @@ a.disabled, a[disabled] {
                     color: #eee;
                 }
             }
+            &.empty-node {
+                content: '';
+                width: 10px;
+
+                a {
+                    display: none;
+                }
+            }
+
+            &:after {
+                display: none;
+            }
         }
     }
 }

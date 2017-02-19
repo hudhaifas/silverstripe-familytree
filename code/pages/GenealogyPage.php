@@ -205,6 +205,7 @@ class GenealogyPage_Controller
         return array(
             'Trees' => new ArrayList($trees),
             'Cols' => 12,
+            'ShowTimeline' => 1,
         );
     }
 

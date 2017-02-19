@@ -312,4 +312,23 @@ a[disabled] {
 .chart-container .node.clan.gray-node a {
   color: #eee;
 }
+.chart-container .node.male.empty-node,
+.chart-container .node.female.empty-node,
+.chart-container .node.dead.empty-node,
+.chart-container .node.clan.empty-node {
+  content: '';
+  width: 10px;
+}
+.chart-container .node.male.empty-node a,
+.chart-container .node.female.empty-node a,
+.chart-container .node.dead.empty-node a,
+.chart-container .node.clan.empty-node a {
+  display: none;
+}
+.chart-container .node.male:after,
+.chart-container .node.female:after,
+.chart-container .node.dead:after,
+.chart-container .node.clan:after {
+  display: none;
+}
 /*# sourceMappingURL=genealogy.css.map */
