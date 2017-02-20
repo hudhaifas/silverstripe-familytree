@@ -285,10 +285,21 @@ a[disabled] {
 }*/
 .slider {
   width: 100% !important;
-  margin-bottom: 20px;
 }
 .chart-container {
   /* The node */
+}
+.chart-container tr {
+  -webkit-transition: visibility 0.4s ease;
+  -moz-transition: visibility 0.4s ease;
+  -ms-transition: visibility 0.4s ease;
+  -o-transition: visibility 0.4s ease;
+  transition: visibility 0.4s ease;
+  -webkit-transition: display 0.4s ease;
+  -moz-transition: display 0.4s ease;
+  -ms-transition: display 0.4s ease;
+  -o-transition: display 0.4s ease;
+  transition: display 0.4s ease;
 }
 .chart-container .node {
   border: 1px solid transparent;
@@ -296,39 +307,34 @@ a[disabled] {
   border-radius: .25rem;
   box-shadow: inset 0 1px 1px rgba(0, 0, 0, 0.075);
 }
-.chart-container .node.male.gray-node,
-.chart-container .node.female.gray-node,
-.chart-container .node.dead.gray-node,
-.chart-container .node.clan.gray-node {
-  background-color: #444;
+.chart-container .node.timeline-node {
+  -webkit-transition: all 0.4s ease;
+  -moz-transition: all 0.4s ease;
+  -ms-transition: all 0.4s ease;
+  -o-transition: all 0.4s ease;
+  transition: all 0.4s ease;
+  /*opacity: 0.25;*/
 }
-.chart-container .node.male.gray-node,
-.chart-container .node.female.gray-node,
-.chart-container .node.dead.gray-node,
-.chart-container .node.clan.gray-node,
-.chart-container .node.male.gray-node a,
-.chart-container .node.female.gray-node a,
-.chart-container .node.dead.gray-node a,
-.chart-container .node.clan.gray-node a {
+.chart-container .node.timeline-node.gray-node {
+  background-color: #444;
+  opacity: 0.25;
+}
+.chart-container .node.timeline-node.gray-node,
+.chart-container .node.timeline-node.gray-node a {
   color: #eee;
 }
-.chart-container .node.male.empty-node,
-.chart-container .node.female.empty-node,
-.chart-container .node.dead.empty-node,
-.chart-container .node.clan.empty-node {
+.chart-container .node.timeline-node.transparent-node {
+  opacity: 0.25;
+}
+.chart-container .node.timeline-node.empty-node {
   content: '';
   width: 10px;
+  opacity: 0.25;
 }
-.chart-container .node.male.empty-node a,
-.chart-container .node.female.empty-node a,
-.chart-container .node.dead.empty-node a,
-.chart-container .node.clan.empty-node a {
+.chart-container .node.timeline-node.empty-node a {
   display: none;
 }
-.chart-container .node.male:after,
-.chart-container .node.female:after,
-.chart-container .node.dead:after,
-.chart-container .node.clan:after {
+.chart-container .node.timeline-node:after {
   display: none;
 }
 /*# sourceMappingURL=genealogy.css.map */

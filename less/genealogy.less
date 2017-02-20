@@ -255,27 +255,42 @@ a.disabled, a[disabled] {
 
 .slider {
     width: 100% !important;
-    margin-bottom: 20px;
 }
 
 .chart-container {
     /* The node */
+    tr {
+        .transition(visibility 0.4s ease);
+        .transition(display 0.4s ease);
+    }
+
     .node {
         border: 1px solid transparent;
         border-color: @color-tree-branches;
         border-radius: .25rem;
         box-shadow: inset 0 1px 1px rgba(0,0,0,.075);
 
-        &.male, &.female, &.dead, &.clan {
+        &.timeline-node {
+            .transition(all 0.4s ease);
+            /*opacity: 0.25;*/
+
             &.gray-node {
                 background-color: #444;
+                opacity: 0.25;
+
                 &, a {
                     color: #eee;
                 }
             }
+
+            &.transparent-node {
+                opacity: 0.25;
+            }
+
             &.empty-node {
                 content: '';
                 width: 10px;
+                opacity: 0.25;
 
                 a {
                     display: none;

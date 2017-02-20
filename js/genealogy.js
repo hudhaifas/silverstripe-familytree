@@ -106,7 +106,6 @@ var initTimeline = function () {
         ticks_labels = ['1900', '1910', '1920', '1930', '1940', '1950', '1960', '1970', '1980', '1990', '2000', '2010', '2017'];
     }
 
-
     $('#timeline-input').bootstrapSlider({
         ticks: ticks,
         ticks_labels: ticks_labels,
@@ -121,13 +120,21 @@ var initTimeline = function () {
                 .parent()
                 .find(' >.well');
 
-        $well.toggle()
-                .find('input')
+        $well.toggle();
+
+        $slider = $well.find('input');
+
+        $slider
+//                .find('input')
                 .bootstrapSlider('relayout');
 
         if ($well.is(":visible")) {
+            $slider.bootstrapSlider('setValue', 1900);
+//            $slider.bootstrapSlider('relayout');
+            updateTimePoint(1900);
+
         } else {
-            disableTimePoint();
+            resetTimeline();
         }
     });
 };
@@ -136,10 +143,10 @@ var updateTimePeriod = function (start, end) {
     $('.node').fadeTo("slow", 0.3);
 
     $('.node').filter(function () {
-        isBorn = $(this).data('birth') <= end;
+        isDead = $(this).data('birth') <= end;
         isLive = $(this).data('death') >= start;// || !$(this).data('death');
 
-        return isBorn && isLive;
+        return isDead && isLive;
 
     }).fadeTo("slow", 1);
 
@@ -153,12 +160,23 @@ var updateTimePeriod = function (start, end) {
 };
 
 var updateTimePoint = function (time) {
-    $('.node').fadeTo("fast", 0.25);
+    resetTimeline();
+    $('.node').addClass('timeline-node');
 
     var $born = $('.node').filter(function () {
-        isBorn = $(this).data('birth') <= time && $(this).data('birth');
-        return isBorn;
+        isDead = $(this).data('birth') <= time && $(this).data('birth');
+        return isDead;
     });
+    var $notBorb = $('.node').filter(function () {
+        isDead = $(this).data('birth') <= time;
+        return !isDead;
+    });
+    var $isDead = $('.node').filter(function () {
+        isDead = $(this).data('death') <= time && $(this).data('death');
+        return isDead;
+    });
+
+    $isDead.addClass('transparent-node');
 
     var $aliveRow = $born.closest("tr");
     $born.css('cursor', 'zoom-out');
@@ -166,10 +184,6 @@ var updateTimePoint = function (time) {
     $aliveRow.nextAll("tr").css('visibility', '');
     $aliveRow.nextAll("tr").css('display', '');
 
-    var $notBorb = $('.node').filter(function () {
-        isBorn = $(this).data('birth') <= time;
-        return !isBorn;
-    });
     $notBorb.addClass('empty-node');
 
     var $notAliveRow = $notBorb.closest("tr");
@@ -178,24 +192,25 @@ var updateTimePoint = function (time) {
     $notAliveRow.nextAll("tr").css('visibility', 'hidden');
     $notAliveRow.nextAll("tr").css('display', 'none');
 
+//    $('.node').filter(function () {
+//        isBorn = $(this).data('birth') <= time && $(this).data('birth');
+//        isLive = $(this).data('death') >= time || !$(this).data('death');
+//
+//        return isBorn && isLive;
+//
+//    }).removeClass('empty-node');
+    $born.removeClass('empty-node');
+
     $('.node').filter(function () {
-        isBorn = $(this).data('birth') <= time && $(this).data('birth');
-        isLive = $(this).data('death') >= time || !$(this).data('death');
+        isDead = !$(this).data('birth');
 
-        return isBorn && isLive;
-
-    }).fadeTo("fast", 1).removeClass('empty-node');
-
-    $('.node').filter(function () {
-        isBorn = !$(this).data('birth');
-
-        return isBorn;
+        return isDead;
 
     }).addClass("gray-node");
 };
 
-var disableTimePoint = function () {
-    $('.node').fadeTo("fast", 1).removeClass('empty-node').removeClass('gray-node');
+var resetTimeline = function () {
+    $('.node').removeClass('timeline-node empty-node gray-node transparent-node');
 };
 
 var initFilters = function () {
