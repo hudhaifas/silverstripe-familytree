@@ -10,8 +10,6 @@
             data-slider-step="1"
             data-slider-value="1980" />
     </div>
-    <div>
-    </div>
 <% end_if %>
 
 <% loop Trees %>

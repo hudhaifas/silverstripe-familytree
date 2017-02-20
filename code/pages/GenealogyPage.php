@@ -202,10 +202,12 @@ class GenealogyPage_Controller
             ArrayData::create(array('Tree' => $person->getDescendantsLeaves()))
         );
 
+        $showTimeline = !(isset($_GET['ancestral']) && $_GET['ancestral'] == 1);
+
         return array(
             'Trees' => new ArrayList($trees),
             'Cols' => 12,
-            'ShowTimeline' => 1,
+            'ShowTimeline' => $showTimeline,
         );
     }
 
