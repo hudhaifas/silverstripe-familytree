@@ -77,8 +77,6 @@ var initTree = function () {
 //            depth: 3
 //            direction: dir
         });
-//        $('#' + kinship).dragScroll({});
-
     });
 
     registerLinks();
@@ -95,6 +93,10 @@ var initTree = function () {
 };
 
 var initTimeline = function () {
+    if (!$("#timeline-input").length) {
+        return;
+    }
+
     if ($(window).width() < 800) {
         ticks = ['1900', '1950', '2000', '2017'];
         ticks_labels = ['1900', '1950', '2000', '2017'];

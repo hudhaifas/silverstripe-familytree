@@ -29,8 +29,7 @@
  * @author Hudhaifa Shatnawi <hudhaifa.shatnawi@gmail.com>
  * @version 1.0, Nov 2, 2016 - 2:45:38 PM
  */
-class GenealogyPage
-        extends Page {
+class GenealogyPage extends Page {
 
     private static $group_code = 'genealogists';
     private static $group_title = 'Genealogists';
@@ -102,8 +101,7 @@ class GenealogyPage
 
 }
 
-class GenealogyPage_Controller
-        extends Page_Controller {
+class GenealogyPage_Controller extends Page_Controller {
 
     private static $allowed_actions = array(
         'info',
@@ -202,7 +200,7 @@ class GenealogyPage_Controller
             ArrayData::create(array('Tree' => $person->getDescendantsLeaves()))
         );
 
-        $showTimeline = !(isset($_GET['ancestral']) && $_GET['ancestral'] == 1);
+        $showTimeline = $this->getRequest()->getVar('ancestral') ? 0 : 1;
 
         return array(
             'Trees' => new ArrayList($trees),
