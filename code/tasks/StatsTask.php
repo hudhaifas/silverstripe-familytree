@@ -29,8 +29,7 @@
  * @author Hudhaifa Shatnawi <hudhaifa.shatnawi@gmail.com>
  * @version 1.0, Jan 8, 2017 - 7:51:02 AM
  */
-class StatsTask
-        extends BuildTask {
+class StatsTask extends BuildTask {
 
     protected $title = 'Indexing people statistics';
     protected $description = "
@@ -55,11 +54,12 @@ class StatsTask
 
         foreach ($people as $person) {
             $this->indexStats($person);
+            $this->indexName($person);
 
             $person->write();
         }
 
-        echo $people->count() . ' records has been indexed.\n';
+        $this->println($people->count() . ' records has been indexed.');
     }
 
     private function indexName($person) {
@@ -69,11 +69,11 @@ class StatsTask
     private function indexStats($person) {
         if ($person->Stats()->exists() || $person->StatsID) {
             $stats = $person->Stats();
-//            echo 'Updating the index of : ' . $person->Name . '... <br />';
+//            $this->println('Updating the index of : ' . $person->Name . '...');
             echo '.';
         } else {
             $stats = new PersonStats();
-//            echo 'Indexing: ' . $person->Name . '... <br />';
+//            $this->println('Indexing: ' . $person->Name . '...');
             echo '.';
         }
 
@@ -95,18 +95,23 @@ class StatsTask
 
     private function reset() {
         $people = Person::get();
-        echo 'Deleting: ' . $people->Count() . ' person records... <br />';
+        $this->println('Deleting: ' . $people->Count() . ' person records...');
         foreach ($people as $person) {
             $person->StatsID = 0;
             $person->write();
         }
 
         $stats = PersonStats::get();
-        echo 'Deleting: ' . $stats->Count() . ' stats records... <br />';
+        $this->println('Deleting: ' . $stats->Count() . ' stats records...');
 
         foreach ($stats as $stat) {
             $stat->delete();
         }
+    }
+
+    function println($string_message = '') {
+        return isset($_SERVER['SERVER_PROTOCOL']) ? print "$string_message<br />" . PHP_EOL :
+                print $string_message . PHP_EOL;
     }
 
 }
