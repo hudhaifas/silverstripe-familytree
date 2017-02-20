@@ -255,6 +255,7 @@ a.disabled, a[disabled] {
 
 .slider {
     width: 100% !important;
+    .user-select();
 }
 
 .chart-container {
@@ -274,9 +275,33 @@ a.disabled, a[disabled] {
             .transition(all 0.4s ease);
             /*opacity: 0.25;*/
 
+            &.male {
+                &.dead {
+                    background-color: @color-bg-male;
+                }
+            }
+
+            &.female {
+                &.dead {
+                    background-color: @color-bg-female;
+                }
+            }
+
             &.gray-node {
                 background-color: #444;
                 opacity: 0.25;
+
+                &.male {
+                    &.dead {
+                        background-color: #444;
+                    }
+                }
+
+                &.female {
+                    &.dead {
+                        background-color: #444;
+                    }
+                }
 
                 &, a {
                     color: #eee;
@@ -303,4 +328,3 @@ a.disabled, a[disabled] {
         }
     }
 }
-

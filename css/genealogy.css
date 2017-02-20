@@ -285,6 +285,15 @@ a[disabled] {
 }*/
 .slider {
   width: 100% !important;
+  -webkit-user-select: none;
+  /* prevent copy paste, to allow, change 'none' to 'text' */
+  -khtml-user-select: none;
+  -moz-user-select: none;
+  /* Firefox all */
+  -o-user-select: none;
+  /* IE 10+ */
+  user-select: none;
+  /* Likely future */
 }
 .chart-container {
   /* The node */
@@ -315,9 +324,21 @@ a[disabled] {
   transition: all 0.4s ease;
   /*opacity: 0.25;*/
 }
+.chart-container .node.timeline-node.male.dead {
+  background-color: #d9edf7;
+}
+.chart-container .node.timeline-node.female.dead {
+  background-color: #f2dede;
+}
 .chart-container .node.timeline-node.gray-node {
   background-color: #444;
   opacity: 0.25;
+}
+.chart-container .node.timeline-node.gray-node.male.dead {
+  background-color: #444;
+}
+.chart-container .node.timeline-node.gray-node.female.dead {
+  background-color: #444;
 }
 .chart-container .node.timeline-node.gray-node,
 .chart-container .node.timeline-node.gray-node a {
