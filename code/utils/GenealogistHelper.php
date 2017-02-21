@@ -113,11 +113,7 @@ class GenealogistHelper {
             }
         }
 
-        return (new ArrayList($children))
-//                        ->sort('BirthDate DESC')
-//                        ->sort('Created ASC')
-//                        ->sort('BirthDate ASC')
-        ;
+        return (new ArrayList($children));
     }
 
     /// Find kinships between two persons ///
@@ -298,29 +294,6 @@ class GenealogistHelper {
             }
         }
 
-        // Recursive
-//        if (!$person) {
-//            return 0;
-//        }
-//
-//        switch ($state) {
-//            case self::$STATE_ALIVE:
-//                $count = $person->isMale() && !$person->IsDead ? 1 : 0;
-//                break;
-//
-//            case self::$STATE_DEAD:
-//                $count = $person->isMale() && $person->IsDead ? 1 : 0;
-//                break;
-//
-//            default:
-//                $count = $person->isMale() ? 1 : 0;
-//                break;
-//        }
-//
-//        foreach ($person->Sons() as $child) {
-//            $count += self::count_males($child, $state);
-//        }
-
         return $count;
     }
 
@@ -359,30 +332,6 @@ class GenealogistHelper {
                 array_push($stack, $child);
             }
         }
-
-//        if (!$person) {
-//            return 0;
-//        }
-//
-//        switch ($state) {
-//            case self::$STATE_ALIVE:
-//                $count = $person->isFemale() && !$person->IsDead ? 1 : 0;
-//                break;
-//
-//            case self::$STATE_DEAD:
-//                $count = $person->isFemale() && $person->IsDead ? 1 : 0;
-//                break;
-//
-//            default:
-//                $count = $person->isFemale() ? 1 : 0;
-//                break;
-//        }
-//
-//        $count += self::count_daughters($person, $state);
-//
-//        foreach ($person->Sons() as $child) {
-//            $count += self::count_females($child, $state);
-//        }
 
         return $count;
     }
