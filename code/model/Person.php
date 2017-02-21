@@ -30,7 +30,9 @@
  * @author Hudhaifa Shatnawi <hudhaifa.shatnawi@gmail.com>
  * @version 1.0, Nov 2, 2016 - 10:59:52 AM
  */
-class Person extends DataObject implements SingleDataObject {
+class Person
+        extends DataObject
+        implements SingleDataObject {
 
     private static $db = array(
         'Prefix' => 'Varchar(255)',
@@ -458,6 +460,32 @@ class Person extends DataObject implements SingleDataObject {
     }
 
     /**
+     * Returns the person's short name
+     * @return string
+     */
+    public function getShortName() {
+        $name = $this->getPersonName();
+        if (!$this->Father()->exists()) {
+            return $name;
+        }
+
+        return $name . ' ' . $this->Father()->getClanName();
+    }
+
+    /**
+     * Returns the person's clan names
+     * @return string
+     */
+    public function getClanName() {
+        $name = $this->isClan() ? $this->getPersonName() : '';
+        if (!$this->Father()->exists()) {
+            return $name;
+        }
+
+        return $name . ' ' . $this->Father()->getClanName();
+    }
+
+    /**
      * Returns the person's full name
      * @return string
      */
@@ -680,7 +708,7 @@ class Person extends DataObject implements SingleDataObject {
         if ($this->DeathDate) {
             $date = new Date();
             $date->setValue($this->DeathDate);
-            
+
             return $date->Year();
         }
         return null;

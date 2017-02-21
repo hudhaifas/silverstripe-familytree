@@ -401,7 +401,8 @@ HTML;
     }
 
     public function getRootClans() {
-        return GenealogistHelper::get_root_clans();
+//        return GenealogistHelper::get_root_clans();
+        return GenealogistHelper::get_all_clans();
     }
 
     /**

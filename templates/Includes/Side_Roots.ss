@@ -8,7 +8,7 @@
     <div id="collapse-roots" class="list-group panel-collapse collapse in">
         <div class="panel-body" style="max-height: 360px; overflow-y: auto;">
             <% loop RootClans.Sort(Name, ASC) %>
-                <div class="list-group-item"><a href="{$TreeLink}" class="options-item">$Name</a></div>
+                <div class="list-group-item"><a href="{$TreeLink}" class="options-item">$ShortName</a></div>
             <% end_loop %>
         </div>
     </div>
