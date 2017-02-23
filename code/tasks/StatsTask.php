@@ -63,7 +63,7 @@ class StatsTask extends BuildTask {
     }
 
     private function indexName($person) {
-        $person->IndexedName = $person->getFullName();
+        $person->IndexedName = $person->toIndexName();
     }
 
     private function indexStats($person) {
