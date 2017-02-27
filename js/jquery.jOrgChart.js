@@ -49,6 +49,7 @@
     // Default options
     $.fn.jOrgChart.defaults = {
         chartElement: 'body',
+        multipleRoot: false, // Support multiple roots tree
         depth: -1, // all
         chartClass: "chart-pane",
         // Direction options
@@ -126,7 +127,11 @@
 
         $nodeCell.append($nodeDiv);
         $nodeRow.append($nodeCell);
-        $tbody.append($nodeRow);
+        
+        /* Support multiple roots tree */
+        if (level > 0 || !opts.multipleRoot) {
+            $tbody.append($nodeRow);
+        }
 
         if ($childNodes.length > 0) {
             // if it can be expanded then change the cursor
@@ -141,7 +146,11 @@
                 // draw the connecting line from the parent node to the horizontal line
                 $downLine = $("<div></div>").addClass("line down");
                 $downLineCell.append($downLine);
-                $tbody.append($downLineRow);
+                
+                /* Support multiple roots tree */
+                if (level > 0 || !opts.multipleRoot) {
+                    $tbody.append($downLineRow);
+                }
 
                 // Draw the horizontal lines
                 var $linesRow = $("<tr/>");
@@ -158,7 +167,11 @@
                         .find("td:last")
                         .removeClass("top");
 
-                $tbody.append($linesRow);
+                /* Support multiple roots tree */
+                if (level > 0 || !opts.multipleRoot) {
+                    $tbody.append($linesRow);
+                }
+
                 var $childNodesRow = $("<tr/>");
                 $childNodes.each(function () {
                     var $td = $("<td class='node-container'/>");

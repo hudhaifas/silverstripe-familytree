@@ -13,7 +13,7 @@
 <% end_if %>
 
 <% loop Trees %>
-    <ul id="genealogy-relations" class="genealogy-kinship" style="display:none" data-kinship="k{$Pos}">
+    <ul id="genealogy-relations" class="genealogy-kinship" style="display:none" data-kinship="k{$Pos}"  data-multiple="{$Up.Multiple}">
         $Tree
     </ul>
 

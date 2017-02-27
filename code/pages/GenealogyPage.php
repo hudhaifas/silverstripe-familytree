@@ -29,7 +29,8 @@
  * @author Hudhaifa Shatnawi <hudhaifa.shatnawi@gmail.com>
  * @version 1.0, Nov 2, 2016 - 2:45:38 PM
  */
-class GenealogyPage extends Page {
+class GenealogyPage
+        extends Page {
 
     private static $group_code = 'genealogists';
     private static $group_title = 'Genealogists';
@@ -101,7 +102,8 @@ class GenealogyPage extends Page {
 
 }
 
-class GenealogyPage_Controller extends Page_Controller {
+class GenealogyPage_Controller
+        extends Page_Controller {
 
     private static $allowed_actions = array(
         'info',
@@ -205,6 +207,7 @@ class GenealogyPage_Controller extends Page_Controller {
         return array(
             'Trees' => new ArrayList($trees),
             'Cols' => 12,
+            'Multiple' => false,
             'ShowTimeline' => $showTimeline,
         );
     }
@@ -223,21 +226,38 @@ class GenealogyPage_Controller extends Page_Controller {
         }
 
         $kinships = GenealogistHelper::get_kinships($p1, $p2);
-//        var_dump($kinships);
-        $trees = array();
+
+        $roots = array();
         foreach ($kinships as $kinship) {
-            $trees[] = ArrayData::create(array('Tree' => $this->getKinshipLeaves($kinship)));
+            $roots[] = $this->getKinshipLeaves($kinship);
         }
 
-        $count = count($trees);
-        $columns = $count > 0 ? 12 / count($trees) : 12;
-        $columns = $columns < 4 ? 4 : $columns;
+        $trees = array(
+            ArrayData::create(array('Tree' => $this->virtualRoot($roots)))
+        );
 
         return array(
             'Trees' => new ArrayList($trees),
-            'Cols' => $columns,
+            'Cols' => 12,
+            'Multiple' => true,
             'Title' => $p1->getFirstName() . ' : ' . $p2->getFirstName()
         );
+    }
+
+    private function virtualRoot($trees) {
+        $leaves = '';
+        foreach ($trees as $tree) {
+            $leaves .= $tree;
+        }
+
+        return <<<HTML
+            <li>
+                <a href="#" class="info-item">Root</a>
+                <ul>
+                    {$leaves}
+                </ul>
+            </li>
+HTML;
     }
 
     private function getKinshipLeaves($kinships = array()) {

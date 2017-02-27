@@ -29,7 +29,7 @@
 .tree-container .tree-menu {
   float: left;
   width: 25%;
-  height: 87vh;
+  height: 83vh;
   max-height: 25%;
 }
 .tree-container .tree-menu .panel-group {
@@ -57,8 +57,8 @@
   margin-right: auto;
 }
 .chart-container {
-  height: 87vh;
-  max-height: 87vh;
+  height: 83vh;
+  max-height: 83vh;
   /* The node */
 }
 .chart-container .node {
@@ -148,8 +148,8 @@ a[disabled] {
 }
 @media (min-width: 979px) {
   .tree-container {
-    height: 88vh;
-    max-height: 88vh;
+    height: 84vh;
+    max-height: 84vh;
   }
 }
 .hidden {

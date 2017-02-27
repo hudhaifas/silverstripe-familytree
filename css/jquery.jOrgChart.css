@@ -69,9 +69,14 @@
   background-image: url(data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABgAAAAYCAYAAADgdz34AAAAGXRFWHRTb2Z0d2FyZQBBZG9iZSBJbWFnZVJlYWR5ccllPAAAAI9JREFUeNpiYBgFJIAGIP5PJdwAM5QRSgsA8XsqO5gRmSOAZDulAKc56BIOUF/9h9IO1LbgPVq4vqe2BdgiT2FI+SCAQBz0I8kZkGMBDBhgEZuP5rv75FiQgGZAAtQX83HEjwEpFhiQkXv7SbFgPhkWnCfWAgEKyiCyIpmiooIRTYJmhR3NiutRMAIAQIABAASwpnBjvEPKAAAAAElFTkSuQmCC);
 }
 .chart-pane {
+  /* Support multiple roots tree */
   /* Draw the lines */
   /* node cell */
   /* The node */
+}
+.chart-pane > table > tbody > tr:first-child > .node-container {
+  padding-left: 20px;
+  padding-right: 20px;
 }
 .chart-pane .line {
   height: 20px;

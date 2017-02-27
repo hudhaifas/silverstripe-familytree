@@ -71,9 +71,12 @@ var initTree = function () {
     dir = $kinships.length > 1 ? 'l2r' : 't2b';
 
     $kinships.each(function () {
-        kinship = $(this).attr('data-kinship');
+        kinship = $(this).data('kinship');
+        multiple = $(this).data('multiple');
+
         $(this).jOrgChart({
             chartElement: '#' + kinship,
+            multipleRoot: multiple, // Support multiple roots tree
 //            depth: 3
 //            direction: dir
         });
