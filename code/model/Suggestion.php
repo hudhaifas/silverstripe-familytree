@@ -40,6 +40,7 @@ class Suggestion
         'Person.FullName',
         'Subject',
         'Message',
+        'Created',
     );
 
     public function fieldLabels($includerelations = true) {
