@@ -33,7 +33,7 @@ class GenealogistCrawlHelper {
         }
 
         if (self::isYear($estimated)) {
-            echoln($space . 'Estimated for ' . $person->getFullName() . ': ' . $estimated . '<br />');
+//            echoln($space . 'Estimated for ' . $person->getFullName() . ': ' . $estimated . '<br />');
             return $estimated;
         }
 
@@ -48,7 +48,7 @@ class GenealogistCrawlHelper {
         }
 
         if ($eldestChild) {
-            echoln($space . 'Calculated from children for ' . $person->getFullName() . ': ' . $eldestChild . '<br />');
+//            echoln($space . 'Calculated from children for ' . $person->getFullName() . ': ' . $eldestChild . '<br />');
         }
 
         return self::isYear($eldestChild) ? $eldestChild : null;
@@ -86,7 +86,7 @@ class GenealogistCrawlHelper {
         }
 
         if ($youngestParent) {
-            echoln($space . 'Calculated from parents for ' . $person->getFullName() . ': ' . $youngestParent . '<br />');
+//            echoln($space . 'Calculated from parents for ' . $person->getFullName() . ': ' . $youngestParent . '<br />');
         }
 
         return self::isYear($youngestParent) ? $youngestParent : null;
