@@ -649,6 +649,26 @@ class Person
         return GenealogistHelper::count_daughters($this, $state);
     }
 
+    public function getBirthYear() {
+        if ($this->BirthDate) {
+            $date = new Date();
+            $date->setValue($this->BirthDate);
+
+            return $date->Year();
+        }
+        return null;
+    }
+
+    public function getDeathYear() {
+        if ($this->DeathDate) {
+            $date = new Date();
+            $date->setValue($this->DeathDate);
+
+            return $date->Year();
+        }
+        return null;
+    }
+
     /// Utils ///
     function reorderField($fields, $name, $fromTab, $toTab, $disabled = false) {
         $field = $fields->fieldByName($fromTab . '.' . $name);
@@ -695,23 +715,31 @@ class Person
     }
 
     public function CSSBirth() {
+        $year = null;
         if ($this->BirthDate) {
             $date = new Date();
             $date->setValue($this->BirthDate);
 
-            return $date->Year();
+            $year = $date->Year();
+        } else if ($this->Stats()->exists()) {
+            $year = $this->Stats()->MinYear;
         }
-        return null;
+
+        return $year;
     }
 
     public function CSSDeath() {
+        $year = null;
         if ($this->DeathDate) {
             $date = new Date();
             $date->setValue($this->DeathDate);
 
-            return $date->Year();
+            $year = $date->Year();
+        } else if ($this->Stats()->exists()) {
+            $year = $this->Stats()->MaxYear;
         }
-        return null;
+
+        return $year;
     }
 
     public function getDescendantsLeaves($males = 1, $malesSeed = 1, $females = 0, $femalesSeed = 0) {

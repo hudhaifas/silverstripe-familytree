@@ -46,6 +46,8 @@ class IndexingTask
 
         if ($level == 'all') {
             $people = Person::get();
+        } else if (is_numeric($level)) {
+            $people = DataObject::get_by_id('Person', (int) $level);
         } else {
             $people = Person::get()->where('IndexedName IS NULL');
         }

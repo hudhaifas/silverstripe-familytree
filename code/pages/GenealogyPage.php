@@ -137,6 +137,7 @@ class GenealogyPage_Controller
         Requirements::javascript("genealogist/js/html2canvas.js");
 //        Requirements::javascript("https://cdnjs.cloudflare.com/ajax/libs/bootstrap-slider/9.7.2/bootstrap-slider.js");
         Requirements::javascript("genealogist/js/bootstrap-slider.js");
+        Requirements::javascript("genealogist/js/genealogy-timeline.js");
         Requirements::javascript("genealogist/js/genealogy.js");
     }
 

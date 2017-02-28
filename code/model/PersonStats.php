@@ -25,6 +25,8 @@ class PersonStats
         'LiveMales' => 'Int',
         'LiveFemales' => 'Int',
         'LiveTotal' => 'Int',
+        'MinYear' => 'Int',
+        'MaxYear' => 'Int',
     );
     private static $has_one = array(
         'Person' => 'Person',
