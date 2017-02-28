@@ -246,7 +246,7 @@ var updateTimePoint = function (time) {
     var aliveCount = $aliveRow.length;
     var deadCount = $isDead.length;
     $extraPane = $('#chart-extra');
-    $extraPane.html('<span>' + (aliveCount - deadCount) + '</span>');
+    $extraPane.html('<span>' + (time) + ' : ' + (aliveCount - deadCount) + '</span>');
 //    $('.node').filter(function () {
 //        isBorn = $(this).data('birth') <= time && $(this).data('birth');
 //        isLive = $(this).data('death') >= time || !$(this).data('death');
