@@ -32,9 +32,9 @@ class GenealogistCrawlHelper {
             $estimatedYear = $youngestParent;
         }
 
-        if (self::is_year($estimatedYear)) {
-            echoln($space . 'Estimated for ' . $person->getFullName() . ': ' . $estimatedYear . '<br />');
-        }
+//        if (self::is_year($estimatedYear)) {
+//            echoln($space . 'Estimated for ' . $person->getFullName() . ': ' . $estimatedYear . '<br />');
+//        }
 
         return self::is_year($estimatedYear) ? $estimatedYear : null;
     }
@@ -46,9 +46,9 @@ class GenealogistCrawlHelper {
             $eldestChild -= $person->isFemale() ? self::$GENERATION_FEMALE_GAP : self::$GENERATION_MALE_GAP;
         }
 
-        if (self::is_year($eldestChild)) {
+//        if (self::is_year($eldestChild)) {
 //            echoln($space . 'Calculated from children for ' . $person->getFullName() . ': ' . $eldestChild . '<br />');
-        }
+//        }
 
         return self::is_year($eldestChild) ? $eldestChild : null;
     }
@@ -84,9 +84,9 @@ class GenealogistCrawlHelper {
             $youngestParent += $person->isFemale() ? self::$GENERATION_FEMALE_GAP : self::$GENERATION_MALE_GAP;
         }
 
-        if (self::is_year($youngestParent)) {
+//        if (self::is_year($youngestParent)) {
 //            echoln($space . 'Calculated from parents for ' . $person->getFullName() . ': ' . $youngestParent . '<br />');
-        }
+//        }
 
         return self::is_year($youngestParent) ? $youngestParent : null;
     }
