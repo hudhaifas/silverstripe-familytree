@@ -1,14 +1,22 @@
 <% if ShowTimeline %>
     <a class="btn btn-primary" href="" id="timeline-btn"><%t Genealogist.TIMELINE 'Timeline' %></a>
     <div class="well" style="display: none">
-        <input 
-            id="timeline-input" 
-            data-slider-id='timeline-slider'
-            type="text" 
-            data-slider-min="1900"
-            data-slider-max="2017"
-            data-slider-step="1"
-            data-slider-value="1980" />
+        <div class="row">
+            <div class="col-sm-1">
+                <button id="timeline-control" class="timeline-control center-block"><i class="fa fa-3x fa-play-circle" aria-hidden="true"></i></button>
+            </div>
+            
+            <div class="col-sm-11">
+                <input
+                    id="timeline-input" 
+                    data-slider-id='timeline-slider'
+                    type="text" 
+                    data-slider-min="1900"
+                    data-slider-max="2017"
+                    data-slider-step="1"
+                    data-slider-value="1980" />
+            </div>
+        </div>
     </div>
 <% end_if %>
 

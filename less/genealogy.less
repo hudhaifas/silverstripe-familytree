@@ -196,10 +196,22 @@ a.disabled, a[disabled] {
     }
 }
 
+.timeline-control {
+    border: 0;
+    background: transparent;
+    padding: 0;
+}
+
 @media (min-width: 979px) {
     .tree-container {
         height: @container-h;
         max-height: @container-h;
+    }
+}
+
+@media (max-width: 979px) {
+    .timeline-control {
+        margin-bottom: 20px;
     }
 }
 

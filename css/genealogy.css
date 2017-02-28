@@ -146,10 +146,20 @@ a[disabled] {
   background-color: #d9534f;
   border-color: #d43f3a;
 }
+.timeline-control {
+  border: 0;
+  background: transparent;
+  padding: 0;
+}
 @media (min-width: 979px) {
   .tree-container {
     height: 84vh;
     max-height: 84vh;
+  }
+}
+@media (max-width: 979px) {
+  .timeline-control {
+    margin-bottom: 20px;
   }
 }
 .hidden {

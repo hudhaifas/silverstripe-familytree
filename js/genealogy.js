@@ -1,4 +1,5 @@
 var locked = false;
+var timer = null;
 
 jQuery(document).ready(function () {
     initTree();
@@ -100,15 +101,18 @@ var initTimeline = function () {
         return;
     }
 
+    var startYear = 1900;
+    var currentYear = new Date().getFullYear();
+
     if ($(window).width() < 800) {
-        ticks = ['1900', '1950', '2000', '2017'];
-        ticks_labels = ['1900', '1950', '2000', '2017'];
+        ticks = ['1900', '1950', '2000', currentYear];
+        ticks_labels = ['1900', '1950', '2000', currentYear];
     } else if ($(window).width() < 1200) {
-        ticks = ['1900', '1920', '1940', '1960', '1980', '2000', '2017'];
-        ticks_labels = ['1900', '1920', '1940', '1960', '1980', '2000', '2017'];
+        ticks = ['1900', '1920', '1940', '1960', '1980', '2000', currentYear];
+        ticks_labels = ['1900', '1920', '1940', '1960', '1980', '2000', currentYear];
     } else {
-        ticks = ['1900', '1910', '1920', '1930', '1940', '1950', '1960', '1970', '1980', '1990', '2000', '2010', '2017'];
-        ticks_labels = ['1900', '1910', '1920', '1930', '1940', '1950', '1960', '1970', '1980', '1990', '2000', '2010', '2017'];
+        ticks = ['1900', '1910', '1920', '1930', '1940', '1950', '1960', '1970', '1980', '1990', '2000', '2010', currentYear];
+        ticks_labels = ['1900', '1910', '1920', '1930', '1940', '1950', '1960', '1970', '1980', '1990', '2000', '2010', currentYear];
     }
 
     $('#timeline-input').bootstrapSlider({
@@ -133,19 +137,57 @@ var initTimeline = function () {
 
         $slider = $well.find('input');
 
-        $slider
-//                .find('input')
-                .bootstrapSlider('relayout');
+        $slider.bootstrapSlider('relayout');
 
         if ($well.is(":visible")) {
             $slider.bootstrapSlider('setValue', 1900);
 //            $slider.bootstrapSlider('relayout');
             updateTimePoint(1900);
 
+            initTimelineControl($slider, currentYear);
+
         } else {
             resetTimeline();
+            destroyTimer();
+            $('#timeline-control').unbind('click');
         }
     });
+};
+
+var initTimelineControl = function ($slider, maxValue) {
+    timer = null;
+    var interval = 200;
+
+    $('#timeline-control').on('click', function (e) {
+        e.preventDefault();
+        var value = $slider.bootstrapSlider('getValue');
+
+        if ($(this).find('i').hasClass('fa-play-circle')) {
+            timer = setInterval(function () {
+                value = value + 1;
+
+                $slider.bootstrapSlider('setValue', value);
+                updateTimePoint(value);
+
+                if ((value) >= (maxValue)) {
+                    $('#timeline-control').trigger('click');
+                }
+
+            }, interval);
+
+            $('#timeline-control').find('.fa-play-circle').addClass('fa-pause-circle').removeClass('fa-play-circle');
+
+        } else {
+            destroyTimer();
+        }
+    });
+};
+
+var destroyTimer = function () {
+    clearInterval(timer);
+    timer = null;
+
+    $('#timeline-control').find('.fa-pause-circle').addClass('fa-play-circle').removeClass('fa-pause-circle');
 };
 
 var updateTimePeriod = function (start, end) {
