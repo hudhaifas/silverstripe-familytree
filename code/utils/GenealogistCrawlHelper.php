@@ -119,7 +119,7 @@ class GenealogistCrawlHelper {
 
     /// Calucluates the estemiated DEATH year ///
     public static function calculate_max_person_year(Person $person, $minYear) {
-        return $minYear + self::$GENERATION_MAX_AGE;
+        return self::is_year($minYear) ? $minYear + self::$GENERATION_MAX_AGE : null;
     }
 
     private static function is_year($date) {

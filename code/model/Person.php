@@ -725,7 +725,7 @@ class Person
             $year = $this->Stats()->MinYear;
         }
 
-        return $year;
+        return $year == 0 ? null : $year;
     }
 
     public function CSSDeath() {
@@ -739,7 +739,7 @@ class Person
             $year = $this->Stats()->MaxYear;
         }
 
-        return $year;
+        return $year == 0 ? null : $year;
     }
 
     public function getDescendantsLeaves($males = 1, $malesSeed = 1, $females = 0, $femalesSeed = 0) {
