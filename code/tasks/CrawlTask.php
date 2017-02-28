@@ -104,11 +104,11 @@ class CrawlTask
     private function indexDates($person) {
         if ($person->Stats()->exists() || $person->StatsID) {
             $stats = $person->Stats();
-            $this->println('Updating the dates of: ' . $person->Name);
+//            $this->println('Updating the dates of: ' . $person->Name);
             echo '.';
         } else {
             $stats = new PersonStats();
-            $this->println('Indexing the dates of: ' . $person->Name);
+//            $this->println('Indexing the dates of: ' . $person->Name);
             echo '.';
         }
 
