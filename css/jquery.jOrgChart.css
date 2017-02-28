@@ -68,7 +68,41 @@
 .chart-container .chart-controls .chart-control.export {
   background-image: url(data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABgAAAAYCAYAAADgdz34AAAAGXRFWHRTb2Z0d2FyZQBBZG9iZSBJbWFnZVJlYWR5ccllPAAAAI9JREFUeNpiYBgFJIAGIP5PJdwAM5QRSgsA8XsqO5gRmSOAZDulAKc56BIOUF/9h9IO1LbgPVq4vqe2BdgiT2FI+SCAQBz0I8kZkGMBDBhgEZuP5rv75FiQgGZAAtQX83HEjwEpFhiQkXv7SbFgPhkWnCfWAgEKyiCyIpmiooIRTYJmhR3NiutRMAIAQIABAASwpnBjvEPKAAAAAElFTkSuQmCC);
 }
+.chart-container .chart-extra {
+  position: absolute;
+  /*width: 72px;*/
+  /*height: 36px;*/
+  top: 10px;
+  left: 10px;
+  display: none;
+  background-color: #eee;
+  opacity: 0.7;
+  z-index: 100;
+  text-align: center;
+  -webkit-transition: all 0.4s ease;
+  -moz-transition: all 0.4s ease;
+  -ms-transition: all 0.4s ease;
+  -o-transition: all 0.4s ease;
+  transition: all 0.4s ease;
+  border-radius: 2px;
+}
+.chart-container .chart-extra:hover {
+  opacity: 1;
+}
+.chart-container .chart-extra span {
+  padding: 6px 10px;
+  font-size: 26px;
+}
 .chart-pane {
+  -webkit-user-select: none;
+  /* prevent copy paste, to allow, change 'none' to 'text' */
+  -khtml-user-select: none;
+  -moz-user-select: none;
+  /* Firefox all */
+  -o-user-select: none;
+  /* IE 10+ */
+  user-select: none;
+  /* Likely future */
   /* Support multiple roots tree */
   /* Draw the lines */
   /* node cell */

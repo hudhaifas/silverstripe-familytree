@@ -33,6 +33,9 @@
         $contentPane.append($chartPane);
         $controls = createControls($container, $contentPane, $chartPane, opts);
         $container.append($controls);
+        
+        $extraPane = $('<div id="chart-extra" class="chart-extra"></div>');
+        $container.append($extraPane);
 
         if (opts.zoom && opts.zoomScroller) {
             setupZoom($container, $chartPane, opts);

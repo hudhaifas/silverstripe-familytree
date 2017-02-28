@@ -121,6 +121,10 @@ var initTimeline = function () {
 
     $('#timeline-btn').on('click', function (e) {
         e.preventDefault();
+
+        $extraPane = $('#chart-extra');
+        $extraPane.toggle();
+
         $well = $('#timeline-btn')
                 .parent()
                 .find(' >.well');
@@ -197,6 +201,10 @@ var updateTimePoint = function (time) {
     $notAliveRow.nextAll("tr").css('visibility', 'hidden');
     $notAliveRow.nextAll("tr").css('display', 'none');
 
+    var aliveCount = $aliveRow.length;
+    var deadCount = $isDead.length;
+    $extraPane = $('#chart-extra');
+    $extraPane.html('<span>' + (aliveCount - deadCount) + '</span>');
 //    $('.node').filter(function () {
 //        isBorn = $(this).data('birth') <= time && $(this).data('birth');
 //        isLive = $(this).data('death') >= time || !$(this).data('death');
