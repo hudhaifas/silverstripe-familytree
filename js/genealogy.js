@@ -190,35 +190,35 @@ var registerLinks = function () {
         showPerson(uri.toString());
     });
 
-    $('input[type=checkbox]#f').change(function () {
+    $('input[type=checkbox]#f').change(function (event) {
         event.preventDefault();
         if (!this.checked) {
             $('input#fs').prop('checked', false);
         }
     });
 
-    $('input[type=checkbox]#fs').change(function () {
+    $('input[type=checkbox]#fs').change(function (event) {
         event.preventDefault();
         if (this.checked) {
             $('input#f').prop('checked', true);
         }
     });
 
-    $('input[type=checkbox]#m').change(function () {
+    $('input[type=checkbox]#m').change(function (event) {
         event.preventDefault();
         if (!this.checked) {
             $('input#ms').prop('checked', false);
         }
     });
 
-    $('input[type=checkbox]#ms').change(function () {
+    $('input[type=checkbox]#ms').change(function (event) {
         event.preventDefault();
         if (this.checked) {
             $('input#m').prop('checked', true);
         }
     });
 
-    $('input.options-check').change(function () {
+    $('input.options-check').change(function (event) {
         event.preventDefault();
         if (locked) {
             return;
