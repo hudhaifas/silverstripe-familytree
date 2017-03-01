@@ -9,6 +9,11 @@ var initTimeline = function () {
 
     var ticks = initTimelineTicks();
 
+    if (ticks == null) {
+        $('#timeline-btn').hide();
+        return;
+    }
+
     $('#timeline-input').bootstrapSlider({
         ticks: ticks['ticks'],
         ticks_labels: ticks['labels'],
@@ -17,8 +22,8 @@ var initTimeline = function () {
         updateTimePoint(evt.value);
     });
 
-    $('#timeline-btn').on('click', function (e) {
-        e.preventDefault();
+    $('#timeline-btn').on('click', function (event) {
+        event.preventDefault();
 
         $extraPane = $('#chart-extra');
         $extraPane.toggle();
@@ -52,7 +57,7 @@ var initTimelineControl = function ($slider, maxValue) {
     timer = null;
     var interval = 200;
 
-    console.log('Init Controls');
+//    console.log('Init Controls');
 
     $('#timeline-control').on('click', function (e) {
         e.preventDefault();
@@ -60,7 +65,7 @@ var initTimelineControl = function ($slider, maxValue) {
 
         if ($(this).find('i').hasClass('fa-play-circle')) {
 
-            console.log('Play');
+//            console.log('Play');
 
             timer = setInterval(function () {
                 value = value + 1;
@@ -77,16 +82,22 @@ var initTimelineControl = function ($slider, maxValue) {
             $('#timeline-control').find('.fa-play-circle').addClass('fa-pause-circle').removeClass('fa-play-circle');
 
         } else {
-            console.log('Pause');
+//            console.log('Pause');
             destroyTimer();
         }
     });
 };
 
 var initTimelineTicks = function () {
-    var $node = $('.node').filter(function () {
+    var $nodes = $('.node').filter(function () {
         return $(this).data('birth');
-    }).first();
+    });
+
+    if ($nodes.length <= 1) {
+        return null;
+    }
+
+    var $node = $nodes.first();
 
     var minYear = $node.data('birth');
     var maxYear = new Date().getFullYear();
@@ -94,15 +105,26 @@ var initTimelineTicks = function () {
     var startYear = Math.floor(minYear / 10) * 10;
 
     var tickPeriod = maxYear - minYear;
+
     if ($(window).width() < 800) {
-        tickCount = 5;
+        tickCount = 4;
     } else if ($(window).width() < 1200) {
         tickCount = 7;
     } else {
         tickCount = 9;
     }
 
-    var tickStep = Math.round((tickPeriod / tickCount) / 10) * 10;
+    var tickStep = tickPeriod / tickCount;
+    if (tickStep > 10) {
+        tickStep = Math.round(tickStep / 10) * 10;
+    } else {
+        tickStep = Math.round(tickStep);
+    }
+
+    if (tickStep < 1) {
+        return null;
+    }
+
     var ticks = [];
 
     for (var year = startYear; year < maxYear; year += tickStep) {
@@ -124,7 +146,7 @@ var resetTimeline = function () {
 };
 
 var destroyTimer = function () {
-    console.log('Destroy');
+//    console.log('Destroy');
 
     clearInterval(timer);
     timer = null;
