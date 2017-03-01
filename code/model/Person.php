@@ -659,6 +659,10 @@ class Person
         return null;
     }
 
+    public function getCalculatedBirthYear() {
+        return $this->Stats()->MinYear;
+    }
+
     public function getDeathYear() {
         if ($this->DeathDate) {
             $date = new Date();
@@ -667,6 +671,10 @@ class Person
             return $date->Year();
         }
         return null;
+    }
+
+    public function getCalculatedDeathYear() {
+        return $this->Stats()->MaxYear;
     }
 
     /// Utils ///

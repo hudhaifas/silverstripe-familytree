@@ -21,8 +21,22 @@
         
         <% if BirthDate || DeathDate %><hr /><% end_if %>
         
-        <% if BirthDate %><%t Genealogist.BIRTHDATE 'Birth Date' %>: $BirthDate<br /><% end_if %>
-        <% if DeathDate %><%t Genealogist.DEATHDATE 'Death Date' %>: $DeathDate<br /><% end_if %>
+        <% if BirthDate && BirthDateEstimated %>
+            <%t Genealogist.ESTIMATED_BIRTHDATE 'Birth Date (Estimated)' %>: $BirthYear<br />
+        <% else_if BirthDate %>
+            <%t Genealogist.BIRTHDATE 'Birth Date' %>: $BirthDate<br />
+        <% else_if CalculatedBirthYear %>
+            <%t Genealogist.CALCULATIONS_BIRTHDATE 'Birth Date (Calculations)' %>: $CalculatedBirthYear<br />
+        <% end_if %>
+        
+        <% if DeathDate && DeathDateEstimated %>
+            <%t Genealogist.ESTIMATED_DEATHDATE 'Death Date (Estimated)' %>: $DeathYear<br />
+        <% else_if DeathDate %>
+            <%t Genealogist.DEATHDATE 'Death Date' %>: $DeathDate<br />
+        <% else_if CalculatedDeathYear %>
+            <%t Genealogist.CALCULATIONS_DEATHDATE 'Death Date (Calculations)' %>: $CalculatedDeathYear<br />
+        <% end_if %>
+        
         <% if Age %><%t Genealogist.AGE 'Age' %>: $Age<br /><% end_if %>
 
         <% if hasPermission && Mother %>

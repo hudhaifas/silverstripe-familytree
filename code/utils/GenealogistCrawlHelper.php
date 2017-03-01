@@ -15,7 +15,7 @@ class GenealogistCrawlHelper {
 
     public static $GENERATION_FEMALE_GAP = 18;
     public static $GENERATION_MALE_GAP = 26;
-    public static $GENERATION_MAX_AGE = 80;
+    public static $GENERATION_MAX_AGE = 63;
 
     /// Calucluates the estemiated BIRTH year ///
     public static function calculate_min_person_year(Person $person, $space = '') {

@@ -35,13 +35,22 @@ en:
     CHILDREN: 'Children'
     SONS: 'Sons'
     DAUGHTERS: 'Daughters'
+    
     DATES: 'Dates'
-    BIRTHDATE_ESTIMATED: 'Birth Date Estimated'
+    
     BIRTHDATE: 'Birth Date'
-    DEATHDATE_ESTIMATED: 'Death Date Estimated'
+    BIRTHDATE_ESTIMATED: 'Birth Date Estimated'
+    ESTIMATED_BIRTHDATE: 'Birth Date (Estimated)'
+    CALCULATIONS_BIRTHDATE: 'Birth Date (Calculations)'
+    
     DEATHDATE: 'Death Date'
+    DEATHDATE_ESTIMATED: 'Death Date Estimated'
+    ESTIMATED_DEATHDATE: 'Death Date (Estimated)'
+    CALCULATIONS_DEATHDATE: 'Death Date (Calculations)'
+    
     AGE: 'Age'
     ISDEAD: 'Is Dead'
+    
     BIOGRAPHY: 'Biography'
     PUBLIC_FIGURE: 'Public Figure'
     IS_PRIVATE: 'Hide Information'

@@ -35,13 +35,22 @@ ar:
     CHILDREN: 'النسل'
     SONS: 'الأبناء'
     DAUGHTERS: 'البنات'
+    
     DATES: 'التواريخ'
-    BIRTHDATE_ESTIMATED: 'تاريخ الولادة تقريبي'
+    
     BIRTHDATE: 'تاريخ الولادة'
-    DEATHDATE_ESTIMATED: 'تاريخ الوفاة تقريبي'
+    BIRTHDATE_ESTIMATED: 'تاريخ الولادة تقريبي'
+    ESTIMATED_BIRTHDATE: 'تاريخ الولادة (تقريبا)'
+    CALCULATIONS_BIRTHDATE: 'تاريخ الولادة (حسابيا)'
+    
     DEATHDATE: 'تاريخ الوفاة'
+    DEATHDATE_ESTIMATED: 'تاريخ الوفاة تقريبي'
+    ESTIMATED_DEATHDATE: 'تاريخ الوفاة (تقريبا)'
+    CALCULATIONS_DEATHDATE: 'تاريخ الوفاة (حسابيا)'
+    
     AGE: 'العمر'
     ISDEAD: 'متوفى؟'
+    
     BIOGRAPHY: 'السيرة'
     PUBLIC_FIGURE: 'شخصية عامة'
     IS_PRIVATE: 'إخفاء المعلومات'
