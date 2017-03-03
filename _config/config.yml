@@ -9,3 +9,6 @@ GenealogistHelper:
     - genealogists
     - co-genealogists
       
+Person:
+  extensions:
+    - DataObject_MemberExtension

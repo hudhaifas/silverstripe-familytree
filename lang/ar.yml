@@ -49,7 +49,6 @@ ar:
     AGE: 'العمر'
     ISDEAD: 'متوفى؟'
     
-    CREATED_BY: 'أدخل بواسطة'
     BIOGRAPHY: 'السيرة'
     PUBLIC_FIGURE: 'شخصية عامة'
     IS_PRIVATE: 'إخفاء المعلومات'

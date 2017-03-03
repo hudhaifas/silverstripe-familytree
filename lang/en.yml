@@ -49,7 +49,6 @@ en:
     AGE: 'Age'
     ISDEAD: 'Is Dead'
     
-    CREATED_BY: 'Created By'
     BIOGRAPHY: 'Biography'
     PUBLIC_FIGURE: 'Public Figure'
     IS_PRIVATE: 'Hide Information'
