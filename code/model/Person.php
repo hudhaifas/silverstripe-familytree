@@ -62,6 +62,7 @@ class Person
         'Father' => 'Male',
         'Mother' => 'Female',
         'Stats' => 'PersonStats',
+        'CreatedBy' => 'Member',
     );
     private static $has_many = array(
         'Sons' => 'Male',
@@ -85,6 +86,7 @@ class Person
         'BirthDate',
         'Age',
         'Note',
+        'CreatedBy.Title',
     );
     private static $default_sort = 'ChildOrder';
     public static $STATE_ALIVE = 1;
@@ -131,6 +133,8 @@ class Person
         $labels['IsPrivate'] = _t('Genealogist.IS_PRIVATE', 'Hide Information');
 
         $labels['Suggestions'] = _t('Genealogist.SUGGESTIONS', 'Suggestions');
+        $labels['CreatedBy'] = _t('Genealogist.CREATED_BY', 'Created By');
+        $labels['CreatedBy.Title'] = _t('Genealogist.CREATED_BY', 'Created By');
 
         return $labels;
     }
@@ -157,6 +161,7 @@ class Person
         $fields->removeFieldFromTab('Root.Main', 'IndexedName');
         $fields->removeFieldFromTab('Root.Main', 'StatsID');
         $fields->removeFieldFromTab('Root.Main', 'ChildOrder');
+        $fields->removeFieldFromTab('Root.Main', 'CreatedBy');
 
         $fields->removeFieldFromTab('Root.Main', 'FatherID');
         $fields->addFieldsToTab('Root.Main', array(
@@ -377,6 +382,8 @@ class Person
         if ($this->DeathDate) {
             $this->IsDead = 1;
         }
+
+        $this->CreatedByID = Member::currentUserID();
     }
 
     /// Links ///

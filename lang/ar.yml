@@ -23,6 +23,7 @@ ar:
     NICKNAME: 'الشهرة'
     POSTFIX: 'المزيد المؤخر'
     NOTE: 'ملاحظة'
+    
     PARENTS: 'الآباء'
     FATHER: 'الأب'
     FATHER_NAME: 'اسم الأب'
@@ -37,20 +38,18 @@ ar:
     DAUGHTERS: 'البنات'
     
     DATES: 'التواريخ'
-    
     BIRTHDATE: 'تاريخ الولادة'
     BIRTHDATE_ESTIMATED: 'تاريخ الولادة تقريبي'
     ESTIMATED_BIRTHDATE: 'تاريخ الولادة (تقريبا)'
     CALCULATIONS_BIRTHDATE: 'تاريخ الولادة (حسابيا)'
-    
     DEATHDATE: 'تاريخ الوفاة'
     DEATHDATE_ESTIMATED: 'تاريخ الوفاة تقريبي'
     ESTIMATED_DEATHDATE: 'تاريخ الوفاة (تقريبا)'
     CALCULATIONS_DEATHDATE: 'تاريخ الوفاة (حسابيا)'
-    
     AGE: 'العمر'
     ISDEAD: 'متوفى؟'
     
+    CREATED_BY: 'أدخل بواسطة'
     BIOGRAPHY: 'السيرة'
     PUBLIC_FIGURE: 'شخصية عامة'
     IS_PRIVATE: 'إخفاء المعلومات'

@@ -23,6 +23,7 @@ en:
     NICKNAME: 'Nickname'
     POSTFIX: 'Postfix'
     NOTE: 'Note'
+    
     PARENTS: 'Parents'
     FATHER: 'Father'
     FATHER_NAME: 'Father Name'
@@ -37,20 +38,18 @@ en:
     DAUGHTERS: 'Daughters'
     
     DATES: 'Dates'
-    
     BIRTHDATE: 'Birth Date'
     BIRTHDATE_ESTIMATED: 'Birth Date Estimated'
     ESTIMATED_BIRTHDATE: 'Birth Date (Estimated)'
     CALCULATIONS_BIRTHDATE: 'Birth Date (Calculations)'
-    
     DEATHDATE: 'Death Date'
     DEATHDATE_ESTIMATED: 'Death Date Estimated'
     ESTIMATED_DEATHDATE: 'Death Date (Estimated)'
     CALCULATIONS_DEATHDATE: 'Death Date (Calculations)'
-    
     AGE: 'Age'
     ISDEAD: 'Is Dead'
     
+    CREATED_BY: 'Created By'
     BIOGRAPHY: 'Biography'
     PUBLIC_FIGURE: 'Public Figure'
     IS_PRIVATE: 'Hide Information'
