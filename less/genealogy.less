@@ -1,5 +1,4 @@
 @import "mixins/transform.less";
-@color-tree-branches: black;
 
 @container-w: 92vw;
 @container-h: 84vh;
@@ -16,7 +15,7 @@
 @node-w: 64px;
 @node-h: 30px;
 @node-font-size: 12px;
-@color-tree-branches: black;
+@color-tree-branches: #aeaca4;
 @color-bg-male: #d9edf7;
 @color-fg-male: #31708f;
 @color-bg-female: #f2dede;
@@ -284,6 +283,8 @@ a.disabled, a[disabled] {
         border-color: @color-tree-branches;
         border-radius: .25rem;
         box-shadow: inset 0 1px 1px rgba(0,0,0,.075);
+        position: relative;
+
 
         &.timeline-node {
             .transition(all 0.4s ease);

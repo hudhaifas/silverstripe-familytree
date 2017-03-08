@@ -1,16 +1,25 @@
 /* Basic styling */
 .chart-pane .left {
-  border-left: 2px solid black;
+  border-left: 2px solid #aeaca4;
   border-right: 0;
 }
 .chart-pane .right {
   border-left: 0;
-  border-right: 2px solid black;
+  border-right: 2px solid #aeaca4;
 }
 .chart-pane .node {
   width: 80px;
   height: 30px;
   margin: 0 2px;
+}
+.chart-pane .node .info-card {
+  text-align: right;
+  left: auto;
+  right: -1px;
+}
+.chart-pane .node .info-card.show {
+  left: auto;
+  right: -1px;
 }
 .chart-pane .node a {
   font-size: 12px;

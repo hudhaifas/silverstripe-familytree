@@ -33,7 +33,7 @@
         $contentPane.append($chartPane);
         $controls = createControls($container, $contentPane, $chartPane, opts);
         $container.append($controls);
-        
+
         $extraPane = $('<div id="chart-extra" class="chart-extra"></div>');
         $container.append($extraPane);
 
@@ -100,7 +100,8 @@
         $node.data("tree-node", nodeCount);
         $nodeDiv = $("<div>").addClass("node")
                 .data("tree-node", nodeCount)
-                .append($nodeContent);
+                .append($nodeContent)
+                .append('<div class="info-card"></div>');
 
         // Expand and contract nodes
         if ($childNodes.length > 0) {
@@ -130,7 +131,7 @@
 
         $nodeCell.append($nodeDiv);
         $nodeRow.append($nodeCell);
-        
+
         /* Support multiple roots tree */
         if (level > 0 || !opts.multipleRoot) {
             $tbody.append($nodeRow);
@@ -149,7 +150,7 @@
                 // draw the connecting line from the parent node to the horizontal line
                 $downLine = $("<div></div>").addClass("line down");
                 $downLineCell.append($downLine);
-                
+
                 /* Support multiple roots tree */
                 if (level > 0 || !opts.multipleRoot) {
                     $tbody.append($downLineRow);
@@ -240,6 +241,18 @@
                 $container.find('.fullscreen, .fullscreen-exit').toggleClass('fullscreen fullscreen-exit');
             });
         }
+
+        var $filtersBtn = createButton('filters hidden-phone hidden-tablet', function () {
+            event.preventDefault();
+        });
+
+        $filtersBtn.appendTo($controls);
+        $filtersBtn.popover({
+            trigger: "click",
+            placement: "left",
+            html: true,
+            content: "dfdfd",
+        });
 
         var $collapseBtn = createButton('collapse-all', function () {
             event.preventDefault();

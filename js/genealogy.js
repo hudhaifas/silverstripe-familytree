@@ -50,7 +50,7 @@ var showPerson = function (url) {
  * @param {type} url
  * @returns {undefined}
  */
-var updateInfo = function (url) {
+var updateInfo = function (url, $element) {
     var param = '&ajax=1';
     var ajaxUrl = (url.indexOf(param) === -1) ? url + param : url;
 
@@ -58,14 +58,15 @@ var updateInfo = function (url) {
     $('#info-body').html('');
     lockLinks();
 
-    $("#panel-info").load(ajaxUrl, function () {
+    $element.load(ajaxUrl, function () {
         registerLinks();
         $('#info-loader').hide();
-        $('#collapse-info-btn').trigger('click');
+//        $('#collapse-info-btn').trigger('click');
 
         releaseLinks();
     });
 };
+
 
 var initTree = function () {
     $kinships = $('.genealogy-kinship');
@@ -147,6 +148,12 @@ var unregisterLinks = function () {
     $("#toggle-fullscreen, #toggle-nodes, #export-tree, input[type=checkbox]").unbind("click");
 };
 
+var hideInfoCard = function () {
+    $('.info-card').html('');
+    $('.info-card').removeClass('show');
+
+};
+
 var registerLinks = function () {
     unregisterLinks();
 
@@ -157,8 +164,20 @@ var registerLinks = function () {
             return;
         }
 
+        hideInfoCard();
+        $element = $(this).next('.info-card');
+        $element.addClass('show');
+
         url = $(this).attr('data-url');
-        updateInfo(url);
+        updateInfo(url, $element);
+    });
+
+    $(window).click(function () {
+        hideInfoCard();
+    });
+
+    $('.info-card').click(function (event) {
+        event.stopPropagation();
     });
 
     $("a.options-item").click(function (event) {

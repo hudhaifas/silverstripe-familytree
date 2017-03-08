@@ -66,7 +66,7 @@
   height: 30px;
   margin: 0 2px;
   border: 1px solid transparent;
-  border-color: black;
+  border-color: #aeaca4;
   border-radius: .25rem;
   box-shadow: inset 0 1px 1px rgba(0, 0, 0, 0.075);
 }
@@ -323,9 +323,10 @@ a[disabled] {
 }
 .chart-container .node {
   border: 1px solid transparent;
-  border-color: black;
+  border-color: #aeaca4;
   border-radius: .25rem;
   box-shadow: inset 0 1px 1px rgba(0, 0, 0, 0.075);
+  position: relative;
 }
 .chart-container .node.timeline-node {
   -webkit-transition: all 0.4s ease;

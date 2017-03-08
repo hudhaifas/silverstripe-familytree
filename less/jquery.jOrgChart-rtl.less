@@ -1,4 +1,4 @@
-@tree-branches-color: black;
+@tree-branches-color: #aeaca4;
 
 /* Basic styling */
 .chart-pane {
@@ -17,6 +17,18 @@
         width: 80px;
         height: 30px;
         margin: 0 2px;
+
+        .info-card {
+            text-align: right;
+
+            left: auto;
+            right: -1px;
+
+            &.show {
+                left: auto;
+                right: -1px;
+            }
+        }
 
         a {
             font-size: 12px;
