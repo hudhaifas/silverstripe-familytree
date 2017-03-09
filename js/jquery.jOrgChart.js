@@ -229,10 +229,14 @@
         $controls = $('<div class="chart-controls"></div>');
 
         if (opts.fullscreen) {
-            var $fullscreenBtn = createButton('fullscreen hidden-phone hidden-tablet', function () {
-
+            var $fullscreenBtn = createButton('fullscreen', function () {
                 event.preventDefault();
-                $container.toggleFullScreen();
+//                $container.toggleFullScreen();
+                $container.toggleClass('fullscreen-div');
+
+                if ($container.hasClass('fullscreen-div')) {
+                    $container.find('.fullscreen, .fullscreen-exit').toggleClass('fullscreen fullscreen-exit');
+                }
             });
             $fullscreenBtn.appendTo($controls);
 

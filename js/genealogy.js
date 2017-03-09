@@ -78,7 +78,7 @@ var initTree = function () {
         $(this).jOrgChart({
             chartElement: '#' + kinship,
             multipleRoot: multiple, // Support multiple roots tree
-            dragScroller: false,
+//            dragScroller: false,
 //            zoom: false
 //            depth: 3
 //            direction: dir
@@ -132,7 +132,7 @@ var initKinshipBtn = function () {
     });
 };
 
-var initFiltersBtn = function (){
+var initFiltersBtn = function () {
     var $filtersBtn = $('#filters-btn');
     var $filtersList = $('#filters-list');
 
@@ -209,6 +209,10 @@ var hideInfoCard = function () {
 var registerLinks = function () {
     unregisterLinks();
 
+//    $('a.info-item').on('mousedown touchstart', function (e) {
+//        e.stopImmediatePropagation();
+//    });
+    
     $("a.info-item").click(function (event) {
         event.preventDefault();
 
@@ -231,7 +235,7 @@ var registerLinks = function () {
 
         hideInfoCard();
     });
-
+    
     $('.info-card').click(function (event) {
         event.stopPropagation();
     });
