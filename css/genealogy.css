@@ -66,9 +66,14 @@
   height: 30px;
   margin: 0 2px;
   border: 1px solid transparent;
-  border-color: #aeaca4;
+  border-color: #8e8c84;
   border-radius: .25rem;
   box-shadow: inset 0 1px 1px rgba(0, 0, 0, 0.075);
+}
+.chart-container .node .info-card {
+  width: 64px;
+  height: 30px;
+  z-index: -1;
 }
 .chart-container .node,
 .chart-container .node a {
@@ -323,7 +328,7 @@ a[disabled] {
 }
 .chart-container .node {
   border: 1px solid transparent;
-  border-color: #aeaca4;
+  border-color: #8e8c84;
   border-radius: .25rem;
   box-shadow: inset 0 1px 1px rgba(0, 0, 0, 0.075);
   position: relative;
@@ -335,6 +340,9 @@ a[disabled] {
   -o-transition: all 0.4s ease;
   transition: all 0.4s ease;
   /*opacity: 0.25;*/
+}
+.chart-container .node.timeline-node .info-card {
+  display: none !important;
 }
 .chart-container .node.timeline-node.male.dead {
   background-color: #d9edf7;

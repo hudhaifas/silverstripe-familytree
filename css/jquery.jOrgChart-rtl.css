@@ -1,11 +1,11 @@
 /* Basic styling */
 .chart-pane .left {
-  border-left: 2px solid #aeaca4;
+  border-left: 2px solid #8e8c84;
   border-right: 0;
 }
 .chart-pane .right {
   border-left: 0;
-  border-right: 2px solid #aeaca4;
+  border-right: 2px solid #8e8c84;
 }
 .chart-pane .node {
   width: 80px;
@@ -23,5 +23,20 @@
 }
 .chart-pane .node a {
   font-size: 12px;
+}
+@media (max-width: 979px) {
+  .chart-pane {
+    /* The node */
+  }
+  .chart-pane .node .info-card.show {
+    position: fixed;
+    top: 10px;
+    left: 10px;
+    right: 10px;
+    bottom: 10px;
+    width: 93%;
+    height: 90%;
+    z-index: 102;
+  }
 }
 /*# sourceMappingURL=jquery.jOrgChart-rtl.css.map */

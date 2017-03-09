@@ -33,3 +33,6 @@
     <i class="fa fa-spinner fa-pulse fa-4x fa-fw"></i>
 </div>
 
+<% include Poopover_Filters %>
+<% include Popover_Kinship %>
+<% include Popover_Roots %>

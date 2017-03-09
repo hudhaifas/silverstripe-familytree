@@ -133,6 +133,7 @@ class GenealogyPage_Controller
         Requirements::javascript("genealogist/js/jquery.jOrgChart.js");
         Requirements::javascript("genealogist/js/jquery.dragscroll.js");
         Requirements::javascript("genealogist/js/jquery.fullscreen.js");
+        Requirements::javascript("genealogist/js/jquery.panzoom.js");
         Requirements::javascript("genealogist/js/URI.js");
         Requirements::javascript("genealogist/js/html2canvas.js");
 //        Requirements::javascript("https://cdnjs.cloudflare.com/ajax/libs/bootstrap-slider/9.7.2/bootstrap-slider.js");

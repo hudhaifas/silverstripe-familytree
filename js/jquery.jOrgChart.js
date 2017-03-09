@@ -220,7 +220,7 @@
 
         /* Prevent trees collapsing if a link inside a node is clicked */
         $nodeDiv.children('a').click(function (e) {
-            console.log(e);
+//            console.log(e);
             e.stopPropagation();
         });
     }
@@ -241,18 +241,6 @@
                 $container.find('.fullscreen, .fullscreen-exit').toggleClass('fullscreen fullscreen-exit');
             });
         }
-
-        var $filtersBtn = createButton('filters hidden-phone hidden-tablet', function () {
-            event.preventDefault();
-        });
-
-        $filtersBtn.appendTo($controls);
-        $filtersBtn.popover({
-            trigger: "click",
-            placement: "left",
-            html: true,
-            content: "dfdfd",
-        });
 
         var $collapseBtn = createButton('collapse-all', function () {
             event.preventDefault();
@@ -280,6 +268,24 @@
             $zoomInBtn.appendTo($controls);
             $zoomOutBtn.appendTo($controls);
         }
+
+        var $filtersBtn = createButton('filters', function () {
+            event.preventDefault();
+        });
+        $filtersBtn.attr('id', 'filters-btn');
+        $filtersBtn.appendTo($controls);
+
+        var $kinshipBtn = createButton('kinship', function () {
+            event.preventDefault();
+        });
+        $kinshipBtn.attr('id', 'kinship-btn');
+        $kinshipBtn.appendTo($controls);
+
+        var $rootsBtn = createButton('roots', function () {
+            event.preventDefault();
+        });
+        $rootsBtn.attr('id', 'roots-btn');
+        $rootsBtn.appendTo($controls);
 
         if (opts.exportImage) {
             var $saveBtn = $('<a href="#" id="save-tree" class="hidden" download="' + opts.exportFile + '"></a>');

@@ -30,7 +30,7 @@
   background-color: #eee;
   background-repeat: no-repeat;
   background-position: center;
-  opacity: 0.5;
+  opacity: 0.7;
   width: 31px;
   height: 31px;
   border-radius: 2px;
@@ -47,9 +47,6 @@
 .chart-container .chart-controls .chart-control:hover {
   opacity: 1;
 }
-.chart-container .chart-controls .chart-control.filters {
-  background-image: url(data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABAAAAAQCAYAAAAf8/9hAAAAoklEQVQ4T93TPQ4BURSG4WeWQKFXqTU2IKKxEolCVPag0FiKRMEO2MHsQazA5CZzZTBjhunc7v68b875Tm6i5Upa8qJggC2PfZ33jgXSKOjghGEdmd9fMMat2EIXxwaSAE9wDbLXDOokT3CZIJxVSd7gKkGUnNHPe04ximUXc/o0xgOm+eM9ZmUB/7lgjl2bDAK7wgY/hRhDX6KH9bdTaPQtMidPHxHUxcpNAAAAAElFTkSuQmCC);
-}
 .chart-container .chart-controls .chart-control.fullscreen {
   background-image: url(data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABgAAAAYCAYAAADgdz34AAAABHNCSVQICAgIfAhkiAAAAAlwSFlzAAALEwAACxMBAJqcGAAAAK9JREFUSIntlEEOwiAQRV8ar2DgJN5/06S2XWnUy9jURW2c4kwFYdOkL2HDDP8PMAA7W6YHRmUsqDIMnhlrAb26JshxwI2VHaQa1CLugft7/pJjoOGBhxA/lja4BuIwHV9t5CcbtEAnxE0OK7EzMBix0y/hkvR8d1cSnunMWyOefLmyIsenW7pSBvMCx7LPrQv922B+oaF41B8UY2BV3pQ0sP6gaLR3IHu/UuZ2NsYL5fpb9uGg/vAAAAAASUVORK5CYII=);
 }
@@ -64,9 +61,20 @@
 }
 .chart-container .chart-controls .chart-control.zoom-in {
   background-image: url(data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABgAAAAYCAYAAADgdz34AAAAGXRFWHRTb2Z0d2FyZQBBZG9iZSBJbWFnZVJlYWR5ccllPAAAAEdJREFUeNpiYBgFQwk0APF/KG6gtuECSIbD8OCwgJEES/6To3foW0AotZCKG8iJTFLxwFpA9SAaTaYjoKgYNMX1KKAdAAgwABPOVwzMs9JHAAAAAElFTkSuQmCC);
+  margin-top: 20px;
 }
 .chart-container .chart-controls .chart-control.zoom-out {
   background-image: url(data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABgAAAAYCAYAAADgdz34AAAAGXRFWHRTb2Z0d2FyZQBBZG9iZSBJbWFnZVJlYWR5ccllPAAAAC9JREFUeNpiYBgFo2AUjAKyQAMQ/ycTNxAyXIACw2F4YC2geRCNglEwCmgAAAIMALTdPeVxSHI6AAAAAElFTkSuQmCC);
+  margin-bottom: 20px;
+}
+.chart-container .chart-controls .chart-control.filters {
+  background-image: url(data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABAAAAAQCAYAAAAf8/9hAAAAoklEQVQ4T93TPQ4BURSG4WeWQKFXqTU2IKKxEolCVPag0FiKRMEO2MHsQazA5CZzZTBjhunc7v68b875Tm6i5Upa8qJggC2PfZ33jgXSKOjghGEdmd9fMMat2EIXxwaSAE9wDbLXDOokT3CZIJxVSd7gKkGUnNHPe04ximUXc/o0xgOm+eM9ZmUB/7lgjl2bDAK7wgY/hRhDX6KH9bdTaPQtMidPHxHUxcpNAAAAAElFTkSuQmCC);
+}
+.chart-container .chart-controls .chart-control.kinship {
+  background-image: url('data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABAAAAAQCAYAAAAf8/9hAAAAGXRFWHRTb2Z0d2FyZQBBZG9iZSBJbWFnZVJlYWR5ccllPAAAAyFpVFh0WE1MOmNvbS5hZG9iZS54bXAAAAAAADw/eHBhY2tldCBiZWdpbj0i77u/IiBpZD0iVzVNME1wQ2VoaUh6cmVTek5UY3prYzlkIj8+IDx4OnhtcG1ldGEgeG1sbnM6eD0iYWRvYmU6bnM6bWV0YS8iIHg6eG1wdGs9IkFkb2JlIFhNUCBDb3JlIDUuNS1jMDE0IDc5LjE1MTQ4MSwgMjAxMy8wMy8xMy0xMjowOToxNSAgICAgICAgIj4gPHJkZjpSREYgeG1sbnM6cmRmPSJodHRwOi8vd3d3LnczLm9yZy8xOTk5LzAyLzIyLXJkZi1zeW50YXgtbnMjIj4gPHJkZjpEZXNjcmlwdGlvbiByZGY6YWJvdXQ9IiIgeG1sbnM6eG1wPSJodHRwOi8vbnMuYWRvYmUuY29tL3hhcC8xLjAvIiB4bWxuczp4bXBNTT0iaHR0cDovL25zLmFkb2JlLmNvbS94YXAvMS4wL21tLyIgeG1sbnM6c3RSZWY9Imh0dHA6Ly9ucy5hZG9iZS5jb20veGFwLzEuMC9zVHlwZS9SZXNvdXJjZVJlZiMiIHhtcDpDcmVhdG9yVG9vbD0iQWRvYmUgUGhvdG9zaG9wIENDIChXaW5kb3dzKSIgeG1wTU06SW5zdGFuY2VJRD0ieG1wLmlpZDpCNkVGRjkxMjA0OTAxMUU3OUE3REIyMUIyODUzQTZFQyIgeG1wTU06RG9jdW1lbnRJRD0ieG1wLmRpZDpCNkVGRjkxMzA0OTAxMUU3OUE3REIyMUIyODUzQTZFQyI+IDx4bXBNTTpEZXJpdmVkRnJvbSBzdFJlZjppbnN0YW5jZUlEPSJ4bXAuaWlkOkI2RUZGOTEwMDQ5MDExRTc5QTdEQjIxQjI4NTNBNkVDIiBzdFJlZjpkb2N1bWVudElEPSJ4bXAuZGlkOkI2RUZGOTExMDQ5MDExRTc5QTdEQjIxQjI4NTNBNkVDIi8+IDwvcmRmOkRlc2NyaXB0aW9uPiA8L3JkZjpSREY+IDwveDp4bXBtZXRhPiA8P3hwYWNrZXQgZW5kPSJyIj8++fryKQAAAV1JREFUeNqE078rxVEYx/FvVxQGkhS6UeoqBoOBweDuyiDpMpEyGYXJH2CUwWJQyuLHYrFc3JBCFiKUGP24IcS9xfvU55un0/fm1Ku+5zzPee75dYPgr/Uiix/saiyJbYwF/7Qi3GtyaBJVmMMOrtBaqEAF3rwCi17ONG6UG9mOvQITETluO5+ojyrQbSbvoyQiZ0bxBrv3sOXxjQwOVcRvF9jCiR+YVeVrzOv7ET2K1+JS43cYsZOHzdLPsWT6WeVMeefzgDIXiGHQFHNXuW76lejCu7ficpSGBdpMIIGUl9yCM2/MrfQpMPvr0KNp1uuL66QT4VJpa1r+B9rtLbjTP0IOG7jFK170KznlxpXnHOA5LNKoypkCD2xIRVzOsm7Kfa+gODDV3fUMeJOrvSe+gFPTH7fJSS1r1QRS3vX1YdP092KmQBpNOoNRdKJGMXcmX+jX/yCv8bpfAQYAh2lrWDoOV+kAAAAASUVORK5CYII=');
+}
+.chart-container .chart-controls .chart-control.roots {
+  background-image: url('data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABAAAAAQCAYAAAAf8/9hAAAABHNCSVQICAgIfAhkiAAAAAlwSFlzAAACxQAAAsUBidZ/7wAAABl0RVh0U29mdHdhcmUAd3d3Lmlua3NjYXBlLm9yZ5vuPBoAAAGkSURBVDiNjdKxa1NhFAXw3wtPadKX1lI0WgkICbYW06UOFsGlgyCIOIn+A876F4iLg6ur4OLgUhDHgJuzoGA79NVFiJCGlLaZavM5JK99tA3mTO9+57vnnnfPxzFeJUkSZmdnAwKeGgNxvlhYWACdTmecXlDIF3t7e0qlkiiKxhbI4wk+YQvfcHecprNGvR0KvMMqruW4NXTPEljJTXyIBL+TJLm+uLhY29jYsLu7C0v4kRfIlriKO/gyvHAV+v2+arVqampKFEWazeYpuzE+4KZBdJfxLCOLxeLnNE1rExMTut0j57dRHH4H1Wo1zM/PhziOQ6FQ2Dwx4BYeDF29QBnpcFhAiBqNRiiXyyqVimazubW/v1875ZOfw730UMO5I2ZmZiZMTk6Gubm5gJMOMnzFPVzEr7yDuNvtNvC81+v9wfsRAn8N4mvjJS5kO4inp6e/l0qlqNVqwWPUR4hkWMGVrIjr9brDw0PLy8vW19fjNE1HNd7HDTzCpeywsLOz4+DgwPb2tna73R/R/NEggSWczxMRXjt+kR28+c8vbBokAf4Bhfl1L9UW8m0AAAAASUVORK5CYII=');
 }
 .chart-container .chart-controls .chart-control.export {
   background-image: url(data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABAAAAAQCAYAAAAf8/9hAAAA5UlEQVQ4T5XTzyrFQRjG8c+5CYkUio0rsHAu40RJKLaycg9WsnPqFJ06JTfh3z1ISZTYcAvS1Kt+DfNrfu9u5n2e7zy9M9NTrincR3sVX/9Jey2ADUyiP8BVV8AehmHaxkVXwD7OwrSD866AXYzCtIVxV8Bmw7SOyxrACQ5aBptaxzj61eS3MIdbzBcgD+jjswRI+4sBmc0gz1jDe3O/9A6WcYPpEL+F+SVP1vaQVnCN74j9WDPEXLMQgNfSYJsJZiJmW6rESYnu8JEWTXEaUjqxpp6wlANOkX5gTaXTD3NAjfGP5gcCPCMRlqRKxgAAAABJRU5ErkJggg==);
@@ -120,17 +128,17 @@
   width: 2px;
 }
 .chart-pane .down {
-  background-color: #aeaca4;
+  background-color: #8e8c84;
   margin: 0px auto;
 }
 .chart-pane .top {
-  border-top: 2px solid #aeaca4;
+  border-top: 2px solid #8e8c84;
 }
 .chart-pane .left {
-  border-right: 2px solid #aeaca4;
+  border-right: 2px solid #8e8c84;
 }
 .chart-pane .right {
-  border-left: 2px solid #aeaca4;
+  border-left: 2px solid #8e8c84;
 }
 .chart-pane table {
   margin: 0 auto;
@@ -173,9 +181,9 @@
   left: -1px;
   width: 400px;
   height: 200px;
-  padding: 5px;
+  padding: 4px 15px;
   border: 1px solid transparent;
-  border-color: #aeaca4;
+  border-color: #8e8c84;
   border-radius: .25rem;
   box-shadow: inset 0 1px 1px rgba(0, 0, 0, 0.075);
   z-index: 11;

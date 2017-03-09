@@ -2,9 +2,9 @@ var locked = false;
 var timer = null;
 
 jQuery(document).ready(function () {
+    initFilters();
     initTree();
 
-    initFilters();
 
     initTimeline();
 //    updateTimePeriod(1980, 2017);
@@ -67,7 +67,6 @@ var updateInfo = function (url, $element) {
     });
 };
 
-
 var initTree = function () {
     $kinships = $('.genealogy-kinship');
     dir = $kinships.length > 1 ? 'l2r' : 't2b';
@@ -79,9 +78,15 @@ var initTree = function () {
         $(this).jOrgChart({
             chartElement: '#' + kinship,
             multipleRoot: multiple, // Support multiple roots tree
+            dragScroller: false,
+//            zoom: false
 //            depth: 3
 //            direction: dir
         });
+
+//        $('#' + kinship + ' .chart-pane').panzoom({
+//            minScale: 1
+//        });
     });
 
     registerLinks();
@@ -95,6 +100,53 @@ var initTree = function () {
             e.preventDefault();
         }
     };
+
+    initFiltersBtn();
+    initKinshipBtn();
+    initRootsBtn();
+};
+
+var initRootsBtn = function () {
+    var $rootsBtn = $('#roots-btn');
+    var $rootsList = $('#roots-list');
+
+    $rootsBtn.popover({
+        trigger: "click",
+        placement: "left",
+        html: true,
+        container: '.chart-content-pane',
+        content: $rootsList
+    });
+};
+
+var initKinshipBtn = function () {
+    var $kinshipBtn = $('#kinship-btn');
+    var $kinshipForm = $('#kinship-form');
+
+    $kinshipBtn.popover({
+        trigger: "click",
+        placement: "left",
+        html: true,
+        container: '.chart-content-pane',
+        content: $kinshipForm
+    });
+};
+
+var initFiltersBtn = function (){
+    var $filtersBtn = $('#filters-btn');
+    var $filtersList = $('#filters-list');
+
+    $filtersBtn.popover({
+        trigger: "click",
+        placement: "left",
+        html: true,
+        container: '.chart-content-pane',
+        content: $filtersList
+    });
+
+    $filtersBtn.on('shown.bs.popover', function () {
+        initFilters();
+    });
 };
 
 var initFilters = function () {
@@ -173,6 +225,10 @@ var registerLinks = function () {
     });
 
     $(window).click(function () {
+        if (locked) {
+            return;
+        }
+
         hideInfoCard();
     });
 
