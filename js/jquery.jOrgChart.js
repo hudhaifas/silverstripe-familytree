@@ -231,18 +231,28 @@
         if (opts.fullscreen) {
             var $fullscreenBtn = createButton('fullscreen', function () {
                 event.preventDefault();
-//                $container.toggleFullScreen();
-                $container.toggleClass('fullscreen-div');
-
-                if ($container.hasClass('fullscreen-div')) {
-                    $container.find('.fullscreen, .fullscreen-exit').toggleClass('fullscreen fullscreen-exit');
-                }
+                $container.fullscreen();
             });
-            $fullscreenBtn.appendTo($controls);
+            var $exitBtn = createButton('fullscreen-exit', function () {
+                event.preventDefault();
+                $.fullscreen.exit();
+            });
+            $exitBtn.css('display', 'none');
 
-            $(document).bind("fullscreenchange", function () {
-                strechScreen($container, $container.fullScreen());
-                $container.find('.fullscreen, .fullscreen-exit').toggleClass('fullscreen fullscreen-exit');
+            $fullscreenBtn.appendTo($controls);
+            $exitBtn.appendTo($controls);
+
+            // document's event
+            $(document).bind('fscreenchange', function (e, state, elem) {
+                strechScreen($container, $.fullscreen.isFullScreen());
+                // if we currently in fullscreen mode
+                if ($.fullscreen.isFullScreen()) {
+                    $fullscreenBtn.hide();
+                    $exitBtn.show();
+                } else {
+                    $fullscreenBtn.show();
+                    $exitBtn.hide();
+                }
             });
         }
 

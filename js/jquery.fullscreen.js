@@ -1,184 +1,296 @@
-/**
- * @preserve jquery.fullscreen 1.1.5
- * https://github.com/kayahr/jquery-fullscreen-plugin
- * Copyright (C) 2012-2013 Klaus Reimer <k@ailis.de>
- * Licensed under the MIT license
- * (See http://www.opensource.org/licenses/mit-license)
- */
- 
-(function(jQuery) {
-
-/**
- * Sets or gets the fullscreen state.
- * 
- * @param {boolean=} state
- *            True to enable fullscreen mode, false to disable it. If not
- *            specified then the current fullscreen state is returned.
- * @return {boolean|Element|jQuery|null}
- *            When querying the fullscreen state then the current fullscreen
- *            element (or true if browser doesn't support it) is returned
- *            when browser is currently in full screen mode. False is returned
- *            if browser is not in full screen mode. Null is returned if 
- *            browser doesn't support fullscreen mode at all. When setting 
- *            the fullscreen state then the current jQuery selection is 
- *            returned for chaining.
- * @this {jQuery}
- */
-function fullScreen(state)
-{
-    var e, func, doc;
-    
-    // Do nothing when nothing was selected
-    if (!this.length) return this;
-    
-    // We only use the first selected element because it doesn't make sense
-    // to fullscreen multiple elements.
-    e = (/** @type {Element} */ this[0]);
-    
-    // Find the real element and the document (Depends on whether the
-    // document itself or a HTML element was selected)
-    if (e.ownerDocument)
-    {
-        doc = e.ownerDocument;
-    }
-    else
-    {
-        doc = e;
-        e = doc.documentElement;
-    }
-    
-    // When no state was specified then return the current state.
-    if (state == null)
-    {
-        // When fullscreen mode is not supported then return null
-        if (!((/** @type {?Function} */ doc["exitFullscreen"])
-            || (/** @type {?Function} */ doc["webkitExitFullscreen"])
-            || (/** @type {?Function} */ doc["webkitCancelFullScreen"])
-            || (/** @type {?Function} */ doc["msExitFullscreen"])
-            || (/** @type {?Function} */ doc["mozCancelFullScreen"])))
-        {
-            return null;
-        }
-        
-        // Check fullscreen state
-        state = !!doc["fullscreenElement"]
-            || !!doc["msFullscreenElement"]
-            || !!doc["webkitIsFullScreen"]
-            || !!doc["mozFullScreen"];
-        if (!state) return state;
-        
-        // Return current fullscreen element or "true" if browser doesn't
-        // support this
-        return (/** @type {?Element} */ doc["fullscreenElement"])
-            || (/** @type {?Element} */ doc["webkitFullscreenElement"])
-            || (/** @type {?Element} */ doc["webkitCurrentFullScreenElement"])
-            || (/** @type {?Element} */ doc["msFullscreenElement"])
-            || (/** @type {?Element} */ doc["mozFullScreenElement"])
-            || state;
-    }
-    
-    // When state was specified then enter or exit fullscreen mode.
-    if (state)
-    {
-        // Enter fullscreen
-        func = (/** @type {?Function} */ e["requestFullscreen"])
-            || (/** @type {?Function} */ e["webkitRequestFullscreen"])
-            || (/** @type {?Function} */ e["webkitRequestFullScreen"])
-            || (/** @type {?Function} */ e["msRequestFullscreen"])
-            || (/** @type {?Function} */ e["mozRequestFullScreen"]);
-        if (func) 
-        {
-            func.call(e);
-        }
-        return this;
-    }
-    else
-    {
-        // Exit fullscreen
-        func = (/** @type {?Function} */ doc["exitFullscreen"])
-            || (/** @type {?Function} */ doc["webkitExitFullscreen"])
-            || (/** @type {?Function} */ doc["webkitCancelFullScreen"])
-            || (/** @type {?Function} */ doc["msExitFullscreen"])
-            || (/** @type {?Function} */ doc["mozCancelFullScreen"]);
-        if (func) func.call(doc);
-        return this;
-    }
-}
-
-/**
- * Toggles the fullscreen mode.
- * 
- * @return {!jQuery}
- *            The jQuery selection for chaining.
- * @this {jQuery}
- */
-function toggleFullScreen()
-{
-    return (/** @type {!jQuery} */ fullScreen.call(this, 
-        !fullScreen.call(this)));
-}
-
-/**
- * Handles the browser-specific fullscreenchange event and triggers
- * a jquery event for it.
+/*
+ * jquery.fullscreen v0.6.0
+ * https://github.com/private-face/jquery.fullscreen
  *
- * @param {?Event} event
- *            The fullscreenchange event.
- */
-function fullScreenChangeHandler(event)
-{
-    jQuery(document).trigger(new jQuery.Event("fullscreenchange"));
-}
-
-/**
- * Handles the browser-specific fullscreenerror event and triggers
- * a jquery event for it.
+ * Copyright (c) 2012–2016 Vladimir Zhuravlev
+ * Released under the MIT license
+ * https://github.com/private-face/jquery.fullscreen/blob/master/LICENSE
  *
- * @param {?Event} event
- *            The fullscreenerror event.
- */
-function fullScreenErrorHandler(event)
-{
-    jQuery(document).trigger(new jQuery.Event("fullscreenerror"));
+ * Date: 2016-08-25
+ **/
+(function(global, factory) {
+	if (typeof define === 'function' && define.amd) {
+		// AMD
+		define(['jquery'], function (jQuery) {
+			return factory(jQuery);
+		});
+	} else if (typeof exports === 'object') {
+		// CommonJS/Browserify
+		factory(require('jquery'));
+	} else {
+		// Global
+		factory(global.jQuery);
+	}
+}(this, function($) {
+function defined(a) {
+    return typeof a !== "undefined";
 }
 
-/**
- * Installs the fullscreenchange event handler.
- */
-function installFullScreenHandlers()
-{
-    var e, change, error;
-    
-    // Determine event name
-    e = document;
-    if (e["webkitCancelFullScreen"])
-    {
-        change = "webkitfullscreenchange";
-        error = "webkitfullscreenerror";
+function extend(child, parent, prototype) {
+    var F = function() {};
+    F.prototype = parent.prototype;
+    child.prototype = new F();
+    child.prototype.constructor = child;
+    parent.prototype.constructor = parent;
+    child._super = parent.prototype;
+    if (prototype) {
+        $.extend(child.prototype, prototype);
     }
-    else if (e["msExitFullscreen"])
-    {
-        change = "MSFullscreenChange";
-        error = "MSFullscreenError";
-    }
-    else if (e["mozCancelFullScreen"])
-    {
-        change = "mozfullscreenchange";
-        error = "mozfullscreenerror";
-    }
-    else 
-    {
-        change = "fullscreenchange";
-        error = "fullscreenerror";
-    }
-
-    // Install the event handlers
-    jQuery(document).bind(change, fullScreenChangeHandler);
-    jQuery(document).bind(error, fullScreenErrorHandler);
 }
 
-jQuery.fn["fullScreen"] = fullScreen;
-jQuery.fn["toggleFullScreen"] = toggleFullScreen;
-installFullScreenHandlers();
+var SUBST = [ [ "", "" ], [ "exit", "cancel" ], [ "screen", "Screen" ] ];
 
-})(jQuery);
+var VENDOR_PREFIXES = [ "", "o", "ms", "moz", "webkit", "webkitCurrent" ];
+
+function native(obj, name) {
+    var prefixed;
+    if (typeof obj === "string") {
+        name = obj;
+        obj = document;
+    }
+    for (var i = 0; i < SUBST.length; ++i) {
+        name = name.replace(SUBST[i][0], SUBST[i][1]);
+        for (var j = 0; j < VENDOR_PREFIXES.length; ++j) {
+            prefixed = VENDOR_PREFIXES[j];
+            prefixed += j === 0 ? name : name.charAt(0).toUpperCase() + name.substr(1);
+            if (defined(obj[prefixed])) {
+                return obj[prefixed];
+            }
+        }
+    }
+    return void 0;
+}
+
+var ua = navigator.userAgent;
+
+var fsEnabled = native("fullscreenEnabled");
+
+var parsedChromeUA = ua.match(/Android.*Chrome\/(\d+)\./);
+
+var IS_ANDROID_CHROME = !!parsedChromeUA;
+
+var CHROME_VERSION;
+
+var ANDROID_CHROME_VERSION;
+
+if (IS_ANDROID_CHROME) {
+    ANDROID_CHROME_VERSION = parseInt(parsedChromeUA[1]);
+}
+
+var IS_NATIVELY_SUPPORTED = (!IS_ANDROID_CHROME || ANDROID_CHROME_VERSION > 37) && defined(native("fullscreenElement")) && (!defined(fsEnabled) || fsEnabled === true);
+
+var version = $.fn.jquery.split(".");
+
+var JQ_LT_17 = parseInt(version[0]) < 2 && parseInt(version[1]) < 7;
+
+var FullScreenAbstract = function() {
+    this.__options = null;
+    this._fullScreenElement = null;
+    this.__savedStyles = {};
+};
+
+FullScreenAbstract.prototype = {
+    native: native,
+    _DEFAULT_OPTIONS: {
+        styles: {
+            boxSizing: "border-box",
+            MozBoxSizing: "border-box",
+            WebkitBoxSizing: "border-box"
+        },
+        toggleClass: null
+    },
+    __documentOverflow: "",
+    __htmlOverflow: "",
+    _preventDocumentScroll: function() {
+        this.__documentOverflow = document.body.style.overflow;
+        this.__htmlOverflow = document.documentElement.style.overflow;
+        if (!$(this._fullScreenElement).is("body, html")) {
+            $("body, html").css("overflow", "hidden");
+        }
+    },
+    _allowDocumentScroll: function() {
+        document.body.style.overflow = this.__documentOverflow;
+        document.documentElement.style.overflow = this.__htmlOverflow;
+    },
+    _fullScreenChange: function() {
+        if (!this.__options) {
+            return;
+        }
+        if (!this.isFullScreen()) {
+            this._allowDocumentScroll();
+            this._revertStyles();
+            this._triggerEvents();
+            this._fullScreenElement = null;
+        } else {
+            this._preventDocumentScroll();
+            this._triggerEvents();
+        }
+    },
+    _fullScreenError: function(e) {
+        if (!this.__options) {
+            return;
+        }
+        this._revertStyles();
+        this._fullScreenElement = null;
+        if (e) {
+            $(document).trigger("fscreenerror", [ e ]);
+        }
+    },
+    _triggerEvents: function() {
+        $(this._fullScreenElement).trigger(this.isFullScreen() ? "fscreenopen" : "fscreenclose");
+        $(document).trigger("fscreenchange", [ this.isFullScreen(), this._fullScreenElement ]);
+    },
+    _saveAndApplyStyles: function() {
+        var $elem = $(this._fullScreenElement);
+        this.__savedStyles = {};
+        for (var property in this.__options.styles) {
+            this.__savedStyles[property] = this._fullScreenElement.style[property];
+            this._fullScreenElement.style[property] = this.__options.styles[property];
+        }
+        if ($elem.is("body")) {
+            document.documentElement.style.overflow = this.__options.styles.overflow;
+        }
+        if (this.__options.toggleClass) {
+            $elem.addClass(this.__options.toggleClass);
+        }
+    },
+    _revertStyles: function() {
+        var $elem = $(this._fullScreenElement);
+        for (var property in this.__options.styles) {
+            this._fullScreenElement.style[property] = this.__savedStyles[property];
+        }
+        if ($elem.is("body")) {
+            document.documentElement.style.overflow = this.__savedStyles.overflow;
+        }
+        if (this.__options.toggleClass) {
+            $elem.removeClass(this.__options.toggleClass);
+        }
+    },
+    open: function(elem, options) {
+        if (elem === this._fullScreenElement) {
+            return;
+        }
+        if (this.isFullScreen()) {
+            this.exit();
+        }
+        this._fullScreenElement = elem;
+        this.__options = $.extend(true, {}, this._DEFAULT_OPTIONS, options);
+        this._saveAndApplyStyles();
+    },
+    exit: null,
+    isFullScreen: null,
+    isNativelySupported: function() {
+        return IS_NATIVELY_SUPPORTED;
+    }
+};
+
+var FullScreenNative = function() {
+    FullScreenNative._super.constructor.apply(this, arguments);
+    this.exit = $.proxy(native("exitFullscreen"), document);
+    this._DEFAULT_OPTIONS = $.extend(true, {}, this._DEFAULT_OPTIONS, {
+        styles: {
+            width: "100%",
+            height: "100%"
+        }
+    });
+    $(document).bind(this._prefixedString("fullscreenchange") + " MSFullscreenChange", $.proxy(this._fullScreenChange, this)).bind(this._prefixedString("fullscreenerror") + " MSFullscreenError", $.proxy(this._fullScreenError, this));
+};
+
+extend(FullScreenNative, FullScreenAbstract, {
+    VENDOR_PREFIXES: [ "", "o", "moz", "webkit" ],
+    _prefixedString: function(str) {
+        return $.map(this.VENDOR_PREFIXES, function(s) {
+            return s + str;
+        }).join(" ");
+    },
+    open: function(elem, options) {
+        FullScreenNative._super.open.apply(this, arguments);
+        var requestFS = native(elem, "requestFullscreen");
+        requestFS.call(elem);
+    },
+    exit: $.noop,
+    isFullScreen: function() {
+        return native("fullscreenElement") !== null;
+    },
+    element: function() {
+        return native("fullscreenElement");
+    }
+});
+
+var FullScreenFallback = function() {
+    FullScreenFallback._super.constructor.apply(this, arguments);
+    this._DEFAULT_OPTIONS = $.extend({}, this._DEFAULT_OPTIONS, {
+        styles: {
+            position: "fixed",
+            zIndex: "2147483647",
+            left: 0,
+            top: 0,
+            bottom: 0,
+            right: 0
+        }
+    });
+    this.__delegateKeydownHandler();
+};
+
+extend(FullScreenFallback, FullScreenAbstract, {
+    __isFullScreen: false,
+    __delegateKeydownHandler: function() {
+        var $doc = $(document);
+        $doc.delegate("*", "keydown.fullscreen", $.proxy(this.__keydownHandler, this));
+        var data = JQ_LT_17 ? $doc.data("events") : $._data(document).events;
+        var events = data["keydown"];
+        if (!JQ_LT_17) {
+            events.splice(0, 0, events.splice(events.delegateCount - 1, 1)[0]);
+        } else {
+            data.live.unshift(data.live.pop());
+        }
+    },
+    __keydownHandler: function(e) {
+        if (this.isFullScreen() && e.which === 27) {
+            this.exit();
+            return false;
+        }
+        return true;
+    },
+    _revertStyles: function() {
+        FullScreenFallback._super._revertStyles.apply(this, arguments);
+        this._fullScreenElement.offsetHeight;
+    },
+    open: function(elem) {
+        FullScreenFallback._super.open.apply(this, arguments);
+        this.__isFullScreen = true;
+        this._fullScreenChange();
+    },
+    exit: function() {
+        if (!this.__isFullScreen) {
+            return;
+        }
+        this.__isFullScreen = false;
+        this._fullScreenChange();
+    },
+    isFullScreen: function() {
+        return this.__isFullScreen;
+    },
+    element: function() {
+        return this.__isFullScreen ? this._fullScreenElement : null;
+    }
+});
+
+$.fullscreen = IS_NATIVELY_SUPPORTED ? new FullScreenNative() : new FullScreenFallback();
+
+$.fn.fullscreen = function(options) {
+    var elem = this[0];
+    options = $.extend({
+        toggleClass: null,
+        overflow: "hidden"
+    }, options);
+    options.styles = {
+        overflow: options.overflow
+    };
+    delete options.overflow;
+    if (elem) {
+        $.fullscreen.open(elem, options);
+    }
+    return this;
+};return $.fullscreen;
+}));
