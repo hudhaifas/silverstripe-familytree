@@ -41,6 +41,7 @@ var showPerson = function (url) {
 
         $('#tree-loader').hide();
 
+        initFilters();
         releaseLinks();
     });
 };
@@ -212,7 +213,7 @@ var registerLinks = function () {
 //    $('a.info-item').on('mousedown touchstart', function (e) {
 //        e.stopImmediatePropagation();
 //    });
-    
+
     $("a.info-item").click(function (event) {
         event.preventDefault();
 
@@ -235,7 +236,7 @@ var registerLinks = function () {
 
         hideInfoCard();
     });
-    
+
     $('.info-card').click(function (event) {
         event.stopPropagation();
     });
