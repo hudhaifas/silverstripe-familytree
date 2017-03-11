@@ -248,9 +248,11 @@
                 strechScreen($container, $.fullscreen.isFullScreen());
                 // if we currently in fullscreen mode
                 if ($.fullscreen.isFullScreen()) {
+                    $('.no-fullscreen').hide();
                     $fullscreenBtn.hide();
                     $exitBtn.show();
                 } else {
+                    $('.no-fullscreen').show();
                     $fullscreenBtn.show();
                     $exitBtn.hide();
                 }
@@ -286,7 +288,7 @@
 
         if (opts.exportImage) {
             var $saveBtn = $('<a href="#" id="save-tree" class="hidden" download="' + opts.exportFile + '"></a>');
-            var $exportBtn = createButton('export hidden-phone hidden-tablet', function () {
+            var $exportBtn = createButton('export no-fullscreen hidden-phone hidden-tablet', function () {
                 event.preventDefault();
 
                 exportTree($container, $contentPane, $chartPane, $saveBtn);
@@ -333,14 +335,12 @@
             $container.css('max-width', '100%');
             $container.css('height', '100%');
             $container.css('max-height', '100%');
-            $container.find('.export').hide();
 
         } else {
             $container.css('width', '');
             $container.css('max-width', '');
             $container.css('height', '');
             $container.css('max-height', '');
-            $container.find('.export').show();
         }
     }
 

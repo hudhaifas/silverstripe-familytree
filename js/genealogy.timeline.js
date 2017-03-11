@@ -4,13 +4,14 @@
 
 var initTimeline = function () {
     if (!$("#timeline-input").length) {
+        $('.no-timeline').hide();
         return;
     }
 
     var ticks = initTimelineTicks();
 
     if (ticks == null) {
-        $('#timeline-btn').hide();
+        $('.no-timeline').hide();
         return;
     }
 
@@ -29,7 +30,7 @@ var initTimeline = function () {
         $extraPane.toggle();
 
         $well = $('#timeline-nav');
-        
+
         $well.toggle();
         $(this).parent().toggleClass('pressed');
 

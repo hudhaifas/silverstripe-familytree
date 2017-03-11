@@ -375,6 +375,25 @@ a[disabled] {
 .chart-container .node.timeline-node:after {
   display: none;
 }
+.ui-autocomplete {
+  max-width: 240px;
+  max-height: 360px;
+  overflow-y: auto;
+}
+.ui-autocomplete li {
+  color: black;
+}
+.ui-autocomplete li:nth-child(odd) {
+  background: #fefefe;
+}
+.ui-autocomplete li:nth-child(even) {
+  background: #efefef;
+}
+.ui-autocomplete li.ui-menu-item a {
+  margin: -1px;
+  border: 1px solid transparent;
+  font-weight: normal;
+}
 @media only screen and (max-width: 760px) {
   .fullscreen-div {
     position: fixed;

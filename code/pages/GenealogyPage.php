@@ -129,6 +129,7 @@ class GenealogyPage_Controller
 //        Requirements::css("https://cdnjs.cloudflare.com/ajax/libs/bootstrap-slider/9.7.2/css/bootstrap-slider.css");
         Requirements::css("genealogist/css/bootstrap-slider.css");
         Requirements::css("genealogist/css/genealogy.css");
+        Requirements::css("genealogist/css/genealogy.controls.css");
 
         Requirements::javascript("genealogist/js/jquery.jOrgChart.js");
         Requirements::javascript("genealogist/js/jquery.dragscroll.js");
@@ -138,7 +139,8 @@ class GenealogyPage_Controller
         Requirements::javascript("genealogist/js/html2canvas.js");
 //        Requirements::javascript("https://cdnjs.cloudflare.com/ajax/libs/bootstrap-slider/9.7.2/bootstrap-slider.js");
         Requirements::javascript("genealogist/js/bootstrap-slider.js");
-        Requirements::javascript("genealogist/js/genealogy-timeline.js");
+        Requirements::javascript("genealogist/js/genealogy.timeline.js");
+        Requirements::javascript("genealogist/js/genealogy.controls.js");
         Requirements::javascript("genealogist/js/genealogy.js");
     }
 
@@ -330,23 +332,27 @@ HTML;
         $link = $this->AbsoluteLink();
         $fields = new FieldList(
                 AutoPersonField::create(
-                        'Person1', //
-                        _t('Genealogist.FIRST_PERSON', 'First Person'), //
-                        '', //
-                        null, //
-                        null, //
-                        $source, //
-                        array('IndexedName', 'Name', 'NickName') //
-                )->setSourceSort('CHAR_LENGTH(IndexedName) ASC'), //
+                                'Person1', //
+                                _t('Genealogist.FIRST_PERSON', 'First Person'), //
+                                '', //
+                                null, //
+                                null, //
+                                $source, //
+                                array('IndexedName', 'Name', 'NickName') //
+                        )
+                        ->setSourceSort('CHAR_LENGTH(IndexedName) ASC')
+                        ->setLimit(20), //
                 AutoPersonField::create(
-                        'Person2', //
-                        _t('Genealogist.SECOND_PERSON', 'Second Person'), //
-                        '', //
-                        null, //
-                        null, //
-                        $source, //
-                        array('IndexedName', 'Name', 'NickName') //
-                )->setSourceSort('CHAR_LENGTH(IndexedName) ASC')
+                                'Person2', //
+                                _t('Genealogist.SECOND_PERSON', 'Second Person'), //
+                                '', //
+                                null, //
+                                null, //
+                                $source, //
+                                array('IndexedName', 'Name', 'NickName') //
+                        )
+                        ->setSourceSort('CHAR_LENGTH(IndexedName) ASC')
+                        ->setLimit(20)
         );
 
         // Create action
