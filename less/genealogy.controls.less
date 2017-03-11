@@ -1,11 +1,13 @@
 @import "mixins/transform.less";
 
 @border-radius: 4px;
+@btn-dim: 31px;
+@font-size: 14px;
 
 .chart-container {
     .chart-controls {
         position: absolute;
-        width: 31px;
+        width: @btn-dim;
         top: 10px;
         right: 10px;
         opacity: 0.7;
@@ -23,15 +25,14 @@
             background-position: center;
             opacity: 0.7;
 
-            width: 31px;
-            height: 31px;
+            width: @btn-dim;
+            height: @btn-dim;
 
             border-radius: @border-radius;
 
             cursor: pointer;
             overflow: hidden;
             margin-bottom: 2px;
-            /*margin: 1px 1px;*/
             .transition(all 0.4s ease);
 
             &:hover {
@@ -73,7 +74,7 @@
 
     .chart-controls-bottom {
         position: absolute;
-        /*        width: 31px;*/
+        /*        width: @btn-dim;*/
         bottom: 10px;
         left: 10px;
         right: 10px;
@@ -89,7 +90,7 @@
 
     .chart-controls-hor {
         position: absolute;
-        /*        width: 31px;*/
+        /*        width: @btn-dim;*/
         top: 10px;
         right: 10px;
         opacity: 0.7;
@@ -102,7 +103,7 @@
 
         .navbar {
             margin: 0;
-            min-height: 31px;
+            min-height: @btn-dim;
         }
 
         .navbar-nav {
@@ -120,9 +121,8 @@
             background-position: center;
             /*opacity: 0.7;*/
 
-            /*width: 31px;*/
-            width: 31px;
-            height: 31px;
+            width: @btn-dim;
+            height: @btn-dim;
 
             text-align: center;
             cursor: pointer;
@@ -131,15 +131,19 @@
 
             border-radius: @border-radius;
 
-/*            &:first-child {
-                border-top-right-radius: @border-radius;
-                border-bottom-right-radius: @border-radius;
+            &.dropdown-label {
+                width: inherit; padding: 0 10px;    
             }
 
-            &:last-child {
-                border-top-left-radius: @border-radius;
-                border-bottom-left-radius: @border-radius;
-            }*/
+            /*            &:first-child {
+                            border-top-right-radius: @border-radius;
+                            border-bottom-right-radius: @border-radius;
+                        }
+            
+                        &:last-child {
+                            border-top-left-radius: @border-radius;
+                            border-bottom-left-radius: @border-radius;
+                        }*/
 
             &:hover, &:focus {
                 opacity: 1;
@@ -173,7 +177,7 @@
 
                 .filter-input {
                     width: 100%;
-                    font-size: 16px;
+                    font-size: @font-size;
                     padding: 4px 6px;
                     border: 1px solid #ddd;
                 }
@@ -196,7 +200,7 @@
                         text-decoration: none;
                         text-align: right;
 
-                        font-size: 14px;
+                        font-size: @font-size;
                         color: black;
                         display: block;
 
@@ -234,8 +238,8 @@
     .chart-extra {
         position: absolute;
         /*width: 72px;*/
-        height: 31px;
-        line-height: 31px;
+        height: @btn-dim;
+        line-height: @btn-dim;
         top: 10px;
         left: 10px;
         display: none;
@@ -260,6 +264,18 @@
 }
 
 @media (max-width: 767px) {
+
+    .chart-container {
+        .chart-controls-hor {
+            .navbar-nav > li {
+                &.dropdown-label {
+                    width: @btn-dim;; 
+                    padding: 0;    
+                }
+            }
+        }
+    }
+
     .navbar-nav .open .dropdown-menu {
         /*width: 260px;*/
         width: 100%;

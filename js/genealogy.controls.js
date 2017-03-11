@@ -15,6 +15,9 @@ function filterRoots() {
     }
 }
 
+/**
+ * http://stackoverflow.com/questions/25089297/twitter-bootstrap-avoid-dropdown-menu-close-on-click-inside
+ */
 function initKinshipDropdown() {
     $('#kinsip-btn').on('click', function (event) {
         event.preventDefault();

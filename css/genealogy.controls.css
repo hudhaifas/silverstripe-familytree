@@ -26,7 +26,6 @@
   cursor: pointer;
   overflow: hidden;
   margin-bottom: 2px;
-  /*margin: 1px 1px;*/
   -webkit-transition: all 0.4s ease;
   -moz-transition: all 0.4s ease;
   -ms-transition: all 0.4s ease;
@@ -61,7 +60,7 @@
 }
 .chart-container .chart-controls-bottom {
   position: absolute;
-  /*        width: 31px;*/
+  /*        width: @btn-dim;*/
   bottom: 10px;
   left: 10px;
   right: 10px;
@@ -79,7 +78,7 @@
 }
 .chart-container .chart-controls-hor {
   position: absolute;
-  /*        width: 31px;*/
+  /*        width: @btn-dim;*/
   top: 10px;
   right: 10px;
   opacity: 0.7;
@@ -111,7 +110,6 @@
   background-repeat: no-repeat;
   background-position: center;
   /*opacity: 0.7;*/
-  /*width: 31px;*/
   width: 31px;
   height: 31px;
   text-align: center;
@@ -124,14 +122,18 @@
   transition: all 0.4s ease;
   border-radius: 4px;
   /*            &:first-child {
-                border-top-right-radius: @border-radius;
-                border-bottom-right-radius: @border-radius;
-            }
-
-            &:last-child {
-                border-top-left-radius: @border-radius;
-                border-bottom-left-radius: @border-radius;
-            }*/
+                            border-top-right-radius: @border-radius;
+                            border-bottom-right-radius: @border-radius;
+                        }
+            
+                        &:last-child {
+                            border-top-left-radius: @border-radius;
+                            border-bottom-left-radius: @border-radius;
+                        }*/
+}
+.chart-container .chart-controls-hor .navbar-nav > li.dropdown-label {
+  width: inherit;
+  padding: 0 10px;
 }
 .chart-container .chart-controls-hor .navbar-nav > li:hover,
 .chart-container .chart-controls-hor .navbar-nav > li:focus {
@@ -161,7 +163,7 @@
 }
 .chart-container .chart-controls-hor .dropdown-menu .panel-heading .filter-input {
   width: 100%;
-  font-size: 16px;
+  font-size: 14px;
   padding: 4px 6px;
   border: 1px solid #ddd;
 }
@@ -233,6 +235,10 @@
   font-size: 26px;
 }
 @media (max-width: 767px) {
+  .chart-container .chart-controls-hor .navbar-nav > li.dropdown-label {
+    width: 31px;
+    padding: 0;
+  }
   .navbar-nav .open .dropdown-menu {
     /*width: 260px;*/
     width: 100%;
