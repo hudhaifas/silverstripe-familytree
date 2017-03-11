@@ -14,3 +14,11 @@ function filterRoots() {
         }
     }
 }
+
+function initKinshipDropdown() {
+    $('#kinsip-btn').on('click', function (event) {
+        event.preventDefault();
+        
+        $(this).parent().toggleClass('open');
+    });    
+}

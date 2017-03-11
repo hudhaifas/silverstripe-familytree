@@ -10,6 +10,8 @@ jQuery(document).ready(function () {
 //    updateTimePeriod(1980, 2017);
 //    updateTimePoint(1979);
 
+    initKinshipDropdown();
+    
     // Scroll to the tree div
     if ($('.tree-container').length) {
         $('html, body').animate({

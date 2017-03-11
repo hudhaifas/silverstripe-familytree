@@ -27,7 +27,7 @@
         </li>
         
         <li class="dropdown no-fullscreen">
-            <a class="dropdown-toggle" data-toggle="dropdown" href="#" title="<%t Genealogist.KINSHIP 'Kinship' %>">
+            <a id="kinsip-btn" class="dropdown-toggle" href="#" title="<%t Genealogist.KINSHIP 'Kinship' %>">
                 <i class="fa fa-retweet" aria-hidden="true"></i>
             </a>
 
