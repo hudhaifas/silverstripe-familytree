@@ -28,17 +28,14 @@ var initTimeline = function () {
         $extraPane = $('#chart-extra');
         $extraPane.toggle();
 
-        $well = $('#timeline-btn')
-                .parent()
-                .find(' >.well');
-
+        $well = $('#timeline-nav');
+        
         $well.toggle();
-
-        $slider = $well.find('input');
-
-        $slider.bootstrapSlider('relayout');
+        $(this).parent().toggleClass('pressed');
 
         if ($well.is(":visible")) {
+            $slider = $well.find('input');
+            $slider.bootstrapSlider('relayout');
             $slider.bootstrapSlider('setValue', ticks['start']);
 //            $slider.bootstrapSlider('relayout');
             updateTimePoint(ticks['start']);
@@ -106,7 +103,9 @@ var initTimelineTicks = function () {
 
     var tickPeriod = maxYear - minYear;
 
-    if ($(window).width() < 800) {
+    if ($(window).width() < 480) {
+        tickCount = 3;
+    } else if ($(window).width() < 760) {
         tickCount = 4;
     } else if ($(window).width() < 1200) {
         tickCount = 7;

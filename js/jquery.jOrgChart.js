@@ -31,6 +31,7 @@
 
         $this.remove();
         $contentPane.append($chartPane);
+
         $controls = createControls($container, $contentPane, $chartPane, opts);
         $container.append($controls);
 
@@ -282,24 +283,6 @@
             $zoomInBtn.appendTo($controls);
             $zoomOutBtn.appendTo($controls);
         }
-
-        var $filtersBtn = createButton('filters', function () {
-            event.preventDefault();
-        });
-        $filtersBtn.attr('id', 'filters-btn');
-        $filtersBtn.appendTo($controls);
-
-        var $kinshipBtn = createButton('kinship', function () {
-            event.preventDefault();
-        });
-        $kinshipBtn.attr('id', 'kinship-btn');
-        $kinshipBtn.appendTo($controls);
-
-        var $rootsBtn = createButton('roots', function () {
-            event.preventDefault();
-        });
-        $rootsBtn.attr('id', 'roots-btn');
-        $rootsBtn.appendTo($controls);
 
         if (opts.exportImage) {
             var $saveBtn = $('<a href="#" id="save-tree" class="hidden" download="' + opts.exportFile + '"></a>');

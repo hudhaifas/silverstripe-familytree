@@ -1,4 +1,4 @@
-<div class="hide">
+<div class="">
     <div id="filters-list">
         <div class="checkbox"><label><input type="checkbox" id="ancestral" class="options-check" value="0"><%t Genealogist.ANCESTRAL_TREE 'Ancestral Tree' %></label></div>
         <div class="checkbox"><label><input type="checkbox" id="m" class="options-check" value="0"><%t Genealogist.SHOW_MALES 'Show Males' %></label></div>

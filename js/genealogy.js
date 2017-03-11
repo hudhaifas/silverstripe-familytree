@@ -102,52 +102,22 @@ var initTree = function () {
         }
     };
 
-    initFiltersBtn();
-    initKinshipBtn();
-    initRootsBtn();
+    initTreeNav();
+    initTimelineNav();
 };
 
-var initRootsBtn = function () {
-    var $rootsBtn = $('#roots-btn');
-    var $rootsList = $('#roots-list');
-
-    $rootsBtn.popover({
-        trigger: "click",
-        placement: "left",
-        html: true,
-        container: '.chart-content-pane',
-        content: $rootsList
-    });
+var initTreeNav = function () {
+    $controls = $('<div class="chart-controls-hor"></div>');
+    $treeMenu = $('#menu-nav');
+    $controls.append($treeMenu);
+    $('#k1').append($controls);
 };
 
-var initKinshipBtn = function () {
-    var $kinshipBtn = $('#kinship-btn');
-    var $kinshipForm = $('#kinship-form');
-
-    $kinshipBtn.popover({
-        trigger: "click",
-        placement: "left",
-        html: true,
-        container: '.chart-content-pane',
-        content: $kinshipForm
-    });
-};
-
-var initFiltersBtn = function () {
-    var $filtersBtn = $('#filters-btn');
-    var $filtersList = $('#filters-list');
-
-    $filtersBtn.popover({
-        trigger: "click",
-        placement: "left",
-        html: true,
-        container: '.chart-content-pane',
-        content: $filtersList
-    });
-
-    $filtersBtn.on('shown.bs.popover', function () {
-        initFilters();
-    });
+var initTimelineNav = function () {
+    $controls = $('<div class="chart-controls-bottom"></div>');
+    $treeMenu = $('#timeline-nav');
+    $controls.append($treeMenu);
+    $('#k1').append($controls);
 };
 
 var initFilters = function () {
