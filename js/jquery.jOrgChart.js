@@ -345,7 +345,7 @@
     }
 
     function exportTree($container, $contentPane, $chartPane, $saveBtn) {
-        $container.fullScreen(false);
+        $.fullscreen.exit();
 
         $html = $('html');
         dir = $html.attr('dir');
