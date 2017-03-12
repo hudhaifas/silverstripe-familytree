@@ -39,6 +39,8 @@ ar:
     
     DATES: 'التواريخ'
     BIRTHDATE: 'تاريخ الولادة'
+    ESTIMATED: '(تقريبا)'
+    CALCULATIONS: '(حسابيا)'
     BIRTHDATE_ESTIMATED: 'تاريخ الولادة تقريبي'
     ESTIMATED_BIRTHDATE: 'تاريخ الولادة (تقريبا)'
     CALCULATIONS_BIRTHDATE: 'تاريخ الولادة (حسابيا)'

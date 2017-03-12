@@ -9,79 +9,99 @@
 </div>
 
 <div>
-    <p>$AliasName</p>
-    <% if hasPermission %>
-        <% if BirthDate %><%t Genealogist.BIRTHDATE 'Birth Date' %>: $BirthDate<br /><% end_if %>
-        <% if DeathDate %><%t Genealogist.DEATHDATE 'Death Date' %>: $DeathDate<br /><% end_if %>
-        <% if Age %><%t Genealogist.AGE 'Age' %>: $Age<br /><% end_if %>
-    <% end_if %>
+    <p>
+        $AliasName
+        <% if Note %><%t Genealogist.NOTE 'Note' %>: $Note<br /><% end_if %>
+    </p>
 
-    <% if $Father %>
-        <p>
-            <b><%t Genealogist.FATHER 'Father' %></b>: $Father.FullName
-        </p>
-    <% end_if %>
-
-    <% if hasPermission && Mother %>
-        <p>
-            <b><%t Genealogist.MOTHER 'Mother' %></b>: $Mother.FullName
-        </p>
-    <% end_if %>
-
-    <% if Husbands %>
-        <p>
-            <b><%t Genealogist.HUSBANDS 'Husbands' %></b>: $Husbands.Count<br />
-
-            <ul>
-                <% loop Husbands.Sort(HusbandOrder) %>
-                    <li>$FullName</li>
-                <% end_loop %>
-            </ul>
-        </p>
-
-    <% else_if hasPermission && Wives %>
-        <p>
-            <b><%t Genealogist.WIVES 'Wives' %></b> ($Wives.Count): <br />
-
-            <ul>
-                <% loop Wives.Sort(WifeOrder) %>
-                <li>$FullName</li>
-                <% end_loop %>
-            </ul>
-        </p>
-    <% end_if %>
-
-    <% if Children %>
-        <hr />
-
-        <b><%t Genealogist.OFFSPRING 'Offspring' %></b><br />
-        <%t Genealogist.SONS 'Sons' %>: $SonsCount<br />
-
-        <% if $hasPermission %>
-            <%t Genealogist.DAUGHTERS 'Daughters' %>: $DaughtersCount<br />
+    <p>
+        <% if BirthDate && BirthDateEstimated %>
+            $BirthYear <%t Genealogist.ESTIMATED '(Estimated)' %>
+        <% else_if BirthDate %>
+            $BirthDate
+        <% else_if CalculatedBirthYear %>
+            $CalculatedBirthYear <%t Genealogist.CALCULATIONS '(Calculations)' %>
         <% end_if %>
 
-        <%t Genealogist.MALES 'Males' %>: $MalesCount<br />
-
-        <% if $hasPermission %>
-            <%t Genealogist.FEMALES 'Females' %>: $FemalesCount<br />
-            <%t Genealogist.TOTAL 'Total' %>: $OffspringCount<br />
+        <% if BirthDate || CalculatedBirthYear %>
+            <% if DeathDate || CalculatedDeathYear %> - <% end_if %>
         <% end_if %>
 
-        <hr />
+        <% if DeathDate && DeathDateEstimated %>
+            $DeathYear <%t Genealogist.ESTIMATED '(Estimated)' %>
+        <% else_if DeathDate %>
+            $DeathDate
+        <% else_if CalculatedDeathYear %>
+            $CalculatedDeathYear <%t Genealogist.CALCULATIONS '(Calculations)' %>
+        <% end_if %>
+    </p>
 
-        <b><%t Genealogist.ALIVE 'Alive' %></b><br />
-        <%t Genealogist.SONS 'Sons' %>: {$SonsCount(1)}<br />
-
-        <% if $hasPermission %>
-            <%t Genealogist.DAUGHTERS 'Daughters' %>: $DaughtersCount(1)<br />
+    <p>
+        <% if $Father %>
+           <b><%t Genealogist.FATHER 'Father' %></b>: <a href="#" data-url="{$Father.InfoLink()}" class="info-item">$Father.FullName</a><br />
         <% end_if %>
 
-        <%t Genealogist.MALES 'Males' %>: $MalesCount(1)<br />
-        <% if $hasPermission %>
-            <%t Genealogist.FEMALES 'Females' %>: $FemalesCount(1)<br />
-            <%t Genealogist.TOTAL 'Total' %>: $OffspringCount(1)<br />
+        <% if hasPermission && Mother %>
+           <b><%t Genealogist.MOTHER 'Mother' %></b>: <a href="#" data-url="{$Mother.InfoLink()}" class="info-item">$Mother.FullName</a>
         <% end_if %>
-    <% end_if %>
+     </p>
+
+     <p>
+     <% if Husbands %>
+         <b><%t Genealogist.HUSBANDS 'Husbands' %>: </b>
+         <% loop Husbands.Sort(HusbandOrder) %>
+            <a href="#" data-url="{$InfoLink}" class="info-item" title="$FullName">$AliasName</a><% if not Last %><%t Genealogist.COMMA ',' %><% end_if %>
+         <% end_loop %>
+
+     <% else_if hasPermission && Wives %>
+        <b><%t Genealogist.WIVES 'Wives' %>: </b>
+         <% loop Wives.Sort(WifeOrder) %>
+            <a href="#" data-url="{$InfoLink}" class="info-item" title="$FullName">$AliasName</a><% if not Last %><%t Genealogist.COMMA ',' %><% end_if %>
+         <% end_loop %>
+     <% end_if %>
+    </p>
+
+    <p>
+        <% if Children %>
+            <table class="table">
+                <tr>
+                    <th></th>
+                    <th><%t Genealogist.SONS 'Sons' %></th>
+                    <% if hasPermission %>
+                        <th><%t Genealogist.DAUGHTERS 'Daughters' %></th>
+                    <% end_if %>
+                    <th><%t Genealogist.MALES 'Males' %></th>
+                    <% if hasPermission %>
+                        <th><%t Genealogist.FEMALES 'Females' %></th>
+                        <th><%t Genealogist.TOTAL 'Total' %></th>
+                    <% end_if %>
+                </tr>
+                <tr>
+                    <td><%t Genealogist.DESCENDANTS 'Descendants' %></td>
+                    <td>$SonsCount</td>
+                    <% if hasPermission %>
+                        <td>$DaughtersCount</td>
+                    <% end_if %>
+                    <td>$MalesCount</td>
+                    <% if hasPermission %>
+                        <td>$FemalesCount</td>
+                        <td>$DescendantsCount</td>
+                    <% end_if %>
+                </tr>
+                <tr>
+                    <td><%t Genealogist.ALIVE 'Alive' %></td>
+                    <td>$SonsCount(1)</td>
+                    <% if hasPermission %>
+                        <td>$DaughtersCount(1)</td>
+                    <% end_if %>
+                    <td>$MalesCount(1)</td>
+                    <% if hasPermission %>
+                        <td>$FemalesCount(1)</td>
+                        <td>$DescendantsCount(1)</td>
+                    <% end_if %>
+                </tr>
+            </table>
+        <% end_if %>
+     </p>
 </div>
 

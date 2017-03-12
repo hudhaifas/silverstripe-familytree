@@ -200,16 +200,14 @@ var registerLinks = function () {
         url = $(this).attr('data-url');
         updateInfo(url, $element);
 
-        if ($(window).width() > 760) {
-            var rect = $(this).parent().get(0).getBoundingClientRect();
-            var rect = $(this).parent().position();
-//            var rect = $(this).parent().offsett();
-            console.log('top: ' + rect.top);
-            console.log('left: ' + rect.left);
-            console.log('right: ' + rect.right);
-            console.log('bottom: ' + rect.bottom);
+        $parent = $(this).parent();
 
-            $element.css({top: rect.top, left: rect.left + 2});
+        if ($(window).width() > 760 && $parent.hasClass('node')) {
+            var rect = $parent.position();
+            $element.css({
+                top: rect.top,
+                left: rect.left + 2
+            });
         }
 
         $element.addClass('show');

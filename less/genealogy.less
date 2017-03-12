@@ -28,8 +28,8 @@
 
 @card-bg: #fff;
 @card-fg: #111;
-@card-w: 400px;
-@card-h: 200px;
+@card-w: 420px;
+@card-h: 260px;
 
 .conatiner-fluid {
     & > div {
@@ -417,6 +417,16 @@ a.disabled, a[disabled] {
             left: @screen-card-padding;
             width: calc(~"100vw - " (@screen-card-padding * 2));
             height: calc(~"100vh - " (@screen-card-padding * 2));
+        }
+
+        .table {
+            > thead, > tbody, > tfoot {
+                > tr {
+                    > th, > td {
+                        padding: 8px 1px;
+                    }
+                } 
+            }
         }
     }
 

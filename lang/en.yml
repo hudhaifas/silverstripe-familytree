@@ -39,6 +39,8 @@ en:
     
     DATES: 'Dates'
     BIRTHDATE: 'Birth Date'
+    ESTIMATED: '(Estimated)'
+    CALCULATIONS: '(Calculations)'
     BIRTHDATE_ESTIMATED: 'Birth Date Estimated'
     ESTIMATED_BIRTHDATE: 'Birth Date (Estimated)'
     CALCULATIONS_BIRTHDATE: 'Birth Date (Calculations)'
