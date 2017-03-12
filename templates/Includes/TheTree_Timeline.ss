@@ -1,4 +1,4 @@
-<div id="timeline-nav" class="timeline-nav well well-sm" style="display: none;">
+<div id="timeline-nav" class="timeline-nav well well-sm">
     <div class="play-bar">
         <input
             id="timeline-input" 

@@ -38,6 +38,8 @@
         $extraPane = $('<div id="chart-extra" class="chart-extra"></div>');
         $container.append($extraPane);
 
+        $container.append('<div id="info-card" class="info-card"></div>');
+        
         if (opts.zoom && opts.zoomScroller) {
             setupZoom($container, $chartPane, opts);
         }
@@ -102,7 +104,8 @@
         $nodeDiv = $("<div>").addClass("node")
                 .data("tree-node", nodeCount)
                 .append($nodeContent)
-                .append('<div class="info-card"></div>');
+//                .append('<div class="info-card"></div>')
+                ;
 
         // Expand and contract nodes
         if ($childNodes.length > 0) {

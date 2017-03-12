@@ -29,7 +29,7 @@ var initTimeline = function () {
         $extraPane = $('#chart-extra');
         $extraPane.toggle();
 
-        $well = $('#timeline-nav');
+        $well = $('#timeline-nav').parent();
 
         $well.toggle();
         $(this).parent().toggleClass('pressed');

@@ -11,7 +11,7 @@ jQuery(document).ready(function () {
 //    updateTimePoint(1979);
 
     initKinshipDropdown();
-    
+
     // Scroll to the tree div
     if ($('.tree-container').length) {
         $('html, body').animate({
@@ -81,7 +81,7 @@ var initTree = function () {
         $(this).jOrgChart({
             chartElement: '#' + kinship,
             multipleRoot: multiple, // Support multiple roots tree
-//            dragScroller: false,
+            dragScroller: false,
 //            zoom: false
 //            depth: 3
 //            direction: dir
@@ -176,6 +176,7 @@ var unregisterLinks = function () {
 var hideInfoCard = function () {
     $('.info-card').html('');
     $('.info-card').removeClass('show');
+//    $('.info-card').hide();
 
 };
 
@@ -194,11 +195,24 @@ var registerLinks = function () {
         }
 
         hideInfoCard();
-        $element = $(this).next('.info-card');
-        $element.addClass('show');
+        $element = $('#info-card');
 
         url = $(this).attr('data-url');
         updateInfo(url, $element);
+
+        if ($(window).width() > 760) {
+            var rect = $(this).parent().get(0).getBoundingClientRect();
+            var rect = $(this).parent().position();
+//            var rect = $(this).parent().offsett();
+            console.log('top: ' + rect.top);
+            console.log('left: ' + rect.left);
+            console.log('right: ' + rect.right);
+            console.log('bottom: ' + rect.bottom);
+
+            $element.css({top: rect.top, left: rect.left + 2});
+        }
+
+        $element.addClass('show');
     });
 
     $(window).click(function () {

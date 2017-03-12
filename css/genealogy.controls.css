@@ -60,6 +60,7 @@
 }
 .chart-container .chart-controls-bottom {
   position: absolute;
+  display: none;
   /*        width: @btn-dim;*/
   bottom: 10px;
   left: 10px;
@@ -238,6 +239,10 @@
   .chart-container .chart-controls-hor .navbar-nav > li.dropdown-label {
     width: 31px;
     padding: 0;
+  }
+  .chart-container .chart-extra span {
+    padding: 6px 10px;
+    font-size: 20px;
   }
   .navbar-nav .open .dropdown-menu {
     /*width: 260px;*/

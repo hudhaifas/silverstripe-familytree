@@ -26,6 +26,11 @@
 @color-bg-clan: #dff0d8;
 @color-fg-clan: #3c763d;
 
+@card-bg: #fff;
+@card-fg: #111;
+@card-w: 400px;
+@card-h: 200px;
+
 .conatiner-fluid {
     & > div {
         padding: 5px;
@@ -107,12 +112,6 @@
         border-color: @color-tree-branches;
         border-radius: .25rem;
         box-shadow: inset 0 1px 1px rgba(0,0,0,.075);
-
-        .info-card {
-            width: @node-w;
-            height: @node-h;
-            z-index: -1;
-        }
 
         &, a {
             font-size: @node-font-size;
@@ -204,20 +203,42 @@ a.disabled, a[disabled] {
     }
 }
 
-@media (min-width: 979px) {
-    .tree-container {
-        height: @container-h;
-        max-height: @container-h;
+.info-card {
+    background: @card-bg;
+    color: @card-fg;
+    /*text-align: left;*/
+
+    visibility: hidden;
+    position: absolute;
+    width: @node-w;
+    height: @node-h;
+    border: 0;
+    padding: 0;
+    cursor: auto;
+    /*text-align: right;*/
+
+    border: 1px solid transparent;
+    border-color: @color-tree-branches;
+    border-radius: .25rem;
+    box-shadow: inset 0 1px 1px rgba(0,0,0,.075);
+
+    -webkit-transition: all 0.4s ease, top 1ms, left 1ms;  
+    -moz-transition:    all 0.4s ease, top 1ms, left 1ms;
+    -ms-transition:     all 0.4s ease, top 1ms, left 1ms; 
+    -o-transition:      all 0.4s ease, top 1ms, left 1ms;  
+    transition:         all 0.4s ease, top 1ms, left 1ms;  
+
+    &.show {
+        visibility: visible;
+
+        width: @card-w;
+        height: @card-h;
+
+        padding: 4px 15px;
+
+        z-index: 999;
     }
 }
-
-@media (max-width: 979px) {
-    .timeline-control {
-        margin-bottom: 20px;
-    }
-}
-
-@import "responsive-utilities.less";
 
 .chart-pane.l2r {
     .flipX();
@@ -265,10 +286,6 @@ a.disabled, a[disabled] {
     }
 }
 
-/*#timeline-slider {
-    width: 100%;
-}*/
-
 .slider {
     width: 100% !important;
     .user-select();
@@ -291,9 +308,6 @@ a.disabled, a[disabled] {
         &.timeline-node {
             .transition(all 0.4s ease);
             /*opacity: 0.25;*/
-            .info-card{
-                display: none !important;
-            }
 
             &.male {
                 &.dead {
@@ -377,18 +391,33 @@ a.disabled, a[disabled] {
 
 }
 
-@media only screen and (max-width: 760px) {
-    .fullscreen-div { 
-        position: fixed;
-        top: 0;
-        left: 0;
-        right: 0;
-        bottom: 0;
-        width: 100%;
-        height: 100%;
-        margin: 0;
-        max-width: 100%;
-        max-height: 100%;
-        z-index: 9999;
+@import "responsive-utilities.less";
+
+@media (min-width: 979px) {
+    .tree-container {
+        height: @container-h;
+        max-height: @container-h;
     }
+}
+
+@media (max-width: 979px) {
+    .timeline-control {
+        margin-bottom: 20px;
+    }
+}
+
+@media only screen and (max-width: 760px) {
+    @screen-card-padding: 20px;
+
+    .info-card {
+        &.show {
+            position: fixed;
+
+            top: @screen-card-padding;
+            left: @screen-card-padding;
+            width: calc(~"100vw - " (@screen-card-padding * 2));
+            height: calc(~"100vh - " (@screen-card-padding * 2));
+        }
+    }
+
 }
