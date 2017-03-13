@@ -71,6 +71,7 @@ ar:
     ROOTS: 'العشائر والأفخاذ'
     ROOTS_LIST: 'قائمة العشائر والأفخاذ'
     ROOTS_SEARCH: 'البحث في العشائر'
+    SEARCH_IN_TREE: 'ابحث في الشجرة'
     DESCENDANTS: 'الذرية'
     ALIVE: 'الأحياء'
     TOTAL: 'المجموع'

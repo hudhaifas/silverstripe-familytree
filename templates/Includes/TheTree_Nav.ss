@@ -1,5 +1,11 @@
 <div id="menu-nav" class="navbar">
     <ul class="nav navbar-nav">        
+        <li>
+            <a data-toggle="collapse" href="#nav-collapse3" aria-expanded="false" aria-controls="nav-collapse3" title="<%t Genealogist.SEARCH_IN_TREE 'Searcg in the tree' %>">
+                <i class="fa fa-search" aria-hidden="true"></i>
+            </a>
+        </li>
+
         <li class="dropdown arrow arrow-top-center dropdown-label">
             <a href="/#" data-toggle="dropdown" class="icon-holder aside-disabled" title="<%t Genealogist.ROOTS_LIST 'Roots List' %>" aria-expanded="true">
                 <span class="nav-icon"><i class="fa fa-code-fork"></i></span>
@@ -62,5 +68,15 @@
                 <i class="fa fa-history" aria-hidden="true"></i>
             </a>
         </li>
+
     </ul>
+    
+    <div class="collapse nav navbar-nav nav-collapse" id="nav-collapse3">
+        <form class="navbar-form navbar-right" role="search">
+            <div class="form-group">
+                <input type="text" class="form-control" placeholder="<%t Genealogist.SEARCH_IN_TREE 'Searcg in the tree' %>" />
+            </div>
+        </form>
+    </div>
+
 </div>
