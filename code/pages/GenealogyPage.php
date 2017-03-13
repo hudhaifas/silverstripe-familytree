@@ -168,7 +168,7 @@ class GenealogyPage_Controller
         $id = $this->getRequest()->param('ID');
         $person = GenealogistHelper::get_person($id);
 
-        return $person->renderWith("Person_InfoCard");
+        return $person->renderWith("TheTree_InfoCard");
     }
 
     public function suggest() {

@@ -183,43 +183,48 @@ var hideInfoCard = function () {
 var showInfoCard = function (src) {
     hideInfoCard();
 
-    $container = $('#k1');
-    cWidth = $container.width();
-    cHeight = $container.height();
-
-    nWidth = 64;
-    nHeight = 30;
-
-    cardWidth = 420;
-    cardHeight = 220;
-
+    var minScreenWidth = 760;
     $source = $(src);
     $element = $('#info-card');
 
     url = $source.attr('data-url');
     updateInfo(url, $element);
 
-    $parent = $source.parent();
+    $node = $source.parent();
 
-    if ($(window).width() > 760 && $parent.hasClass('node')) {
-        var rect = $parent.position();
+    if ($(window).width() > minScreenWidth && $node.hasClass('node')) {
+        var errorMargin = 36;
+        var hMargin = 10;
+        var wMargin = 8;
+
+        $container = $('#k1');
+        cWidth = $container.width();
+        cHeight = $container.height();
+
+        nWidth = 64;
+        nHeight = 30;
+
+        cardWidth = 420;
+        cardHeight = 220;
+
+        var rect = $node.position();
 
         var top = rect.top;
         var left = rect.left;
 
         coord = {};
 
-        if (left + cardWidth > cWidth) {
+        if (left + cardWidth > cWidth - errorMargin) {
             coord['left'] = 'initial';
-            coord['right'] = cWidth - left - nWidth + 8;
+            coord['right'] = cWidth - left - nWidth + wMargin;
         } else {
             coord['right'] = 'initial';
             coord['left'] = left + 2;
         }
 
-        if (top + cardHeight > cHeight) {
+        if (top + cardHeight > cHeight - hMargin) {
             coord['top'] = 'initial';
-            coord['bottom'] = cHeight - top - nHeight + 10;
+            coord['bottom'] = cHeight - top - nHeight + hMargin;
         } else {
             coord['bottom'] = 'initial';
             coord['top'] = top;
