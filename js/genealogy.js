@@ -81,7 +81,7 @@ var initTree = function () {
         $(this).jOrgChart({
             chartElement: '#' + kinship,
             multipleRoot: multiple, // Support multiple roots tree
-            dragScroller: false,
+//            dragScroller: false,
 //            zoom: false
 //            depth: 3
 //            direction: dir
@@ -180,6 +180,57 @@ var hideInfoCard = function () {
 
 };
 
+var showInfoCard = function (src) {
+    hideInfoCard();
+
+    $container = $('#k1');
+    cWidth = $container.width();
+    cHeight = $container.height();
+
+    nWidth = 64;
+    nHeight = 30;
+
+    cardWidth = 420;
+    cardHeight = 220;
+
+    $source = $(src);
+    $element = $('#info-card');
+
+    url = $source.attr('data-url');
+    updateInfo(url, $element);
+
+    $parent = $source.parent();
+
+    if ($(window).width() > 760 && $parent.hasClass('node')) {
+        var rect = $parent.position();
+
+        var top = rect.top;
+        var left = rect.left;
+
+        coord = {};
+
+        if (left + cardWidth > cWidth) {
+            coord['left'] = 'initial';
+            coord['right'] = cWidth - left - nWidth + 8;
+        } else {
+            coord['right'] = 'initial';
+            coord['left'] = left + 2;
+        }
+
+        if (top + cardHeight > cHeight) {
+            coord['top'] = 'initial';
+            coord['bottom'] = cHeight - top - nHeight + 10;
+        } else {
+            coord['bottom'] = 'initial';
+            coord['top'] = top;
+        }
+
+        $element.css(coord);
+    }
+
+    $element.addClass('show');
+};
+
 var registerLinks = function () {
     unregisterLinks();
 
@@ -194,26 +245,20 @@ var registerLinks = function () {
             return;
         }
 
-        hideInfoCard();
-        $element = $('#info-card');
-
-        url = $(this).attr('data-url');
-        updateInfo(url, $element);
-
-        $parent = $(this).parent();
-
-        if ($(window).width() > 760 && $parent.hasClass('node')) {
-            var rect = $parent.position();
-            $element.css({
-                top: rect.top,
-                left: rect.left + 2
-            });
-        }
-
-        $element.addClass('show');
+        showInfoCard(this);
     });
 
     $(window).click(function () {
+        if (locked) {
+            return;
+        }
+
+        hideInfoCard();
+    });
+
+    $('#close-card').click(function () {
+        event.preventDefault();
+
         if (locked) {
             return;
         }

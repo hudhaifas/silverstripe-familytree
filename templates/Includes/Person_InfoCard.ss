@@ -1,60 +1,49 @@
 <div class="pull-right">
-    <a href="{$TreeLink}" class="options-item" title="<%t Genealogist.SHOW_THIS 'Show this person tree' %>"><i class="fa fa-leaf" aria-hidden="true"></i></a>
-    <a href="{$Father.TreeLink}" class="options-item" title="<%t Genealogist.SHOW_FATHER 'Show this persons father tree' %>"><i class="fa fa-arrow-circle-o-left" aria-hidden="true"></i></a>
-    <a href="{$Root.TreeLink}" class="options-item" title="<%t Genealogist.SHOW_CLAN 'Show this persons clan tree' %>"><i class="fa fa-pagelines" aria-hidden="true"></i></a>
-    <a href="{$SuggestLink}" target="_blank" title="<%t Genealogist.SUGGEST_PERSON_EDIT 'Suggest edit on this person' %>"><i class="fa fa-comment" aria-hidden="true"></i></a>
-    <% if hasPermission %>
-        <a href="{$EditLink}" target="_blank" title="<%t Genealogist.EDIT_THIS 'Edit this person' %>"><i class="fa fa-pencil" aria-hidden="true"></i></a>
-    <% end_if %>
+    <a id="close-card" href="#" class="btn close-card" title="<%t Genealogist.CLOSE 'Close' %>"><i class="fa fa-times" aria-hidden="true"></i></a>
 </div>
 
 <div>
     <p>
-        $AliasName
-        <% if Note %><%t Genealogist.NOTE 'Note' %>: $Note<br /><% end_if %>
-    </p>
+        <strong>$AliasName</strong>
 
-    <p>
-        <% if BirthDate && BirthDateEstimated %>
-            $BirthYear <%t Genealogist.ESTIMATED '(Estimated)' %>
-        <% else_if BirthDate %>
-            $BirthDate
+        <span style="font-size: 85%;">
+        <% if BirthDate %>
+            ($BirthYear<% if BirthDateEstimated %> <%t Genealogist.ESTIMATED '(Estimated)' %><% end_if %>
         <% else_if CalculatedBirthYear %>
-            $CalculatedBirthYear <%t Genealogist.CALCULATIONS '(Calculations)' %>
+            ($CalculatedBirthYear <%t Genealogist.CALCULATIONS '(Calculations)' %>
         <% end_if %>
 
         <% if BirthDate || CalculatedBirthYear %>
-            <% if DeathDate || CalculatedDeathYear %> - <% end_if %>
+            <% if DeathDate || CalculatedDeathYear %> - <% else %>)<% end_if %>
         <% end_if %>
 
-        <% if DeathDate && DeathDateEstimated %>
-            $DeathYear <%t Genealogist.ESTIMATED '(Estimated)' %>
-        <% else_if DeathDate %>
-            $DeathDate
+        <% if DeathDate %>
+            $DeathYear<% if DeathDateEstimated %> <%t Genealogist.ESTIMATED '(Estimated)' %><% end_if %>)
         <% else_if CalculatedDeathYear %>
-            $CalculatedDeathYear <%t Genealogist.CALCULATIONS '(Calculations)' %>
+            $CalculatedDeathYear <%t Genealogist.CALCULATIONS '(Calculations)' %>)
         <% end_if %>
+        </span>
     </p>
 
-    <p>
-        <% if $Father %>
-           <b><%t Genealogist.FATHER 'Father' %></b>: <a href="#" data-url="{$Father.InfoLink()}" class="info-item">$Father.FullName</a><br />
-        <% end_if %>
+    <p><% if Note %><%t Genealogist.NOTE 'Note' %>: $Note<% end_if %></p>
 
-        <% if hasPermission && Mother %>
-           <b><%t Genealogist.MOTHER 'Mother' %></b>: <a href="#" data-url="{$Mother.InfoLink()}" class="info-item">$Mother.FullName</a>
-        <% end_if %>
-     </p>
+    <% if $Father %>
+        <p><strong><%t Genealogist.FATHER 'Father' %></strong>: <a href="#" data-url="{$Father.InfoLink()}" class="info-item">$Father.FullName</a></p>
+    <% end_if %>
+
+    <% if hasPermission && Mother %>
+        <p><strong><%t Genealogist.MOTHER 'Mother' %></strong>: <a href="#" data-url="{$Mother.InfoLink()}" class="info-item">$Mother.FullName</a></p>
+    <% end_if %>
 
      <p>
      <% if Husbands %>
-         <b><%t Genealogist.HUSBANDS 'Husbands' %>: </b>
+         <strong><%t Genealogist.HUSBANDS 'Husbands' %>: </strong>
          <% loop Husbands.Sort(HusbandOrder) %>
             <a href="#" data-url="{$InfoLink}" class="info-item" title="$FullName">$AliasName</a><% if not Last %><%t Genealogist.COMMA ',' %><% end_if %>
          <% end_loop %>
 
      <% else_if hasPermission && Wives %>
-        <b><%t Genealogist.WIVES 'Wives' %>: </b>
+        <strong><%t Genealogist.WIVES 'Wives' %>: </strong>
          <% loop Wives.Sort(WifeOrder) %>
             <a href="#" data-url="{$InfoLink}" class="info-item" title="$FullName">$AliasName</a><% if not Last %><%t Genealogist.COMMA ',' %><% end_if %>
          <% end_loop %>
@@ -105,3 +94,14 @@
      </p>
 </div>
 
+<div class="card-controls">
+    <div>
+        <a href="{$TreeLink}" class="options-item btn" title="<%t Genealogist.SHOW_THIS 'Show this person tree' %>"><i class="fa fa-leaf" aria-hidden="true"></i></a>
+        <!--<a href="{$Father.TreeLink}" class="options-item btn" title="<%t Genealogist.SHOW_FATHER 'Show this persons father tree' %>"><i class="fa fa-arrow-circle-o-left" aria-hidden="true"></i></a>-->
+        <a href="{$Root.TreeLink}" class="options-item btn" title="<%t Genealogist.SHOW_CLAN 'Show this persons clan tree' %>"><i class="fa fa-pagelines" aria-hidden="true"></i></a>
+        <a href="{$SuggestLink}" class="btn" target="_blank" title="<%t Genealogist.SUGGEST_PERSON_EDIT 'Suggest edit on this person' %>"><i class="fa fa-comment" aria-hidden="true"></i></a>
+        <% if hasPermission %>
+            <a href="{$EditLink}" class="btn" target="_blank" title="<%t Genealogist.EDIT_THIS 'Edit this person' %>"><i class="fa fa-pencil" aria-hidden="true"></i></a>
+        <% end_if %>
+    </div>
+</div>

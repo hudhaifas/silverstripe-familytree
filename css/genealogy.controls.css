@@ -235,6 +235,12 @@
   padding: 6px 10px;
   font-size: 26px;
 }
+.info-card .btn {
+  width: 31px;
+  height: 31px;
+  border-radius: 4px;
+  padding: 5px 0;
+}
 @media (max-width: 767px) {
   .chart-container .chart-controls-hor .navbar-nav > li.dropdown-label {
     width: 31px;

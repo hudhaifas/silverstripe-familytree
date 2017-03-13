@@ -2,6 +2,9 @@
 
 @border-radius: 4px;
 @btn-dim: 31px;
+@btn-padding: 5px;
+@info-btn-dim: 31px;
+@info-btn-padding: 5px;
 @font-size: 14px;
 
 .chart-container {
@@ -156,7 +159,7 @@
             }
 
             > a {
-                padding: 5px 0;
+                padding: @btn-padding 0;
                 margin: 0;
                 /*border-radius: 0;*/
 
@@ -261,6 +264,15 @@
             padding: 6px 10px;
             font-size: 26px;
         }
+    }
+}
+
+.info-card {
+    .btn {
+        width: @info-btn-dim;
+        height: @info-btn-dim;
+        border-radius: @border-radius;
+        padding: @info-btn-padding 0;
     }
 }
 
