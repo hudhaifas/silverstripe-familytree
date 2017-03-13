@@ -123,13 +123,13 @@
                 padding-right: 0;
                 padding-left: 0;
                 width: 100%;
-                
+
                 .navbar-form {
                     border: 0;
                     margin: 0;
                     padding: 0;
                 }
-                
+
                 input {
                     width: 100%;
                     height: @btn-dim;
@@ -203,6 +203,14 @@
             box-shadow: 0 6px 12px rgba(0, 0, 0, .175);
             min-width: 220px;
 
+            /* Animation */ 
+            opacity:.3;
+            .transform-origin(top);
+            .animation-fill-mode(forwards); 
+            .scale(1, 0);
+            display: block; 
+            .transition(all 0.2s linear);
+
             .panel-heading{
                 padding: 6px 8px;
 
@@ -264,6 +272,12 @@
                 }
             }
         }
+
+        .open > .dropdown-menu {
+            .scale(1, 1);  
+            opacity:1;
+        }
+
     }
 
     .chart-extra {

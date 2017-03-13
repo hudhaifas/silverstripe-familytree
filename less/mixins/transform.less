@@ -15,6 +15,19 @@
     transform:         @string;
 }
 
+.transform-origin (@x:center, @y:center) {
+    -webkit-transform-origin: @x @y;
+    -moz-transform-origin:    @x @y;
+    -ms-transform-origin:     @x @y;
+    -o-transform-origin:      @x @y;
+    transform-origin:         @x @y;
+}
+
+.animation-fill-mode(@mode) {
+    animation-fill-mode:         @mode;
+    -webkit-animation-fill-mode: @mode;
+}
+
 .transform2(@rotate: 90deg, @scale: 1, @skew: 1deg, @translate: 0) {
     -webkit-transform: rotate(@rotate) scale(@scale) skew(@skew) translate(@translate);
     -moz-transform:    rotate(@rotate) scale(@scale) skew(@skew) translate(@translate);

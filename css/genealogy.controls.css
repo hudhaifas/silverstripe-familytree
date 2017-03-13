@@ -180,6 +180,26 @@
   -webkit-box-shadow: 0 6px 12px rgba(0, 0, 0, 0.175);
   box-shadow: 0 6px 12px rgba(0, 0, 0, 0.175);
   min-width: 220px;
+  /* Animation */
+  opacity: .3;
+  -o-transform-origin: top center;
+  -webkit-transform-origin: top center;
+  -moz-transform-origin: top center;
+  -ms-transform-origin: top center;
+  transform-origin: top center;
+  animation-fill-mode: forwards;
+  -webkit-animation-fill-mode: forwards;
+  -webkit-transform: scale(1, 0);
+  -moz-transform: scale(1, 0);
+  -ms-transform: scale(1, 0);
+  -o-transform: scale(1, 0);
+  transform: scale(1, 0);
+  display: block;
+  -webkit-transition: all 0.2s linear;
+  -moz-transition: all 0.2s linear;
+  -ms-transition: all 0.2s linear;
+  -o-transition: all 0.2s linear;
+  transition: all 0.2s linear;
 }
 .chart-container .chart-controls-hor .dropdown-menu .panel-heading {
   padding: 6px 8px;
@@ -230,6 +250,14 @@
 }
 .chart-container .chart-controls-hor .dropdown-menu .panel-body ul li a:hover:not(.header) {
   background-color: #eee;
+}
+.chart-container .chart-controls-hor .open > .dropdown-menu {
+  -webkit-transform: scale(1, 1);
+  -moz-transform: scale(1, 1);
+  -ms-transform: scale(1, 1);
+  -o-transform: scale(1, 1);
+  transform: scale(1, 1);
+  opacity: 1;
 }
 .chart-container .chart-extra {
   position: absolute;
