@@ -27,14 +27,17 @@ var initTimeline = function () {
         event.preventDefault();
 
         $extraPane = $('#chart-extra');
-        $extraPane.toggle();
+        $extraPane.toggleClass('open');
 
-        $well = $('#timeline-nav').parent();
+        $well = $('.chart-controls-bottom');
 
-        $well.toggle();
+//        $well.toggle();
+        $well.toggleClass('open');
+        
         $(this).parent().toggleClass('pressed');
 
-        if ($well.is(":visible")) {
+//        if ($well.is(":visible")) {
+        if ($well.hasClass("open")) {
             $slider = $well.find('input');
             $slider.bootstrapSlider('relayout');
             $slider.bootstrapSlider('setValue', ticks['start']);

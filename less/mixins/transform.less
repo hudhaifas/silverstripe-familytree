@@ -187,6 +187,21 @@
     -webkit-box-reflect: below 0px -webkit-gradient(linear, left top, left bottom, from(transparent), color-stop(@length, transparent), to(rgba(255,255,255,@opacity)));
 }
 
+.closed(@origin: top) {
+    /* Animation */ 
+    display: block; 
+    opacity:.3;
+    .transform-origin(@origin);
+    .animation-fill-mode(forwards); 
+    .scale(1, 0);
+    .transition(all 0.2s linear);
+}
+
+.opened() {
+    .scale(1, 1);  
+    opacity:1;
+}
+
 // Toggle font smoothing mode in Webkit & FF
 .font-smoothing() {
     -webkit-font-smoothing: antialiased;
