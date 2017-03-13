@@ -126,9 +126,9 @@ class GenealogyPage_Controller
         Requirements::css("genealogist/css/jquery.jOrgChart.css");
         Requirements::css("genealogist/css/jquery.jOrgChart-rtl.css");
         Requirements::css("genealogist/css/export.css");
-//        Requirements::css("https://cdnjs.cloudflare.com/ajax/libs/bootstrap-slider/9.7.2/css/bootstrap-slider.css");
         Requirements::css("genealogist/css/bootstrap-slider.css");
         Requirements::css("genealogist/css/genealogy.css");
+        Requirements::css("genealogist/css/genealogy-rtl.css");
         Requirements::css("genealogist/css/genealogy.controls.css");
 
         Requirements::javascript("genealogist/js/jquery.jOrgChart.js");
