@@ -18,6 +18,16 @@ jQuery(document).ready(function () {
             scrollTop: $('.tree-container').offset().top
         }, 'slow');
     }
+
+    $('.node').first().attr('data-intro', 'Click on the name to see more details');
+    $('.node').first().attr('data-step', '1');
+    $('.node').first().attr('data-position', 'left');
+
+//    $('.node').first().find('a').attr('data-intro', 'Click on the name to see more details');
+
+
+    introJs().start();
+
 });
 
 var showPerson = function (url) {

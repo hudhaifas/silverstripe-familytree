@@ -1,12 +1,12 @@
 <div id="menu-nav" class="navbar">
     <ul class="nav navbar-nav">        
-        <li>
+        <li data-intro="<%t Genealogist.SEARCH_IN_TREE 'Searcg in the tree' %>" data-position="left">
             <a data-toggle="collapse" href="#nav-collapse3" aria-expanded="false" aria-controls="nav-collapse3" title="<%t Genealogist.SEARCH_IN_TREE 'Searcg in the tree' %>">
                 <i class="fa fa-search" aria-hidden="true"></i>
             </a>
         </li>
 
-        <li class="dropdown arrow arrow-top-center dropdown-label">
+        <li class="dropdown arrow arrow-top-center dropdown-label" data-intro="<%t Genealogist.ROOTS_LIST 'Roots List' %>" data-position="left">
             <a href="/#" data-toggle="dropdown" class="icon-holder aside-disabled" title="<%t Genealogist.ROOTS_LIST 'Roots List' %>" aria-expanded="true">
                 <span class="nav-icon"><i class="fa fa-code-fork"></i></span>
                 <span class="hidden-phone"><%t Genealogist.ROOTS 'Clans' %></span>
@@ -27,7 +27,7 @@
             </div>
         </li>      
 
-        <li class="dropdown no-fullscreen">
+        <li class="dropdown no-fullscreen" data-intro="<%t Genealogist.KINSHIP 'Kinship' %>" data-position="left">
             <a id="kinsip-btn" class="dropdown-toggle" href="#" title="<%t Genealogist.KINSHIP 'Kinship' %>">
                 <i class="fa fa-retweet" aria-hidden="true"></i>
             </a>
@@ -43,7 +43,7 @@
             </div>
         </li>
 
-        <li class="dropdown">
+        <li class="dropdown" data-intro="<%t Genealogist.FILTERS 'Filters' %>" data-position="left">
             <a class="dropdown-toggle" data-toggle="dropdown" href="#" title="<%t Genealogist.FILTERS 'Filters' %>">
                 <i class="fa fa-filter" aria-hidden="true"></i>
             </a>
@@ -55,22 +55,22 @@
                         <li><label><input type="checkbox" id="m" class="options-check" value="0"><%t Genealogist.SHOW_MALES 'Show Males' %></label></li>
                         <li><label><input type="checkbox" id="ms" class="options-check" value="0"><%t Genealogist.SHOW_MALES_CHILDREN 'Show Males Children' %></label></li>
                         <% if hasPermission %>
-                            <li><label><input type="checkbox" id="f" class="options-check" value="0"><%t Genealogist.SHOW_FEMALES 'Show Females' %></label></li>
-                            <li><label><input type="checkbox" id="fs" class="options-check" value="0"><%t Genealogist.SHOW_FEMALES_CHILDREN 'Show Females Children' %></label></li>
+                        <li><label><input type="checkbox" id="f" class="options-check" value="0"><%t Genealogist.SHOW_FEMALES 'Show Females' %></label></li>
+                        <li><label><input type="checkbox" id="fs" class="options-check" value="0"><%t Genealogist.SHOW_FEMALES_CHILDREN 'Show Females Children' %></label></li>
                         <% end_if %>
                     </ul>
                 </div>
             </div>
         </li>
 
-        <li class="no-timeline">
+        <li class="no-timeline" data-intro="Wath the histroy" data-position="bottom" >
             <a id="timeline-btn" href="#" title="<%t Genealogist.TIMELINE 'Timeline' %>">
                 <i class="fa fa-history" aria-hidden="true"></i>
             </a>
         </li>
 
     </ul>
-    
+
     <div class="collapse nav navbar-nav nav-collapse" id="nav-collapse3">
         <form class="navbar-form navbar-right" role="search">
             <div class="form-group">
@@ -80,3 +80,12 @@
     </div>
 
 </div>
+
+<script>
+    var introOpts = {
+        nextLabel: 'التالي',
+        prevLabel: 'السابق',
+        prevskipLabel: 'إنهاء',
+        doneLabel: 'تم',
+    };
+</script>
