@@ -49,7 +49,7 @@
 //        $chartPane.css('height', $chartTable.outerHeight());
 
 //        centerTree($chartPane.find('table'), $contentPane);
-        centerTree($chartTable, $contentPane);
+//        centerTree($chartTable, $contentPane);
     };
 
     // Default options

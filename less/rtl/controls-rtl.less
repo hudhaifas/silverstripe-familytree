@@ -26,26 +26,26 @@
 
         .navbar {
             .nav-collapse {
-                left: @btn-dim;
-                right: 0;
-                margin-left: @btn-margin;
-                margin-right: auto;
+                left: auto;
+                right: @btn-dim;
+                margin-left: auto;
+                margin-right: @btn-margin;
             }
         }
         .navbar-nav > li {
-            margin-left: auto;
-            margin-right: @btn-margin;
+            margin-left: @btn-margin;
+            margin-right: auto;
         }
 
         .dropdown-menu {
             .panel-body {
                 ul {
                     li {
-                        text-align: left;
+                        text-align: right;
 
                         input[type='checkbox'] {
-                            margin-left: auto;
-                            margin-right: 6px;
+                            margin-left: 6px;
+                            margin-right: auto;
                         }
                     }
                 }
@@ -54,7 +54,7 @@
     }
 
     .chart-extra {
-        left: auto;
-        right: 10px;
+        left: 10px;
+        right: auto;
     }
 }
