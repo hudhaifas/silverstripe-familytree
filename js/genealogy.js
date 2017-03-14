@@ -5,7 +5,6 @@ jQuery(document).ready(function () {
     initFilters();
     initTree();
 
-
     initTimeline();
 //    updateTimePeriod(1980, 2017);
 //    updateTimePoint(1979);
@@ -19,15 +18,7 @@ jQuery(document).ready(function () {
         }, 'slow');
     }
 
-    $('.node').first().attr('data-intro', 'Click on the name to see more details');
-    $('.node').first().attr('data-step', '1');
-    $('.node').first().attr('data-position', 'left');
-
-//    $('.node').first().find('a').attr('data-intro', 'Click on the name to see more details');
-
-
-    introJs().start();
-
+    initIntro();
 });
 
 var showPerson = function (url) {
@@ -63,7 +54,7 @@ var showPerson = function (url) {
  * @param {type} url
  * @returns {undefined}
  */
-var updateInfo = function (url, $element) {
+var updateInfo = function (url) {
     var param = '&ajax=1';
     var ajaxUrl = (url.indexOf(param) === -1) ? url + param : url;
 
@@ -71,7 +62,7 @@ var updateInfo = function (url, $element) {
     $('#info-body').html('');
     lockLinks();
 
-    $element.load(ajaxUrl, function () {
+    $('#info-card').load(ajaxUrl, function () {
         registerLinks();
         $('#info-loader').hide();
 //        $('#collapse-info-btn').trigger('click');
@@ -154,6 +145,45 @@ var initFilters = function () {
 
 };
 
+var initIntro = function () {
+    $firstNade = $('.node').first();
+    $firstNade.attr('data-intro', 'اضغط على الاسم للحصول على معلومات إضافية عن هذا الشخص: كتاريخ الميلاد والوفاة، اسم الأب والأم والزوج،  واحضائيات عن ذريته.<br />ومن خلال هذه القائمة يمكنك الضغط على ايقونة الملاحظات <i class="fa fa-comment" aria-hidden="true"></i> لتزويدنا بأي ملاحظات أو معلومات إضافية عن هذه الشخص');
+    $firstNade.attr('data-step', '1');
+    $firstNade.attr('data-position', 'left');
+
+    introJs()
+            .setOptions(introOpts)
+            .onbeforechange(function (targetElement) {
+                console.log('Before: ' + this._currentStep);
+                switch (this._currentStep) {
+                    case 1:
+                        break;
+
+                    case 3:
+//                        $(targetElement).find('a').first().trigger('click');
+                        break;
+
+
+                    default:
+
+                        break;
+                }
+            })
+            .onchange(function (targetElement) {
+                console.log('Step: ' + this._currentStep);
+                switch (this._currentStep) {
+                    case 0:
+                        $(targetElement).find('a').first().trigger('click');
+                        break;
+
+                    default:
+
+                        break;
+                }
+            })
+            .start();
+};
+
 var appendFilters = function (url) {
     var uri = URI(url);
 
@@ -197,8 +227,8 @@ var showInfoCard = function (src) {
     $source = $(src);
     $element = $('#info-card');
 
-    url = $source.attr('data-url');
-    updateInfo(url, $element);
+    url = $source.data('url');
+    updateInfo(url);
 
     $node = $source.parent();
 
