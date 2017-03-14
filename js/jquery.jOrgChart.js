@@ -233,11 +233,11 @@
         $controls = $('<div class="chart-controls"></div>');
 
         if (opts.fullscreen) {
-            var $fullscreenBtn = createButton('fullscreen', function () {
+            var $fullscreenBtn = createButton('fullscreen', function (event) {
                 event.preventDefault();
                 $container.fullscreen();
             });
-            var $exitBtn = createButton('fullscreen-exit', function () {
+            var $exitBtn = createButton('fullscreen-exit', function (event) {
                 event.preventDefault();
                 $.fullscreen.exit();
             });
@@ -262,7 +262,7 @@
             });
         }
 
-        var $collapseBtn = createButton('collapse-all', function () {
+        var $collapseBtn = createButton('collapse-all', function (event) {
             event.preventDefault();
             toggleAllNodes($container);
             $container.find('.collapse-all, .expand-all').toggleClass('collapse-all expand-all');
@@ -274,12 +274,12 @@
         }
 
         if (opts.zoom) {
-            var $zoomInBtn = createButton('zoom-in', function () {
+            var $zoomInBtn = createButton('zoom-in', function (event) {
                 event.preventDefault();
                 var newScale = 1 + opts.stepZoom;
                 changeZoom($chartPane, newScale, opts);
             });
-            var $zoomOutBtn = createButton('zoom-out', function () {
+            var $zoomOutBtn = createButton('zoom-out', function (event) {
                 event.preventDefault();
                 var newScale = 1 + -(opts.stepZoom);
                 changeZoom($chartPane, newScale, opts);
