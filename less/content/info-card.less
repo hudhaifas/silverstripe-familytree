@@ -1,0 +1,87 @@
+@import "../variables.less";
+@import "../mixins/transform.less";
+
+/* Info Card*/
+
+@card-bg: #fff;
+@card-fg: #111;
+@card-w: 460px;
+@card-h: 220px;
+@card-padding: 8px;
+@card-btn-w: 31px;
+
+@border-radius: 4px;
+@info-btn-dim: 31px;
+@info-btn-padding: 5px;
+
+.info-card {
+    background: @card-bg;
+    color: @card-fg;
+
+    visibility: hidden;
+    position: absolute;
+    width: @node-w;
+    height: @node-h;
+    border: 0;
+    padding: @card-padding @card-padding;
+
+    cursor: auto;
+
+    border: 1px solid transparent;
+    border-color: @color-tree-branches;
+    border-radius: .25rem;
+    box-shadow: inset 0 1px 1px rgba(0,0,0,.075);
+
+    -webkit-transition: all 0.4s ease, top 1ms, left 1ms, bottom 1ms, right 1ms;  
+    -moz-transition:    all 0.4s ease, top 1ms, left 1ms, bottom 1ms, right 1ms;
+    -ms-transition:     all 0.4s ease, top 1ms, left 1ms, bottom 1ms, right 1ms; 
+    -o-transition:      all 0.4s ease, top 1ms, left 1ms, bottom 1ms, right 1ms;  
+    transition:         all 0.4s ease, top 1ms, left 1ms, bottom 1ms, right 1ms;  
+
+    &.show {
+        visibility: visible;
+
+        width: @card-w;
+        height: @card-h;
+
+        z-index: 999;
+    }
+
+    .card-controls {
+        position: absolute;
+        bottom: 0;
+        left: 50%;
+        .translateX(-50%);
+        padding-bottom: @card-padding;
+    }
+
+    .table {
+        > thead, > tbody, > tfoot {
+            > tr {
+                > th {
+                    border-top: 1px solid transparent;
+                }
+
+                > th, > td {
+                    font-size: 95%;
+                    padding: 2px;
+                }
+            } 
+        }
+    }
+
+    p {
+        margin: 0 0 5px;
+    }
+
+    .close-card {
+        display: none;
+    }
+
+    .btn {
+        width: @info-btn-dim;
+        height: @info-btn-dim;
+        border-radius: @border-radius;
+        padding: @info-btn-padding 0;
+    }
+}

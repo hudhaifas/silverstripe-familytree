@@ -1,4 +1,35 @@
-/* autocomplete */
+@import "../variables.less";
+@import "../mixins/transform.less";
+
+/* Autocomplete */
+
+.ui-autocomplete {
+    max-width: 240px;
+    max-height: 360px;
+    overflow-y: auto;
+
+    li {
+        color: black;
+
+        &:nth-child(odd) {
+            background: #fefefe;
+        }
+
+        &:nth-child(even) {
+            background: #efefef;
+        }
+
+        &.ui-menu-item {
+            a {
+                font-weight: normal; 
+                margin: -1px; 
+                border: 1px solid transparent; 
+                font-weight: normal;
+            }
+        }
+    }
+
+}
 
 input[type="text"].autocomplete {
     max-height: 240px;

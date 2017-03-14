@@ -1,0 +1,42 @@
+@import "../variables.less";
+@import "../mixins/transform.less";
+
+/* Timeline */
+
+.timeline-nav {
+    height: 64px;
+
+    .play-control {
+        float: left;
+        width: 40px;
+
+        .timeline-control {
+            border: 0;
+            background: transparent;
+            z-index: 999;
+        }
+    }
+
+    .play-bar {
+        float: right;
+        width: 94%;
+        padding: 0 20px;
+        overflow: hidden;
+        text-overflow: ellipsis;
+
+        .slider {
+            width: 100% !important;
+            .user-select();
+        }
+
+        .slider-tick-label {
+            font-size: 12px;
+        }
+    }
+}
+
+@media (max-width: 979px) {
+    .timeline-control {
+        margin-bottom: 20px;
+    }
+}

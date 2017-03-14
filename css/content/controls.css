@@ -1,8 +1,19 @@
+/*
+To change this license header, choose License Headers in Project Properties.
+To change this template file, choose Tools | Templates
+and open the template in the editor.
+*/
+/* 
+    Created on : Mar 14, 2017, 2:04:27 PM
+    Author     : hshatnawi
+*/
+/*@tree-w: 0;*/
+/* Controls */
 .chart-container .chart-controls {
   position: absolute;
   width: 31px;
   top: 10px;
-  right: 10px;
+  left: 10px;
   opacity: 0.7;
   z-index: 100;
   padding-top: 50px;
@@ -110,7 +121,7 @@
   position: absolute;
   /*        width: @btn-dim;*/
   top: 10px;
-  right: 10px;
+  left: 10px;
   opacity: 0.7;
   z-index: 100;
   -webkit-transition: all 0.4s ease;
@@ -130,11 +141,11 @@
   position: absolute;
   z-index: 1;
   top: 0;
-  left: 0;
-  right: 31px;
+  left: 31px;
+  right: 0;
   bottom: 0;
   margin: 0;
-  margin-right: 3px;
+  margin-left: 3px;
   padding-right: 0;
   padding-left: 0;
   width: 100%;
@@ -166,7 +177,7 @@
   height: 31px;
   text-align: center;
   cursor: pointer;
-  margin-left: 3px;
+  margin-right: 3px;
   -webkit-transition: all 0.4s ease;
   -moz-transition: all 0.4s ease;
   -ms-transition: all 0.4s ease;
@@ -174,14 +185,14 @@
   transition: all 0.4s ease;
   border-radius: 4px;
   /*            &:first-child {
-                            border-top-right-radius: @border-radius;
-                            border-bottom-right-radius: @border-radius;
-                        }
-            
-                        &:last-child {
-                            border-top-left-radius: @border-radius;
-                            border-bottom-left-radius: @border-radius;
-                        }*/
+                border-top-right-radius: @border-radius;
+                border-bottom-right-radius: @border-radius;
+            }
+
+            &:last-child {
+                border-top-left-radius: @border-radius;
+                border-bottom-left-radius: @border-radius;
+            }*/
 }
 .chart-container .chart-controls-hor .navbar-nav > li.dropdown-label {
   width: inherit;
@@ -190,7 +201,7 @@
 .chart-container .chart-controls-hor .navbar-nav > li:hover,
 .chart-container .chart-controls-hor .navbar-nav > li:focus {
   opacity: 1;
-  /*border-radius: 0;*/
+  background-color: #e1e1e1;
 }
 .chart-container .chart-controls-hor .navbar-nav > li.pressed {
   /*background-color: #ccc;*/
@@ -200,6 +211,10 @@
   margin: 0;
   /*border-radius: 0;*/
   color: #4d4d4d;
+}
+.chart-container .chart-controls-hor .navbar-nav > li > a:focus,
+.chart-container .chart-controls-hor .navbar-nav > li > a:hover {
+  background-color: transparent;
 }
 .chart-container .chart-controls-hor .dropdown-menu {
   background-clip: padding-box;
@@ -241,7 +256,7 @@
 }
 .chart-container .chart-controls-hor .dropdown-menu .panel-body {
   padding: 0 10px;
-  text-align: right;
+  text-align: left;
 }
 .chart-container .chart-controls-hor .dropdown-menu .panel-body ul {
   list-style-type: none;
@@ -255,7 +270,7 @@
   /* Prevent double borders */
   /*background-color: #f6f6f6;*/
   text-decoration: none;
-  text-align: right;
+  text-align: left;
   font-size: 14px;
   color: black;
   display: block;
@@ -265,7 +280,7 @@
   font-weight: normal;
 }
 .chart-container .chart-controls-hor .dropdown-menu .panel-body ul li input[type='checkbox'] {
-  margin-left: 6px;
+  margin-right: 6px;
 }
 .chart-container .chart-controls-hor .dropdown-menu .panel-body ul li:hover:not(.header) {
   background-color: #eee;
@@ -294,7 +309,7 @@
   height: 31px;
   line-height: 31px;
   top: 10px;
-  left: 10px;
+  right: 10px;
   display: none;
   background-color: #eee;
   opacity: 0.7;
@@ -343,12 +358,6 @@
   padding: 6px 10px;
   font-size: 26px;
 }
-.info-card .btn {
-  width: 31px;
-  height: 31px;
-  border-radius: 4px;
-  padding: 5px 0;
-}
 @media (max-width: 767px) {
   .chart-container .chart-controls-hor .navbar-nav > li.dropdown-label {
     width: 31px;
@@ -364,4 +373,4 @@
     background-color: #fff;
   }
 }
-/*# sourceMappingURL=genealogy.controls.css.map */
+/*# sourceMappingURL=controls.css.map */

@@ -10,7 +10,8 @@ jQuery(document).ready(function () {
 //    updateTimePoint(1979);
 
     initKinshipDropdown();
-
+    initSearchTree();
+    
     // Scroll to the tree div
     if ($('.tree-container').length) {
         $('html, body').animate({
@@ -46,6 +47,21 @@ var showPerson = function (url) {
 
         initFilters();
         releaseLinks();
+    });
+};
+
+var centerNode = function ($node) {
+    var $container = $('.chart-content-pane');
+    var offset = {
+        top: ($container.height() - $node.height()) / 2,
+        left: ($container.width() - $node.width()) / 2
+    };
+
+    $node.ScrollTo({
+        duration: 1000,
+        durationMode: 'all',
+        offsetTop: offset.top,
+        offsetLeft: offset.left
     });
 };
 
@@ -299,6 +315,7 @@ var registerLinks = function () {
         }
 
         hideInfoCard();
+        $('.highlight').removeClass('highlight');
     });
 
     $('#close-card').click(function () {

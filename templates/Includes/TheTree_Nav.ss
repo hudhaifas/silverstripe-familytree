@@ -72,9 +72,9 @@
     </ul>
 
     <div class="collapse nav navbar-nav nav-collapse" id="nav-collapse3">
-        <form class="navbar-form navbar-right" role="search">
+        <form class="navbar-form navbar-left" role="search">
             <div class="form-group">
-                <input type="text" class="form-control" placeholder="<%t Genealogist.SEARCH_IN_TREE 'Searcg in the tree' %>" />
+                <input id="search-input" type="text" class="form-control" placeholder="<%t Genealogist.SEARCH_IN_TREE 'Searcg in the tree' %>" />
             </div>
         </form>
     </div>

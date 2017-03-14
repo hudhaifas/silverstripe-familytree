@@ -1,0 +1,30 @@
+.chart-container .chart-controls {
+  left: auto;
+  right: 10px;
+}
+.chart-container .chart-controls-hor {
+  left: auto;
+  right: 10px;
+}
+.chart-container .chart-controls-hor .navbar .nav-collapse {
+  left: 31px;
+  right: 0;
+  margin-left: 3px;
+  margin-right: auto;
+}
+.chart-container .chart-controls-hor .navbar-nav > li {
+  margin-left: auto;
+  margin-right: 3px;
+}
+.chart-container .chart-controls-hor .dropdown-menu .panel-body ul li {
+  text-align: left;
+}
+.chart-container .chart-controls-hor .dropdown-menu .panel-body ul li input[type='checkbox'] {
+  margin-left: auto;
+  margin-right: 6px;
+}
+.chart-container .chart-extra {
+  left: auto;
+  right: 10px;
+}
+/*# sourceMappingURL=controls-rtl.css.map */

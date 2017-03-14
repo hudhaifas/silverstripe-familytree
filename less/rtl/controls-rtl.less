@@ -1,0 +1,60 @@
+@import "../mixins/transform.less";
+@border-radius: 4px;
+@btn-dim: 31px;
+@btn-padding: 5px;
+@btn-margin: 3px;
+
+@info-btn-dim: 31px;
+@info-btn-padding: 5px;
+@font-size: 14px;
+
+.chart-container {
+    .chart-controls {
+        left: auto;
+        right: 10px;
+
+        .chart-control {
+        }
+    }
+
+    .chart-controls-bottom {
+    }
+
+    .chart-controls-hor {
+        left: auto;
+        right: 10px;
+
+        .navbar {
+            .nav-collapse {
+                left: @btn-dim;
+                right: 0;
+                margin-left: @btn-margin;
+                margin-right: auto;
+            }
+        }
+        .navbar-nav > li {
+            margin-left: auto;
+            margin-right: @btn-margin;
+        }
+
+        .dropdown-menu {
+            .panel-body {
+                ul {
+                    li {
+                        text-align: left;
+
+                        input[type='checkbox'] {
+                            margin-left: auto;
+                            margin-right: 6px;
+                        }
+                    }
+                }
+            }
+        }
+    }
+
+    .chart-extra {
+        left: auto;
+        right: 10px;
+    }
+}

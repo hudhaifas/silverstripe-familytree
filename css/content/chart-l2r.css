@@ -1,0 +1,47 @@
+/*
+To change this license header, choose License Headers in Project Properties.
+To change this template file, choose Tools | Templates
+and open the template in the editor.
+*/
+/* 
+    Created on : Mar 14, 2017, 2:04:27 PM
+    Author     : hshatnawi
+*/
+/*@tree-w: 0;*/
+.chart-pane.l2r {
+  -webkit-transform: scaleX(-1);
+  -moz-transform: scaleX(-1);
+  -ms-transform: scaleX(-1);
+  -o-transform: scaleX(-1);
+  transform: scaleX(-1);
+  filter: FlipH;
+  -ms-filter: "FlipH";
+  -webkit-transform: rotate(-90deg);
+  -moz-transform: rotate(-90deg);
+  -ms-transform: rotate(-90deg);
+  -o-transform: rotate(-90deg);
+  transform: rotate(-90deg);
+}
+.chart-pane.l2r .node {
+  width: 30px;
+  height: 64px;
+}
+.chart-pane.l2r .node a {
+  display: inline-block;
+  -webkit-transform: rotate(90deg) translateX(24px);
+  -moz-transform: rotate(90deg) translateX(24px);
+  -ms-transform: rotate(90deg) translateX(24px);
+  -o-transform: rotate(90deg) translateX(24px);
+  transform: rotate(90deg) translateX(24px);
+}
+.chart-pane.l2r .node.dead:after {
+  -webkit-transform: rotate(45deg);
+  -moz-transform: rotate(45deg);
+  -ms-transform: rotate(45deg);
+  -o-transform: rotate(45deg);
+  transform: rotate(45deg);
+  top: 3px;
+  left: auto;
+  right: 3px;
+}
+/*# sourceMappingURL=chart-l2r.css.map */

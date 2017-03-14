@@ -123,27 +123,28 @@ class GenealogyPage_Controller
     public function init() {
         parent::init();
 
-        Requirements::css("genealogist/css/jquery.jOrgChart.css");
-        Requirements::css("genealogist/css/jquery.jOrgChart-rtl.css");
-        Requirements::css("genealogist/css/export.css");
         Requirements::css("genealogist/css/bootstrap-slider.css");
-        Requirements::css("genealogist/css/genealogy.css");
-        Requirements::css("genealogist/css/genealogy-rtl.css");
-        Requirements::css("genealogist/css/genealogy.controls.css");
         Requirements::css("genealogist/css/introjs.css");
-        Requirements::css("genealogist/css/introjs-rtl.css");
+        Requirements::css("genealogist/css/genealogy.css");
 
+        if ($this->isRTL()) {
+            Requirements::css("genealogist/css/introjs-rtl.css");
+            Requirements::css("genealogist/css/genealogy-rtl.css");
+        }
+
+        Requirements::javascript("genealogist/js/vendors/jquery.dragscroll.js");
+        Requirements::javascript("genealogist/js/vendors/jquery.fullscreen.js");
+        Requirements::javascript("genealogist/js/vendors/jquery.panzoom.js");
+        Requirements::javascript("genealogist/js/vendors/jquery-scrollto.js");
+        
+        Requirements::javascript("genealogist/js/vendors/URI.js");
+        Requirements::javascript("genealogist/js/vendors/html2canvas.js");
+        Requirements::javascript("genealogist/js/vendors/bootstrap-slider.js");
+        Requirements::javascript("genealogist/js/vendors/intro.js");
+        
         Requirements::javascript("genealogist/js/jquery.jOrgChart.js");
-        Requirements::javascript("genealogist/js/jquery.dragscroll.js");
-        Requirements::javascript("genealogist/js/jquery.fullscreen.js");
-        Requirements::javascript("genealogist/js/jquery.panzoom.js");
-        Requirements::javascript("genealogist/js/URI.js");
-        Requirements::javascript("genealogist/js/html2canvas.js");
-//        Requirements::javascript("https://cdnjs.cloudflare.com/ajax/libs/bootstrap-slider/9.7.2/bootstrap-slider.js");
-        Requirements::javascript("genealogist/js/bootstrap-slider.js");
         Requirements::javascript("genealogist/js/genealogy.timeline.js");
         Requirements::javascript("genealogist/js/genealogy.controls.js");
-        Requirements::javascript("genealogist/js/intro.js");
         Requirements::javascript("genealogist/js/genealogy.js");
     }
 

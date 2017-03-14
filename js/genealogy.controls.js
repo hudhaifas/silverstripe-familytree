@@ -21,7 +21,29 @@ function filterRoots() {
 function initKinshipDropdown() {
     $('#kinsip-btn').on('click', function (event) {
         event.preventDefault();
-        
+
         $(this).parent().toggleClass('open');
-    });    
+    });
+}
+
+function initSearchTree() {
+    $('#search-input').on('propertychange change click keyup input paste', function (event) {
+        event.preventDefault();
+
+        $('.highlight').removeClass('highlight');
+
+        akeyword = $(this).val();
+
+        $nodes = $('.node a[title^="' + akeyword + '"]');
+
+        $firstNode = $nodes.first().parent();
+        console.log($nodes.length + ' results starts with: ' + akeyword);
+        console.log('First result: ' + $firstNode.attr('title'));
+
+//        $firstNode.effect("highlight", {}, 3000);
+        $firstNode.addClass("highlight");
+
+        
+        centerNode($firstNode);
+    });
 }

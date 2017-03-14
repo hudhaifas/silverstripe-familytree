@@ -64,28 +64,6 @@
   /*        z-index: @node-z;*/
   margin: 0 2px;
 }
-.timeline-nav {
-  height: 64px;
-}
-.timeline-nav .play-control {
-  float: right;
-  width: 40px;
-}
-.timeline-nav .play-control .timeline-control {
-  border: 0;
-  background: transparent;
-  z-index: 999;
-}
-.timeline-nav .play-bar {
-  float: left;
-  width: 94%;
-  padding: 0 20px;
-  overflow: hidden;
-  text-overflow: ellipsis;
-}
-.timeline-nav .play-bar .slider-tick-label {
-  font-size: 12px;
-}
 .navbar-collapse.collapse {
   display: block!important;
 }
@@ -109,4 +87,4 @@
     width: 82%;
   }
 }
-/*# sourceMappingURL=jquery.jOrgChart.css.map */
+/*# sourceMappingURL=chart.css.map */

@@ -1,0 +1,274 @@
+@import "../variables.less";
+@import "../mixins/transform.less";
+
+/* Layout */
+
+.conatiner-fluid {
+    & > div {
+        /*padding: 5px;*/
+    }
+}
+
+.tree-container {
+    /*width: @container-w;*/
+    margin: 0 auto;
+    position: relative;
+
+    .tree-holder {
+        position: relative;
+        width: 100%;
+        float: left;
+
+        .alert {
+            /*            position: absolute;
+                        top: 0;
+                        right: 0;
+                        left: 0;
+                        z-index: 100;
+                        opacity: 0.90;*/
+            .transition(all 0.4s ease);
+
+            /*            &:hover {
+                            opacity: 1;
+                        }*/
+        }
+    }
+
+    .ajax-loader {
+        background-color: rgba(100,100,100,0.1);
+        z-index: 100;
+        display: none;
+        position: absolute;
+        top: 0;
+        bottom: 0;
+        left: 0;
+        right: 0;
+
+        span {
+            display: block;
+            height: 50%;
+            vertical-align: middle;
+        }
+
+        i {
+            display: block;
+            vertical-align: middle;
+            margin-left: auto;
+            margin-right: auto;
+        }
+    }
+}
+
+.chart-container {
+    height: @tree-h;
+    max-height: @tree-h;
+
+    /* The node */
+    .node {
+        position: relative;
+
+        width: @node-w;
+        height: @node-h;
+        margin: 0 2px;
+
+        border: 1px solid transparent;
+        border-color: @color-tree-branches;
+        border-radius: .25rem;
+        box-shadow: inset 0 1px 1px rgba(0,0,0,.075);
+
+        &, a {
+            font-size: @node-font-size;
+            /*text-align: justify;*/
+        }
+
+        &.male {
+            background-color: @color-bg-male;
+            &, a {
+                color: @color-fg-male;
+            }
+
+            &.dead {
+                background-color: lighten(@color-bg-male, 5%);
+            }
+        }
+
+        &.female {
+            background-color: @color-bg-female;
+            &, a {
+                color: @color-fg-female;
+            }
+
+            &.dead {
+                background-color: lighten(@color-bg-female, 5%);
+            }
+        }
+
+        &.dead {
+            position: relative;
+
+            &:after {
+                content: '';
+                border-top: 3px solid black;
+                border-radius: 3px;
+
+                position: absolute;
+
+                width: 20px;
+                height: 20px;
+                top: 2px;
+                left: 2px;
+
+                .rotate(-45deg);
+            }
+
+            &.exporting {
+                &:after {
+                    display: none;
+                }                
+            }
+        }
+
+        &.clan {
+            background-color: @color-bg-clan;
+            &, a {
+                color: @color-fg-clan;
+            }
+
+            &.dead {
+                background-color: @color-bg-clan;
+                &, a {
+                    color: @color-fg-clan;
+                }
+
+            }
+
+            &:after {
+                border-top: none;
+            }
+        }
+
+        &.timeline-node {
+            .transition(all 0.4s ease);
+            /*opacity: 0.25;*/
+
+            &.male {
+                &.dead {
+                    background-color: @color-bg-male;
+                }
+            }
+
+            &.female {
+                &.dead {
+                    background-color: @color-bg-female;
+                }
+            }
+
+            &.gray-node {
+                background-color: #444;
+                opacity: 0.25;
+
+                &.male {
+                    &.dead {
+                        background-color: #444;
+                    }
+                }
+
+                &.female {
+                    &.dead {
+                        background-color: #444;
+                    }
+                }
+
+                &, a {
+                    color: #eee;
+                }
+            }
+
+            &.transparent-node {
+                opacity: 0.25;
+            }
+
+            &.empty-node {
+                content: '';
+                width: 10px;
+                opacity: 0.25;
+
+                a {
+                    display: none;
+                }
+            }
+
+            &:after {
+                display: none;
+            }
+        }
+
+        &.highlight {
+            outline: none;
+            box-shadow: 0 0 @highlight-width @highlight-color;
+        }
+
+        a {
+            cursor: help;
+            word-wrap: break-word;
+        }
+    }
+
+    tr {
+        .transition(visibility 0.4s ease);
+        .transition(display 0.4s ease);
+    }
+}
+
+a.disabled, a[disabled] {
+    pointer-events: none;
+}
+
+.panel-danger {
+    .btn {
+        color: #fff;
+        background-color: #d9534f;
+        border-color: #d43f3a;
+    }
+}
+
+@media (min-width: 979px) {
+    .tree-container {
+        height: @container-h;
+        max-height: @container-h;
+    }
+}
+
+@media only screen and (max-width: 760px) {
+    @screen-card-padding: 20px;
+
+    .info-card {
+        &.show {
+            position: fixed;
+
+            top: @screen-card-padding;
+            left: @screen-card-padding;
+            width: calc(~"100vw - " (@screen-card-padding * 2));
+            height: calc(~"100vh - " (@screen-card-padding * 2));
+        }
+
+        .table {
+            > thead, > tbody, > tfoot {
+                > tr {
+                    > th, > td {
+                        padding: 4px 1px;
+                    }
+                } 
+            }
+        }
+
+        p {
+            margin: 0 0 12px;
+        }
+
+        .close-card {
+            display: inline-block;
+        }
+    }
+
+}
