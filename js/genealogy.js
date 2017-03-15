@@ -6,12 +6,7 @@ jQuery(document).ready(function () {
     initTree();
 
     initTimeline();
-//    updateTimePeriod(1980, 2017);
-//    updateTimePoint(1979);
 
-    initKinshipDropdown();
-    initSearchTree();
-    
     // Scroll to the tree div
     if ($('.tree-container').length) {
         $('html, body').animate({
@@ -19,7 +14,7 @@ jQuery(document).ready(function () {
         }, 'slow');
     }
 
-    initIntro();
+//    initIntro();
 });
 
 var showPerson = function (url) {
@@ -121,8 +116,13 @@ var initTree = function () {
         }
     };
 
+    centerNode($('.node').first());
+
     initTreeNav();
     initTimelineNav();
+
+    initKinshipDropdown();
+    initSearchTree();
 };
 
 var initTreeNav = function () {
@@ -215,20 +215,6 @@ var appendFilters = function (url) {
     return uri.toString();
 };
 
-var lockLinks = function () {
-    $('a.info-item, a.options-item, #toggle-fullscreen, input.options-check').attr('disabled', true);
-    locked = true;
-};
-
-var releaseLinks = function () {
-    locked = false;
-    $('a.info-item, a.options-item, #toggle-fullscreen, input.options-check').attr('disabled', false);
-};
-
-var unregisterLinks = function () {
-    $("#toggle-fullscreen, #toggle-nodes, #export-tree, input[type=checkbox]").unbind("click");
-};
-
 var hideInfoCard = function () {
     $('.info-card').html('');
     $('.info-card').removeClass('show');
@@ -290,112 +276,4 @@ var showInfoCard = function (src) {
     }
 
     $element.addClass('show');
-};
-
-var registerLinks = function () {
-    unregisterLinks();
-
-//    $('a.info-item').on('mousedown touchstart', function (e) {
-//        e.stopImmediatePropagation();
-//    });
-
-    $("a.info-item").click(function (event) {
-        event.preventDefault();
-
-        if (locked) {
-            return;
-        }
-
-        showInfoCard(this);
-    });
-
-    $(window).click(function () {
-        if (locked) {
-            return;
-        }
-
-        hideInfoCard();
-        $('.highlight').removeClass('highlight');
-    });
-
-    $('#close-card').click(function () {
-        event.preventDefault();
-
-        if (locked) {
-            return;
-        }
-
-        hideInfoCard();
-    });
-
-    $('.info-card').click(function (event) {
-        event.stopPropagation();
-    });
-
-    $("a.options-item").click(function (event) {
-        event.preventDefault();
-
-        if (locked) {
-            return;
-        }
-
-        url = $(this).attr('href');
-        showPerson(url);
-    });
-
-    // Kinship form action
-    $("#Form_Form_Kinship_action_findKinship").click(function (event) {
-        event.preventDefault();
-
-        if (locked) {
-            return;
-        }
-
-        p1 = $("[name='Person1']").val();
-        p2 = $("[name='Person2']").val();
-
-        var uri = URI(url);
-        uri.segment(2, p1);
-        uri.segment(3, p2);
-
-        showPerson(uri.toString());
-    });
-
-    $('input[type=checkbox]#f').change(function (event) {
-        event.preventDefault();
-        if (!this.checked) {
-            $('input#fs').prop('checked', false);
-        }
-    });
-
-    $('input[type=checkbox]#fs').change(function (event) {
-        event.preventDefault();
-        if (this.checked) {
-            $('input#f').prop('checked', true);
-        }
-    });
-
-    $('input[type=checkbox]#m').change(function (event) {
-        event.preventDefault();
-        if (!this.checked) {
-            $('input#ms').prop('checked', false);
-        }
-    });
-
-    $('input[type=checkbox]#ms').change(function (event) {
-        event.preventDefault();
-        if (this.checked) {
-            $('input#m').prop('checked', true);
-        }
-    });
-
-    $('input.options-check').change(function (event) {
-        event.preventDefault();
-        if (locked) {
-            return;
-        }
-
-        url = $(location).attr('href');
-        showPerson(url);
-    });
 };
