@@ -15,7 +15,7 @@ and open the template in the editor.
   visibility: hidden;
   position: absolute;
   width: 64px;
-  height: 30px;
+  height: 34px;
   border: 0;
   padding: 8px 8px;
   cursor: auto;
@@ -71,5 +71,28 @@ and open the template in the editor.
   height: 31px;
   border-radius: 4px;
   padding: 5px 0;
+}
+@media only screen and (max-width: 760px) {
+  .info-card.show {
+    position: fixed;
+    top: 20px;
+    left: 20px;
+    width: calc(100vw -  40px);
+    height: calc(100vh -  40px);
+  }
+  .info-card .table > thead > tr > th,
+  .info-card .table > tbody > tr > th,
+  .info-card .table > tfoot > tr > th,
+  .info-card .table > thead > tr > td,
+  .info-card .table > tbody > tr > td,
+  .info-card .table > tfoot > tr > td {
+    padding: 4px 1px;
+  }
+  .info-card p {
+    margin: 0 0 12px;
+  }
+  .info-card .close-card {
+    display: inline-block;
+  }
 }
 /*# sourceMappingURL=info-card.css.map */

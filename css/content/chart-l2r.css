@@ -23,7 +23,7 @@ and open the template in the editor.
   transform: rotate(-90deg);
 }
 .chart-pane.l2r .node {
-  width: 30px;
+  width: 34px;
   height: 64px;
 }
 .chart-pane.l2r .node a {

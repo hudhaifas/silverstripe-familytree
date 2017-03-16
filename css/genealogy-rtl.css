@@ -7,6 +7,16 @@ and open the template in the editor.
     Created on : Mar 14, 2017, 1:31:26 PM
     Author     : hshatnawi
 */
+/*
+To change this license header, choose License Headers in Project Properties.
+To change this template file, choose Tools | Templates
+and open the template in the editor.
+*/
+/* 
+    Created on : Mar 14, 2017, 2:04:27 PM
+    Author     : hshatnawi
+*/
+/*@tree-w: 0;*/
 /* Basic styling */
 .chart-pane .left {
   border-left: 2px solid #8e8c84;
@@ -16,28 +26,11 @@ and open the template in the editor.
   border-left: 0;
   border-right: 2px solid #8e8c84;
 }
-.chart-pane .node {
-  width: 80px;
-  height: 30px;
-  margin: 0 2px;
-}
-.chart-pane .node .info-card {
-  text-align: right;
-  left: auto;
-  right: -1px;
-}
-.chart-pane .node .info-card.show {
-  left: auto;
-  right: -1px;
-}
-.chart-pane .node a {
-  font-size: 12px;
-}
 .navbar-collapse.collapse {
   display: block!important;
 }
-.navbar-nav > li,
-.navbar-nav {
+.navbar-nav,
+.navbar-nav > li {
   float: right !important;
 }
 .navbar-nav.navbar-right:last-child {
@@ -46,21 +39,6 @@ and open the template in the editor.
 }
 .navbar-right {
   float: left !important;
-}
-@media (max-width: 979px) {
-  .chart-pane {
-    /* The node */
-  }
-  .chart-pane .node .info-card.show {
-    position: fixed;
-    top: 10px;
-    left: 10px;
-    right: 10px;
-    bottom: 10px;
-    width: 93%;
-    height: 90%;
-    z-index: 102;
-  }
 }
 .chart-container .chart-controls {
   left: auto;

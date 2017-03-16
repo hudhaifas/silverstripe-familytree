@@ -1,3 +1,13 @@
+/*
+To change this license header, choose License Headers in Project Properties.
+To change this template file, choose Tools | Templates
+and open the template in the editor.
+*/
+/* 
+    Created on : Mar 14, 2017, 2:04:27 PM
+    Author     : hshatnawi
+*/
+/*@tree-w: 0;*/
 /* Basic styling */
 .chart-container {
   background-color: #fff;
@@ -59,10 +69,11 @@
   display: inline-block;
   background-color: #d9edf7;
   color: #31708f;
-  width: 80px;
-  height: 30px;
+  width: 64px;
+  height: 34px;
   /*        z-index: @node-z;*/
   margin: 0 2px;
+  line-height: 100%;
 }
 .navbar-collapse.collapse {
   display: block!important;
