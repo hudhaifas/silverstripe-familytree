@@ -39,7 +39,7 @@
         $container.append($extraPane);
 
         $container.append('<div id="info-card" class="info-card"></div>');
-        
+
         if (opts.zoom && opts.zoomScroller) {
             setupZoom($container, $chartPane, opts);
         }
@@ -279,6 +279,10 @@
                 var newScale = 1 + opts.stepZoom;
                 changeZoom($chartPane, newScale, opts);
             });
+            var $zoomOneBtn = createButton('zoom-one', function (event) {
+                event.preventDefault();
+                changeZoom($chartPane, 1, opts);
+            });
             var $zoomOutBtn = createButton('zoom-out', function (event) {
                 event.preventDefault();
                 var newScale = 1 + -(opts.stepZoom);
@@ -286,6 +290,7 @@
             });
 
             $zoomInBtn.appendTo($controls);
+            $zoomOneBtn.appendTo($controls);
             $zoomOutBtn.appendTo($controls);
         }
 
@@ -433,6 +438,11 @@
     }
 
     function changeZoom($chartPane, newScale, opts) {
+        if (newScale === 1) {
+            $chartPane.css('transform', '');
+            return;
+        }
+
         $parent = $chartPane.parent();
         pW = $parent.width();
         pH = $parent.height();
