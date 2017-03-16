@@ -3,12 +3,6 @@
 
 /* Layout */
 
-.conatiner-fluid {
-    & > div {
-        /*padding: 5px;*/
-    }
-}
-
 .tree-container {
     /*width: @container-w;*/
     margin: 0 auto;
@@ -69,17 +63,11 @@
 
         width: @node-w;
         height: @node-h;
-        margin: 0 2px;
 
         border: 1px solid transparent;
-        border-color: @color-tree-branches;
+        border-color: @tree-branches-color;
         border-radius: .25rem;
         box-shadow: inset 0 1px 1px rgba(0,0,0,.075);
-
-        &, a {
-            font-size: @node-font-size;
-            /*text-align: justify;*/
-        }
 
         &.male {
             background-color: @color-bg-male;
@@ -208,7 +196,8 @@
             box-shadow: 0 0 @highlight-width @highlight-color;
         }
 
-        a {
+        > a {
+            font-size: @node-font-size;
             cursor: help;
             word-wrap: break-word;
         }
@@ -237,38 +226,4 @@ a.disabled, a[disabled] {
         height: @container-h;
         max-height: @container-h;
     }
-}
-
-@media only screen and (max-width: 760px) {
-    @screen-card-padding: 20px;
-
-    .info-card {
-        &.show {
-            position: fixed;
-
-            top: @screen-card-padding;
-            left: @screen-card-padding;
-            width: calc(~"100vw - " (@screen-card-padding * 2));
-            height: calc(~"100vh - " (@screen-card-padding * 2));
-        }
-
-        .table {
-            > thead, > tbody, > tfoot {
-                > tr {
-                    > th, > td {
-                        padding: 4px 1px;
-                    }
-                } 
-            }
-        }
-
-        p {
-            margin: 0 0 12px;
-        }
-
-        .close-card {
-            display: inline-block;
-        }
-    }
-
 }

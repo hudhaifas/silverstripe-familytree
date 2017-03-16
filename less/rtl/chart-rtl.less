@@ -1,38 +1,17 @@
-@tree-branches-color: #8e8c84;
+@import "../variables.less";
+@import "../mixins/transform.less";
 
 /* Basic styling */
 .chart-pane {
 
     .left {
-        border-left: 2px solid @tree-branches-color;
+        border-left: @tree-branches-w solid @tree-branches-color;
         border-right: 0;
     }
 
     .right {
         border-left: 0;
-        border-right: 2px solid @tree-branches-color;
-    }
-
-    .node {
-        width: 80px;
-        height: 30px;
-        margin: 0 2px;
-
-        .info-card {
-            text-align: right;
-
-            left: auto;
-            right: -1px;
-
-            &.show {
-                left: auto;
-                right: -1px;
-            }
-        }
-
-        a {
-            font-size: 12px;
-        }
+        border-right: @tree-branches-w solid @tree-branches-color;
     }
 }
 
@@ -40,37 +19,18 @@
     display: block!important;
 }
 
-.navbar-nav>li, .navbar-nav {
-    float: right !important;
-}
+.navbar-nav {
+    &, > li {
+        float: right !important;
+    }
 
-.navbar-nav.navbar-right:last-child {
-    margin-left: -15px !important;
-    margin-right: auto;
+    &.navbar-right:last-child {
+        margin-left: -15px !important;
+        margin-right: auto;
+    }
+
 }
 
 .navbar-right {
     float: left !important;
-}
-
-@media (max-width: 979px) {
-    .chart-pane {
-        /* The node */
-        .node {
-
-            .info-card {
-
-                &.show {
-                    position: fixed;
-                    top: 10px;
-                    left: 10px;
-                    right: 10px;
-                    bottom: 10px;
-                    width: 93%;
-                    height: 90%;
-                    z-index: 102;
-                }
-            }
-        }
-    }
 }

@@ -1,14 +1,9 @@
+@import "../variables.less";
 @import "../mixins/transform.less";
 
-@node-w: 80px;
-@node-h: 30px;
-@node-z: 10;
 @node-bg: #d9edf7;
 @node-fg: #31708f;
 
-@tree-branches-fg: #8e8c84;
-@tree-branches-w: 2px;
-@tree-branches-h: 20px;
 
 @border-radius: 4px;
 
@@ -17,7 +12,7 @@
     background-color: #fff;
     border: 1px solid #ddd;
     border-radius: @border-radius;
-
+    
     padding: 5px;
 
     .chart-content-pane{
@@ -44,20 +39,20 @@
     }
 
     .down {
-        background-color: @tree-branches-fg;	
+        background-color: @tree-branches-color;	
         margin: 0px auto;
     }
 
     .top {
-        border-top: 2px solid @tree-branches-fg;
+        border-top: @tree-branches-w solid @tree-branches-color;
     }
 
     .left {
-        border-right: 2px solid @tree-branches-fg;
+        border-right: @tree-branches-w solid @tree-branches-color;
     }
 
     .right {
-        border-left: 2px solid @tree-branches-fg;
+        border-left: @tree-branches-w solid @tree-branches-color;
     }
 
     table {
@@ -82,6 +77,7 @@
 
         /*        z-index: @node-z;*/
         margin: 0 2px;
+        line-height: 100%;
     }
 }
 
