@@ -116,10 +116,15 @@ umd: true
 
                         var isChrome = /chrom(e|ium)/.test(navigator.userAgent.toLowerCase());
                         if (isChrome) {
-                            center = ($container.prop("scrollWidth") - $container.prop("clientWidth")) / 2;
-
+                            // Use the left offset as an abstract value
                             targetOffsetLeft *= -1;
+                            
+                            // Calculate the center on RTL screen to be on the left side instead of the right side.
+                            center = ($container.prop("scrollWidth") - $container.prop("clientWidth")) / 2;
+                            
+                            // The element should be in the oppisite side of the center
                             gap = (center - targetOffsetLeft) * 2;
+                            
                             targetOffsetLeft += gap;
                         }
                         targetOffsetLeftAdjusted = targetOffsetLeft - startOffsetLeft - parseInt(config.offsetLeft, 10)

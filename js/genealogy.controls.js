@@ -38,8 +38,8 @@ function initSearchTree() {
 
         $firstLink = $nodes.first();
         $firstNode = $firstLink.parent();
-        console.log($nodes.length + ' results starts with: ' + akeyword);
-        console.log('First result: ' + $firstLink.attr('title'));
+//        console.log($nodes.length + ' results starts with: ' + akeyword);
+//        console.log('First result: ' + $firstLink.attr('title'));
 
         $firstNode.addClass("highlight");
         centerNode($firstNode);
