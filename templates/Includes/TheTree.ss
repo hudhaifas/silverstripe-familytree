@@ -1,9 +1,10 @@
-<% if ShowTimeline %>
-    
-    <% include TheTree_Timeline %>
-<% end_if %>
+<div style="display: none;">
+    <% if ShowTimeline %>
+        <% include TheTree_Timeline %>
+    <% end_if %>
 
-<% include TheTree_Nav %>
+    <% include TheTree_Nav %>
+</div>
 
 <% loop Trees %>
     <ul id="genealogy-relations" class="genealogy-kinship" style="display:none" data-kinship="k{$Pos}" data-multiple="{$Up.Multiple}">
