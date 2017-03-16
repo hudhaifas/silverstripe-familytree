@@ -119,6 +119,7 @@ umd: true
                             // Use the left offset as an abstract value
                             targetOffsetLeft *= -1;
                             
+                            // See http://jsfiddle.net/y8Y32/25/
                             // Calculate the center on RTL screen to be on the left side instead of the right side.
                             center = ($container.prop("scrollWidth") - $container.prop("clientWidth")) / 2;
                             
