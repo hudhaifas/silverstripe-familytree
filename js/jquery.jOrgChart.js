@@ -41,15 +41,10 @@
         $container.append('<div id="info-card" class="info-card"></div>');
 
         if (opts.zoom && opts.zoomScroller) {
-            setupZoom($container, $chartPane, opts);
+//            setupZoom($container, $contentPane, $chartPane, opts);
         }
 
         $chartTable = $chartPane.find('table');
-//        $chartPane.css('width', $chartTable.outerWidth());
-//        $chartPane.css('height', $chartTable.outerHeight());
-
-//        centerTree($chartPane.find('table'), $contentPane);
-//        centerTree($chartTable, $contentPane);
     };
 
     // Default options
@@ -248,7 +243,7 @@
 
             // document's event
             $(document).bind('fscreenchange', function (e, state, elem) {
-                strechScreen($container, $.fullscreen.isFullScreen());
+                toggleStrechContainer($container, $.fullscreen.isFullScreen());
                 // if we currently in fullscreen mode
                 if ($.fullscreen.isFullScreen()) {
                     $('.no-fullscreen').hide();
@@ -276,17 +271,15 @@
         if (opts.zoom) {
             var $zoomInBtn = createButton('zoom-in', function (event) {
                 event.preventDefault();
-                var newScale = 1 + opts.stepZoom;
-                changeZoom($chartPane, newScale, opts);
+                zoom($contentPane, $chartPane, opts.stepZoom, opts);
             });
             var $zoomOneBtn = createButton('zoom-one', function (event) {
                 event.preventDefault();
-                changeZoom($chartPane, 1, opts);
+                zoom($contentPane, $chartPane, 0, opts);
             });
             var $zoomOutBtn = createButton('zoom-out', function (event) {
                 event.preventDefault();
-                var newScale = 1 + -(opts.stepZoom);
-                changeZoom($chartPane, newScale, opts);
+                zoom($contentPane, $chartPane, -opts.stepZoom, opts);
             });
 
             $zoomInBtn.appendTo($controls);
@@ -337,8 +330,8 @@
         }
     }
 
-    function strechScreen($container, strech) {
-        if (strech) {
+    function toggleStrechContainer($container, isStrech) {
+        if (isStrech) {
             $container.css('width', '100%');
             $container.css('max-width', '100%');
             $container.css('height', '100%');
@@ -400,12 +393,12 @@
         $html.attr('dir', dir);
     }
 
-    function setupZoom($container, $chartPane, opts) {
+    function setupZoom($container, $contentPane, $chartPane, opts) {
         $container
                 .on('wheel', function (event) {
                     event.preventDefault();
-                    var newScale = 1 + (event.originalEvent.deltaY > 0 ? -(opts.stepZoom) : opts.stepZoom);
-                    changeZoom($chartPane, newScale, opts);
+                    var newScale = event.originalEvent.deltaY > 0 ? -opts.stepZoom : opts.stepZoom;
+                    zoom($contentPane, $chartPane, newScale, opts);
                 });
 
         $container
@@ -429,82 +422,43 @@
                         $chartPane.data('pinching', false);
                         var diff = $chartPane.data('pinchDistEnd') - $chartPane.data('pinchDistStart');
                         if (diff > 0) {
-                            changeZoom($chartPane, 1.2);
+                            zoom($contentPane, $chartPane, opts.stepZoom, opts);
                         } else if (diff < 0) {
-                            changeZoom($chartPane, 0.8);
+                            zoom($contentPane, $chartPane, -opts.stepZoom, opts);
                         }
                     }
                 });
     }
 
-    function changeZoom($chartPane, newScale, opts) {
-        if (newScale === 1) {
-            $chartPane.css('transform', '');
-            return;
-        }
+    var curScale = 1;
+    function zoom($contentPane, $chartPane, change, opts) {
+        // Determine current scroll positions
+        var curScrollTop = $contentPane.prop('scrollTop');
+        var curScrollLeft = $contentPane.prop('scrollLeft');
+        var newScroll = {};
+        var newScale;
 
-        $parent = $chartPane.parent();
-        pW = $parent.width();
-        pH = $parent.height();
-        cW = $chartPane.width();
-        cH = $chartPane.height();
-
-//        console.log('Container: [' + cW + ',' + cH + ']');
-//        console.log('Parent: [' + pW + ',' + pH + ']');
-
-        currentScale = getCurrentScale($chartPane);
-        if ((newScale > 1 && currentScale > opts.maxZoom) || (newScale < 1 && currentScale < opts.minZoom)) {
-            return;
-        }
-
-        var lastTf = $chartPane.css('transform');
-
-        if (lastTf === 'none') {
-            $chartPane.css('transform', 'scale(' + newScale + ',' + newScale + ')');
-
+        if (change === 0) {
+            newScale = 1;
         } else {
-            if (lastTf.indexOf('3d') === -1) {
-                $chartPane.css('transform', lastTf + ' scale(' + newScale + ',' + newScale + ')');
-            } else {
-                $chartPane.css('transform', lastTf + ' scale3d(' + newScale + ',' + newScale + ', 1)');
-            }
-        }
-    }
-
-    function parseMatrix(_str) {
-        return _str.replace(/^matrix(3d)?\((.*)\)$/, '$2').split(/, /);
-    }
-
-    function getCurrentScale($element) {
-        var matrix = parseMatrix(getMatrix($element));
-        var scale = 1;
-
-        if (matrix[0] !== 'none') {
-            var a = matrix[0];
-            var b = matrix[1];
-            var d = 10;
-            scale = Math.round(Math.sqrt(a * a + b * b) * d) / d;
+            newScale = curScale + change;
         }
 
-        return scale;
-    }
+        if ((newScale) > opts.maxZoom || (newScale) < opts.minZoom) {
+            return;
+        }
 
-    function getMatrix($element) {
-        var matrix = $element.css("-webkit-transform") ||
-                $element.css("-moz-transform") ||
-                $element.css("-ms-transform") ||
-                $element.css("-o-transform") ||
-                $element.css("transform");
-        return matrix;
-    }
+        var ratio = newScale / curScale;
+        newScroll.scrollTop = curScrollTop * ratio;
+        newScroll.scrollLeft = curScrollLeft * ratio;
 
-    var centerTree = function (table, container) {
-        var out = $(container);
-        var tar = $(table);
-        var x = out.width();
-        var y = tar.outerWidth(true);
-        var z = tar.index();
-        out.scrollLeft(Math.max(0, (y * z) - (x - y) / 2));
-    };
+        curScale = newScale;
+        $chartPane.css('transform', 'scale(' + curScale + ',' + curScale + ')');
+
+        $contentPane.animate(newScroll, {
+            duration: 400,
+            easing: 'linear'
+        });
+    }
 
 })(jQuery);
