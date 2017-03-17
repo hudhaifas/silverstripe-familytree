@@ -12,7 +12,7 @@
     background-color: #fff;
     border: 1px solid #ddd;
     border-radius: @border-radius;
-    
+
     padding: 5px;
 
     .chart-content-pane{
@@ -24,6 +24,8 @@
 
 .chart-pane {
 
+    // Animate the zoom in and out
+    .transition(transform 0.4s ease);
     .user-select();
 
     /* Support multiple roots tree */
