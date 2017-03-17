@@ -29,8 +29,8 @@ and open the template in the editor.
   float: right;
   width: 94%;
   padding: 0 20px;
-  overflow: hidden;
   text-overflow: ellipsis;
+  overflow: hidden;
 }
 .timeline-nav .play-bar .slider {
   width: 100% !important;
@@ -44,12 +44,20 @@ and open the template in the editor.
   user-select: none;
   /* Likely future */
 }
-.timeline-nav .play-bar .slider-tick-label {
+.timeline-nav .play-bar .slider .slider-tick-label-container .slider-tick-label {
   font-size: 12px;
 }
 @media (max-width: 979px) {
   .timeline-control {
     margin-bottom: 20px;
+  }
+}
+@-moz-document url-prefix() {
+  .timeline-nav .play-bar {
+    overflow: inherit;
+  }
+  .timeline-nav .play-bar .slider .slider-tick-label-container {
+    overflow: hidden;
   }
 }
 /*# sourceMappingURL=timeline.css.map */
