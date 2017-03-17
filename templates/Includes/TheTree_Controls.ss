@@ -1,8 +1,14 @@
 <div id="controls-nav" class="navbar">
     <ul class="nav navbar-nav">        
         <li class="no-timeline" data-intro="<%t Genealogist.ZOOM_OUT 'Zoom Out' %>" data-position="left" >
-            <a id="zoom-one-btn" href="#" title="<%t Genealogist.ZOOM_OUT 'Zoom Out' %>">
+            <a id="fullscreen-in-btn" href="#" title="<%t Genealogist.ZOOM_OUT 'Zoom Out' %>">
                 <i class="fa fa-expand" aria-hidden="true"></i>
+            </a>
+        </li>
+        
+        <li class="no-timeline" data-intro="<%t Genealogist.ZOOM_OUT 'Zoom Out' %>" data-position="left" >
+            <a id="fullscreen-out-btn" href="#" title="<%t Genealogist.ZOOM_OUT 'Zoom Out' %>">
+                <i class="fa fa-compress" aria-hidden="true"></i>
             </a>
         </li>
         

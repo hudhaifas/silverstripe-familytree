@@ -1,19 +1,12 @@
-function filterRoots() {
-    var input, filter, ul, li, a, i;
-    input = document.getElementById("filter-input");
-    filter = input.value.toUpperCase();
-    ul = document.getElementById("filter-list");
-    li = ul.getElementsByTagName("li");
-    for (i = 0; i < li.length; i++) {
-        a = li[i].getElementsByTagName("a")[0];
-        if (a.innerHTML.toUpperCase().indexOf(filter) > -1) {
-            li[i].style.display = "";
-        } else {
-            li[i].style.display = "none";
 
-        }
-    }
-}
+var initAllControls = function () {
+    initTreeNav();
+    initTimelineNav();
+    initControlsNav();
+
+    initKinshipDropdown();
+    initSearchTree();
+};
 
 var initTreeNav = function () {
     var $controls = $('<div class="chart-controls-hor"></div>');
@@ -34,20 +27,22 @@ var initControlsNav = function () {
     var $nav = $('#controls-nav');
     $controls.append($nav);
     $('#k1').append($controls);
+
+    initFullScreen();
 };
 
 /**
  * http://stackoverflow.com/questions/25089297/twitter-bootstrap-avoid-dropdown-menu-close-on-click-inside
  */
-function initKinshipDropdown() {
+var initKinshipDropdown = function () {
     $('#kinsip-btn').on('click', function (event) {
         event.preventDefault();
 
         $(this).parent().toggleClass('open');
     });
-}
+};
 
-function initSearchTree() {
+var initSearchTree = function () {
     $('#search-input').on('propertychange change click keyup input paste', function (event) {
         event.preventDefault();
 
@@ -65,26 +60,40 @@ function initSearchTree() {
         $firstNode.addClass("highlight");
         centerNode($firstNode);
     });
-}
+};
 
-var lockLinks = function () {
+var initFullScreen = function () {
+};
+
+var filterRoots = function () {
+    var input, filter, ul, li, a, i;
+    input = document.getElementById("filter-input");
+    filter = input.value.toUpperCase();
+    ul = document.getElementById("filter-list");
+    li = ul.getElementsByTagName("li");
+    for (i = 0; i < li.length; i++) {
+        a = li[i].getElementsByTagName("a")[0];
+        if (a.innerHTML.toUpperCase().indexOf(filter) > -1) {
+            li[i].style.display = "";
+        } else {
+            li[i].style.display = "none";
+
+        }
+    }
+};
+
+var lockAll = function () {
     $('a.info-item, a.options-item, #toggle-fullscreen, input.options-check').attr('disabled', true);
     locked = true;
 };
 
-var releaseLinks = function () {
+var unlockAll = function () {
     locked = false;
     $('a.info-item, a.options-item, #toggle-fullscreen, input.options-check').attr('disabled', false);
 };
 
-var unregisterLinks = function () {
-    $("#toggle-fullscreen, #toggle-nodes, #export-tree, input[type=checkbox]").unbind("click");
-
-    $('#search-input').unbind('propertychange change click keyup input paste');
-};
-
-var registerLinks = function () {
-    unregisterLinks();
+var bindAll = function () {
+    unbindAll();
 
 //    $('a.info-item').on('mousedown touchstart', function (e) {
 //        e.stopImmediatePropagation();
@@ -108,6 +117,16 @@ var registerLinks = function () {
         hideInfoCard();
         $('.highlight').removeClass('highlight');
     });
+
+    window.onpopstate = function (e) {
+        console.log('e: ' + e);
+        if (e.state.url) {
+            console.log('onpopstate: ' + e.state.url);
+            showPerson(e.state.url);
+        } else {
+            e.preventDefault();
+        }
+    };
 
     $('#close-card').click(function () {
         event.preventDefault();
@@ -189,4 +208,10 @@ var registerLinks = function () {
         url = $(location).attr('href');
         showPerson(url);
     });
+};
+
+var unbindAll = function () {
+    $("#toggle-fullscreen, #toggle-nodes, #export-tree, input[type=checkbox]").unbind("click");
+
+    $('#search-input').unbind('propertychange change click keyup input paste');
 };

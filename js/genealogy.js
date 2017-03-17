@@ -27,7 +27,7 @@ var showPerson = function (url) {
     $('#tree-loader').show();
     $('#genealogy-tree').html('');
 
-    lockLinks();
+    lockAll();
     $('#tree-holder').load(ajaxUrl, function () {
         initTree();
         initTimeline();
@@ -41,7 +41,7 @@ var showPerson = function (url) {
         $('#tree-loader').hide();
 
         initFilters();
-        releaseLinks();
+        unlockAll();
     });
 };
 
@@ -71,14 +71,14 @@ var updateInfo = function (url) {
 
     $('#info-loader').show();
     $('#info-body').html('');
-    lockLinks();
+    lockAll();
 
     $('#info-card').load(ajaxUrl, function () {
-        registerLinks();
+        bindAll();
         $('#info-loader').hide();
 //        $('#collapse-info-btn').trigger('click');
 
-        releaseLinks();
+        unlockAll();
     });
 };
 
@@ -104,26 +104,10 @@ var initTree = function () {
 //        });
     });
 
-    registerLinks();
-
-    window.onpopstate = function (e) {
-        console.log('e: ' + e);
-        if (e.state.url) {
-            console.log('onpopstate: ' + e.state.url);
-            showPerson(e.state.url);
-        } else {
-            e.preventDefault();
-        }
-    };
+    initAllControls();
+    bindAll();
 
     centerNode($('.node').first());
-
-    initTreeNav();
-    initTimelineNav();
-    initControlsNav();
-
-    initKinshipDropdown();
-    initSearchTree();
 };
 
 var initFilters = function () {
