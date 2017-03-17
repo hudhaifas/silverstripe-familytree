@@ -279,6 +279,93 @@
 
     }
 
+    .chart-controls-right {
+        position: absolute;
+        top: 10px;
+        left: 10px;
+        opacity: 0.7;
+        z-index: 100;
+        .transition(all 0.4s ease);
+
+        &:hover {
+            opacity: 1;
+        }
+
+        .navbar {
+            margin: 0;
+            max-width: @btn-dim;
+
+            .nav-collapse {
+                position: absolute;
+                z-index: 1;
+                top: 0;
+                left: @btn-dim;
+                right: 0;
+                bottom: 0;
+                margin: 0;
+                margin-left: @btn-margin;
+                padding-right: 0;
+                padding-left: 0;
+                width: 100%;
+
+                .navbar-form {
+                    border: 0;
+                    margin: 0;
+                    padding: 0;
+                }
+
+                input {
+                    width: 100%;
+                    height: @btn-dim;
+                }
+            }
+        }
+
+        .navbar-nav {
+            margin: 0;
+
+            > li {
+                background-color: #eee;
+                background-repeat: no-repeat;
+                background-position: center;
+                /*opacity: 0.7;*/
+
+                width: @btn-dim;
+                height: @btn-dim;
+
+                text-align: center;
+                cursor: pointer;
+                margin-bottom: @btn-margin;
+                .transition(all 0.4s ease);
+
+                border-radius: @border-radius;
+
+                &.separator {
+                    content: ' ';
+                    background-color: transparent;
+                    height: (@btn-dim / 2);
+                }
+
+                &:hover, &:focus {
+                    opacity: 1;
+                    background-color: darken(#eee, 5%);
+                }
+
+                > a {
+                    padding: @btn-padding 0;
+                    margin: 0;
+                    /*border-radius: 0;*/
+
+                    color: #4d4d4d;
+
+                    &:focus, &:hover {
+                        background-color: transparent;  
+                    }
+                }
+            }
+        }
+    }
+
     .chart-extra {
         position: absolute;
         /*width: 72px;*/

@@ -15,6 +15,27 @@ function filterRoots() {
     }
 }
 
+var initTreeNav = function () {
+    var $controls = $('<div class="chart-controls-hor"></div>');
+    var $nav = $('#menu-nav');
+    $controls.append($nav);
+    $('#k1').append($controls);
+};
+
+var initTimelineNav = function () {
+    var $controls = $('<div class="chart-controls-bottom"></div>');
+    var $nav = $('#timeline-nav');
+    $controls.append($nav);
+    $('#k1').append($controls);
+};
+
+var initControlsNav = function () {
+    var $controls = $('<div class="chart-controls-right"></div>');
+    var $nav = $('#controls-nav');
+    $controls.append($nav);
+    $('#k1').append($controls);
+};
+
 /**
  * http://stackoverflow.com/questions/25089297/twitter-bootstrap-avoid-dropdown-menu-close-on-click-inside
  */
@@ -58,7 +79,7 @@ var releaseLinks = function () {
 
 var unregisterLinks = function () {
     $("#toggle-fullscreen, #toggle-nodes, #export-tree, input[type=checkbox]").unbind("click");
-    
+
     $('#search-input').unbind('propertychange change click keyup input paste');
 };
 

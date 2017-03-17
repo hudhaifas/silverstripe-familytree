@@ -120,23 +120,10 @@ var initTree = function () {
 
     initTreeNav();
     initTimelineNav();
+    initControlsNav();
 
     initKinshipDropdown();
     initSearchTree();
-};
-
-var initTreeNav = function () {
-    $controls = $('<div class="chart-controls-hor"></div>');
-    $treeMenu = $('#menu-nav');
-    $controls.append($treeMenu);
-    $('#k1').append($controls);
-};
-
-var initTimelineNav = function () {
-    $controls = $('<div class="chart-controls-bottom"></div>');
-    $treeMenu = $('#timeline-nav');
-    $controls.append($treeMenu);
-    $('#k1').append($controls);
 };
 
 var initFilters = function () {
@@ -152,13 +139,11 @@ var initFilters = function () {
         params['ms'] = 1;
     }
 
-
     $('input.options-check').each(function () {
         kinship = $(this).attr('id');
         status = params[kinship];
         $(this).prop('checked', status == 1 ? true : false);
     });
-
 };
 
 var initIntro = function () {

@@ -303,6 +303,87 @@ and open the template in the editor.
   transform: scale(1, 1);
   opacity: 1;
 }
+.chart-container .chart-controls-right {
+  position: absolute;
+  top: 10px;
+  left: 10px;
+  opacity: 0.7;
+  z-index: 100;
+  -webkit-transition: all 0.4s ease;
+  -moz-transition: all 0.4s ease;
+  -ms-transition: all 0.4s ease;
+  -o-transition: all 0.4s ease;
+  transition: all 0.4s ease;
+}
+.chart-container .chart-controls-right:hover {
+  opacity: 1;
+}
+.chart-container .chart-controls-right .navbar {
+  margin: 0;
+  max-width: 31px;
+}
+.chart-container .chart-controls-right .navbar .nav-collapse {
+  position: absolute;
+  z-index: 1;
+  top: 0;
+  left: 31px;
+  right: 0;
+  bottom: 0;
+  margin: 0;
+  margin-left: 3px;
+  padding-right: 0;
+  padding-left: 0;
+  width: 100%;
+}
+.chart-container .chart-controls-right .navbar .nav-collapse .navbar-form {
+  border: 0;
+  margin: 0;
+  padding: 0;
+}
+.chart-container .chart-controls-right .navbar .nav-collapse input {
+  width: 100%;
+  height: 31px;
+}
+.chart-container .chart-controls-right .navbar-nav {
+  margin: 0;
+}
+.chart-container .chart-controls-right .navbar-nav > li {
+  background-color: #eee;
+  background-repeat: no-repeat;
+  background-position: center;
+  /*opacity: 0.7;*/
+  width: 31px;
+  height: 31px;
+  text-align: center;
+  cursor: pointer;
+  margin-bottom: 3px;
+  -webkit-transition: all 0.4s ease;
+  -moz-transition: all 0.4s ease;
+  -ms-transition: all 0.4s ease;
+  -o-transition: all 0.4s ease;
+  transition: all 0.4s ease;
+  border-radius: 4px;
+}
+.chart-container .chart-controls-right .navbar-nav > li.separator {
+  content: ' ';
+  background-color: transparent;
+  height: 15.5px;
+}
+.chart-container .chart-controls-right .navbar-nav > li:hover,
+.chart-container .chart-controls-right .navbar-nav > li:focus {
+  opacity: 1;
+  background-color: #e1e1e1;
+}
+.chart-container .chart-controls-right .navbar-nav > li > a {
+  padding: 5px 0;
+  margin: 0;
+  /*border-radius: 0;*/
+  color: #4d4d4d;
+}
+.chart-container .chart-controls-right .navbar-nav > li > a:focus,
+.chart-container .chart-controls-right .navbar-nav > li > a:hover {
+  background-color: transparent;
+}
 .chart-container .chart-extra {
   position: absolute;
   /*width: 72px;*/

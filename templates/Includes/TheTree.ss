@@ -4,6 +4,8 @@
     <% end_if %>
 
     <% include TheTree_Nav %>
+    
+    <% include TheTree_Controls %>
 </div>
 
 <% loop Trees %>
