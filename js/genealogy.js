@@ -61,7 +61,7 @@ var centerNode = function ($node) {
 };
 
 /**
- * 
+ *
  * @param {type} url
  * @returns {undefined}
  */
@@ -93,11 +93,14 @@ var initTree = function () {
         $(this).jOrgChart({
             chartElement: '#' + kinship,
             multipleRoot: multiple, // Support multiple roots tree
-            fullscreenOnBtn: $('#fullscreen-in-btn').parent(),
-            fullscreenOffBtn: $('#fullscreen-out-btn').parent(),
+            fullscreenOnBtn: $('#fullscreen-in-btn'),
+            fullscreenOffBtn: $('#fullscreen-out-btn'),
             zoomInBtn: $('#zoom-in-btn'),
             zoomOneBtn: $('#zoom-one-btn'),
             zoomOutBtn: $('#zoom-out-btn'),
+            exportBtn: $('#dwonload-btn'),
+            collapseBtn: $('#collapse-btn'),
+            expandBtn: $('#expand-btn'),
 //            dragScroller: false,
 //            zoom: false
 //            depth: 3

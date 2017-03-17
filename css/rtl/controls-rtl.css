@@ -8,28 +8,28 @@ and open the template in the editor.
     Author     : hshatnawi
 */
 /*@tree-w: 0;*/
-.chart-container .chart-controls {
+.chart-container .chart-controls-left {
   left: auto;
   right: 10px;
 }
-.chart-container .chart-controls-hor {
+.chart-container .chart-controls-top-left {
   left: auto;
   right: 10px;
 }
-.chart-container .chart-controls-hor .navbar .nav-collapse {
+.chart-container .chart-controls-top-left .navbar .nav-collapse {
   left: auto;
   right: 31px;
   margin-left: auto;
   margin-right: 3px;
 }
-.chart-container .chart-controls-hor .navbar-nav > li {
+.chart-container .chart-controls-top-left .navbar-nav > li {
   margin-left: 3px;
   margin-right: auto;
 }
-.chart-container .chart-controls-hor .dropdown-menu .panel-body ul li {
+.chart-container .chart-controls-top-left .dropdown-menu .panel-body ul li {
   text-align: right;
 }
-.chart-container .chart-controls-hor .dropdown-menu .panel-body ul li input[type='checkbox'] {
+.chart-container .chart-controls-top-left .dropdown-menu .panel-body ul li input[type='checkbox'] {
   margin-left: 6px;
   margin-right: auto;
 }

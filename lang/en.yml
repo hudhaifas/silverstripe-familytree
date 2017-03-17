@@ -126,8 +126,7 @@ en:
     SUGGEST_EDIT_MESSAGE_1: 'Please forgive for the lack of accuracy of the data in this tree,'
     CLICK_HERE: 'click here'
     SUGGEST_EDIT_MESSAGE_2: 'to provide us with any data or suggestions.'
-    FULLSCREEN: 'Toggle Full Screen'
-    TOGGLE_NODES: 'Collapse/Expand All Nodes'
+
     NOTE: 'Note'
     COMMENTS: 'Comments'
     FROM: 'From'
@@ -140,6 +139,16 @@ en:
     SEND: 'Send'
     TIMELINE: 'Timeline'
     
+    # Controls
+    FULLSCREEN: 'Fullscreen'
+    EXIT_FULLSCREEN: 'Exit Full Screen'
+    COLLAPSE_ALL: 'Collapse All Nodes'
+    EXPAND_ALL: 'Expand All Nodes'
+    ZOOM_IN: 'Zoom In'
+    ZOOM_ONE: 'Reset the zoom'
+    ZOOM_OUT: 'Zoom Out'
+    DOWNLOAD_TREE: 'Save The Tree Image'
+    
     # Tutorial
     TUTORIAL_NODE: 'Click on the name to see more details'
     TUTORIAL_SEARCH_IN_TREE: 'Searcg for person in the tree'
@@ -147,6 +156,12 @@ en:
     TUTORIAL_KINSHIP: 'Find all kinship between any two persons, by typing few letters of their names and select from the popup menu'
     TUTORIAL_FILTERS: 'Filter the tree results by check/unceck what to show'
     TUTORIAL_HISTORY: 'Play the history timeline on this tree and watch the people who have lived in each time period'
+    TUTORIAL_FULLSCREEN: 'Toggle Fullscreen mode.'
+    TUTORIAL_COLLAPSE: 'Collapse or expand all nodes in the tree.'
+    TUTORIAL_ZOOM_IN: 'Zoom in the tree.'
+    TUTORIAL_ZOOM_ONE: 'Reset the tree zoom'
+    TUTORIAL_ZOOM_OUT: 'Zoom out the tree'
+    TUTORIAL_DOWNLOAD_TREE: 'Save the family tree as an image'
     TUTORIAL_NEXT: "Next"
     TUTORIAL_PREV: "Prev"
     TUTORIAL_SKIP: "Skip"

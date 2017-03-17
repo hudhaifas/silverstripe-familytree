@@ -2,16 +2,16 @@
 @import "../mixins/transform.less";
 
 @border-radius: 4px;
-@btn-dim: 31px;
-@btn-padding: 5px;
-@btn-margin: 3px;
+@control-dim: 31px;
+@control-padding: 5px;
+@control-margin: 3px;
 
 @info-btn-dim: 31px;
 @info-btn-padding: 5px;
 @font-size: 14px;
 
 .chart-container {
-    .chart-controls {
+    .chart-controls-left {
         left: auto;
         right: 10px;
 
@@ -22,20 +22,20 @@
     .chart-controls-bottom {
     }
 
-    .chart-controls-hor {
+    .chart-controls-top-left {
         left: auto;
         right: 10px;
 
         .navbar {
             .nav-collapse {
                 left: auto;
-                right: @btn-dim;
+                right: @control-dim;
                 margin-left: auto;
-                margin-right: @btn-margin;
+                margin-right: @control-margin;
             }
         }
         .navbar-nav > li {
-            margin-left: @btn-margin;
+            margin-left: @control-margin;
             margin-right: auto;
         }
 

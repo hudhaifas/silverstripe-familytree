@@ -11,12 +11,7 @@ and open the template in the editor.
 /* Controls */
 .chart-container .chart-controls {
   position: absolute;
-  width: 31px;
-  top: 10px;
-  left: 10px;
-  opacity: 0.7;
   z-index: 100;
-  padding-top: 50px;
   -webkit-transition: all 0.4s ease;
   -moz-transition: all 0.4s ease;
   -ms-transition: all 0.4s ease;
@@ -26,118 +21,11 @@ and open the template in the editor.
 .chart-container .chart-controls:hover {
   opacity: 1;
 }
-.chart-container .chart-controls .chart-control {
-  background-color: #eee;
-  background-repeat: no-repeat;
-  background-position: center;
-  opacity: 0.7;
-  width: 31px;
-  height: 31px;
-  border-radius: 4px;
-  cursor: pointer;
-  overflow: hidden;
-  margin-bottom: 2px;
-  -webkit-transition: all 0.4s ease;
-  -moz-transition: all 0.4s ease;
-  -ms-transition: all 0.4s ease;
-  -o-transition: all 0.4s ease;
-  transition: all 0.4s ease;
-}
-.chart-container .chart-controls .chart-control:hover {
-  opacity: 1;
-}
-.chart-container .chart-controls .chart-control.fullscreen {
-  background-image: url(data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABgAAAAYCAYAAADgdz34AAAABHNCSVQICAgIfAhkiAAAAAlwSFlzAAALEwAACxMBAJqcGAAAAK9JREFUSIntlEEOwiAQRV8ar2DgJN5/06S2XWnUy9jURW2c4kwFYdOkL2HDDP8PMAA7W6YHRmUsqDIMnhlrAb26JshxwI2VHaQa1CLugft7/pJjoOGBhxA/lja4BuIwHV9t5CcbtEAnxE0OK7EzMBix0y/hkvR8d1cSnunMWyOefLmyIsenW7pSBvMCx7LPrQv922B+oaF41B8UY2BV3pQ0sP6gaLR3IHu/UuZ2NsYL5fpb9uGg/vAAAAAASUVORK5CYII=);
-}
-.chart-container .chart-controls .chart-control.fullscreen-exit {
-  background-image: url(data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABgAAAAYCAYAAADgdz34AAAABHNCSVQICAgIfAhkiAAAAAlwSFlzAAALEwAACxMBAJqcGAAAALNJREFUSIntlEEOgjAQRd/CG4gp9+DaJp6CpCILlCgXcOsRDC6sUusgDLCR8BKShk7eL0NbWJgLMVAC2VTCHLBubIAKqIGDRlIHjxXmDHBx4xOwGROQCnPnoXJf0hU+SK4JkFr4ZvUjYA/cFQvS1M6AHXKfJfwz8UXbP9D0M1HUfmBo9nmfHaUipjmhBXALJDn92tcqf90tR2ANXAOJHRNQevLIvdu6L5mEjOetGHUVLvwHD482UJoHEYw/AAAAAElFTkSuQmCC);
-}
-.chart-container .chart-controls .chart-control.collapse-all {
-  background-image: url(data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABgAAAAYCAYAAADgdz34AAAABHNCSVQICAgIfAhkiAAAAAlwSFlzAAAEJwAABCcB2U8dgAAAABl0RVh0U29mdHdhcmUAd3d3Lmlua3NjYXBlLm9yZ5vuPBoAAABISURBVEiJY2AYBUMBRDMwMPzDgdkJaWYhwgJGKMYlhxcwEWEBRWDUAoKAYCQxMDDwMzAwSOOQu87AwPCfes4ZBaNgFIyCIQoAXU4IZ6wOdTUAAAAASUVORK5CYII=);
-}
-.chart-container .chart-controls .chart-control.expand-all {
-  background-image: url(data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABgAAAAYCAYAAADgdz34AAAAGXRFWHRTb2Z0d2FyZQBBZG9iZSBJbWFnZVJlYWR5ccllPAAAAyFpVFh0WE1MOmNvbS5hZG9iZS54bXAAAAAAADw/eHBhY2tldCBiZWdpbj0i77u/IiBpZD0iVzVNME1wQ2VoaUh6cmVTek5UY3prYzlkIj8+IDx4OnhtcG1ldGEgeG1sbnM6eD0iYWRvYmU6bnM6bWV0YS8iIHg6eG1wdGs9IkFkb2JlIFhNUCBDb3JlIDUuNS1jMDE0IDc5LjE1MTQ4MSwgMjAxMy8wMy8xMy0xMjowOToxNSAgICAgICAgIj4gPHJkZjpSREYgeG1sbnM6cmRmPSJodHRwOi8vd3d3LnczLm9yZy8xOTk5LzAyLzIyLXJkZi1zeW50YXgtbnMjIj4gPHJkZjpEZXNjcmlwdGlvbiByZGY6YWJvdXQ9IiIgeG1sbnM6eG1wPSJodHRwOi8vbnMuYWRvYmUuY29tL3hhcC8xLjAvIiB4bWxuczp4bXBNTT0iaHR0cDovL25zLmFkb2JlLmNvbS94YXAvMS4wL21tLyIgeG1sbnM6c3RSZWY9Imh0dHA6Ly9ucy5hZG9iZS5jb20veGFwLzEuMC9zVHlwZS9SZXNvdXJjZVJlZiMiIHhtcDpDcmVhdG9yVG9vbD0iQWRvYmUgUGhvdG9zaG9wIENDIChXaW5kb3dzKSIgeG1wTU06SW5zdGFuY2VJRD0ieG1wLmlpZDpGM0ZBMTc2MkRBRUIxMUU2QUQzNTgyNTAyQ0YxRkQxMSIgeG1wTU06RG9jdW1lbnRJRD0ieG1wLmRpZDpGM0ZBMTc2M0RBRUIxMUU2QUQzNTgyNTAyQ0YxRkQxMSI+IDx4bXBNTTpEZXJpdmVkRnJvbSBzdFJlZjppbnN0YW5jZUlEPSJ4bXAuaWlkOkYzRkExNzYwREFFQjExRTZBRDM1ODI1MDJDRjFGRDExIiBzdFJlZjpkb2N1bWVudElEPSJ4bXAuZGlkOkYzRkExNzYxREFFQjExRTZBRDM1ODI1MDJDRjFGRDExIi8+IDwvcmRmOkRlc2NyaXB0aW9uPiA8L3JkZjpSREY+IDwveDp4bXBtZXRhPiA8P3hwYWNrZXQgZW5kPSJyIj8+qwdK1wAAAFVJREFUeNpi/P//PwMtAeOoBVSxgJGREasioF7GUQtGLSAtmcIsIsbggbcAV7DgArgsxWsBsS7Fp5aJgcYAwwfYggan94lQS3MfjFowWqMNAQsAAgwAw+xs5UjVS6IAAAAASUVORK5CYII=);
-}
-.chart-container .chart-controls .chart-control.zoom-in {
-  background-image: url(data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABgAAAAYCAYAAADgdz34AAAAGXRFWHRTb2Z0d2FyZQBBZG9iZSBJbWFnZVJlYWR5ccllPAAAAEdJREFUeNpiYBgFQwk0APF/KG6gtuECSIbD8OCwgJEES/6To3foW0AotZCKG8iJTFLxwFpA9SAaTaYjoKgYNMX1KKAdAAgwABPOVwzMs9JHAAAAAElFTkSuQmCC);
-  margin-top: 20px;
-}
-.chart-container .chart-controls .chart-control.zoom-out {
-  background-image: url(data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABgAAAAYCAYAAADgdz34AAAAGXRFWHRTb2Z0d2FyZQBBZG9iZSBJbWFnZVJlYWR5ccllPAAAAC9JREFUeNpiYBgFo2AUjAKyQAMQ/ycTNxAyXIACw2F4YC2geRCNglEwCmgAAAIMALTdPeVxSHI6AAAAAElFTkSuQmCC);
-  margin-bottom: 20px;
-}
-.chart-container .chart-controls .chart-control.export {
-  background-image: url(data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABAAAAAQCAYAAAAf8/9hAAAA5UlEQVQ4T5XTzyrFQRjG8c+5CYkUio0rsHAu40RJKLaycg9WsnPqFJ06JTfh3z1ISZTYcAvS1Kt+DfNrfu9u5n2e7zy9M9NTrincR3sVX/9Jey2ADUyiP8BVV8AehmHaxkVXwD7OwrSD866AXYzCtIVxV8Bmw7SOyxrACQ5aBptaxzj61eS3MIdbzBcgD+jjswRI+4sBmc0gz1jDe3O/9A6WcYPpEL+F+SVP1vaQVnCN74j9WDPEXLMQgNfSYJsJZiJmW6rESYnu8JEWTXEaUjqxpp6wlANOkX5gTaXTD3NAjfGP5gcCPCMRlqRKxgAAAABJRU5ErkJggg==);
-}
-.chart-container .chart-controls-bottom {
-  position: absolute;
-  display: none;
-  /*        width: @btn-dim;*/
-  bottom: 10px;
-  left: 10px;
-  right: 10px;
-  height: 80px;
-  /*opacity: 0.7;*/
-  z-index: 100;
-  -webkit-transition: all 0.4s ease;
-  -moz-transition: all 0.4s ease;
-  -ms-transition: all 0.4s ease;
-  -o-transition: all 0.4s ease;
-  transition: all 0.4s ease;
-  /* Animation */
-  display: block;
-  opacity: .3;
-  -o-transform-origin: bottom center;
-  -webkit-transform-origin: bottom center;
-  -moz-transform-origin: bottom center;
-  -ms-transform-origin: bottom center;
-  transform-origin: bottom center;
-  animation-fill-mode: forwards;
-  -webkit-animation-fill-mode: forwards;
-  -webkit-transform: scale(1, 0);
-  -moz-transform: scale(1, 0);
-  -ms-transform: scale(1, 0);
-  -o-transform: scale(1, 0);
-  transform: scale(1, 0);
-  -webkit-transition: all 0.2s linear;
-  -moz-transition: all 0.2s linear;
-  -ms-transition: all 0.2s linear;
-  -o-transition: all 0.2s linear;
-  transition: all 0.2s linear;
-}
-.chart-container .chart-controls-bottom:hover {
-  opacity: 1;
-}
-.chart-container .chart-controls-bottom.open {
-  /*display: block;*/
-  -webkit-transform: scale(1, 1);
-  -moz-transform: scale(1, 1);
-  -ms-transform: scale(1, 1);
-  -o-transform: scale(1, 1);
-  transform: scale(1, 1);
-  opacity: 1;
-}
-.chart-container .chart-controls-hor {
-  position: absolute;
-  /*        width: @btn-dim;*/
-  top: 10px;
-  left: 10px;
-  opacity: 0.7;
-  z-index: 100;
-  -webkit-transition: all 0.4s ease;
-  -moz-transition: all 0.4s ease;
-  -ms-transition: all 0.4s ease;
-  -o-transition: all 0.4s ease;
-  transition: all 0.4s ease;
-}
-.chart-container .chart-controls-hor:hover {
-  opacity: 1;
-}
-.chart-container .chart-controls-hor .navbar {
+.chart-container .chart-controls .navbar {
   margin: 0;
   min-height: 31px;
 }
-.chart-container .chart-controls-hor .navbar .nav-collapse {
+.chart-container .chart-controls .navbar .nav-collapse {
   position: absolute;
   z-index: 1;
   top: 0;
@@ -150,25 +38,19 @@ and open the template in the editor.
   padding-left: 0;
   width: 100%;
 }
-.chart-container .chart-controls-hor .navbar .nav-collapse .navbar-form {
+.chart-container .chart-controls .navbar .nav-collapse .navbar-form {
   border: 0;
   margin: 0;
   padding: 0;
 }
-.chart-container .chart-controls-hor .navbar .nav-collapse input {
+.chart-container .chart-controls .navbar .nav-collapse input {
   width: 100%;
   height: 31px;
 }
-.chart-container .chart-controls-hor .navbar-nav {
+.chart-container .chart-controls .navbar-nav {
   margin: 0;
 }
-.chart-container .chart-controls-hor .nav .open > a,
-.chart-container .chart-controls-hor .nav .open > a:hover,
-.chart-container .chart-controls-hor .nav .open > a:focus {
-  background: transparent;
-  color: #4d4d4d;
-}
-.chart-container .chart-controls-hor .navbar-nav > li {
+.chart-container .chart-controls .navbar-nav > li {
   background-color: #eee;
   background-repeat: no-repeat;
   background-position: center;
@@ -177,46 +59,58 @@ and open the template in the editor.
   height: 31px;
   text-align: center;
   cursor: pointer;
-  margin-right: 3px;
+  margin-bottom: 3px;
   -webkit-transition: all 0.4s ease;
   -moz-transition: all 0.4s ease;
   -ms-transition: all 0.4s ease;
   -o-transition: all 0.4s ease;
   transition: all 0.4s ease;
   border-radius: 4px;
-  /*            &:first-child {
-                border-top-right-radius: @border-radius;
-                border-bottom-right-radius: @border-radius;
-            }
-
-            &:last-child {
-                border-top-left-radius: @border-radius;
-                border-bottom-left-radius: @border-radius;
-            }*/
 }
-.chart-container .chart-controls-hor .navbar-nav > li.dropdown-label {
-  width: inherit;
-  padding: 0 10px;
+.chart-container .chart-controls .navbar-nav > li.separator {
+  content: ' ';
+  visibility: hidden;
+  background-color: transparent;
+  width: 15.5px;
+  height: 15.5px;
 }
-.chart-container .chart-controls-hor .navbar-nav > li:hover,
-.chart-container .chart-controls-hor .navbar-nav > li:focus {
+.chart-container .chart-controls .navbar-nav > li.separator:hover,
+.chart-container .chart-controls .navbar-nav > li.separator:focus {
+  background-color: transparent;
+}
+.chart-container .chart-controls .navbar-nav > li:hover,
+.chart-container .chart-controls .navbar-nav > li:focus {
   opacity: 1;
   background-color: #e1e1e1;
 }
-.chart-container .chart-controls-hor .navbar-nav > li.pressed {
-  /*background-color: #ccc;*/
+.chart-container .chart-controls .navbar-nav > li.dropdown-label {
+  width: inherit;
+  padding: 0 10px;
 }
-.chart-container .chart-controls-hor .navbar-nav > li > a {
+.chart-container .chart-controls .navbar-nav > li > a {
+  color: #4d4d4d;
   padding: 5px 0;
   margin: 0;
-  /*border-radius: 0;*/
-  color: #4d4d4d;
 }
-.chart-container .chart-controls-hor .navbar-nav > li > a:focus,
-.chart-container .chart-controls-hor .navbar-nav > li > a:hover {
+.chart-container .chart-controls .navbar-nav > li > a:focus,
+.chart-container .chart-controls .navbar-nav > li > a:hover {
   background-color: transparent;
 }
-.chart-container .chart-controls-hor .dropdown-menu {
+.chart-container .chart-controls.vertical .navbar {
+  min-height: inherit;
+  max-width: 31px;
+}
+.chart-container .chart-controls.vertical .navbar-nav > li {
+  margin-right: auto;
+  margin-bottom: 3px;
+}
+.chart-container .chart-controls .nav .open > a,
+.chart-container .chart-controls .nav .open > a:hover,
+.chart-container .chart-controls .nav .open > a:focus {
+  background: transparent;
+  color: #4d4d4d;
+}
+.chart-container .chart-controls .dropdown-menu {
   background-clip: padding-box;
   border: 1px solid #ccc;
   border: 1px solid rgba(0, 0, 0, 0.15);
@@ -245,57 +139,56 @@ and open the template in the editor.
   -o-transition: all 0.2s linear;
   transition: all 0.2s linear;
 }
-.chart-container .chart-controls-hor .dropdown-menu .panel-heading {
+.chart-container .chart-controls .dropdown-menu .panel-heading {
   padding: 6px 8px;
 }
-.chart-container .chart-controls-hor .dropdown-menu .panel-heading .filter-input {
+.chart-container .chart-controls .dropdown-menu .panel-heading .filter-input {
   width: 100%;
   font-size: 14px;
   padding: 4px 6px;
   border: 1px solid #ddd;
 }
-.chart-container .chart-controls-hor .dropdown-menu .panel-body {
+.chart-container .chart-controls .dropdown-menu .panel-body {
   padding: 0 10px;
   text-align: left;
 }
-.chart-container .chart-controls-hor .dropdown-menu .panel-body ul {
+.chart-container .chart-controls .dropdown-menu .panel-body ul {
   list-style-type: none;
   padding: 0;
   margin: 0;
 }
-.chart-container .chart-controls-hor .dropdown-menu .panel-body ul li {
+.chart-container .chart-controls .dropdown-menu .panel-body ul li {
   padding: 8px;
   border-bottom: 1px solid #ddd;
   margin-top: -1px;
   /* Prevent double borders */
-  /*background-color: #f6f6f6;*/
   text-decoration: none;
   text-align: left;
   font-size: 14px;
   color: black;
   display: block;
 }
-.chart-container .chart-controls-hor .dropdown-menu .panel-body ul li label {
+.chart-container .chart-controls .dropdown-menu .panel-body ul li label {
   margin-bottom: 0;
   font-weight: normal;
 }
-.chart-container .chart-controls-hor .dropdown-menu .panel-body ul li input[type='checkbox'] {
+.chart-container .chart-controls .dropdown-menu .panel-body ul li input[type='checkbox'] {
   margin-right: 6px;
 }
-.chart-container .chart-controls-hor .dropdown-menu .panel-body ul li:hover:not(.header) {
+.chart-container .chart-controls .dropdown-menu .panel-body ul li:hover:not(.header) {
   background-color: #eee;
 }
-.chart-container .chart-controls-hor .dropdown-menu .panel-body ul li a {
+.chart-container .chart-controls .dropdown-menu .panel-body ul li a {
   padding: 0;
 }
-.chart-container .chart-controls-hor .dropdown-menu .panel-body ul li a.header {
+.chart-container .chart-controls .dropdown-menu .panel-body ul li a.header {
   background-color: #e2e2e2;
   cursor: default;
 }
-.chart-container .chart-controls-hor .dropdown-menu .panel-body ul li a:hover:not(.header) {
+.chart-container .chart-controls .dropdown-menu .panel-body ul li a:hover:not(.header) {
   background-color: #eee;
 }
-.chart-container .chart-controls-hor .open > .dropdown-menu {
+.chart-container .chart-controls .open > .dropdown-menu {
   -webkit-transform: scale(1, 1);
   -moz-transform: scale(1, 1);
   -ms-transform: scale(1, 1);
@@ -303,86 +196,56 @@ and open the template in the editor.
   transform: scale(1, 1);
   opacity: 1;
 }
-.chart-container .chart-controls-right {
-  position: absolute;
+.chart-container .chart-controls-bottom {
+  display: none;
+  /*        width: @control-dim;*/
+  bottom: 10px;
+  left: 10px;
+  right: 10px;
+  height: 80px;
+  /*opacity: 0.7;*/
+  /* Animation */
+  display: block;
+  opacity: .3;
+  -o-transform-origin: bottom center;
+  -webkit-transform-origin: bottom center;
+  -moz-transform-origin: bottom center;
+  -ms-transform-origin: bottom center;
+  transform-origin: bottom center;
+  animation-fill-mode: forwards;
+  -webkit-animation-fill-mode: forwards;
+  -webkit-transform: scale(1, 0);
+  -moz-transform: scale(1, 0);
+  -ms-transform: scale(1, 0);
+  -o-transform: scale(1, 0);
+  transform: scale(1, 0);
+  -webkit-transition: all 0.2s linear;
+  -moz-transition: all 0.2s linear;
+  -ms-transition: all 0.2s linear;
+  -o-transition: all 0.2s linear;
+  transition: all 0.2s linear;
+}
+.chart-container .chart-controls-bottom.open {
+  /*display: block;*/
+  -webkit-transform: scale(1, 1);
+  -moz-transform: scale(1, 1);
+  -ms-transform: scale(1, 1);
+  -o-transform: scale(1, 1);
+  transform: scale(1, 1);
+  opacity: 1;
+}
+.chart-container .chart-controls-top-left {
   top: 10px;
   left: 10px;
   opacity: 0.7;
   z-index: 100;
-  -webkit-transition: all 0.4s ease;
-  -moz-transition: all 0.4s ease;
-  -ms-transition: all 0.4s ease;
-  -o-transition: all 0.4s ease;
-  transition: all 0.4s ease;
 }
-.chart-container .chart-controls-right:hover {
-  opacity: 1;
-}
-.chart-container .chart-controls-right .navbar {
-  margin: 0;
-  max-width: 31px;
-}
-.chart-container .chart-controls-right .navbar .nav-collapse {
-  position: absolute;
-  z-index: 1;
-  top: 0;
-  left: 31px;
-  right: 0;
-  bottom: 0;
-  margin: 0;
-  margin-left: 3px;
-  padding-right: 0;
-  padding-left: 0;
-  width: 100%;
-}
-.chart-container .chart-controls-right .navbar .nav-collapse .navbar-form {
-  border: 0;
-  margin: 0;
-  padding: 0;
-}
-.chart-container .chart-controls-right .navbar .nav-collapse input {
-  width: 100%;
-  height: 31px;
-}
-.chart-container .chart-controls-right .navbar-nav {
-  margin: 0;
-}
-.chart-container .chart-controls-right .navbar-nav > li {
-  background-color: #eee;
-  background-repeat: no-repeat;
-  background-position: center;
-  /*opacity: 0.7;*/
-  width: 31px;
-  height: 31px;
-  text-align: center;
-  cursor: pointer;
-  margin-bottom: 3px;
-  -webkit-transition: all 0.4s ease;
-  -moz-transition: all 0.4s ease;
-  -ms-transition: all 0.4s ease;
-  -o-transition: all 0.4s ease;
-  transition: all 0.4s ease;
-  border-radius: 4px;
-}
-.chart-container .chart-controls-right .navbar-nav > li.separator {
-  content: ' ';
-  background-color: transparent;
-  height: 15.5px;
-}
-.chart-container .chart-controls-right .navbar-nav > li:hover,
-.chart-container .chart-controls-right .navbar-nav > li:focus {
-  opacity: 1;
-  background-color: #e1e1e1;
-}
-.chart-container .chart-controls-right .navbar-nav > li > a {
-  padding: 5px 0;
-  margin: 0;
-  /*border-radius: 0;*/
-  color: #4d4d4d;
-}
-.chart-container .chart-controls-right .navbar-nav > li > a:focus,
-.chart-container .chart-controls-right .navbar-nav > li > a:hover {
-  background-color: transparent;
+.chart-container .chart-controls-left {
+  top: 10px;
+  left: 10px;
+  opacity: 0.7;
+  z-index: 100;
+  margin-top: 50px;
 }
 .chart-container .chart-extra {
   position: absolute;
@@ -440,7 +303,7 @@ and open the template in the editor.
   font-size: 26px;
 }
 @media (max-width: 767px) {
-  .chart-container .chart-controls-hor .navbar-nav > li.dropdown-label {
+  .chart-container .chart-controls-top-left .navbar-nav > li.dropdown-label {
     width: 31px;
     padding: 0;
   }

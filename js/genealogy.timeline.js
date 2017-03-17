@@ -1,4 +1,4 @@
-/* 
+/*
  * 2-28-2017
  */
 
@@ -31,12 +31,10 @@ var initTimeline = function () {
 
         $well = $('.chart-controls-bottom');
 
-//        $well.toggle();
         $well.toggleClass('open');
-        
+
         $(this).parent().toggleClass('pressed');
 
-//        if ($well.is(":visible")) {
         if ($well.hasClass("open")) {
             $slider = $well.find('input');
             $slider.bootstrapSlider('relayout');
@@ -45,11 +43,13 @@ var initTimeline = function () {
             updateTimePoint(ticks['start']);
 
             initTimelineControl($slider, ticks['end']);
+            $('.hide-on-timeline').hide();
 
         } else {
             resetTimeline();
             destroyTimer();
             $('#timeline-control').unbind('click');
+            $('.hide-on-timeline').show();
         }
     });
 };

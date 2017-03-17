@@ -12,6 +12,10 @@ and open the template in the editor.
 .timeline-nav {
   height: 64px;
 }
+.timeline-nav.well {
+  background-color: #eee;
+  color: #4d4d4d;
+}
 .timeline-nav .play-control {
   float: left;
   width: 40px;

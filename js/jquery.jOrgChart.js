@@ -32,7 +32,7 @@
         $this.remove();
         $contentPane.append($chartPane);
 
-        $controls = createControls($container, $contentPane, $chartPane, opts);
+        $controls = setupControls($container, $contentPane, $chartPane, opts);
         $container.append($controls);
 
         $extraPane = $('<div id="chart-extra" class="chart-extra"></div>');
@@ -56,13 +56,15 @@
         // Direction options
         direction: "t2b",
         // Fullscree options
-        fullscreen: true,
         fullscreenOnBtn: null,
         fullscreenOffBtn: null,
         // Drag scroller options
         dragScroller: true,
+        // Collapse options
+        collapseBtn: null,
+        expandBtn: null,
         // Export options
-        exportImage: true,
+        exportBtn: null,
         exportFile: 'family.png',
         // Zoom options
         zoom: true,
@@ -229,10 +231,10 @@
         });
     }
 
-    function createControls($container, $contentPane, $chartPane, opts) {
+    function setupControls($container, $contentPane, $chartPane, opts) {
         $controls = $('<div class="chart-controls"></div>');
 
-        if (opts.fullscreen) {
+        if (opts.fullscreenOnBtn && opts.fullscreenOffBtn) {
             opts.fullscreenOnBtn.click(function (event) {
                 event.stopPropagation();
                 $container.fullscreen();
@@ -247,69 +249,74 @@
                 toggleStrechContainer($container, $.fullscreen.isFullScreen());
                 // if we currently in fullscreen mode
                 if ($.fullscreen.isFullScreen()) {
-                    $('.no-fullscreen').hide();
+                    $('.hide-on-fullscreen').hide();
                     opts.fullscreenOnBtn.hide();
                     opts.fullscreenOffBtn.show();
 
                 } else {
-                    $('.no-fullscreen').show();
+                    $('.hide-on-fullscreen').show();
                     opts.fullscreenOnBtn.show();
                     opts.fullscreenOffBtn.hide();
                 }
             });
         }
 
-        var $collapseBtn = createButton('collapse-all', function (event) {
-            event.preventDefault();
-            toggleAllNodes($container);
-            $container.find('.collapse-all, .expand-all').toggleClass('collapse-all expand-all');
-        });
-        $collapseBtn.appendTo($controls);
+        if (opts.collapseBtn && opts.expandBtn) {
+            opts.collapseBtn.click(function (event) {
+                event.preventDefault();
+
+                toggleAllNodes($container, opts);
+            });
+            opts.expandBtn.click(function (event) {
+                event.preventDefault();
+                toggleAllNodes($container, opts);
+            });
+        }
 
         if (opts.dragScroller) {
             $contentPane.dragScroll({});
         }
 
         if (opts.zoom) {
-            opts.zoomInBtn.click(function (event) {
-                event.preventDefault();
-                zoom($contentPane, $chartPane, opts.stepZoom, opts);
-            });
-            
-            opts.zoomOneBtn.click(function (event) {
-                event.preventDefault();
-                zoom($contentPane, $chartPane, 0, opts);
-            });
+            if (opts.zoomInBtn) {
+                opts.zoomInBtn.click(function (event) {
+                    event.preventDefault();
+                    zoom($contentPane, $chartPane, opts.stepZoom, opts);
+                });
+            }
 
-            opts.zoomOutBtn.click(function (event) {
-                event.preventDefault();
-                zoom($contentPane, $chartPane, -opts.stepZoom, opts);
-            });
+            if (opts.zoomOneBtn) {
+                opts.zoomOneBtn.click(function (event) {
+                    event.preventDefault();
+                    zoom($contentPane, $chartPane, 0, opts);
+                });
+            }
+
+            if (opts.zoomOutBtn) {
+                opts.zoomOutBtn.click(function (event) {
+                    event.preventDefault();
+                    zoom($contentPane, $chartPane, -opts.stepZoom, opts);
+                });
+            }
         }
 
-        if (opts.exportImage) {
-            var $saveBtn = $('<a href="#" id="save-tree" class="hidden" download="' + opts.exportFile + '"></a>');
-            var $exportBtn = createButton('export no-fullscreen hidden-phone hidden-tablet', function () {
+        if (opts.exportBtn) {
+            if (!opts.saveBtn) {
+                opts.saveBtn = $('<a href="#" id="save-tree" class="hidden" download="' + opts.exportFile + '"></a>');
+                opts.saveBtn.appendTo($controls);
+            }
+
+            opts.exportBtn.click(function (event) {
                 event.preventDefault();
 
-                exportTree($container, $contentPane, $chartPane, $saveBtn);
+                exportTree($container, $contentPane, $chartPane, opts.saveBtn);
             });
-
-            $exportBtn.appendTo($controls);
-            $saveBtn.appendTo($controls);
         }
 
         return $controls;
     }
 
-    function createButton(icon, onclick) {
-        $btn = $('<div class="chart-control ' + icon + '"></div> ');
-        $btn.on('click', onclick);
-
-        return $btn;
-    }
-
-    function toggleAllNodes($chartPane) {
+    function toggleAllNodes($chartPane, opts) {
         $nodeDiv = $chartPane.find('div.node');
         var $tr = $nodeDiv.closest("tr");
 
@@ -319,6 +326,9 @@
             $tr.nextAll("tr").css('visibility', '');
             $tr.nextAll("tr").css('display', '');
 
+            opts.collapseBtn.show();
+            opts.expandBtn.hide();
+
             return true;
         } else {
             $nodeDiv.css('cursor', 'zoom-in');
@@ -326,6 +336,8 @@
             $tr.nextAll("tr").css('visibility', 'hidden');
             $tr.nextAll("tr").css('display', 'none');
 
+            opts.collapseBtn.hide();
+            opts.expandBtn.show();
             return false;
         }
     }

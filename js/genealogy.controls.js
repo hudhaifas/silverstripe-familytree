@@ -9,21 +9,21 @@ var initAllControls = function () {
 };
 
 var initTreeNav = function () {
-    var $controls = $('<div class="chart-controls-hor"></div>');
+    var $controls = $('<div class="chart-controls chart-controls-top-left"></div>');
     var $nav = $('#menu-nav');
     $controls.append($nav);
     $('#k1').append($controls);
 };
 
 var initTimelineNav = function () {
-    var $controls = $('<div class="chart-controls-bottom"></div>');
+    var $controls = $('<div class="chart-controls chart-controls-bottom"></div>');
     var $nav = $('#timeline-nav');
     $controls.append($nav);
     $('#k1').append($controls);
 };
 
 var initControlsNav = function () {
-    var $controls = $('<div class="chart-controls-right"></div>');
+    var $controls = $('<div class="chart-controls chart-controls-left vertical"></div>');
     var $nav = $('#controls-nav');
     $controls.append($nav);
     $('#k1').append($controls);
@@ -120,7 +120,7 @@ var bindAll = function () {
 
     window.onpopstate = function (e) {
         console.log('e: ' + e);
-        if (e.state.url) {
+        if (e.state && e.state.url) {
             console.log('onpopstate: ' + e.state.url);
             showPerson(e.state.url);
         } else {

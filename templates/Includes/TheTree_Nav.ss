@@ -6,6 +6,8 @@
             </a>
         </li>
 
+        <li class="separator"></li>
+
         <li class="dropdown arrow arrow-top-center dropdown-label" data-intro="<%t Genealogist.TUTORIAL_ROOTS_LIST 'Choose a tree from the clans list' %>" data-position="bottom">
             <a href="/#" data-toggle="dropdown" class="icon-holder aside-disabled" title="<%t Genealogist.ROOTS_LIST 'Roots List' %>" aria-expanded="true">
                 <span class="nav-icon"><i class="fa fa-code-fork"></i></span>
@@ -27,7 +29,7 @@
             </div>
         </li>      
 
-        <li class="dropdown no-fullscreen" data-intro="<%t Genealogist.TUTORIAL_KINSHIP 'Find all kinship between any two persons, by typing few letters of their names and select from the popup menu' %>" data-position="bottom">
+        <li class="dropdown hide-on-fullscreen" data-intro="<%t Genealogist.TUTORIAL_KINSHIP 'Find all kinship between any two persons, by typing few letters of their names and select from the popup menu' %>" data-position="bottom">
             <a id="kinsip-btn" class="dropdown-toggle" href="#" title="<%t Genealogist.KINSHIP 'Kinship' %>">
                 <i class="fa fa-retweet" aria-hidden="true"></i>
             </a>
