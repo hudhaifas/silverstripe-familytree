@@ -6,7 +6,7 @@
             </a>
         </li>
         
-        <li class="no-timeline" data-intro="<%t Genealogist.ZOOM_OUT 'Zoom Out' %>" data-position="left" >
+        <li class="no-timeline" style="display: none;" data-intro="<%t Genealogist.ZOOM_OUT 'Zoom Out' %>" data-position="left" >
             <a id="fullscreen-out-btn" href="#" title="<%t Genealogist.ZOOM_OUT 'Zoom Out' %>">
                 <i class="fa fa-compress" aria-hidden="true"></i>
             </a>

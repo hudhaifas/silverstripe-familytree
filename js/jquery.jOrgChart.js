@@ -57,6 +57,8 @@
         direction: "t2b",
         // Fullscree options
         fullscreen: true,
+        fullscreenOnBtn: null,
+        fullscreenOffBtn: null,
         // Drag scroller options
         dragScroller: true,
         // Export options
@@ -64,6 +66,9 @@
         exportFile: 'family.png',
         // Zoom options
         zoom: true,
+        zoomInBtn: null,
+        zoomOneBtn: null,
+        zoomOutBtn: null,
         zoomScroller: false,
         minZoom: 0.4,
         maxZoom: 1.2,
@@ -228,18 +233,14 @@
         $controls = $('<div class="chart-controls"></div>');
 
         if (opts.fullscreen) {
-            var $fullscreenBtn = createButton('fullscreen', function (event) {
-                event.preventDefault();
+            opts.fullscreenOnBtn.click(function (event) {
+                event.stopPropagation();
                 $container.fullscreen();
             });
-            var $exitBtn = createButton('fullscreen-exit', function (event) {
-                event.preventDefault();
+            opts.fullscreenOffBtn.click(function (event) {
+                event.stopPropagation();
                 $.fullscreen.exit();
             });
-            $exitBtn.css('display', 'none');
-
-            $fullscreenBtn.appendTo($controls);
-            $exitBtn.appendTo($controls);
 
             // document's event
             $(document).bind('fscreenchange', function (e, state, elem) {
@@ -247,12 +248,13 @@
                 // if we currently in fullscreen mode
                 if ($.fullscreen.isFullScreen()) {
                     $('.no-fullscreen').hide();
-                    $fullscreenBtn.hide();
-                    $exitBtn.show();
+                    opts.fullscreenOnBtn.hide();
+                    opts.fullscreenOffBtn.show();
+
                 } else {
                     $('.no-fullscreen').show();
-                    $fullscreenBtn.show();
-                    $exitBtn.hide();
+                    opts.fullscreenOnBtn.show();
+                    opts.fullscreenOffBtn.hide();
                 }
             });
         }
@@ -269,22 +271,20 @@
         }
 
         if (opts.zoom) {
-            var $zoomInBtn = createButton('zoom-in', function (event) {
+            opts.zoomInBtn.click(function (event) {
                 event.preventDefault();
                 zoom($contentPane, $chartPane, opts.stepZoom, opts);
             });
-            var $zoomOneBtn = createButton('zoom-one', function (event) {
+            
+            opts.zoomOneBtn.click(function (event) {
                 event.preventDefault();
                 zoom($contentPane, $chartPane, 0, opts);
             });
-            var $zoomOutBtn = createButton('zoom-out', function (event) {
+
+            opts.zoomOutBtn.click(function (event) {
                 event.preventDefault();
                 zoom($contentPane, $chartPane, -opts.stepZoom, opts);
             });
-
-            $zoomInBtn.appendTo($controls);
-            $zoomOneBtn.appendTo($controls);
-            $zoomOutBtn.appendTo($controls);
         }
 
         if (opts.exportImage) {

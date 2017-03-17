@@ -93,6 +93,11 @@ var initTree = function () {
         $(this).jOrgChart({
             chartElement: '#' + kinship,
             multipleRoot: multiple, // Support multiple roots tree
+            fullscreenOnBtn: $('#fullscreen-in-btn').parent(),
+            fullscreenOffBtn: $('#fullscreen-out-btn').parent(),
+            zoomInBtn: $('#zoom-in-btn'),
+            zoomOneBtn: $('#zoom-one-btn'),
+            zoomOutBtn: $('#zoom-out-btn'),
 //            dragScroller: false,
 //            zoom: false
 //            depth: 3
