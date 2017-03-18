@@ -42,19 +42,52 @@
     }
 }
 
-@media (max-width: 979px) {
-    .timeline-control {
-        margin-bottom: 20px;
-    }
-}
-
 @media only screen and (max-width: 760px) {
     .timeline-nav {
+        height: 54px;
+
+        &.well {
+            margin-bottom: 10px;
+        }
+
+        &.well-sm {
+            padding: 6px;    
+        }
+
         .play-control {
+            width: 36px;
+
+            button {
+                padding: 1px;
+            }
         }
 
         .play-bar {
             width: 90%;
+            padding: 0 16px;
+
+            .slider {
+                &.slider-horizontal {
+                    .slider-track {
+                        height: 6px;
+                        margin-top: -5px;
+                        top: 50%;
+                    }    
+
+                    .slider-tick-label-container {
+                        margin-top: 15px;
+                    }
+                }
+
+                .slider-tick-label-container .slider-tick-label {
+                    font-size: 10px;
+                }   
+            }
+
+            .slider-handle, .slider-tick {
+                width: 16px;
+                height: 16px;
+            }
         }
     }
 }

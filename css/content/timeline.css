@@ -47,14 +47,41 @@ and open the template in the editor.
 .timeline-nav .play-bar .slider .slider-tick-label-container .slider-tick-label {
   font-size: 12px;
 }
-@media (max-width: 979px) {
-  .timeline-control {
-    margin-bottom: 20px;
-  }
-}
 @media only screen and (max-width: 760px) {
+  .timeline-nav {
+    height: 54px;
+  }
+  .timeline-nav.well {
+    margin-bottom: 10px;
+  }
+  .timeline-nav.well-sm {
+    padding: 6px;
+  }
+  .timeline-nav .play-control {
+    width: 36px;
+  }
+  .timeline-nav .play-control button {
+    padding: 1px;
+  }
   .timeline-nav .play-bar {
     width: 90%;
+    padding: 0 16px;
+  }
+  .timeline-nav .play-bar .slider.slider-horizontal .slider-track {
+    height: 6px;
+    margin-top: -5px;
+    top: 50%;
+  }
+  .timeline-nav .play-bar .slider.slider-horizontal .slider-tick-label-container {
+    margin-top: 15px;
+  }
+  .timeline-nav .play-bar .slider .slider-tick-label-container .slider-tick-label {
+    font-size: 10px;
+  }
+  .timeline-nav .play-bar .slider-handle,
+  .timeline-nav .play-bar .slider-tick {
+    width: 16px;
+    height: 16px;
   }
 }
 @media only screen and (max-width: 480px) {
