@@ -43,6 +43,8 @@ var initKinshipDropdown = function () {
 };
 
 var initSearchTree = function () {
+    $('#search-input').unbind('propertychange change click keyup input paste');
+
     $('#search-input').on('propertychange change click keyup input paste', function (event) {
         event.preventDefault();
 
@@ -54,8 +56,8 @@ var initSearchTree = function () {
 
         $firstLink = $nodes.first();
         $firstNode = $firstLink.parent();
-//        console.log($nodes.length + ' results starts with: ' + akeyword);
-//        console.log('First result: ' + $firstLink.attr('title'));
+        console.log($nodes.length + ' results starts with: ' + akeyword);
+        console.log('First result: ' + $firstLink.attr('title'));
 
         $firstNode.addClass("highlight");
         centerNode($firstNode);
@@ -212,6 +214,4 @@ var bindAll = function () {
 
 var unbindAll = function () {
     $("#toggle-fullscreen, #toggle-nodes, #export-tree, input[type=checkbox]").unbind("click");
-
-    $('#search-input').unbind('propertychange change click keyup input paste');
 };
