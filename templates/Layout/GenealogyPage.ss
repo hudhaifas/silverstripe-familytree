@@ -1,6 +1,6 @@
-<div class="tree-container">
-    <div id="tree-holder" class="tree-holder">
-        <% if Trees.Count %>
+<% if Trees.Count %>
+    <div class="tree-container">
+        <div id="tree-holder" class="tree-holder">
             <!--    
             <div class="alert alert-info alert-dismissable">
                 <a href="#" class="close" data-dismiss="alert" aria-label="close">×</a>
@@ -10,11 +10,10 @@
                 <%t Genealogist.SUGGEST_EDIT_MESSAGE_2 ' to provide us with any data.' value=$Link(suggest) %>
             </div>
             -->
-            
-            <% include TheTree %>
 
-        <% else %>
-            $Content
-        <% end_if %>
+            <% include TheTree %>
+        </div>
     </div>
-</div>
+<% else %>
+    <% include GenealogyContent %>
+<% end_if %>
