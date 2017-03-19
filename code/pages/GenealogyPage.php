@@ -136,12 +136,12 @@ class GenealogyPage_Controller
         Requirements::javascript("genealogist/js/vendors/jquery.fullscreen.js");
         Requirements::javascript("genealogist/js/vendors/jquery.panzoom.js");
         Requirements::javascript("genealogist/js/vendors/jquery-scrollto.js");
-        
+
         Requirements::javascript("genealogist/js/vendors/URI.js");
         Requirements::javascript("genealogist/js/vendors/html2canvas.js");
         Requirements::javascript("genealogist/js/vendors/bootstrap-slider.js");
         Requirements::javascript("genealogist/js/vendors/intro.js");
-        
+
         Requirements::javascript("genealogist/js/jquery.jOrgChart.js");
         Requirements::javascript("genealogist/js/genealogy.timeline.js");
         Requirements::javascript("genealogist/js/genealogy.controls.js");
@@ -152,7 +152,9 @@ class GenealogyPage_Controller
     public function index(SS_HTTPRequest $request) {
         $id = $this->getRequest()->param('ID');
         if (!$id) {
-            return array();
+            return array(
+                'Tree' => false
+            );
         }
 
         $other = $this->getRequest()->param('Other');
@@ -206,17 +208,13 @@ class GenealogyPage_Controller
             return $this->httpError(404, 'No books could be found!');
         }
 
-        $trees = array(
-            ArrayData::create(array('Tree' => $person->getDescendantsLeaves()))
-        );
-
         $showTimeline = $this->getRequest()->getVar('ancestral') ? 0 : 1;
 
         return array(
-            'Trees' => new ArrayList($trees),
-            'Cols' => 12,
+            'Tree' => $person->getDescendantsLeaves(),
             'Multiple' => false,
             'ShowTimeline' => $showTimeline,
+            'Title' => $person->getShortName()
         );
     }
 
@@ -240,15 +238,10 @@ class GenealogyPage_Controller
             $roots[] = $this->getKinshipLeaves($kinship);
         }
 
-        $trees = array(
-            ArrayData::create(array('Tree' => $this->virtualRoot($roots)))
-        );
-
         return array(
-            'Trees' => new ArrayList($trees),
-            'Cols' => 12,
+            'Tree' => $this->virtualRoot($roots),
             'Multiple' => true,
-            'Title' => $p1->getFirstName() . ' : ' . $p2->getFirstName()
+            'Title' => $p1->getShortName() . ' : ' . $p2->getShortName()
         );
     }
 

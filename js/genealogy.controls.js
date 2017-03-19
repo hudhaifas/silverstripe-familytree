@@ -12,21 +12,21 @@ var initTreeNav = function () {
     var $controls = $('<div class="chart-controls chart-controls-top-left"></div>');
     var $nav = $('#menu-nav');
     $controls.append($nav);
-    $('#k1').append($controls);
+    $('#chart-container').append($controls);
 };
 
 var initTimelineNav = function () {
     var $controls = $('<div class="chart-controls chart-controls-bottom"></div>');
     var $nav = $('#timeline-nav');
     $controls.append($nav);
-    $('#k1').append($controls);
+    $('#chart-container').append($controls);
 };
 
 var initControlsNav = function () {
     var $controls = $('<div class="chart-controls chart-controls-left vertical"></div>');
     var $nav = $('#controls-nav');
     $controls.append($nav);
-    $('#k1').append($controls);
+    $('#chart-container').append($controls);
 
     initFullScreen();
 };

@@ -232,7 +232,7 @@
     }
 
     function setupControls($container, $contentPane, $chartPane, opts) {
-        $controls = $('<div class="chart-controls"></div>');
+        $controls = $('<div class="hidden"></div>');
 
         if (opts.fullscreenOnBtn && opts.fullscreenOffBtn) {
             opts.fullscreenOnBtn.click(function (event) {

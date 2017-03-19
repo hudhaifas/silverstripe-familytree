@@ -14,26 +14,21 @@ and open the template in the editor.
   margin: 0 auto;
   position: relative;
 }
-.tree-container .tree-holder {
-  position: relative;
-  width: 100%;
-  float: left;
-}
-.tree-container .tree-holder .alert {
+.tree-container .alert {
   /*            position: absolute;
-                        top: 0;
-                        right: 0;
-                        left: 0;
-                        z-index: 100;
-                        opacity: 0.90;*/
+                    top: 0;
+                    right: 0;
+                    left: 0;
+                    z-index: 100;
+                    opacity: 0.90;*/
   -webkit-transition: all 0.4s ease;
   -moz-transition: all 0.4s ease;
   -ms-transition: all 0.4s ease;
   -o-transition: all 0.4s ease;
   transition: all 0.4s ease;
   /*            &:hover {
-                            opacity: 1;
-                        }*/
+                        opacity: 1;
+                    }*/
 }
 .tree-container .ajax-loader {
   background-color: rgba(100, 100, 100, 0.1);

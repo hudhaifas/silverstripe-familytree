@@ -24,11 +24,11 @@ var showPerson = function (url) {
     var ajaxUrl = (url.indexOf(param) === -1) ? url + param : url;
     var cleanUrl = url.replace(new RegExp(param + '$'), '');
 
-    $('#tree-loader').show();
+    $('#chart-loader').show();
     $('#genealogy-tree').html('');
 
     lockAll();
-    $('#tree-holder').load(ajaxUrl, function () {
+    $('#tree-container').load(ajaxUrl, function () {
         initTree();
         initTimeline();
 
@@ -38,7 +38,7 @@ var showPerson = function (url) {
                 cleanUrl
                 );
 
-        $('#tree-loader').hide();
+        $('#chart-loader').hide();
 
         initFilters();
         unlockAll();
@@ -83,34 +83,29 @@ var updateInfo = function (url) {
 };
 
 var initTree = function () {
-    $kinships = $('.genealogy-kinship');
-    dir = $kinships.length > 1 ? 'l2r' : 't2b';
+    $kinship = $('#chart-list');
+    multiple = $kinship.data('multiple');
 
-    $kinships.each(function () {
-        kinship = $(this).data('kinship');
-        multiple = $(this).data('multiple');
-
-        $(this).jOrgChart({
-            chartElement: '#' + kinship,
-            multipleRoot: multiple, // Support multiple roots tree
-            fullscreenOnBtn: $('#fullscreen-in-btn'),
-            fullscreenOffBtn: $('#fullscreen-out-btn'),
-            zoomInBtn: $('#zoom-in-btn'),
-            zoomOneBtn: $('#zoom-one-btn'),
-            zoomOutBtn: $('#zoom-out-btn'),
-            exportBtn: $('#dwonload-btn'),
-            collapseBtn: $('#collapse-btn'),
-            expandBtn: $('#expand-btn'),
+    $kinship.jOrgChart({
+        chartElement: '#chart-container',
+        multipleRoot: multiple, // Support multiple roots tree
+        fullscreenOnBtn: $('#fullscreen-in-btn'),
+        fullscreenOffBtn: $('#fullscreen-out-btn'),
+        zoomInBtn: $('#zoom-in-btn'),
+        zoomOneBtn: $('#zoom-one-btn'),
+        zoomOutBtn: $('#zoom-out-btn'),
+        exportBtn: $('#dwonload-btn'),
+        collapseBtn: $('#collapse-btn'),
+        expandBtn: $('#expand-btn'),
 //            dragScroller: false,
 //            zoom: false
 //            depth: 3
 //            direction: dir
-        });
-
-//        $('#' + kinship + ' .chart-pane').panzoom({
-//            minScale: 1
-//        });
     });
+
+//    $('#chart-list .chart-pane').panzoom({
+//        minScale: 1
+//    });
 
     initAllControls();
     bindAll();
@@ -216,7 +211,7 @@ var showInfoCard = function (src) {
         var hMargin = 10;
         var wMargin = 8;
 
-        $container = $('#k1');
+        $container = $('#chart-container');
         cWidth = $container.width();
         cHeight = $container.height();
 
