@@ -17,6 +17,111 @@ jQuery(document).ready(function () {
 //    initIntro();
 });
 
+var initTree = function () {
+    var $kinship = $('#chart-list');
+    var multiple = $kinship.data('multiple');
+
+    $kinship.jOrgChart({
+        chartElement: '#chart-container',
+        multipleRoot: multiple, // Support multiple roots tree
+        fullscreenOnBtn: $('#fullscreen-in-btn'),
+        fullscreenOffBtn: $('#fullscreen-out-btn'),
+        zoomInBtn: $('#zoom-in-btn'),
+        zoomOneBtn: $('#zoom-one-btn'),
+        zoomOutBtn: $('#zoom-out-btn'),
+        exportBtn: $('#dwonload-btn'),
+        collapseBtn: $('#collapse-btn'),
+        expandBtn: $('#expand-btn'),
+//            dragScroller: false,
+//            zoom: false
+//            depth: 3
+//            direction: dir
+    });
+
+//    $('#chart-list .chart-pane').panzoom({
+//        minScale: 1
+//    });
+
+    initAllControls();
+    bindAll();
+
+    centerNode($('.node').first());
+};
+
+var initFilters = function () {
+    var url = $(location).attr('href');
+    var uri = URI(url);
+
+    var params = uri.search(true);
+    if (!params['m']) {
+        params['m'] = 1;
+    }
+
+    if (!params['ms']) {
+        params['ms'] = 1;
+    }
+
+    $('input.options-check').each(function () {
+        var id = $(this).attr('id');
+        var status = params[id];
+        $(this).prop('checked', status == 1 ? true : false);
+    });
+};
+
+var initIntro = function () {
+    var $firstNade = $('.node').first();
+    $firstNade.attr('data-intro', 'اضغط على الاسم للحصول على معلومات إضافية عن هذا الشخص: كتاريخ الميلاد والوفاة، اسم الأب والأم والزوج،  واحضائيات عن ذريته.<br />ومن خلال هذه القائمة يمكنك الضغط على ايقونة الملاحظات <i class="fa fa-comment" aria-hidden="true"></i> لتزويدنا بأي ملاحظات أو معلومات إضافية عن هذه الشخص');
+    $firstNade.attr('data-step', '1');
+    $firstNade.attr('data-position', 'left');
+
+    introJs()
+            .setOptions(introOpts)
+            .onbeforechange(function (targetElement) {
+                console.log('Before: ' + this._currentStep);
+                switch (this._currentStep) {
+                    case 1:
+                        break;
+
+                    case 3:
+//                        $(targetElement).find('a').first().trigger('click');
+                        break;
+
+
+                    default:
+
+                        break;
+                }
+            })
+            .onchange(function (targetElement) {
+                console.log('Step: ' + this._currentStep);
+                switch (this._currentStep) {
+                    case 0:
+                        $(targetElement).find('a').first().trigger('click');
+                        break;
+
+                    default:
+
+                        break;
+                }
+            })
+            .start();
+};
+
+var appendFilters = function (url) {
+    var uri = URI(url);
+
+    var params = {};
+    $('input[type=checkbox].options-check').each(function () {
+        var id = $(this).attr('id');
+        var value = this.checked ? 1 : 0;
+
+        params[id] = value;
+    });
+    uri.setSearch(params);
+
+    return uri.toString();
+};
+
 var showPerson = function (url) {
     url = appendFilters(url);
 
@@ -82,111 +187,6 @@ var updateInfo = function (url) {
     });
 };
 
-var initTree = function () {
-    $kinship = $('#chart-list');
-    multiple = $kinship.data('multiple');
-
-    $kinship.jOrgChart({
-        chartElement: '#chart-container',
-        multipleRoot: multiple, // Support multiple roots tree
-        fullscreenOnBtn: $('#fullscreen-in-btn'),
-        fullscreenOffBtn: $('#fullscreen-out-btn'),
-        zoomInBtn: $('#zoom-in-btn'),
-        zoomOneBtn: $('#zoom-one-btn'),
-        zoomOutBtn: $('#zoom-out-btn'),
-        exportBtn: $('#dwonload-btn'),
-        collapseBtn: $('#collapse-btn'),
-        expandBtn: $('#expand-btn'),
-//            dragScroller: false,
-//            zoom: false
-//            depth: 3
-//            direction: dir
-    });
-
-//    $('#chart-list .chart-pane').panzoom({
-//        minScale: 1
-//    });
-
-    initAllControls();
-    bindAll();
-
-    centerNode($('.node').first());
-};
-
-var initFilters = function () {
-    url = $(location).attr('href');
-    var uri = URI(url);
-
-    var params = uri.search(true);
-    if (!params['m']) {
-        params['m'] = 1;
-    }
-
-    if (!params['ms']) {
-        params['ms'] = 1;
-    }
-
-    $('input.options-check').each(function () {
-        kinship = $(this).attr('id');
-        status = params[kinship];
-        $(this).prop('checked', status == 1 ? true : false);
-    });
-};
-
-var initIntro = function () {
-    $firstNade = $('.node').first();
-    $firstNade.attr('data-intro', 'اضغط على الاسم للحصول على معلومات إضافية عن هذا الشخص: كتاريخ الميلاد والوفاة، اسم الأب والأم والزوج،  واحضائيات عن ذريته.<br />ومن خلال هذه القائمة يمكنك الضغط على ايقونة الملاحظات <i class="fa fa-comment" aria-hidden="true"></i> لتزويدنا بأي ملاحظات أو معلومات إضافية عن هذه الشخص');
-    $firstNade.attr('data-step', '1');
-    $firstNade.attr('data-position', 'left');
-
-    introJs()
-            .setOptions(introOpts)
-            .onbeforechange(function (targetElement) {
-                console.log('Before: ' + this._currentStep);
-                switch (this._currentStep) {
-                    case 1:
-                        break;
-
-                    case 3:
-//                        $(targetElement).find('a').first().trigger('click');
-                        break;
-
-
-                    default:
-
-                        break;
-                }
-            })
-            .onchange(function (targetElement) {
-                console.log('Step: ' + this._currentStep);
-                switch (this._currentStep) {
-                    case 0:
-                        $(targetElement).find('a').first().trigger('click');
-                        break;
-
-                    default:
-
-                        break;
-                }
-            })
-            .start();
-};
-
-var appendFilters = function (url) {
-    var uri = URI(url);
-
-    var params = {};
-    $('input[type=checkbox].options-check').each(function () {
-        kinship = $(this).attr('id');
-        value = this.checked ? 1 : 0;
-
-        params[kinship] = value;
-    });
-    uri.setSearch(params);
-
-    return uri.toString();
-};
-
 var hideInfoCard = function () {
     $('.info-card').html('');
     $('.info-card').removeClass('show');
@@ -198,35 +198,35 @@ var showInfoCard = function (src) {
     hideInfoCard();
 
     var minScreenWidth = 760;
-    $source = $(src);
-    $element = $('#info-card');
+    var $source = $(src);
+    var $element = $('#info-card');
 
-    url = $source.data('url');
+    var url = $source.data('url');
     updateInfo(url);
 
-    $node = $source.parent();
+    var $node = $source.parent();
 
     if ($(window).width() > minScreenWidth && $node.hasClass('node')) {
         var errorMargin = 36;
         var hMargin = 10;
         var wMargin = 8;
 
-        $container = $('#chart-container');
-        cWidth = $container.width();
-        cHeight = $container.height();
+        var $container = $('#chart-container');
+        var cWidth = $container.width();
+        var cHeight = $container.height();
 
-        nWidth = 64;
-        nHeight = 30;
+        var nWidth = 64;
+        var nHeight = 30;
 
-        cardWidth = 420;
-        cardHeight = 220;
+        var cardWidth = 420;
+        var cardHeight = 220;
 
         var rect = $node.position();
 
         var top = rect.top;
         var left = rect.left;
 
-        coord = {};
+        var coord = {};
 
         if (left + cardWidth > cWidth - errorMargin) {
             coord['left'] = 'initial';
