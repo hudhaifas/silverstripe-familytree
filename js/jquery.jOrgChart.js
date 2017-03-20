@@ -112,7 +112,7 @@
 
         // Expand and contract nodes
         if ($childNodes.length > 0) {
-            $collapseBtn = $('<div class="collaplse-btn no-collapse"></div>');
+            $collapseBtn = $('<div class="collaplse-btn no-collapse hide-on-timeline"></div>');
             $nodeDiv.append($collapseBtn);
 
             $collapseBtn.click(function () {

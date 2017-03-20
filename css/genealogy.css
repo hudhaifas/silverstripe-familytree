@@ -67,6 +67,8 @@ input[type="text"].autocomplete.ui-autocomplete-loading {
 }
 /* Basic styling */
 .chart-container {
+  width: 100%;
+  height: 100%;
   background-color: #fff;
   border: 1px solid #ddd;
   border-radius: 4px;
@@ -291,8 +293,8 @@ input[type="text"].autocomplete.ui-autocomplete-loading {
   margin-right: auto;
 }
 .chart-container {
-  height: 85vh;
-  max-height: 85vh;
+  /*    height: @tree-h;
+    max-height: @tree-h;*/
   /* The node */
 }
 .chart-container .node {
