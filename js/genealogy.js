@@ -19,17 +19,24 @@ jQuery(document).ready(function () {
 
 var initTree = function () {
     var $kinship = $('#chart-list');
-    var multiple = $kinship.data('multiple');
+    var multiroot = $kinship.data('multiroot');
+    var collapsible = $kinship.data('collapsible');
 
     $kinship.jOrgChart({
         chartElement: '#chart-container',
-        multipleRoot: multiple, // Support multiple roots tree
+        // Support multiple roots tree
+        multipleRoot: multiroot,
+        // Fullscree options
         fullscreenOnBtn: $('#fullscreen-in-btn'),
         fullscreenOffBtn: $('#fullscreen-out-btn'),
+        // Zoom options
         zoomInBtn: $('#zoom-in-btn'),
         zoomOneBtn: $('#zoom-one-btn'),
         zoomOutBtn: $('#zoom-out-btn'),
+        // Export options
         exportBtn: $('#dwonload-btn'),
+        // Collapse options
+        collapsible: collapsible,
         collapseBtn: $('#collapse-btn'),
         expandBtn: $('#expand-btn'),
 //            dragScroller: false,

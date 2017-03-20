@@ -9,7 +9,7 @@
     </div>
     -->
 
-    <ul id="chart-list" style="display:none;" data-multiple="{$Multiple}">
+    <ul id="chart-list" style="display:none;" data-multiroot="{$MultiRoot}" data-collapsible="{$Collapsible}">
         $Tree
     </ul>
 

@@ -50,7 +50,9 @@
     // Default options
     $.fn.jOrgChart.defaults = {
         chartElement: 'body',
-        multipleRoot: false, // Support multiple roots tree
+        // Support multiple roots tree
+        multipleRoot: false,
+        // Tree depth
         depth: -1, // all
         chartClass: "chart-pane",
         // Direction options
@@ -61,6 +63,7 @@
         // Drag scroller options
         dragScroller: true,
         // Collapse options
+        collapsible: true,
         collapseBtn: null,
         expandBtn: null,
         // Export options
@@ -105,18 +108,20 @@
         $node.data("tree-node", nodeCount);
         $nodeDiv = $("<div>").addClass("node")
                 .data("tree-node", nodeCount)
-                .append($nodeContent)
-//                .append('<div class="info-card"></div>')
-                ;
+                .append($nodeContent);
 
         // Expand and contract nodes
         if ($childNodes.length > 0) {
-            $nodeDiv.click(function () {
+            $collapseBtn = $('<div class="collaplse-btn no-collapse"></div>');
+            $nodeDiv.append($collapseBtn);
+
+            $collapseBtn.click(function () {
                 var $this = $(this);
-                var $tr = $this.closest("tr");
+                var $tr = $this.parent().closest("tr");
 
                 if ($tr.hasClass('contracted')) {
-                    $this.css('cursor', 'zoom-out');
+//                    $this.css('cursor', 'zoom-out');
+                    $this.removeClass('expand');
                     $tr.removeClass('contracted').addClass('expanded');
                     $tr.nextAll("tr").css('visibility', '');
                     $tr.nextAll("tr").css('display', '');
@@ -125,7 +130,8 @@
                     // maintain their appearance
                     $node.removeClass('collapsed');
                 } else {
-                    $this.css('cursor', 'zoom-in');
+//                    $this.css('cursor', 'zoom-in');
+                    $this.addClass('expand');
                     $tr.removeClass('expanded').addClass('contracted');
                     $tr.nextAll("tr").css('visibility', 'hidden');
                     $tr.nextAll("tr").css('display', 'none');
@@ -145,7 +151,7 @@
 
         if ($childNodes.length > 0) {
             // if it can be expanded then change the cursor
-            $nodeDiv.css('cursor', 'zoom-out');
+//            $nodeDiv.css('cursor', 'zoom-out');
 
             // recurse until leaves found (-1) or to the level specified
             if (opts.depth == -1 || (level + 1 < opts.depth)) {
@@ -261,6 +267,12 @@
             });
         }
 
+        if (!opts.collapsible) {
+            $('.no-collapse').hide();
+        } else {
+            $('.no-collapse').show();
+        }
+
         if (opts.collapseBtn && opts.expandBtn) {
             opts.collapseBtn.click(function (event) {
                 event.preventDefault();
@@ -318,10 +330,14 @@
 
     function toggleAllNodes($chartPane, opts) {
         $nodeDiv = $chartPane.find('div.node');
+        $collapseBtn = $nodeDiv.find('.collaplse-btn');
+
         var $tr = $nodeDiv.closest("tr");
 
         if ($tr.hasClass('contracted')) {
-            $nodeDiv.css('cursor', 'zoom-out');
+//            $nodeDiv.css('cursor', 'zoom-out');
+            $collapseBtn.removeClass('expand');
+
             $tr.removeClass('contracted').addClass('expanded');
             $tr.nextAll("tr").css('visibility', '');
             $tr.nextAll("tr").css('display', '');
@@ -331,7 +347,9 @@
 
             return true;
         } else {
-            $nodeDiv.css('cursor', 'zoom-in');
+//            $nodeDiv.css('cursor', 'zoom-in');
+            $collapseBtn.addClass('expand');
+
             $tr.removeClass('expanded').addClass('contracted');
             $tr.nextAll("tr").css('visibility', 'hidden');
             $tr.nextAll("tr").css('display', 'none');
@@ -401,10 +419,10 @@
         $container.css('height', '');
         $contentPane.scrollLeft(left);
         $contentPane.scrollTop(top);
-        
+
         $allNodes.removeClass('exporting');
         $chartPane.css('transform', transform);
-        
+
         $html.removeClass('exporting');
         $html.attr('dir', dir);
     }

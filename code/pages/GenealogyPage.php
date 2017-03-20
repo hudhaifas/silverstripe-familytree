@@ -208,7 +208,7 @@ class GenealogyPage_Controller
             return $this->httpError(404, 'No books could be found!');
         }
 
-        $showTimeline = $this->getRequest()->getVar('ancestral') ? 0 : 1;
+        $isAncestral = $this->getRequest()->getVar('ancestral') ? 1 : 0;
         $title = _t('Genealogist.TREE_OF', //
                 "Family Tree of {value}", //
                 array(
@@ -218,8 +218,9 @@ class GenealogyPage_Controller
 
         return array(
             'Tree' => $person->getDescendantsLeaves(),
-            'Multiple' => false,
-            'ShowTimeline' => $showTimeline,
+            'MultiRoot' => false,
+            'ShowTimeline' => !$isAncestral,
+            'Collapsible' => !$isAncestral,
             'Title' => $title
         );
     }
@@ -254,7 +255,9 @@ class GenealogyPage_Controller
 
         return array(
             'Tree' => $this->virtualRoot($roots),
-            'Multiple' => true,
+            'MultiRoot' => true,
+            'ShowTimeline' => false,
+            'Collapsible' => false,
             'Title' => $title//$p1->getShortName() . ' : ' . $p2->getShortName()
         );
     }

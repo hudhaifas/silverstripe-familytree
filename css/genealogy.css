@@ -137,6 +137,29 @@ input[type="text"].autocomplete.ui-autocomplete-loading {
   margin: 0 2px;
   line-height: 100%;
 }
+.chart-pane .node .collaplse-btn {
+  content: '';
+  position: absolute;
+  bottom: -9px;
+  left: 50%;
+  -webkit-transform: translateX(-50%);
+  -moz-transform: translateX(-50%);
+  -ms-transform: translateX(-50%);
+  -o-transform: translateX(-50%);
+  transform: translateX(-50%);
+  cursor: zoom-out;
+  border-style: solid;
+  border-width: 0 8px 9px 8px;
+  border-color: transparent transparent #8e8c84 transparent;
+}
+.chart-pane .node .collaplse-btn.expand {
+  background-image: url('data:image/svg+xml;base64,PD94bWwgdmVyc2lvbj0iMS4wIiBlbmNvZGluZz0iVVRGLTgiPz4NCjwhLS0gQ3JlYXRlZCB3aXRoIElua3NjYXBlIChodHRwOi8vd3d3Lmlua3NjYXBlLm9yZy8pIC0tPg0KPHN2ZyB3aWR0aD0iMjQuMDg5IiBoZWlnaHQ9IjE3Ljk0MyIgaW5rc2NhcGU6dmVyc2lvbj0iMC45Mi4xIHIxNTM3MSIgc29kaXBvZGk6ZG9jbmFtZT0iZG93bmxvYWQyLnN2ZyIgdmVyc2lvbj0iMS4xIiB2aWV3Qm94PSIwIDAgMjQuMDg4OTg0IDE3Ljk0Mjk0NyIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIiB4bWxuczpjYz0iaHR0cDovL2NyZWF0aXZlY29tbW9ucy5vcmcvbnMjIiB4bWxuczpkYz0iaHR0cDovL3B1cmwub3JnL2RjL2VsZW1lbnRzLzEuMS8iIHhtbG5zOmlua3NjYXBlPSJodHRwOi8vd3d3Lmlua3NjYXBlLm9yZy9uYW1lc3BhY2VzL2lua3NjYXBlIiB4bWxuczpyZGY9Imh0dHA6Ly93d3cudzMub3JnLzE5OTkvMDIvMjItcmRmLXN5bnRheC1ucyMiIHhtbG5zOnNvZGlwb2RpPSJodHRwOi8vc29kaXBvZGkuc291cmNlZm9yZ2UubmV0L0RURC9zb2RpcG9kaS0wLmR0ZCI+DQogPG1ldGFkYXRhPg0KICA8cmRmOlJERj4NCiAgIDxjYzpXb3JrIHJkZjphYm91dD0iIj4NCiAgICA8ZGM6Zm9ybWF0PmltYWdlL3N2Zyt4bWw8L2RjOmZvcm1hdD4NCiAgICA8ZGM6dHlwZSByZGY6cmVzb3VyY2U9Imh0dHA6Ly9wdXJsLm9yZy9kYy9kY21pdHlwZS9TdGlsbEltYWdlIi8+DQogICAgPGRjOnRpdGxlLz4NCiAgIDwvY2M6V29yaz4NCiAgPC9yZGY6UkRGPg0KIDwvbWV0YWRhdGE+DQogPHNvZGlwb2RpOm5hbWVkdmlldyBib3JkZXJjb2xvcj0iIzY2NjY2NiIgYm9yZGVyb3BhY2l0eT0iMSIgZml0LW1hcmdpbi1ib3R0b209IjAiIGZpdC1tYXJnaW4tbGVmdD0iMCIgZml0LW1hcmdpbi1yaWdodD0iMCIgZml0LW1hcmdpbi10b3A9IjAiIGdyaWR0b2xlcmFuY2U9IjEwIiBndWlkZXRvbGVyYW5jZT0iMTAiIGlua3NjYXBlOmN1cnJlbnQtbGF5ZXI9InN2ZzM2ODAiIGlua3NjYXBlOmN4PSIxMS4xMzQ2MjgiIGlua3NjYXBlOmN5PSI0LjMzNjY2NDQiIGlua3NjYXBlOmd1aWRlLWJib3g9InRydWUiIGlua3NjYXBlOnBhZ2VvcGFjaXR5PSIwIiBpbmtzY2FwZTpwYWdlc2hhZG93PSIyIiBpbmtzY2FwZTp3aW5kb3ctaGVpZ2h0PSI4NzciIGlua3NjYXBlOndpbmRvdy1tYXhpbWl6ZWQ9IjEiIGlua3NjYXBlOndpbmRvdy13aWR0aD0iMTYwMCIgaW5rc2NhcGU6d2luZG93LXg9Ii04IiBpbmtzY2FwZTp3aW5kb3cteT0iLTgiIGlua3NjYXBlOnpvb209IjE2IiBvYmplY3R0b2xlcmFuY2U9IjEwIiBwYWdlY29sb3I9IiNmZmZmZmYiIHNob3dncmlkPSJmYWxzZSIgc2hvd2d1aWRlcz0idHJ1ZSI+DQogIDxzb2RpcG9kaTpndWlkZSBpbmtzY2FwZTpsb2NrZWQ9ImZhbHNlIiBvcmllbnRhdGlvbj0iMSwwIiBwb3NpdGlvbj0iNS4wMTI3MTE5LDExLjA5ODkwNyIvPg0KICA8c29kaXBvZGk6Z3VpZGUgaW5rc2NhcGU6bG9ja2VkPSJmYWxzZSIgb3JpZW50YXRpb249IjEsMCIgcG9zaXRpb249IjEyLjA2NTAwOSwxMC43ODMzNzgiLz4NCiA8L3NvZGlwb2RpOm5hbWVkdmlldz4NCiA8cGF0aCBkPSJtMTEuMDU1IDB2NS45OTIyaC01LjA1NDctMnYyIDNoLTIuOTg0NGMtMC41NjMxMi0xZS02IC0xLjAxNTYgMC40NTQ0Ni0xLjAxNTYgMS4wMTc2djQuOTE2Yy0xLjQ4MDNlLTE2IDAuNTYzMTIgMC40NTI1IDEuMDE3NiAxLjAxNTYgMS4wMTc2aDcuOTY4OGMwLjU2MzEyIDAgMS4wMTU2LTAuNDU0NDYgMS4wMTU2LTEuMDE3NnYtNC45MTZjMC0wLjU2MzEyLTAuNDUyNS0xLjAxNzYtMS4wMTU2LTEuMDE3NmgtMi45ODQ0di0zaDUuMDU0NyAwLjQ0NTMxIDEuNTU0NyA1LjAzNTJ2M2gtMi45ODQ0Yy0wLjU2MzEyIDAtMS4wMTU2IDAuNDU0NDYtMS4wMTU2IDEuMDE3NnY0LjkxNmMwIDAuNTYzMTIgMC40NTI1IDEuMDE3NiAxLjAxNTYgMS4wMTc2aDcuOTY2OGMwLjU2MzEyIDAgMS4wMTc2LTAuNDU0NDYgMS4wMTc2LTEuMDE3NnYtNC45MTZjMC0wLjU2MzEyLTAuNDU0NDYtMS4wMTc2LTEuMDE3Ni0xLjAxNzZoLTIuOTgyNHYtNWgtNy4wMzUydi01Ljk5MjJoLTJ6IiBmaWxsPSIjOGU4Yzg0IiBzdHJva2Utd2lkdGg9Ii44NzgzMiIvPg0KPC9zdmc+DQo=');
+  width: 24px;
+  height: 18px;
+  bottom: -18px;
+  cursor: zoom-in;
+  border: 0;
+}
 .navbar-collapse.collapse {
   display: block!important;
 }
@@ -494,10 +517,10 @@ a[disabled] {
 @media only screen and (max-width: 760px) {
   .info-card.show {
     position: fixed;
-    top: 20px;
-    left: 20px;
-    width: calc(100vw -  40px);
-    height: calc(100vh -  40px);
+    top: 10px;
+    left: 10px;
+    width: calc(100vw -  20px);
+    height: calc(100vh -  20px);
   }
   .info-card .table > thead > tr > th,
   .info-card .table > tbody > tr > th,
@@ -844,6 +867,9 @@ html.exporting .col-md-12 {
 html.exporting table {
   border-spacing: 0;
   border-collapse: collapse;
+}
+html.exporting .collaplse-btn {
+  display: none;
 }
 /* Timeline */
 .timeline-nav {

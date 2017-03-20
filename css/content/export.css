@@ -20,4 +20,7 @@ html.exporting table {
   border-spacing: 0;
   border-collapse: collapse;
 }
+html.exporting .collaplse-btn {
+  display: none;
+}
 /*# sourceMappingURL=export.css.map */

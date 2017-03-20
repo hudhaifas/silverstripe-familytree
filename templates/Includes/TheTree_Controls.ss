@@ -10,7 +10,7 @@
             </a>
         </li>
 
-        <li class="hide-on-timeline" data-intro="<%t Genealogist.TUTORIAL_COLLAPSE 'Collapse or expand all nodes in the tree.' %>" data-position="left" >
+        <li class="hide-on-timeline no-collapse" data-intro="<%t Genealogist.TUTORIAL_COLLAPSE 'Collapse or expand all nodes in the tree.' %>" data-position="left" >
             <a id="collapse-btn" href="#" title="<%t Genealogist.COLLAPSE_ALL 'Collapse all nodes' %>">
                 <i class="fa fa-leaf" aria-hidden="true"></i>
             </a>
