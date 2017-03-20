@@ -30,14 +30,18 @@
 
     border: 1px solid transparent;
     border-color: @tree-branches-color;
-    border-radius: .25rem;
-    box-shadow: inset 0 1px 1px rgba(0,0,0,.075);
+    border-radius: @border-radius;
+    /*box-shadow: inset 0 1px 1px rgba(0,0,0,.075);*/
 
     -webkit-transition: all 0.4s ease, top 1ms, left 1ms, bottom 1ms, right 1ms;
     -moz-transition:    all 0.4s ease, top 1ms, left 1ms, bottom 1ms, right 1ms;
     -ms-transition:     all 0.4s ease, top 1ms, left 1ms, bottom 1ms, right 1ms;
     -o-transition:      all 0.4s ease, top 1ms, left 1ms, bottom 1ms, right 1ms;
     transition:         all 0.4s ease, top 1ms, left 1ms, bottom 1ms, right 1ms;
+
+    &:hover {
+        box-shadow: 0 0 9px rgba(0, 0, 0, 0.16);
+    }
 
     &.show {
         visibility: visible;

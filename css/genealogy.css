@@ -70,7 +70,7 @@ input[type="text"].autocomplete.ui-autocomplete-loading {
   background-color: #fff;
   border: 1px solid #ddd;
   border-radius: 4px;
-  padding: 5px;
+  padding: 10px;
 }
 .chart-container .chart-content-pane {
   width: 100%;
@@ -277,9 +277,16 @@ input[type="text"].autocomplete.ui-autocomplete-loading {
   width: 64px;
   height: 34px;
   border: 1px solid transparent;
+  /*border: 0;*/
   border-color: #8e8c84;
   border-radius: .25rem;
-  box-shadow: inset 0 1px 1px rgba(0, 0, 0, 0.075);
+  /*box-shadow: inset 0 1px 1px rgba(0,0,0,.075);*/
+  /*box-shadow: 0 3px 12px 6px rgba(0,0,0,.16);*/
+  /*box-shadow: 0 0 9px rgba(0, 0, 0, 0.36);*/
+}
+.chart-container .node:hover {
+  /*border-color: @tree-branches-color;*/
+  box-shadow: 0 0 9px rgba(0, 0, 0, 0.16);
 }
 .chart-container .node.male {
   background-color: #d9edf7;
@@ -430,13 +437,16 @@ a[disabled] {
   cursor: auto;
   border: 1px solid transparent;
   border-color: #8e8c84;
-  border-radius: .25rem;
-  box-shadow: inset 0 1px 1px rgba(0, 0, 0, 0.075);
+  border-radius: 4px;
+  /*box-shadow: inset 0 1px 1px rgba(0,0,0,.075);*/
   -webkit-transition: all 0.4s ease, top 1ms, left 1ms, bottom 1ms, right 1ms;
   -moz-transition: all 0.4s ease, top 1ms, left 1ms, bottom 1ms, right 1ms;
   -ms-transition: all 0.4s ease, top 1ms, left 1ms, bottom 1ms, right 1ms;
   -o-transition: all 0.4s ease, top 1ms, left 1ms, bottom 1ms, right 1ms;
   transition: all 0.4s ease, top 1ms, left 1ms, bottom 1ms, right 1ms;
+}
+.info-card:hover {
+  box-shadow: 0 0 9px rgba(0, 0, 0, 0.16);
 }
 .info-card.show {
   visibility: visible;

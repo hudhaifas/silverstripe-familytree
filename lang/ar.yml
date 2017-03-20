@@ -108,17 +108,25 @@ ar:
     SEARCH_RESULTS_COUNT: '{value} نتيجة'
     SEARCH_NO_RESULTS: 'عذرا، لا يوجد أي نتائج للاستعلام الذي قمت به'
     COMMA: '،'
+
+    # Options menu
+    TREE_OF: 'شجرة آل {value}'
+    KINSHIP_OF: 'صلات القربى بين {value1} & {value2}'
     SHOW_THIS: 'عرض شجرة هذا الشخص'
     SHOW_TREE: 'عرض شجرة النسب'
     SHOW_FATHER: 'عرض شجرة والد هذا الشخص'
     SHOW_CLAN: 'عرض شجرة عائلة هذا الشخص'
     EDIT_THIS: 'تعديل البيانات'
+    SHOW_PROFILE: 'عرض الملف الشخصي'
+
+    # Filters menu
+    ANCESTRAL_TREE: 'شجرة الأسلاف'
     SHOW_FEMALES_TREE: 'عرض شجرة الإناث'
     SHOW_FEMALES: 'إظهار الإناث'
     SHOW_FEMALES_CHILDREN: 'إظهار ذرية الإناث'
     SHOW_MALES: 'إظهار الذكور'
     SHOW_MALES_CHILDREN: 'إظهار ذرية الذكور'
-    ANCESTRAL_TREE: 'شجرة الأسلاف'
+
     SUGGESTIONS: 'الاقتراحات'
     SUGGEST_PERSON_EDIT: 'اقترح تعديلا على هذا الشخص'
     SUGGEST_EDIT: 'اقترح تعديلا'
@@ -126,6 +134,7 @@ ar:
     SUGGEST_EDIT_MESSAGE_1: 'نرجو المعذرة لعدم دقة البيانات في هذه الشجرة، '
     CLICK_HERE: 'اضغط هنا'
     SUGGEST_EDIT_MESSAGE_2: 'لتزويدنا بأي اقتراحات أو بيانات.'
+    
     NOTE: 'ملاحظة'
     COMMENTS: 'التعليقات'
     FROM: 'من'

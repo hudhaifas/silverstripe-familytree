@@ -410,7 +410,8 @@ class Person
     }
 
     function ShowLink($action = null) {
-        return $this->personLink("show/$this->ID");
+        return FiguresPage::get()->first()->Link("show/$this->ID");
+//        return $this->personLink("show/$this->ID");
     }
 
     /// Getters ///

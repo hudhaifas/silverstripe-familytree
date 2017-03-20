@@ -73,8 +73,8 @@
         zoomOutBtn: null,
         zoomScroller: false,
         minZoom: 0.4,
-        maxZoom: 1.2,
-        stepZoom: 0.2
+        maxZoom: 1.6,
+        stepZoom: 0.1
     };
 
     var nodeCount = 0;
@@ -456,9 +456,9 @@
             newScale = curScale + change;
         }
 
-        if ((newScale) > opts.maxZoom || (newScale) < opts.minZoom) {
-            return;
-        }
+//        if ((newScale) > opts.maxZoom || (newScale) < opts.minZoom) {
+//            return;
+//        }
 
         var ratio = newScale / curScale;
         newScroll.scrollTop = curScrollTop * ratio;
@@ -467,10 +467,24 @@
         curScale = newScale;
         $chartPane.css('transform', 'scale(' + curScale + ',' + curScale + ')');
 
-        $contentPane.animate(newScroll, {
-            duration: 400,
-            easing: 'linear'
-        });
+        if (opts.zoomInBtn) {
+            opts.zoomInBtn.attr('disabled', curScale >= opts.maxZoom);
+        }
+
+        if (opts.zoomOneBtn) {
+            opts.zoomOneBtn.attr('disabled', curScale === 1);
+        }
+
+        if (opts.zoomOutBtn) {
+            opts.zoomOutBtn.attr('disabled', curScale <= opts.minZoom);
+        }
+
+        $contentPane.scrollTop(newScroll.scrollTop);
+        $contentPane.scrollLeft(newScroll.scrollLeft);
+//        $contentPane.animate(newScroll, {
+//            duration: 400,
+//            easing: 'linear'
+//        });
     }
 
 })(jQuery);

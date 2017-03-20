@@ -100,6 +100,7 @@
         <!--<a href="{$Father.TreeLink}" class="options-item btn" title="<%t Genealogist.SHOW_FATHER 'Show this persons father tree' %>"><i class="fa fa-arrow-circle-o-left" aria-hidden="true"></i></a>-->
         <a href="{$Root.TreeLink}" class="options-item btn btn-default" title="<%t Genealogist.SHOW_CLAN 'Show this persons clan tree' %>"><i class="fa fa-pagelines" aria-hidden="true"></i></a>
         <a href="{$SuggestLink}" class="btn btn-default" target="_blank" title="<%t Genealogist.SUGGEST_PERSON_EDIT 'Suggest edit on this person' %>"><i class="fa fa-comment" aria-hidden="true"></i></a>
+        <a href="{$ObjectLink}" class="btn btn-default" target="_blank" title="<%t Genealogist.SHOW_PROFILE 'Show Person Profile' %>"><i class="fa fa-user" aria-hidden="true"></i></a>
         <% if hasPermission %>
             <a href="{$EditLink}" class="btn btn-default" target="_blank" title="<%t Genealogist.EDIT_THIS 'Edit this person' %>"><i class="fa fa-pencil" aria-hidden="true"></i></a>
         <% end_if %>

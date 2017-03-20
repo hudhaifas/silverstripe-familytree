@@ -1,6 +1,6 @@
 <div id="controls-nav" class="navbar">
     <ul class="nav navbar-nav">        
-        <li class="no-timeline" data-intro="<%t Genealogist.TUTORIAL_FULLSCREEN 'Toggle Fullscreen mode' %>" data-position="left" >
+        <li class="" data-intro="<%t Genealogist.TUTORIAL_FULLSCREEN 'Toggle Fullscreen mode' %>" data-position="left" >
             <a id="fullscreen-in-btn" href="#" title="<%t Genealogist.FULLSCREEN 'Fullscreen' %>">
                 <i class="fa fa-expand" aria-hidden="true"></i>
             </a>

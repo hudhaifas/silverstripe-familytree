@@ -108,17 +108,25 @@ en:
     SEARCH_RESULTS_COUNT: '{value} results'
     SEARCH_NO_RESULTS: 'Sorry, your search query did not return any results.'
     COMMA: ','
+
+    # Options menu
+    TREE_OF: 'Family Tree of {value}'
+    KINSHIP_OF: 'Kinships Between {value1} & {value2}'
     SHOW_THIS: 'Show this person tree'
     SHOW_TREE: 'Show genealogist tree'
     SHOW_FATHER: 'Show this person father tree'
     SHOW_CLAN: 'Show this person clan tree'
     EDIT_THIS: 'Edit this person'
+    SHOW_PROFILE: 'Show Personal Profile'
+    
+    # Filters menu
+    ANCESTRAL_TREE: 'Ancestral Tree'
     SHOW_FEMALES_TREE: 'Show Females Tree'
     SHOW_FEMALES: 'Show Females'
     SHOW_FEMALES_CHILDREN: 'Show Females Children'
     SHOW_MALES: 'Show Males'
     SHOW_MALES_CHILDREN: 'Show Males Children'
-    ANCESTRAL_TREE: 'Ancestral Tree'
+    
     SUGGESTIONS: 'Suggestions'
     SUGGEST_PERSON_EDIT: 'Suggest edit on this person'
     SUGGEST_EDIT: 'Suggest edit'

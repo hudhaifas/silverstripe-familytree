@@ -209,12 +209,18 @@ class GenealogyPage_Controller
         }
 
         $showTimeline = $this->getRequest()->getVar('ancestral') ? 0 : 1;
+        $title = _t('Genealogist.TREE_OF', //
+                "Family Tree of {value}", //
+                array(
+            'value' => $person->getShortName()
+                )
+        );
 
         return array(
             'Tree' => $person->getDescendantsLeaves(),
             'Multiple' => false,
             'ShowTimeline' => $showTimeline,
-            'Title' => $person->getShortName()
+            'Title' => $title
         );
     }
 
@@ -238,10 +244,18 @@ class GenealogyPage_Controller
             $roots[] = $this->getKinshipLeaves($kinship);
         }
 
+        $title = _t('Genealogist.KINSHIP_OF', //
+                "Kinships Between {value1} & {value2}", //
+                array(
+            'value1' => $p1->getShortName(),
+            'value2' => $p2->getShortName(),
+                )
+        );
+
         return array(
             'Tree' => $this->virtualRoot($roots),
             'Multiple' => true,
-            'Title' => $p1->getShortName() . ' : ' . $p2->getShortName()
+            'Title' => $title//$p1->getShortName() . ' : ' . $p2->getShortName()
         );
     }
 
