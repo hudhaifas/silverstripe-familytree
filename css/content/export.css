@@ -16,4 +16,8 @@ html.exporting .col-md-11,
 html.exporting .col-md-12 {
   float: left;
 }
+html.exporting table {
+  border-spacing: 0;
+  border-collapse: collapse;
+}
 /*# sourceMappingURL=export.css.map */

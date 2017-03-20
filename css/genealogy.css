@@ -313,7 +313,7 @@ input[type="text"].autocomplete.ui-autocomplete-loading {
 }
 .chart-container .node.dead:after {
   content: '';
-  border-top: 3px solid black;
+  border-top: 2px solid black;
   border-radius: 3px;
   position: absolute;
   width: 20px;
@@ -840,6 +840,10 @@ html.exporting .col-md-10,
 html.exporting .col-md-11,
 html.exporting .col-md-12 {
   float: left;
+}
+html.exporting table {
+  border-spacing: 0;
+  border-collapse: collapse;
 }
 /* Timeline */
 .timeline-nav {

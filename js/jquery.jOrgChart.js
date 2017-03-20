@@ -360,12 +360,13 @@
     function exportTree($container, $contentPane, $chartPane, $saveBtn) {
         $.fullscreen.exit();
 
-        $html = $('html');
-        dir = $html.attr('dir');
+        var $html = $('html');
+        var dir = $html.attr('dir');
         $html.attr("dir", "ltr");
         $html.addClass('exporting');
 
         var $chartTable = $chartPane.find('table');
+        var $allNodes = $chartPane.find('.node.dead');
 
         // Pre export
         // Set the HTML page to defaults:
@@ -378,7 +379,8 @@
         var top = $contentPane.scrollTop();
 
         $chartPane.css('transform', '');
-        $('.genealogy-tree .node.dead').addClass('exporting');
+
+        $allNodes.addClass('exporting');
 
         $container.css('width', $chartTable.outerWidth());
         $container.css('height', $chartTable.outerHeight());
@@ -395,13 +397,15 @@
         });
 
         // Post export
-        $chartPane.css('transform', transform);
-        $('.genealogy-tree .node.dead').removeClass('exporting');
         $container.css('width', '');
         $container.css('height', '');
         $contentPane.scrollLeft(left);
         $contentPane.scrollTop(top);
-        $('html').removeClass('exporting');
+        
+        $allNodes.removeClass('exporting');
+        $chartPane.css('transform', transform);
+        
+        $html.removeClass('exporting');
         $html.attr('dir', dir);
     }
 
