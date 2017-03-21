@@ -42,7 +42,7 @@
         
         <li class="separator"></li>
 
-        <li class="hide-on-fullscreen" data-intro="<%t Genealogist.TUTORIAL_DOWNLOAD_TREE 'Save the family tree into an image' %>" data-position="left" >
+        <li class="hide-on-fullscreen hidden-phone hidden-tablet" data-intro="<%t Genealogist.TUTORIAL_DOWNLOAD_TREE 'Save the family tree into an image' %>" data-position="left" >
             <a id="dwonload-btn" href="#" title="<%t Genealogist.DOWNLOAD_TREE 'Save Tree' %>">
                 <i class="fa fa-download" aria-hidden="true"></i>
             </a>
