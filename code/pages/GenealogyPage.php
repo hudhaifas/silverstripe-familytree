@@ -209,11 +209,15 @@ class GenealogyPage_Controller
         }
 
         $isAncestral = $this->getRequest()->getVar('ancestral') ? 1 : 0;
-        $title = _t('Genealogist.TREE_OF', //
-                "Family Tree of {value}", //
-                array(
-            'value' => $person->getShortName()
-                )
+
+        $title = $isAncestral ?
+                _t('Genealogist.ANCESTORS_OF', //
+                        "Ancestors Tree of {value}", //
+                        array('value' => $person->getShortName())
+                ) :
+                _t('Genealogist.TREE_OF', //
+                        "Family Tree of {value}", //
+                        array('value' => $person->getShortName())
         );
 
         return array(

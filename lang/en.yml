@@ -111,6 +111,7 @@ en:
 
     # Options menu
     TREE_OF: 'Family Tree of {value}'
+    ANCESTORS_OF: "Ancestors Tree of {value}"
     KINSHIP_OF: 'Kinships Between {value1} & {value2}'
     SHOW_THIS: 'Show this person tree'
     SHOW_TREE: 'Show genealogist tree'

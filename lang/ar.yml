@@ -111,6 +111,7 @@ ar:
 
     # Options menu
     TREE_OF: 'شجرة آل {value}'
+    ANCESTORS_OF: "شجرة أسلاف {value}"
     KINSHIP_OF: 'صلات القربى بين {value1} & {value2}'
     SHOW_THIS: 'عرض شجرة هذا الشخص'
     SHOW_TREE: 'عرض شجرة النسب'
