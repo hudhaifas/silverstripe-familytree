@@ -120,7 +120,6 @@
                 var $tr = $this.parent().closest("tr");
 
                 if ($tr.hasClass('contracted')) {
-//                    $this.css('cursor', 'zoom-out');
                     $this.removeClass('expand');
                     $tr.removeClass('contracted').addClass('expanded');
                     $tr.nextAll("tr").css('visibility', '');
@@ -130,7 +129,6 @@
                     // maintain their appearance
                     $node.removeClass('collapsed');
                 } else {
-//                    $this.css('cursor', 'zoom-in');
                     $this.addClass('expand');
                     $tr.removeClass('expanded').addClass('contracted');
                     $tr.nextAll("tr").css('visibility', 'hidden');
@@ -150,9 +148,6 @@
         }
 
         if ($childNodes.length > 0) {
-            // if it can be expanded then change the cursor
-//            $nodeDiv.css('cursor', 'zoom-out');
-
             // recurse until leaves found (-1) or to the level specified
             if (opts.depth == -1 || (level + 1 < opts.depth)) {
                 var $downLineRow = $("<tr/>");
@@ -207,11 +202,9 @@
             var classList = $node.attr('class').split(/\s+/);
             $.each(classList, function (index, item) {
                 if (item == 'collapsed') {
-                    console.log($node);
                     $nodeRow.nextAll('tr').css('visibility', 'hidden');
                     $nodeRow.removeClass('expanded');
                     $nodeRow.addClass('contracted');
-                    $nodeDiv.css('cursor', 'zoom-in');
                 } else {
                     $nodeDiv.addClass(item);
                 }
@@ -335,7 +328,6 @@
         var $tr = $nodeDiv.closest("tr");
 
         if ($tr.hasClass('contracted')) {
-//            $nodeDiv.css('cursor', 'zoom-out');
             $collapseBtn.removeClass('expand');
 
             $tr.removeClass('contracted').addClass('expanded');
@@ -347,7 +339,6 @@
 
             return true;
         } else {
-//            $nodeDiv.css('cursor', 'zoom-in');
             $collapseBtn.addClass('expand');
 
             $tr.removeClass('expanded').addClass('contracted');

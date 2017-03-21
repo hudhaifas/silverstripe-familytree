@@ -56,7 +56,7 @@ var initTree = function () {
 };
 
 var initFilters = function () {
-    var url = $(location).attr('href');
+    url = $(location).attr('href');
     var uri = URI(url);
 
     var params = uri.search(true);

@@ -123,12 +123,12 @@ class GenealogyPage_Controller
     public function init() {
         parent::init();
 
-        Requirements::css("genealogist/css/bootstrap-slider.css");
-        Requirements::css("genealogist/css/introjs.css");
+        Requirements::css("genealogist/css/vendors/bootstrap-slider.css");
+        Requirements::css("genealogist/css/vendors/introjs.css");
         Requirements::css("genealogist/css/genealogy.css");
 
         if ($this->isRTL()) {
-            Requirements::css("genealogist/css/introjs-rtl.css");
+            Requirements::css("genealogist/css/vendors/introjs-rtl.css");
             Requirements::css("genealogist/css/genealogy-rtl.css");
         }
 

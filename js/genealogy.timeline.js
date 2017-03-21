@@ -197,7 +197,6 @@ var updateTimePoint = function (time) {
     $isDead.addClass('transparent-node');
 
     var $aliveRow = $born.closest("tr");
-    $born.css('cursor', 'zoom-out');
     $aliveRow.removeClass('contracted').addClass('expanded');
     $aliveRow.nextAll("tr").css('visibility', '');
     $aliveRow.nextAll("tr").css('display', '');
@@ -205,7 +204,6 @@ var updateTimePoint = function (time) {
     $notBorb.addClass('empty-node');
 
     var $notAliveRow = $notBorb.closest("tr");
-    $notBorb.css('cursor', 'zoom-in');
     $notAliveRow.removeClass('expanded').addClass('contracted');
     $notAliveRow.nextAll("tr").css('visibility', 'hidden');
     $notAliveRow.nextAll("tr").css('display', 'none');
