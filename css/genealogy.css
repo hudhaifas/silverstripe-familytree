@@ -293,8 +293,8 @@ input[type="text"].autocomplete.ui-autocomplete-loading {
   margin-right: auto;
 }
 .chart-container {
-  /*    height: @tree-h;
-        max-height: @tree-h;*/
+  height: 85vh;
+  max-height: 85vh;
   /* The node */
 }
 .chart-container .node {
