@@ -122,6 +122,8 @@ en:
     EDIT_PARENTS: 'Edit Parents'
     EDIT_CHILDREN: 'Edit Children'
     EDIT_SPOUSES: 'Edit Spouses'
+    EDIT_HUSBANDS: 'Edit Husbands'
+    EDIT_WIVES: 'Edit Wives'
     DELETE_THIS_PERSON: 'Delete this Person'    
     
     # Filters menu

@@ -119,9 +119,11 @@ ar:
     SHOW_CLAN: 'عرض شجرة عائلة هذا الشخص'
     SHOW_PROFILE: 'عرض الملف الشخصي'
     EDIT_THIS_PERSON: 'تعديل البيانات' 
-    EDIT_PARENTS: 'تعديل بيانات الوالدين'
-    EDIT_CHILDREN: 'تعديل بيانات الأبناء'
-    EDIT_SPOUSES: 'تعديل بيانات الزوجات'
+    EDIT_PARENTS: 'تعديل الوالدين'
+    EDIT_CHILDREN: 'تعديل الأبناء'
+    EDIT_SPOUSES: 'تعديل الأزواج'
+    EDIT_HUSBANDS: 'تعديل الأزواج'
+    EDIT_WIVES: 'تعديل الزوجات'
     DELETE_THIS_PERSON: 'حذف هذا الشخص'    
 
     # Filters menu

@@ -16,7 +16,15 @@
             <% if isMale %>
                 <li><a href="{$EditLink(children)}" class="ajax-modal"><%t Genealogist.EDIT_CHILDREN 'Edit Children' %></a></li>
             <% end_if %>
-            <li><a href="{$EditLink(spouses)}" class="ajax-modal"><%t Genealogist.EDIT_SPOUSES 'Edit Spouses' %></a></li>
+            <li>
+                <a href="{$EditLink(spouses)}" class="ajax-modal">
+                    <% if isMale %>
+                        <%t Genealogist.EDIT_WIVES 'Edit Wives' %>
+                    <% else %>
+                        <%t Genealogist.EDIT_HUSBANDS 'Edit Husbands' %>
+                    <% end_if %>
+                </a>
+            </li>
             <li><a href="{$EditLink(delete)}" class="ajax-modal"><%t Genealogist.DELETE_THIS_PERSON 'Delete this Person' %></a></li>
         </ul>
     </div>

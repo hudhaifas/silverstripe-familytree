@@ -1,6 +1,7 @@
 <% with Person %>
 <div class="panel panel-default">
-    <div class="panel-heading">$ShortName</div>
+    <div class="panel-heading">$FullName</div>
+
     <div class="panel-body">
         <div class="row dataobject-details">
             <div class="col-sm-4 dataobject-image">
@@ -16,7 +17,6 @@
             </div>
         </div>
 
-        <%t Genealogist.EDIT 'Edit' %>
         $Up.Form_EditPerson($ID)
     </div>
 </div>
