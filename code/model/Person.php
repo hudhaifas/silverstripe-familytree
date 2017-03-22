@@ -402,7 +402,7 @@ class Person
     }
 
     function EditLink($action = null) {
-        return FiguresPage::get()->first()->Link("edit/$this->ID");
+        return FiguresPage::get()->first()->Link("edit/$this->ID/$action");
     }
 
     function TreeLink($action = null) {

@@ -443,6 +443,13 @@ a[disabled] {
   background-color: #d9534f;
   border-color: #d43f3a;
 }
+.modal {
+  padding: 0;
+}
+.modal a.close-modal {
+  top: 0;
+  right: 0;
+}
 @media (min-width: 979px) {
   .tree-container {
     height: 86vh;
@@ -540,7 +547,6 @@ a[disabled] {
 /* Controls */
 .chart-container .chart-controls {
   position: absolute;
-  z-index: 100;
   -webkit-transition: all 0.4s ease;
   -moz-transition: all 0.4s ease;
   -ms-transition: all 0.4s ease;
@@ -767,13 +773,11 @@ a[disabled] {
   top: 10px;
   left: 10px;
   opacity: 0.7;
-  z-index: 100;
 }
 .chart-container .chart-controls-left {
   top: 10px;
   left: 10px;
   opacity: 0.7;
-  z-index: 100;
   margin-top: 50px;
 }
 .chart-container .chart-extra {
@@ -786,7 +790,6 @@ a[disabled] {
   display: none;
   background-color: #eee;
   opacity: 0.7;
-  z-index: 100;
   text-align: center;
   -webkit-transition: all 0.4s ease;
   -moz-transition: all 0.4s ease;

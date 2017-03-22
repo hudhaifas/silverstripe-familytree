@@ -98,7 +98,7 @@ var bindAll = function () {
     unbindAll();
 
 // Open modal in AJAX callback
-    $('#manual-ajax').click(function (event) {
+    $('.ajax-modal').click(function (event) {
         event.preventDefault();
         $.get(this.href, function (html) {
 //            console.log(html);
@@ -121,6 +121,15 @@ var bindAll = function () {
     });
 
     $(window).click(function () {
+        if (locked) {
+            return;
+        }
+
+        hideInfoCard();
+        $('.highlight').removeClass('highlight');
+    });
+
+    $('.ajax-modal').click(function () {
         if (locked) {
             return;
         }

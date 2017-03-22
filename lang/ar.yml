@@ -117,8 +117,12 @@ ar:
     SHOW_TREE: 'عرض شجرة النسب'
     SHOW_FATHER: 'عرض شجرة والد هذا الشخص'
     SHOW_CLAN: 'عرض شجرة عائلة هذا الشخص'
-    EDIT_THIS: 'تعديل البيانات'
     SHOW_PROFILE: 'عرض الملف الشخصي'
+    EDIT_THIS_PERSON: 'تعديل البيانات' 
+    EDIT_PARENTS: 'تعديل بيانات الوالدين'
+    EDIT_CHILDREN: 'تعديل بيانات الأبناء'
+    EDIT_SPOUSES: 'تعديل بيانات الزوجات'
+    DELETE_THIS_PERSON: 'حذف هذا الشخص'    
 
     # Filters menu
     ANCESTRAL_TREE: 'شجرة الأسلاف'

@@ -117,8 +117,12 @@ en:
     SHOW_TREE: 'Show genealogist tree'
     SHOW_FATHER: 'Show this person father tree'
     SHOW_CLAN: 'Show this person clan tree'
-    EDIT_THIS: 'Edit this person'
     SHOW_PROFILE: 'Show Personal Profile'
+    EDIT_THIS_PERSON: 'Edit this Person' 
+    EDIT_PARENTS: 'Edit Parents'
+    EDIT_CHILDREN: 'Edit Children'
+    EDIT_SPOUSES: 'Edit Spouses'
+    DELETE_THIS_PERSON: 'Delete this Person'    
     
     # Filters menu
     ANCESTRAL_TREE: 'Ancestral Tree'
@@ -175,4 +179,3 @@ en:
     TUTORIAL_PREV: "Prev"
     TUTORIAL_SKIP: "Skip"
     TUTORIAL_DONE: "Done"
-    

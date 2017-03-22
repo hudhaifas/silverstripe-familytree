@@ -93,4 +93,12 @@ and open the template in the editor.
 .timeline-nav .play-bar {
   float: left;
 }
+.modal {
+  text-align: right;
+}
+.modal a.close-modal {
+  top: 0;
+  left: 0;
+  right: auto;
+}
 /*# sourceMappingURL=genealogy-rtl.css.map */

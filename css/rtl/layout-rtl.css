@@ -1,0 +1,9 @@
+.modal {
+  text-align: right;
+}
+.modal a.close-modal {
+  top: 0;
+  left: 0;
+  right: auto;
+}
+/*# sourceMappingURL=layout-rtl.css.map */

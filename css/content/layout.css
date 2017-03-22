@@ -202,6 +202,13 @@ a[disabled] {
   background-color: #d9534f;
   border-color: #d43f3a;
 }
+.modal {
+  padding: 0;
+}
+.modal a.close-modal {
+  top: 0;
+  right: 0;
+}
 @media (min-width: 979px) {
   .tree-container {
     height: 86vh;

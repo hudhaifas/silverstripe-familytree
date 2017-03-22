@@ -67,7 +67,7 @@ class FiguresPage_Controller
         'doDeletePerson',
     );
     private static $url_handlers = array(
-        'edit/$ID' => 'edit',
+        'edit/$ID/$form' => 'edit',
     );
 
     protected function getObjectsList() {
@@ -100,6 +100,14 @@ class FiguresPage_Controller
         return GenealogistHelper::is_genealogists();
     }
 
+    private $formTemplates = array(
+        'self' => 'Person_Edit_Self',
+        'parents' => 'Person_Edit_Parents',
+        'children' => 'Person_Edit_Children',
+        'spouses' => 'Person_Edit_Spouses',
+        'delete' => 'Person_Delete'
+    );
+
     /// Actions ///
     public function edit() {
         if (!$this->hasPermission()) {
@@ -107,6 +115,7 @@ class FiguresPage_Controller
         }
 
         $id = $this->getRequest()->param('ID');
+        $form = $this->getRequest()->param('form');
 
         if ($id) {
             $person = DataObject::get_by_id('Person', (int) $id);
@@ -115,9 +124,21 @@ class FiguresPage_Controller
         }
 
         if ($person) {
-            $renderer = $this->getRequest()->isAjax() ?
-                    array('Person_Edit') :
-                    array('FiguresPage_Edit', 'Page');
+            switch ($form) {
+                case 'self':
+                case 'parents':
+                case 'children':
+                case 'spouses':
+                case 'delete':
+                    $renderer = array($this->formTemplates[$form]);
+                    break;
+
+                default:
+                    $renderer = $this->getRequest()->isAjax() ?
+                            array('Person_Edit') :
+                            array('FiguresPage_Edit', 'Page');
+                    break;
+            }
 
             return $this
                             ->customise(array(
