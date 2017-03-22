@@ -125,6 +125,7 @@ class GenealogyPage_Controller
 
         Requirements::css("genealogist/css/vendors/bootstrap-slider.css");
         Requirements::css("genealogist/css/vendors/introjs.css");
+        Requirements::css("genealogist/css/vendors/jquery.modal.css");
         Requirements::css("genealogist/css/genealogy.css");
 
         if ($this->isRTL()) {
@@ -136,6 +137,7 @@ class GenealogyPage_Controller
         Requirements::javascript("genealogist/js/vendors/jquery.fullscreen.js");
         Requirements::javascript("genealogist/js/vendors/jquery.panzoom.js");
         Requirements::javascript("genealogist/js/vendors/jquery-scrollto.js");
+        Requirements::javascript("genealogist/js/vendors/jquery.modal.js");
 
         Requirements::javascript("genealogist/js/vendors/URI.js");
         Requirements::javascript("genealogist/js/vendors/html2canvas.js");
@@ -209,15 +211,11 @@ class GenealogyPage_Controller
         }
 
         $isAncestral = $this->getRequest()->getVar('ancestral') ? 1 : 0;
-
-        $title = $isAncestral ?
-                _t('Genealogist.ANCESTORS_OF', //
-                        "Ancestors Tree of {value}", //
-                        array('value' => $person->getShortName())
-                ) :
-                _t('Genealogist.TREE_OF', //
-                        "Family Tree of {value}", //
-                        array('value' => $person->getShortName())
+        $title = _t('Genealogist.TREE_OF', //
+                "Family Tree of {value}", //
+                array(
+            'value' => $person->getShortName()
+                )
         );
 
         return array(

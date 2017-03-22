@@ -97,6 +97,15 @@ var unlockAll = function () {
 var bindAll = function () {
     unbindAll();
 
+// Open modal in AJAX callback
+    $('#manual-ajax').click(function (event) {
+        event.preventDefault();
+        $.get(this.href, function (html) {
+//            console.log(html);
+            $(html).appendTo('body').modal();
+        });
+    });
+
 //    $('a.info-item').on('mousedown touchstart', function (e) {
 //        e.stopImmediatePropagation();
 //    });
@@ -210,6 +219,9 @@ var bindAll = function () {
         url = $(location).attr('href');
         showPerson(url);
     });
+
+    $('#ttt').dropdown();
+
 };
 
 var unbindAll = function () {

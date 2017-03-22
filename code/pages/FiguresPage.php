@@ -115,12 +115,16 @@ class FiguresPage_Controller
         }
 
         if ($person) {
+            $renderer = $this->getRequest()->isAjax() ?
+                    array('Person_Edit') :
+                    array('FiguresPage_Edit', 'Page');
+
             return $this
                             ->customise(array(
                                 'Person' => $person,
                                 'Title' => $person->Name
                             ))
-                            ->renderWith(array('FiguresPage_Edit', 'Page'));
+                            ->renderWith($renderer);
         } else {
             return $this->httpError(404, 'That person could not be found!');
         }
