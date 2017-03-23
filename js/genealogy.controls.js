@@ -139,28 +139,6 @@ var filterRoots = function () {
     }
 };
 
-var loadModal = function (url) {
-    $.get(url, function (html) {
-//            console.log(html);
-        var $content = $(html);
-        $content.appendTo('body').modal({
-            fadeDuration: 400
-        });
-
-        $content.on($.modal.BEFORE_OPEN, function (event, modal) {
-            $('.ajax-modal-nested').click(function (event) {
-                event.preventDefault();
-                loadModal(this.href);
-            });
-        });
-
-        $content.on($.modal.AFTER_CLOSE, function (event, modal) {
-            $content.remove();
-        });
-
-    });
-};
-
 var lockAll = function () {
     $('a.info-item, a.options-item, #toggle-fullscreen, input.options-check').attr('disabled', true);
     locked = true;

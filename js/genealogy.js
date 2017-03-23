@@ -256,3 +256,26 @@ var showInfoCard = function (src) {
 
     $element.addClass('show');
 };
+
+var loadModal = function (url) {
+    $.get(url, function (html) {
+//            console.log(html);
+        var $content = $(html);
+        $content.appendTo('body').modal({
+            body: '#tree-container',
+            fadeDuration: 400
+        });
+
+        $content.on($.modal.BEFORE_OPEN, function (event, modal) {
+            $('.ajax-modal-nested').click(function (event) {
+                event.preventDefault();
+                loadModal(this.href);
+            });
+        });
+
+        $content.on($.modal.AFTER_CLOSE, function (event, modal) {
+            $content.remove();
+        });
+
+    });
+};

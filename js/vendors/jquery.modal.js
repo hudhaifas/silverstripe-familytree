@@ -31,7 +31,7 @@
 
   $.modal = function(el, options) {
     var remove, target;
-    this.$body = $('body');
+    this.$body = $(options.body);
     this.options = $.extend({}, $.modal.defaults, options);
     this.options.doFade = !isNaN(parseInt(this.options.fadeDuration, 10));
     this.$blocker = null;
@@ -198,6 +198,7 @@
   $.modal.getCurrent = getCurrent;
 
   $.modal.defaults = {
+    body: 'body',
     closeExisting: true,
     escapeClose: true,
     clickClose: true,
