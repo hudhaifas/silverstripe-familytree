@@ -4,16 +4,21 @@
     <div class="panel-body">
         <p>
             <% if Husbands %>
-                <strong><%t Genealogist.HUSBANDS 'Husbands' %>:<br /></strong>
-                <% loop Husbands.Sort(HusbandOrder) %>
-                    $FullName<% if not Last %><br /><% end_if %>
-                <% end_loop %>
+                <b><%t Genealogist.HUSBANDS 'Husbands' %></b>: $Husbands.Count<br />
+                <ul>
+                    <% loop Husbands.Sort(HusbandOrder) %>
+                        <li><a href="{$EditLink(self)}" class="ajax-modal-nested">$FullName</a></li>
+                    <% end_loop %>
+                </ul>
 
             <% else_if hasPermission && Wives %>
-                <strong><%t Genealogist.WIVES 'Wives' %>:<br /></strong>
-                <% loop Wives.Sort(WifeOrder) %>
-                    $FullName<% if not Last %><br /><% end_if %>
-                <% end_loop %>
+                <b><%t Genealogist.WIVES 'Wives' %></b>: $Wives.Count<br />
+
+                <ul>
+                    <% loop Wives.Sort(WifeOrder) %>
+                    <li><a href="{$EditLink(self)}" class="ajax-modal-nested">$FullName</a></li>
+                    <% end_loop %>
+                </ul>
             <% end_if %>
         </p>
 

@@ -8,7 +8,7 @@
                 <b><%t Genealogist.SONS 'Sons' %></b>: $SonsCount<br />
 
                 <% loop Sons %>
-                    <a href="{$EditLink(self)}" class="ajax-modal" title="$FullName">$AliasName</a><% if not Last %><%t Genealogist.COMMA ',' %><% end_if %>
+                    <a href="{$EditLink(self)}" class="ajax-modal-nested" title="$FullName">$AliasName</a><% if not Last %><%t Genealogist.COMMA ',' %><% end_if %>
                 <% end_loop %>
             </p>
         <% end_if %>
@@ -24,7 +24,7 @@
                 <b><%t Genealogist.DAUGHTERS 'Daughters' %></b>: $DaughtersCount<br />
 
                 <% loop Daughters %>
-                    <a href="{$EditLink(self)}" class="ajax-modal" title="$FullName">$AliasName</a><% if not Last %><%t Genealogist.COMMA ',' %><% end_if %>
+                    <a href="{$EditLink(self)}" class="ajax-modal-nested" title="$FullName">$AliasName</a><% if not Last %><%t Genealogist.COMMA ',' %><% end_if %>
                 <% end_loop %>
             </p>
         <% end_if %>

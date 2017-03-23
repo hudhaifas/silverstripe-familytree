@@ -84,6 +84,28 @@ var filterRoots = function () {
     }
 };
 
+var loadModal = function (url) {
+    $.get(url, function (html) {
+//            console.log(html);
+        var $content = $(html);
+        $content.appendTo('body').modal({
+            fadeDuration: 400
+        });
+
+        $content.on($.modal.BEFORE_OPEN, function (event, modal) {
+            $('.ajax-modal-nested').click(function (event) {
+                event.preventDefault();
+                loadModal(this.href);
+            });
+        });
+
+        $content.on($.modal.AFTER_CLOSE, function (event, modal) {
+            $content.remove();
+        });
+
+    });
+};
+
 var lockAll = function () {
     $('a.info-item, a.options-item, #toggle-fullscreen, input.options-check').attr('disabled', true);
     locked = true;
@@ -97,13 +119,10 @@ var unlockAll = function () {
 var bindAll = function () {
     unbindAll();
 
-// Open modal in AJAX callback
+    // Open modal in AJAX callback
     $('.ajax-modal').click(function (event) {
         event.preventDefault();
-        $.get(this.href, function (html) {
-//            console.log(html);
-            $(html).appendTo('body').modal();
-        });
+        loadModal(this.href);
     });
 
 //    $('a.info-item').on('mousedown touchstart', function (e) {

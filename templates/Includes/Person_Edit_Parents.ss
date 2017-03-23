@@ -6,7 +6,7 @@
         <% if $Father %>
             <p>
                 <b><%t Genealogist.FATHER 'Father' %></b><br />
-                <a href="{$Father.ObjectLink()}">$Father.FullName</a>
+                <a href="{$Father.EditLink(self)}" class="ajax-modal-nested">$Father.FullName</a>
             </p>
         <% end_if %>
 
@@ -26,7 +26,7 @@
             <p>
                 <b><%t Genealogist.MOTHER 'Mother' %></b><br />
 
-                <a href="{$Mother.ObjectLink()}">$Mother.FullName</a>
+                <a href="{$Mother.EditLink(self)}" class="ajax-modal-nested">$Mother.FullName</a>
             </p>
         <% end_if %>
 
