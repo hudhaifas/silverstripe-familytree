@@ -233,32 +233,32 @@
     function setupControls($container, $contentPane, $chartPane, opts) {
         $controls = $('<div class="hidden"></div>');
 
-        if (opts.fullscreenOnBtn && opts.fullscreenOffBtn) {
-            opts.fullscreenOnBtn.click(function (event) {
-                event.stopPropagation();
-                $container.fullscreen();
-            });
-            opts.fullscreenOffBtn.click(function (event) {
-                event.stopPropagation();
-                $.fullscreen.exit();
-            });
-
-            // document's event
-            $(document).bind('fscreenchange', function (e, state, elem) {
-                toggleStrechContainer($container, $.fullscreen.isFullScreen());
-                // if we currently in fullscreen mode
-                if ($.fullscreen.isFullScreen()) {
-                    $('.hide-on-fullscreen').hide();
-                    opts.fullscreenOnBtn.hide();
-                    opts.fullscreenOffBtn.show();
-
-                } else {
-                    $('.hide-on-fullscreen').show();
-                    opts.fullscreenOnBtn.show();
-                    opts.fullscreenOffBtn.hide();
-                }
-            });
-        }
+//        if (opts.fullscreenOnBtn && opts.fullscreenOffBtn) {
+//            opts.fullscreenOnBtn.click(function (event) {
+//                event.stopPropagation();
+//                $container.fullscreen();
+//            });
+//            opts.fullscreenOffBtn.click(function (event) {
+//                event.stopPropagation();
+//                $.fullscreen.exit();
+//            });
+//
+//            // document's event
+//            $(document).bind('fscreenchange', function (e, state, elem) {
+//                toggleStrechContainer($container, $.fullscreen.isFullScreen());
+//                // if we currently in fullscreen mode
+//                if ($.fullscreen.isFullScreen()) {
+//                    $('.hide-on-fullscreen').hide();
+//                    opts.fullscreenOnBtn.hide();
+//                    opts.fullscreenOffBtn.show();
+//
+//                } else {
+//                    $('.hide-on-fullscreen').show();
+//                    opts.fullscreenOnBtn.show();
+//                    opts.fullscreenOffBtn.hide();
+//                }
+//            });
+//        }
 
         if (!opts.collapsible) {
             $('.no-collapse').hide();

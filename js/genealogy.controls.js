@@ -65,6 +65,61 @@ var initSearchTree = function () {
 };
 
 var initFullScreen = function () {
+    var $container = $('#tree-container');
+    var $fullscreenOnBtn = $('#fullscreen-in-btn');
+    var $fullscreenOffBtn = $('#fullscreen-out-btn');
+
+    toggleStrechContainer($container, $.fullscreen.isFullScreen());
+    toggleFullscreenControls($fullscreenOnBtn, $fullscreenOffBtn);
+
+    if ($fullscreenOnBtn && $fullscreenOffBtn) {
+        $fullscreenOnBtn.click(function (event) {
+            event.stopPropagation();
+            $container.fullscreen();
+        });
+
+        $fullscreenOffBtn.click(function (event) {
+            event.stopPropagation();
+            $.fullscreen.exit();
+        });
+
+        // document's event
+        $(document).bind('fscreenchange', function (e, state, elem) {
+            toggleStrechContainer($container, $.fullscreen.isFullScreen());
+            // if we currently in fullscreen mode
+            toggleFullscreenControls($fullscreenOnBtn, $fullscreenOffBtn);
+        });
+    }
+};
+
+var toggleFullscreenControls = function ($fullscreenOnBtn, $fullscreenOffBtn) {
+    if ($.fullscreen.isFullScreen()) {
+        $('.hide-on-fullscreen').hide();
+        $fullscreenOnBtn.hide();
+        $fullscreenOffBtn.show();
+
+    } else {
+        $('.hide-on-fullscreen').show();
+        $fullscreenOnBtn.show();
+        $fullscreenOffBtn.hide();
+    }
+};
+
+var toggleStrechContainer = function ($container, isStrech) {
+    if (isStrech) {
+        $container.addClass('strech');
+//        $container.css('width', '100%');
+//        $container.css('max-width', '100%');
+//        $container.css('height', '100%');
+//        $container.css('max-height', '100%');
+
+    } else {
+        $container.removeClass('strech');
+//        $container.css('width', '');
+//        $container.css('max-width', '');
+//        $container.css('height', '');
+//        $container.css('max-height', '');
+    }
 };
 
 var filterRoots = function () {
