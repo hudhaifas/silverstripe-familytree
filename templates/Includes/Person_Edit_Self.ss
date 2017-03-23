@@ -4,6 +4,7 @@
 
     <div class="panel-body">
         <div class="row dataobject-details">
+            <div class="col-sm-4"></div>
             <div class="col-sm-4 dataobject-image">
                 <a title="$Title">
                     <div class="thumbnail text-center imgBox">
@@ -11,10 +12,7 @@
                     </div>
                 </a>
             </div>
-
-            <div class="col-sm-8 dataobject-summary">
-                <% include Single_Summary %>
-            </div>
+            <div class="col-sm-4"></div>
         </div>
 
         $Up.Form_EditPerson($ID)

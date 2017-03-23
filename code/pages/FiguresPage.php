@@ -169,7 +169,9 @@ class FiguresPage_Controller
                 TextField::create('NickName', _t('Genealogist.NICKNAME', 'NickName'), $person->NickName), //
                 TextField::create('Note', _t('Genealogist.NOTE', 'Note'), $person->Note), //
                 TextField::create('BirthDate', _t('Genealogist.BIRTHDATE', 'Birth Date'), $person->BirthDate), //
+                CheckboxField::create('BirthDateEstimated', _t('Genealogist.BIRTHDATE_ESTIMATED', 'Birth Date Estimated'), $person->BirthDateEstimated), //
                 TextField::create('DeathDate', _t('Genealogist.DEATHDATE', 'Death Date'), $person->DeathDate), //
+                CheckboxField::create('DeathDateEstimated', _t('Genealogist.DEATHDATE_ESTIMATED', 'Death Date Estimated'), $person->DeathDateEstimated), //
                 CheckboxField::create('IsDead', _t('Genealogist.ISDEAD', 'Is Dead'), $person->IsDead), //
                 TextareaField::create('Comments', _t('Genealogist.COMMENTS', 'Comments'), $person->Comments) //
         );
@@ -187,12 +189,14 @@ class FiguresPage_Controller
 
     public function doEditPerson($data, $form) {
         $id = $data['PersonID'];
-        $isPrivate = $data['IsPrivate'];
         $name = $data['Name'];
+        $isPrivate = $data['IsPrivate'];
         $nickname = $data['NickName'];
         $note = $data['Note'];
         $birthdate = $data['BirthDate'];
+        $isBirthEstimated = $data['BirthDateEstimated'];
         $deathdate = $data['DeathDate'];
+        $isDeathEstimated = $data['DeathDateEstimated'];
         $isDead = $data['IsDead'];
         $comments = $data['Comments'];
 
@@ -203,7 +207,9 @@ class FiguresPage_Controller
         $person->NickName = $nickname;
         $person->Note = $note;
         $person->BirthDate = $birthdate;
+        $person->BirthDateEstimated = $isBirthEstimated;
         $person->DeathDate = $deathdate;
+        $person->DeathDateEstimated = $isDeathEstimated;
         $person->IsDead = $isDead;
         $person->Comments = $comments;
 
