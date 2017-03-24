@@ -189,30 +189,10 @@ class FiguresPage_Controller
 
     public function doEditPerson($data, $form) {
         $id = $data['PersonID'];
-        $name = $data['Name'];
-        $isPrivate = $data['IsPrivate'];
-        $nickname = $data['NickName'];
-        $note = $data['Note'];
-        $birthdate = $data['BirthDate'];
-        $isBirthEstimated = $data['BirthDateEstimated'];
-        $deathdate = $data['DeathDate'];
-        $isDeathEstimated = $data['DeathDateEstimated'];
-        $isDead = $data['IsDead'];
-        $comments = $data['Comments'];
 
         $person = DataObject::get_by_id('Person', (int) $id);
 
-        $person->Name = $name;
-        $person->IsPrivate = $isPrivate;
-        $person->NickName = $nickname;
-        $person->Note = $note;
-        $person->BirthDate = $birthdate;
-        $person->BirthDateEstimated = $isBirthEstimated;
-        $person->DeathDate = $deathdate;
-        $person->DeathDateEstimated = $isDeathEstimated;
-        $person->IsDead = $isDead;
-        $person->Comments = $comments;
-
+        $form->saveInto($person);
         $person->write();
 
         return $this->owner->redirectBack();
