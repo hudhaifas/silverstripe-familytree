@@ -110,7 +110,7 @@ ar:
     COMMA: '،'
 
     # Options menu
-    TREE_OF: 'شجرة آل {value}'
+    TREE_OF: 'شجرة ذرية {value}'
     ANCESTORS_OF: "شجرة أسلاف {value}"
     KINSHIP_OF: 'صلات القربى بين {value1} & {value2}'
     SHOW_THIS: 'عرض شجرة هذا الشخص'
