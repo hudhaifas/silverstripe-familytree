@@ -227,4 +227,10 @@ a[disabled] {
     max-height: 86vh;
   }
 }
+@media (max-width: 979px) {
+  .modal {
+    width: auto;
+    max-width: none;
+  }
+}
 /*# sourceMappingURL=layout.css.map */

@@ -468,6 +468,12 @@ a[disabled] {
     max-height: 86vh;
   }
 }
+@media (max-width: 979px) {
+  .modal {
+    width: auto;
+    max-width: none;
+  }
+}
 /* Info Card*/
 .info-card {
   background: #fff;
