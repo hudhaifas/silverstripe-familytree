@@ -51,7 +51,7 @@ input[type="text"].autocomplete {
   /** sorry about the !important but the specificity of other selectors mandates it over writing out very specific selectors **/
 }
 input[type="text"].autocomplete.ui-autocomplete-loading {
-  background-image: url(../images/throbber.gif) !important;
+  background-image: url(../images/loading.gif) !important;
   background-position: 2% center !important;
   background-repeat: no-repeat !important;
   background-size: auto !important;
