@@ -1,5 +1,5 @@
 <div class="pull-right">
-    <a id="close-card" href="#" class="btn close-card" title="<%t Genealogist.CLOSE 'Close' %>"><i class="fa fa-times" aria-hidden="true"></i></a>
+    <button id="close-card" type="button" class="close close-card" aria-label="Close"><span aria-hidden="true">×</span></button>
 </div>
 
 <div>

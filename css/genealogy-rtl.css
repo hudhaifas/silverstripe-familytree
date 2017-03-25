@@ -97,8 +97,12 @@ and open the template in the editor.
   text-align: right;
 }
 .modal a.close-modal {
-  top: 0;
-  left: 0;
+  left: 8px;
   right: auto;
+}
+@media (max-width: 979px) {
+  .blocker .modal .panel-heading {
+    padding: 8px 8px 8px 20px;
+  }
 }
 /*# sourceMappingURL=genealogy-rtl.css.map */

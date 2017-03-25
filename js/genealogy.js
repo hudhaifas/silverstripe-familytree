@@ -263,6 +263,8 @@ var loadModal = function (url) {
         var $content = $(html);
         $content.appendTo('body').modal({
             body: '#tree-container',
+            closeText: '<span aria-hidden="true">×</span>',
+            closeClass: 'close',
             fadeDuration: 400
         });
 
@@ -271,10 +273,12 @@ var loadModal = function (url) {
                 event.preventDefault();
                 loadModal(this.href);
             });
+            $("body").addClass("modal-open");
         });
 
         $content.on($.modal.AFTER_CLOSE, function (event, modal) {
             $content.remove();
+            $("body").removeClass("modal-open")
         });
 
     });

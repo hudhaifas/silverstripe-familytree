@@ -3,6 +3,10 @@
 
 /* Layout */
 
+body.modal-open {
+    overflow: hidden;
+}
+
 .tree-container {
     /*width: @container-w;*/
     margin: 0 auto;
@@ -238,11 +242,38 @@ a.disabled, a[disabled] {
 }
 
 .modal {
+    background: @card-bg;
+    color: @card-fg;
+
+    border: 0;
     padding: 0;
 
+    cursor: auto;
+
+    border: 1px solid transparent;
+    border-color: @tree-branches-color;
+    border-radius: @border-radius;
+    /*box-shadow: inset 0 1px 1px rgba(0,0,0,.075);*/
+    box-shadow: 0 0 9px rgba(0, 0, 0, 0.16);
+
+    -webkit-transition: all 0.4s ease, top 1ms, left 1ms, bottom 1ms, right 1ms;
+    -moz-transition:    all 0.4s ease, top 1ms, left 1ms, bottom 1ms, right 1ms;
+    -ms-transition:     all 0.4s ease, top 1ms, left 1ms, bottom 1ms, right 1ms;
+    -o-transition:      all 0.4s ease, top 1ms, left 1ms, bottom 1ms, right 1ms;
+    transition:         all 0.4s ease, top 1ms, left 1ms, bottom 1ms, right 1ms;
+
+    > .panel-heading {
+        background: transparent;        
+        border: 0;
+    }
+
     a.close-modal {
-        top: 0;
-        right: 0;
+        top: 8px;
+        right: 8px;
+        background: none;
+        width: auto;
+        height: auto;
+        text-indent: initial;
     }
 }
 
@@ -254,8 +285,21 @@ a.disabled, a[disabled] {
 }
 
 @media (max-width: 979px) {
-    .modal {
-        width: auto;
-        max-width: none;
+    .blocker {
+        padding: 10px;
+
+        .modal {
+            width: auto;
+            max-width: none;
+
+            .panel-heading {
+                padding: 8px 20px 8px 8px;
+            }
+
+            .panel-body {
+                padding: 8px;
+            }
+        }
     }
+
 }
