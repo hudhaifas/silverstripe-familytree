@@ -179,6 +179,8 @@ body.modal-open {
 .chart-container .node.timeline-node.empty-node {
   content: '';
   width: 10px;
+  height: 10px;
+  margin-bottom: 10px;
   opacity: 0.25;
 }
 .chart-container .node.timeline-node.empty-node a {
