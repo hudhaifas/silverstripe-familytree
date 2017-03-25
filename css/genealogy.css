@@ -505,13 +505,10 @@ a[disabled] {
 .info-card .card-controls {
   position: absolute;
   bottom: 0;
-  left: 50%;
-  -webkit-transform: translateX(-50%);
-  -moz-transform: translateX(-50%);
-  -ms-transform: translateX(-50%);
-  -o-transform: translateX(-50%);
-  transform: translateX(-50%);
+  left: 0;
+  right: 0;
   padding-bottom: 8px;
+  text-align: center;
 }
 .info-card .table > thead > tr > th,
 .info-card .table > tbody > tr > th,
@@ -544,8 +541,8 @@ a[disabled] {
     position: fixed;
     top: 10px;
     left: 10px;
-    width: calc(100vw -  20px);
-    height: calc(100vh -  20px);
+    width: calc(100% -  20px);
+    height: calc(100% -  20px);
   }
   .info-card .table > thead > tr > th,
   .info-card .table > tbody > tr > th,

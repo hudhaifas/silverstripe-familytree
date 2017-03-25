@@ -55,9 +55,10 @@
     .card-controls {
         position: absolute;
         bottom: 0;
-        left: 50%;
-        .translateX(-50%);
+        left: 0;
+        right: 0;
         padding-bottom: @card-padding;
+        text-align: center;
     }
 
     .table {
@@ -99,8 +100,8 @@
 
             top: @screen-card-padding;
             left: @screen-card-padding;
-            width: calc(~"100vw - " (@screen-card-padding * 2));
-            height: calc(~"100vh - " (@screen-card-padding * 2));
+            width: calc(~"100% - " (@screen-card-padding * 2));
+            height: calc(~"100% - " (@screen-card-padding * 2));
         }
 
         .table {
