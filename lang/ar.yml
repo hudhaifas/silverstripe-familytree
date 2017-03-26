@@ -57,6 +57,7 @@ ar:
     DETAILS: 'التفاصيل'
     PAGE: 'الصفحة'
     FAMILY: 'العائلة'
+    LIFESTORY: 'قصة الحياة'
     TITLE: 'العنوان'
     DESCRIPTION: 'الوصف'
     TEXTS: 'النصوص'
@@ -94,15 +95,19 @@ ar:
     ADD_HUSBAND: 'إضافة زوج'
     SPOUSE_NAME: 'اسم الزوج'
     DELETE_PERSON: 'حذف هذا الشخص'
+    SINGLE_WIFE: 'هذا الشخص لديه زوجة واحدة'
+    ASSIGN_MOTHER: 'اجعلها أما لكل أبنائه'
+    KINSHIP: 'صلة القربى'
+        
+    # Controls
     ADD: 'إضافة'
     UPDATE: 'تحديث'
     EDIT: 'تعديل'
     SAVE: 'حفظ'
     FIND: 'أوجد'
     DELETE: 'حذف'
-    SINGLE_WIFE: 'هذا الشخص لديه زوجة واحدة'
-    ASSIGN_MOTHER: 'اجعلها أما لكل أبنائه'
-    KINSHIP: 'صلة القربى'
+    
+    # Search
     SEARCH: 'بحث'
     SEARCH_RESULTS: 'نتائج البحث'
     SEARCH_RESULTS_COUNT: '{value} نتيجة'
@@ -180,4 +185,3 @@ ar:
     TUTORIAL_PREV: "السابق"
     TUTORIAL_SKIP: "إنهاء"
     TUTORIAL_DONE: "تم"
-    

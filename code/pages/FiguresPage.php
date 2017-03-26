@@ -47,6 +47,7 @@ class FiguresPage_Controller
 
     private static $allowed_actions = array(
         'edit',
+        'show',
         'Form_EditPerson',
         'doEditPerson',
         'Form_AddFather',
@@ -68,7 +69,18 @@ class FiguresPage_Controller
     );
     private static $url_handlers = array(
         'edit/$ID/$form' => 'edit',
+        'show/$ID' => 'show',
     );
+
+    public function init() {
+        parent::init();
+
+        Requirements::css("genealogist/css/profile.css");
+
+        if ($this->isRTL()) {
+            Requirements::css("genealogist/css/profile-rtl.css");
+        }
+    }
 
     protected function getObjectsList() {
         if ($this->hasPermission()) {
@@ -148,6 +160,39 @@ class FiguresPage_Controller
                             ->renderWith($renderer);
         } else {
             return $this->httpError(404, 'That person could not be found!');
+        }
+    }
+
+    public function show() {
+        $id = $this->getRequest()->param('ID');
+        $single = $this->getObjectsList()->filter(array(
+                    'ID' => $id
+                ))->first();
+
+        $align = $this->isRTL() == 'rtl' ? 'right' : 'left';
+
+        Requirements::customScript(<<<JS
+            $(document).ready(function () {
+                $('.imgBox').imgZoom({
+                    boxWidth: 500,
+                    boxHeight: 500,
+                    marginLeft: 5,
+                    align: '{$align}',
+                    origin: 'data-origin'
+                });
+            });
+JS
+        );
+
+        if ($single) {
+            return $this
+                            ->customise(array(
+                                'Person' => $single,
+                                'Title' => $single->Title
+                            ))
+                            ->renderWith(array('FiguresPage_Profile', 'Page'));
+        } else {
+            return $this->httpError(404, 'That object could not be found!');
         }
     }
 
