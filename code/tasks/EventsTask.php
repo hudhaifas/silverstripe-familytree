@@ -11,7 +11,8 @@
  * @author Hudhaifa Shatnawi <hudhaifa.shatnawi@gmail.com>
  * @version 1.0, Mar 27, 2017 - 4:36:00 PM
  */
-class EventsTask {
+class EventsTask
+        extends BuildTask {
 
     protected $title = 'Crawling people events';
     protected $description = "
