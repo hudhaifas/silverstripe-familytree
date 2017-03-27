@@ -12,4 +12,14 @@ and open the template in the editor.
     Author     : hshatnawi
 */
 /*@tree-w: 0;*/
+.user-header .user-card .user-brief {
+  text-align: right;
+  margin-left: auto;
+  margin-right: 168px;
+}
+@media (max-width: 767px) {
+  .user-header .user-card .user-brief .user-info {
+    text-align: right;
+  }
+}
 /*# sourceMappingURL=profile-rtl.css.map */

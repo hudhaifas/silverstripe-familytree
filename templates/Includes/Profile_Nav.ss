@@ -5,7 +5,7 @@
     <% if hasPermission %>
     <div class="btn-group">
         <a id="ttt" class="btn btn-default dropdown-toggle" data-toggle="dropdown" title="<%t Genealogist.EDIT_THIS_PERSON 'Edit this Person' %>">
-            <i class="fa fa-pencil" aria-hidden="true"></i><span class="caret"></span>
+            <i class="fa fa-pencil" aria-hidden="true"></i> <span class="caret"></span>
         </a>
 
         <ul class="dropdown-menu pull-right" role="menu">
