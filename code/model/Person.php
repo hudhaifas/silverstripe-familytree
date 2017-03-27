@@ -67,6 +67,8 @@ class Person
         'Sons' => 'Male',
         'Daughters' => 'Female',
         'Suggestions' => 'Suggestion',
+        'Events' => 'PersonalEvent.Person',
+        'RelatedEvents' => 'PersonalEvent.RelatedPerson',
     );
     private static $many_many = array(
     );
@@ -678,6 +680,19 @@ class Person
         return $this->Stats()->MaxYear;
     }
 
+    /// Events ///
+    public function getLifeEvents() {
+        return GenealogistEventsHelper::get_life_events($this);
+    }
+
+    public function getBirthEventDate() {
+        return GenealogistEventsHelper::get_birth_date($this);
+    }
+
+    public function getDeathEventDate() {
+        return GenealogistEventsHelper::get_death_date($this);
+    }
+
     /// Utils ///
     function reorderField($fields, $name, $fromTab, $toTab, $disabled = false) {
         $field = $fields->fieldByName($fromTab . '.' . $name);
@@ -908,7 +923,7 @@ HTML;
 
     public function getObjectTabs() {
         $lists = array();
-        
+
         $lists[] = array(
             'Title' => _t('Genealogist.LIFESTORY', 'Life Story'),
             'Content' => $this->renderWith('Person_Lifestory')
