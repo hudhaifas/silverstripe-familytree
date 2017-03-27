@@ -3,54 +3,5 @@
     Author     : hudhaifa
 */
 
-@import "variables.less";
-@import "mixins/transform.less";
-
-@profile-top: 15px;
-@user-picture-size: 160px;
-
-.user-header {
-    .user-card {
-        .user-picture {
-        }
-
-        .user-brief {
-            text-align: right;
-            margin-left: auto;
-            margin-right: (@user-picture-size + 8px);
-
-            .user-title {
-            }
-
-            .user-info {
-            }
-        }
-    }
-}
-
-.user-pills {
-    .nav-tabs {
-        > li, .nav-pills > li {
-        }
-    }
-}
-
-@media (max-width: 767px) {
-    .user-header {
-
-        .user-card {
-            .user-picture {
-            }
-
-            .user-brief {
-                .user-title {
-                }
-
-                .user-info {
-                    text-align: right;
-                }
-            }
-        }
-    }
-
-}
+@import "content-profile-rtl/layout-rtl.less";
+@import "content-profile-rtl/timeline-rtl.less";

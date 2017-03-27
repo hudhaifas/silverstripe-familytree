@@ -1,0 +1,17 @@
+/* Layout RTL */
+.user-header .user-card .user-brief {
+  text-align: right;
+  margin-left: auto;
+  margin-right: 168px;
+}
+@media (max-width: 767px) {
+  .user-header .user-card .user-brief {
+    display: block;
+    margin: 12px auto;
+    text-align: center;
+  }
+  .user-header .user-card .user-brief .user-info {
+    text-align: right;
+  }
+}
+/*# sourceMappingURL=layout-rtl.css.map */

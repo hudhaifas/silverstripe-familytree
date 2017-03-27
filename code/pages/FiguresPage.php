@@ -190,7 +190,7 @@ JS
                                 'Person' => $single,
                                 'Title' => $single->Title
                             ))
-                            ->renderWith(array('FiguresPage_Profile', 'Page'));
+                            ->renderWith(array('FiguresPage_Profile', 'FiguresPage'));
         } else {
             return $this->httpError(404, 'That object could not be found!');
         }

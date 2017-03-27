@@ -1,0 +1,65 @@
+/* Layout */
+.user-header {
+  position: relative;
+  max-width: 1200px;
+  vertical-align: top;
+  width: auto;
+  z-index: 3;
+  text-align: center;
+  margin: 0 auto;
+  font-size: 18px;
+  line-height: 120px;
+  min-height: 160px;
+}
+.user-header .user-card {
+  max-width: 700px;
+  margin: 0 auto;
+}
+.user-header .user-card .user-picture {
+  width: 160px;
+  height: 160px;
+  margin: 0 0 -160px 0;
+}
+.user-header .user-card .user-brief {
+  display: inline-block;
+  line-height: 1.3;
+  margin-top: -0.25em;
+  vertical-align: middle;
+  text-align: left;
+  width: 100%;
+  margin-left: 168px;
+}
+.user-header .user-card .user-brief .user-title {
+  font-size: 22px;
+}
+.user-header .user-card .user-brief .user-info {
+  font-size: 16px;
+  margin-bottom: 2px;
+}
+.user-pills .nav-tabs {
+  text-align: center;
+}
+.user-pills .nav-tabs > li,
+.user-pills .nav-tabs .nav-pills > li {
+  float: none;
+  display: inline-block;
+}
+@media (max-width: 767px) {
+  .user-header .user-card .user-picture {
+    margin: 0 auto;
+  }
+  .user-header .user-card .user-brief {
+    display: block;
+    margin: 12px auto;
+    text-align: center;
+  }
+  .user-header .user-card .user-brief .user-title {
+    font-size: 18px;
+  }
+  .user-header .user-card .user-brief .user-info {
+    font-size: 14px;
+    margin-bottom: 2px;
+    text-align: left;
+  }
+}
+/*# sourceMappingURL=layout.css.map */
