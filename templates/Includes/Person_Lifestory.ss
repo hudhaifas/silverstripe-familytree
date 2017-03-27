@@ -9,7 +9,7 @@
             <div class="tl-ball-content">
                 <% if $Date.Format(M d) %><span class="tl-ball-text">$Date.Format(M d)</span><% end_if %>
                 <% if Date.Year %><span class="tl-ball-title">$Date.Year</span><% end_if %>
-                <% if Age %><span class="tl-ball-text">العمر $Age</span><% end_if %>
+                <% if Age %><span class="tl-ball-text"><%t Genealogist.AGE 'Age' %> $Age</span><% end_if %>
             </div>
         </div>
 
