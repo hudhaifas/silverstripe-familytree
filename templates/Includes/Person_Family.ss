@@ -42,7 +42,7 @@
             <b><%t Genealogist.SONS 'Sons' %></b>: $SonsCount<br />
 
             <% loop Sons %>
-                <a href="{$ObjectLink()}" target="_blanck" title="$FullName">$AliasName</a><% if not Last %><%t Genealogist.COMMA ',' %><% end_if %>
+                <a href="{$ObjectLink()}" title="$FullName">$AliasName</a><% if not Last %><%t Genealogist.COMMA ',' %><% end_if %>
             <% end_loop %>
         </p>
     <% end_if %>
@@ -52,7 +52,7 @@
             <b><%t Genealogist.DAUGHTERS 'Daughters' %></b>: $DaughtersCount<br />
 
             <% loop Daughters %>
-                <a href="{$ObjectLink()}" target="_blanck" title="$FullName">$AliasName</a><% if not Last %><%t Genealogist.COMMA ',' %><% end_if %>
+                <a href="{$ObjectLink()}" title="$FullName">$AliasName</a><% if not Last %><%t Genealogist.COMMA ',' %><% end_if %>
             <% end_loop %>
         </p>
     <% end_if %>
