@@ -4,7 +4,7 @@
     </div>
 
     <% loop LifeEvents %>
-    <div class="tl-block">
+    <div class="tl-block $EventType">
         <div class="tl-ball">
             <div class="tl-ball-content">
                 <% if DatePrecision == 'Accurate' %>
@@ -24,7 +24,7 @@
             <span class="tl-content-place"><span class="tl-content-date">$EventDate.Format(M d)</span><%if EventPlace %> <i class="fa fa-map-marker" aria-hidden="true"></i> $EventPlace<% end_if%></span>
             <span class="tl-content-title">$Title</span>
             <% if RelatedPerson  && RelatedPerson.ID != Person.ID %>
-                <p class="tl-content-text"><a href="{$RelatedPerson.ShowLink}">$RelatedPerson.AliasSummary</a></p>
+                <p class="tl-content-text"><a href="{$RelatedPerson.ShowLink}" title="{$RelatedPerson.FullName}">$RelatedPerson.AliasSummary</a></p>
             <% end_if %>
             <div class="tl-content-text">$Content</div>
         </div>
