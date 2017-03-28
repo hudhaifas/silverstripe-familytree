@@ -210,7 +210,7 @@ class GenealogistEventsHelper {
                     'name' => $person->Father()->Name,
                     'date' => self::age_at_event(
                             GenealogistEventsHelper::get_birth_date($person->Father()), //
-                            $this->EventDate
+                            $event->EventDate
                     )
                 ));
             }
