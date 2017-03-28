@@ -11,7 +11,7 @@
  * @author Hudhaifa Shatnawi <hudhaifa.shatnawi@gmail.com>
  * @version 1.0, Jan 8, 2017 - 7:20:28 AM
  */
-class PersonStats
+class PersonalStats
         extends DataObject {
 
     private static $db = array(

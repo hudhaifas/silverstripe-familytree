@@ -63,14 +63,14 @@ class Person
         'Photo' => 'Image',
         'Father' => 'Male',
         'Mother' => 'Female',
-        'Stats' => 'PersonStats',
+        'Stats' => 'PersonalStats',
     );
     private static $has_many = array(
         'Sons' => 'Male',
         'Daughters' => 'Female',
-        'Suggestions' => 'Suggestion',
         'Events' => 'PersonalEvent.Person',
         'RelatedEvents' => 'PersonalEvent.RelatedPerson',
+        'Suggestions' => 'Suggestion',
     );
     private static $many_many = array(
     );
@@ -112,17 +112,13 @@ class Person
         $labels['Mother.Name'] = _t('Genealogist.MOTHER_NAME', 'Mother Name');
 
         $labels['Husband'] = _t('Genealogist.HUSBAND', 'Husband');
-        $labels['Husbands'] = _t('Genealogist.HUSBANDS', 'Husbands');
         $labels['Wife'] = _t('Genealogist.WIFE', 'Wife');
-        $labels['Wives'] = _t('Genealogist.WIVES', 'Wives');
-
-        $labels['Children'] = _t('Genealogist.CHILDREN', 'Children');
-        $labels['Sons'] = _t('Genealogist.SONS', 'Sons');
-        $labels['Daughters'] = _t('Genealogist.DAUGHTERS', 'Daughters');
 
         $labels['BirthDate'] = _t('Genealogist.BIRTHDATE', 'Birth Date');
+        $labels['BirthPlace'] = _t('Genealogist.BIRTHPLACE', 'Birth Place');
         $labels['BirthDateEstimated'] = _t('Genealogist.BIRTHDATE_ESTIMATED', 'Birth Date Estimated');
         $labels['DeathDate'] = _t('Genealogist.DEATHDATE', 'Death Date');
+        $labels['DeathPlace'] = _t('Genealogist.DEATHPLACE', 'Death Place');
         $labels['DeathDateEstimated'] = _t('Genealogist.DEATHDATE_ESTIMATED', 'Death Date Estimated');
         $labels['Age'] = _t('Genealogist.AGE', 'Age');
         $labels['IsDead'] = _t('Genealogist.ISDEAD', 'Is Dead');
@@ -134,28 +130,23 @@ class Person
         $labels['PublicFigure'] = _t('Genealogist.PUBLIC_FIGURE', 'Public Figure');
         $labels['IsPrivate'] = _t('Genealogist.IS_PRIVATE', 'Hide Information');
 
+        // Tabs
+        $labels['Children'] = _t('Genealogist.CHILDREN', 'Children');
+        $labels['Sons'] = _t('Genealogist.SONS', 'Sons');
+        $labels['Daughters'] = _t('Genealogist.DAUGHTERS', 'Daughters');
+        $labels['Husbands'] = _t('Genealogist.HUSBANDS', 'Husbands');
+        $labels['Wives'] = _t('Genealogist.WIVES', 'Wives');
         $labels['Suggestions'] = _t('Genealogist.SUGGESTIONS', 'Suggestions');
+        $labels['Events'] = _t('Genealogist.EVENTS', 'Events');
+        $labels['RelatedEvents'] = _t('Genealogist.RELATED_EVENTS', 'Related Events');
+        $labels['Collectables'] = _t('Genealogist.COLLECTABLES', 'Collectables');
+
 
         return $labels;
     }
 
     public function getCMSFields() {
         $fields = parent::getCMSFields();
-
-        if ($field = $fields->fieldByName('Root.Main.BirthDate')) {
-            $field->setConfig('showcalendar', true);
-            $field->setConfig('dateformat', 'dd-MM-yyyy');
-        }
-
-        if ($field = $fields->fieldByName('Root.Main.DeathDate')) {
-            $field->setConfig('showcalendar', true);
-            $field->setConfig('dateformat', 'dd-MM-yyyy');
-        }
-
-        if ($field = $fields->fieldByName('Root.Main.Photo')) {
-            $field->getValidator()->setAllowedExtensions(array('jpg', 'jpeg', 'png', 'gif'));
-            $field->setFolderName("genealogist/photos");
-        }
 
         $fields->removeFieldFromTab('Root.Main', 'ParentID');
         $fields->removeFieldFromTab('Root.Main', 'IndexedName');
@@ -194,16 +185,7 @@ class Person
         $this->reorderField($fields, 'Postfix', 'Root.Main', 'Root.Main');
         $this->reorderField($fields, 'Note', 'Root.Main', 'Root.Main');
 
-        $datesTab = new Tab('DatesTab', _t('Genealogist.DATES', 'Dates'));
-        $fields->insertAfter('Main', $datesTab);
-        $this->reorderField($fields, 'BirthDate', 'Root.Main', 'Root.DatesTab');
-        $this->reorderField($fields, 'BirthDateEstimated', 'Root.Main', 'Root.DatesTab');
-        $this->reorderField($fields, 'DeathDate', 'Root.Main', 'Root.DatesTab');
-        $this->reorderField($fields, 'DeathDateEstimated', 'Root.Main', 'Root.DatesTab');
-        $this->reorderField($fields, 'IsDead', 'Root.Main', 'Root.DatesTab');
-        $fields->addFieldsToTab('Root.DatesTab', array(
-            ReadonlyField::create('Age', _t('Genealogist.AGE', 'Age'), $this->getAge())
-        ));
+        $this->getCMSEvents($fields);
 
         $this->reorderField($fields, 'FatherID', 'Root.Main', 'Root.Main');
         $this->reorderField($fields, 'MotherID', 'Root.Main', 'Root.Main');
@@ -219,6 +201,58 @@ class Person
         $this->reorderField($fields, 'Comments', 'Root.Main', 'Root.DetailsTab');
 
         return $fields;
+    }
+
+    protected function getCMSEvents(&$fields) {
+        if ($field = $fields->fieldByName('Root.Main.BirthDate')) {
+            $field->setConfig('showcalendar', true);
+            $field->setConfig('dateformat', 'dd-MM-yyyy');
+        }
+
+        if ($field = $fields->fieldByName('Root.Main.DeathDate')) {
+            $field->setConfig('showcalendar', true);
+            $field->setConfig('dateformat', 'dd-MM-yyyy');
+        }
+
+        if ($field = $fields->fieldByName('Root.Main.Photo')) {
+            $field->getValidator()->setAllowedExtensions(array('jpg', 'jpeg', 'png', 'gif'));
+            $field->setFolderName("genealogist/photos");
+        }
+
+        $datesTab = new Tab('DatesTab', _t('Genealogist.EVENTS', 'Events'));
+        $fields->insertAfter('Main', $datesTab);
+        $this->reorderField($fields, 'BirthDate', 'Root.Main', 'Root.DatesTab');
+        $this->reorderField($fields, 'BirthPlace', 'Root.Main', 'Root.DatesTab');
+        $this->reorderField($fields, 'BirthDateEstimated', 'Root.Main', 'Root.DatesTab');
+        $this->reorderField($fields, 'DeathDate', 'Root.Main', 'Root.DatesTab');
+        $this->reorderField($fields, 'DeathPlace', 'Root.Main', 'Root.DatesTab');
+        $this->reorderField($fields, 'DeathDateEstimated', 'Root.Main', 'Root.DatesTab');
+        $this->reorderField($fields, 'IsDead', 'Root.Main', 'Root.DatesTab');
+        $fields->addFieldsToTab('Root.DatesTab', array(
+            ReadonlyField::create('Age', _t('Genealogist.AGE', 'Age'), $this->getAge())
+        ));
+
+        if ($events = $fields->fieldByName('Root.Events.Events')) {
+            $fields->removeFieldFromTab('Root.Events', 'Events');
+            $fields->removeFieldFromTab('Root', 'Events');
+            $fields->addFieldToTab('Root.DatesTab', ToggleCompositeField::create(
+                            'EventsComposite', //
+                            _t('Genealogist.EVENTS', 'Events'), //
+                            $events
+                    )
+            );
+        }
+
+        if ($relatedEvents = $fields->fieldByName('Root.RelatedEvents.RelatedEvents')) {
+            $fields->removeFieldFromTab('Root.RelatedEvents', 'RelatedEvents');
+            $fields->removeFieldFromTab('Root', 'RelatedEvents');
+            $fields->addFieldToTab('Root.DatesTab', ToggleCompositeField::create(
+                            'EventsComposite', //
+                            _t('Genealogist.RELATED_EVENTS', 'Related Events'), //
+                            $relatedEvents
+                    )
+            );
+        }
     }
 
     protected function personConfigs($showFather = false, $showMother = true, $allowCreate = true) {
@@ -766,6 +800,10 @@ class Person
         }
 
         return $year == 0 ? null : $year;
+    }
+
+    public function getAliasSummary() {
+        return $this->renderWith('Person_Alias');
     }
 
     public function getDescendantsLeaves($males = 1, $malesSeed = 1, $females = 0, $femalesSeed = 0) {

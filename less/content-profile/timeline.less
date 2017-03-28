@@ -2,7 +2,8 @@
 
 @import "../mixins/transform.less";
 
-@timeline-color: #d9edf7;
+@male-timeline-color: #d9edf7;
+@female-timeline-color: #f2dede;
 @timeline-width: 4px;
 
 @timeline-ball-dim: 68px;
@@ -45,7 +46,7 @@
         left: ((@timeline-ball-dim - @timeline-width) / 2);
         height: 100%;
         width: @timeline-width;
-        background: @timeline-color;
+        background: @male-timeline-color;
     }
 
     &:first-child {
@@ -69,7 +70,7 @@
     padding: 0;
 
     border-radius: 50%;
-    background: @timeline-color;
+    background: @male-timeline-color;
     /*box-shadow: 0 0 0 4px #ffffff, inset 0 2px 0 rgba(0, 0, 0, 0.08), 0 3px 0 4px rgba(0, 0, 0, 0.05);*/
 
     .tl-ball-content {
@@ -149,7 +150,7 @@
         display: block;
         padding: 0 0 0.8em 0;
         font-size: 16px;
-        font-weight: bold;
+        /*font-weight: bold;*/
         line-height: 1.4;
     }
 
@@ -158,7 +159,7 @@
         display: block;
         margin: 0;
         width: 100%;
-        
+
         font-size: 14px;
         line-height: 1.4;
     }
@@ -204,6 +205,18 @@
 
 .no-touch .tl-content .cd-read-more:hover {
     background-color: #bac4cb;
+}
+
+.female {
+    .tl-block {
+        &:not(:last-child)::before {
+            background: @female-timeline-color;
+        }
+    }    
+
+    .tl-ball {
+        background: @female-timeline-color;
+    }
 }
 
 @media (max-width: 979px) {

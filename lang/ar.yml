@@ -23,7 +23,7 @@ ar:
     NICKNAME: 'الشهرة'
     POSTFIX: 'المزيد المؤخر'
     NOTE: 'ملاحظة'
-    
+
     PARENTS: 'الآباء'
     FATHER: 'الأب'
     FATHER_NAME: 'اسم الأب'
@@ -36,23 +36,7 @@ ar:
     CHILDREN: 'النسل'
     SONS: 'الأبناء'
     DAUGHTERS: 'البنات'
-    
-    DATES: 'التواريخ'
-    BIRTHDATE: 'تاريخ الولادة'
-    ESTIMATED: '(تقريبا)'
-    EST: 'تقريبا'
-    CALCULATIONS: '(حسابيا)'
-    CALC: 'حوالي'
-    BIRTHDATE_ESTIMATED: 'تاريخ الولادة تقريبي'
-    ESTIMATED_BIRTHDATE: 'تاريخ الولادة (تقريبا)'
-    CALCULATIONS_BIRTHDATE: 'تاريخ الولادة (حسابيا)'
-    DEATHDATE: 'تاريخ الوفاة'
-    DEATHDATE_ESTIMATED: 'تاريخ الوفاة تقريبي'
-    ESTIMATED_DEATHDATE: 'تاريخ الوفاة (تقريبا)'
-    CALCULATIONS_DEATHDATE: 'تاريخ الوفاة (حسابيا)'
-    AGE: 'العمر'
-    ISDEAD: 'متوفى؟'
-    
+
     BIOGRAPHY: 'السيرة'
     PUBLIC_FIGURE: 'شخصية عامة'
     IS_PRIVATE: 'إخفاء المعلومات'
@@ -65,6 +49,7 @@ ar:
     TEXTS: 'النصوص'
     COLLECTOR: 'المقتني'
     COLLECTION: 'من مقتنيات'
+    COLLECTABLES: 'الوثائق'
     ALSO_SEE: 'انظر أيضا'
     PERSON: 'الشخص'
     PEOPLE: 'الشخوص'
@@ -100,7 +85,7 @@ ar:
     SINGLE_WIFE: 'هذا الشخص لديه زوجة واحدة'
     ASSIGN_MOTHER: 'اجعلها أما لكل أبنائه'
     KINSHIP: 'صلة القربى'
-        
+
     # Controls
     ADD: 'إضافة'
     UPDATE: 'تحديث'
@@ -108,7 +93,7 @@ ar:
     SAVE: 'حفظ'
     FIND: 'أوجد'
     DELETE: 'حذف'
-    
+
     # Search
     SEARCH: 'بحث'
     SEARCH_RESULTS: 'نتائج البحث'
@@ -125,13 +110,13 @@ ar:
     SHOW_FATHER: 'عرض شجرة والد هذا الشخص'
     SHOW_CLAN: 'عرض شجرة عائلة هذا الشخص'
     SHOW_PROFILE: 'عرض الملف الشخصي'
-    EDIT_THIS_PERSON: 'تعديل البيانات' 
+    EDIT_THIS_PERSON: 'تعديل البيانات'
     EDIT_PARENTS: 'تعديل الوالدين'
     EDIT_CHILDREN: 'تعديل الأبناء'
     EDIT_SPOUSES: 'تعديل الأزواج'
     EDIT_HUSBANDS: 'تعديل الأزواج'
     EDIT_WIVES: 'تعديل الزوجات'
-    DELETE_THIS_PERSON: 'حذف هذا الشخص'    
+    DELETE_THIS_PERSON: 'حذف هذا الشخص'
 
     # Filters menu
     ANCESTRAL_TREE: 'شجرة الأسلاف'
@@ -141,6 +126,7 @@ ar:
     SHOW_MALES: 'إظهار الذكور'
     SHOW_MALES_CHILDREN: 'إظهار ذرية الذكور'
 
+    # Suggestions
     SUGGESTIONS: 'الاقتراحات'
     SUGGEST_PERSON_EDIT: 'اقترح تعديلا على هذا الشخص'
     SUGGEST_EDIT: 'اقترح تعديلا'
@@ -148,7 +134,7 @@ ar:
     SUGGEST_EDIT_MESSAGE_1: 'نرجو المعذرة لعدم دقة البيانات في هذه الشجرة، '
     CLICK_HERE: 'اضغط هنا'
     SUGGEST_EDIT_MESSAGE_2: 'لتزويدنا بأي اقتراحات أو بيانات.'
-    
+
     NOTE: 'ملاحظة'
     COMMENTS: 'التعليقات'
     FROM: 'من'
@@ -159,7 +145,7 @@ ar:
     MESSAGE: 'الرسالة'
     SEND: 'أرسل'
     TIMELINE: 'الخط الزمني'
-    
+
     # Controls
     FULLSCREEN: 'ملء الشاشة'
     EXIT_FULLSCREEN: 'العرض الجزئي'
@@ -169,8 +155,37 @@ ar:
     ZOOM_ONE: 'الحجم الطبيعي'
     ZOOM_OUT: 'تصغير الحجم'
     DOWNLOAD_TREE: 'حفظ الشجرة كصورة'
+
+    # Dates
+    DATES: 'التواريخ'
+    ESTIMATED: '(تقريبا)'
+    EST: 'تقريبا'
+    CALCULATIONS: '(تقديرا)'
+    CALC: 'تقديرا'
+    AGE: 'العمر'
     
+    BIRTHDATE: 'تاريخ الولادة'
+    BIRTHPLACE: 'مكان الولادة'
+    BIRTHDATE_ESTIMATED: 'تاريخ الولادة تقريبي'
+    ESTIMATED_BIRTHDATE: 'تاريخ الولادة (تقريبا)'
+    CALCULATIONS_BIRTHDATE: 'تاريخ الولادة (تقديرا)'
+    
+    ISDEAD: 'متوفى؟'
+    DEATHDATE: 'تاريخ الوفاة'
+    DEATHPLACE: 'مكان الوفاة'
+    DEATHDATE_ESTIMATED: 'تاريخ الوفاة تقريبي'
+    ESTIMATED_DEATHDATE: 'تاريخ الوفاة (تقريبا)'
+    CALCULATIONS_DEATHDATE: 'تاريخ الوفاة (تقديرا)'
+
     # Events
+    EVENTS: 'الأحداث'
+    RELATED_EVENTS: 'أحداث ذات صلة'
+    RELATED_PERSON: 'الشخص ذو الصلة'
+    EVENT_TITLE: 'عنوان الحدث'
+    EVENT_DATE: 'تاريخ الحدث'
+    EVENT_PLACE: 'مكان الحدث'
+    EVENT_TYPE: 'نوع الحدث'
+
     Birth_Self: 'الولادة'
     Death_Self: 'الوفاة'
     Birth_Father: 'ولادة الأب'
@@ -193,7 +208,7 @@ ar:
     Death_HalfBrother: 'وفاة أخ'
     Birth_HalfSister: 'ولادة أخت'
     Death_HalfSister: 'وفاة أخت'
-    
+
     # Tutorial
     TUTORIAL_NODE: 'اضغط على الاسم للحصول على معلومات إضافية عن هذا الشخص، كتاريخ الميلاد والوفاة، اسم الأب والأم واحضائيات عن ذريته.'
     TUTORIAL_SEARCH_IN_TREE: 'ابحث عن أي شخص في هذه الشجرة بكتابة جزء من اسمه'

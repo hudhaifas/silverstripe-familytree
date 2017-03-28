@@ -33,20 +33,24 @@ class GenealogistEventsHelper {
 
     public static function get_life_events($person) {
         return $person->Events()->filter(array(
-//                    'Date:GreaterThanOrEqual' => $person->BirthDate,
-//                    'Date:LessThanOrEqual' => $person->DeathDate,
+//                    'EventDate:GreaterThanOrEqual' => $person->BirthDate,
+//                    'EventDate:LessThanOrEqual' => $person->DeathDate,
         ));
     }
 
     public static function update_all_related_events($person) {
         foreach ($person->RelatedEvents() as $event) {
-            switch ($event->Type) {
+            switch ($event->EventType) {
                 case 'Birth':
-                    $event->Date = self::get_birth_date($person);
+                    $event->EventDate = self::get_birth_date($relative);
+                    $event->DatePrecision = self::get_birth_date_precision($relative);
+                    $event->EventPlace = $relative->BirthPlace;
                     break;
 
                 case 'Death':
-                    $event->Date = self::get_death_date($person);
+                    $event->EventDate = self::get_death_date($relative);
+                    $event->DatePrecision = self::get_death_date_precision($relative);
+                    $event->EventPlace = $relative->DeathPlace;
                     break;
 
                 default:
@@ -71,7 +75,7 @@ class GenealogistEventsHelper {
         $event = PersonalEvent::get()->filter(array(
                     'PersonID' => $person->ID,
                     'RelatedPersonID' => $relative->ID,
-                    'Type' => $type,
+                    'EventType' => $type,
                 ))->first();
 
         if (!$event || !$event->exists()) {
@@ -79,24 +83,26 @@ class GenealogistEventsHelper {
             $event = new PersonalEvent();
             $event->PersonID = $person->ID;
             $event->RelatedPersonID = $relative->ID;
-            $event->Type = $type;
+            $event->EventType = $type;
         } else {
-            echo('Update record');
+            
         }
 
-        $event->Title = self::get_event_title($type, $relation);
+        $event->EventTitle = self::get_event_title($type, $relation);
 
-        switch ($event->Type) {
+        switch ($type) {
             case 'Birth':
-                $event->Date = self::get_birth_date($relative);
+                echo('Update record');
+                $event->EventDate = null;
+                $event->EventDate = self::get_birth_date($relative);
                 $event->DatePrecision = self::get_birth_date_precision($relative);
-                $event->Location = $relative->BirthPlace;
+                $event->EventPlace = $relative->BirthPlace;
                 break;
 
             case 'Death':
-                $event->Date = self::get_death_date($relative);
+                $event->EventDate = self::get_death_date($relative);
                 $event->DatePrecision = self::get_death_date_precision($relative);
-                $event->Location = $relative->DeathPlace;
+                $event->EventPlace = $relative->DeathPlace;
                 break;
         }
         $event->write();
@@ -139,7 +145,7 @@ class GenealogistEventsHelper {
             $date->setValue('1/1/' . $person->Stats()->MinYear);
         }
 
-        return $date;
+        return $date->getValue();
     }
 
     public static function get_birth_date_precision($person) {
@@ -179,17 +185,17 @@ class GenealogistEventsHelper {
     }
 
     public static function age_at($startDate, $endDate) {
-        if (!$endDate->value) {
+        if (!$startDate) {
             return false;
         }
 
-        if ($startDate && $startDate->value) {
-            $time = $startDate->Format('U');
-        } else {
-            $time = SS_Datetime::now()->Format('U');
+        $diff = strtotime($endDate) - strtotime($startDate);
+
+        if ($startDate <= $endDate) {
+            return 0;
         }
 
-        $ago = abs($time - strtotime($endDate->value));
+        $ago = abs($diff);
         $significance = 2;
 
         if ($ago < $significance * 86400 * 30) {
@@ -202,16 +208,12 @@ class GenealogistEventsHelper {
     }
 
     public static function age_at_format($format, $startDate, $endDate) {
-        if (!$endDate->value) {
+        if (!$startDate) {
             return false;
         }
 
-        if ($startDate && $startDate->value) {
-            $time = $startDate->Format('U');
-        } else {
-            $time = SS_Datetime::now()->Format('U');
-        }
-        $ago = abs($time - strtotime($endDate->value));
+        $diff = strtotime($endDate) - strtotime($startDate);
+        $ago = abs($diff);
 
         switch ($format) {
             case "days":

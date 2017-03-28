@@ -23,7 +23,7 @@ en:
     NICKNAME: 'Nickname'
     POSTFIX: 'Postfix'
     NOTE: 'Note'
-    
+
     PARENTS: 'Parents'
     FATHER: 'Father'
     FATHER_NAME: 'Father Name'
@@ -36,23 +36,7 @@ en:
     CHILDREN: 'Children'
     SONS: 'Sons'
     DAUGHTERS: 'Daughters'
-    
-    DATES: 'Dates'
-    BIRTHDATE: 'Birth Date'
-    ESTIMATED: '(Estimated)'
-    EST: 'Est.'
-    CALCULATIONS: '(Calculations)'
-    CALC: 'Calc.'
-    BIRTHDATE_ESTIMATED: 'Birth Date Estimated'
-    ESTIMATED_BIRTHDATE: 'Birth Date (Estimated)'
-    CALCULATIONS_BIRTHDATE: 'Birth Date (Calculations)'
-    DEATHDATE: 'Death Date'
-    DEATHDATE_ESTIMATED: 'Death Date Estimated'
-    ESTIMATED_DEATHDATE: 'Death Date (Estimated)'
-    CALCULATIONS_DEATHDATE: 'Death Date (Calculations)'
-    AGE: 'Age'
-    ISDEAD: 'Is Dead'
-    
+
     BIOGRAPHY: 'Biography'
     PUBLIC_FIGURE: 'Public Figure'
     IS_PRIVATE: 'Hide Information'
@@ -65,6 +49,7 @@ en:
     TEXTS: 'Texts'
     COLLECTOR: 'Collector'
     COLLECTION: 'Collection'
+    COLLECTABLES: 'Documents'
     ALSO_SEE: 'Also See'
     PERSON: 'Person'
     PEOPLE: 'People'
@@ -100,7 +85,7 @@ en:
     SINGLE_WIFE: 'This Person Has One Wife Only'
     ASSIGN_MOTHER: 'Assign Mother To All Children'
     KINSHIP: 'Kinship'
-    
+
     # Controls
     ADD: 'Add'
     UPDATE: 'Update'
@@ -108,7 +93,7 @@ en:
     SAVE: 'Save'
     FIND: 'Find'
     DELETE: 'Delete'
-    
+
     # Search
     SEARCH: 'Search'
     SEARCH_RESULTS: 'Search Results'
@@ -125,14 +110,14 @@ en:
     SHOW_FATHER: 'Show this person father tree'
     SHOW_CLAN: 'Show this person clan tree'
     SHOW_PROFILE: 'Show Personal Profile'
-    EDIT_THIS_PERSON: 'Edit this Person' 
+    EDIT_THIS_PERSON: 'Edit this Person'
     EDIT_PARENTS: 'Edit Parents'
     EDIT_CHILDREN: 'Edit Children'
     EDIT_SPOUSES: 'Edit Spouses'
     EDIT_HUSBANDS: 'Edit Husbands'
     EDIT_WIVES: 'Edit Wives'
-    DELETE_THIS_PERSON: 'Delete this Person'    
-    
+    DELETE_THIS_PERSON: 'Delete this Person'
+
     # Filters menu
     ANCESTRAL_TREE: 'Ancestral Tree'
     SHOW_FEMALES_TREE: 'Show Females Tree'
@@ -140,7 +125,8 @@ en:
     SHOW_FEMALES_CHILDREN: 'Show Females Children'
     SHOW_MALES: 'Show Males'
     SHOW_MALES_CHILDREN: 'Show Males Children'
-    
+
+    # Suggestions
     SUGGESTIONS: 'Suggestions'
     SUGGEST_PERSON_EDIT: 'Suggest edit on this person'
     SUGGEST_EDIT: 'Suggest edit'
@@ -159,7 +145,7 @@ en:
     MESSAGE: 'Message'
     SEND: 'Send'
     TIMELINE: 'Timeline'
-    
+
     # Controls
     FULLSCREEN: 'Fullscreen'
     EXIT_FULLSCREEN: 'Exit Full Screen'
@@ -170,7 +156,36 @@ en:
     ZOOM_OUT: 'Zoom Out'
     DOWNLOAD_TREE: 'Save The Tree Image'
 
+    # Dates
+    DATES: 'Dates'
+    ESTIMATED: '(Estimated)'
+    EST: 'Est.'
+    CALCULATIONS: '(Calculations)'
+    CALC: 'Calc.'
+    AGE: 'Age'
+
+    BIRTHDATE: 'Birth Date'
+    BIRTHPLACE: 'Birth Place'
+    BIRTHDATE_ESTIMATED: 'Birth Date Estimated'
+    ESTIMATED_BIRTHDATE: 'Birth Date (Estimated)'
+    CALCULATIONS_BIRTHDATE: 'Birth Date (Calculations)'
+
+    ISDEAD: 'Is Dead'
+    DEATHDATE: 'Death Date'
+    DEATHPLACE: 'Death Place'
+    DEATHDATE_ESTIMATED: 'Death Date Estimated'
+    ESTIMATED_DEATHDATE: 'Death Date (Estimated)'
+    CALCULATIONS_DEATHDATE: 'Death Date (Calculations)'
+
     # Events
+    EVENTS: 'Events'
+    RELATED_EVENTS: 'Related Events'
+    RELATED_PERSON: 'Related Person'
+    EVENT_TITLE: 'Event Title'
+    EVENT_DATE: 'Event Date'
+    EVENT_PLACE: 'Event Place'
+    EVENT_TYPE: 'Event Type'
+    
     Birth_Self: 'Birth'
     Death_Self: 'Death'
     Birth_Father: 'Birth of Father'
@@ -193,7 +208,7 @@ en:
     Death_HalfBrother: 'Death of Half Brother'
     Birth_HalfSister: 'Birth of Half Sister'
     Death_HalfSister: 'Death of Half Sister'
-    
+
     # Tutorial
     TUTORIAL_NODE: 'Click on the name to see more details'
     TUTORIAL_SEARCH_IN_TREE: 'Searcg for person in the tree'
