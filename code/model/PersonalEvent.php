@@ -19,7 +19,7 @@ class PersonalEvent
         'Date' => 'Date',
         'DatePrecision' => 'Enum("Accurate, Estimated, Calculated", "Accurate")',
         'Location' => 'Varchar(255)',
-        'Age' => 'Int',
+        'Age' => 'Varchar(255)',
         'Content' => 'HTMLText',
         'IsPrivate' => 'Boolean',
         'IsAuto' => 'Boolean',
@@ -41,19 +41,15 @@ class PersonalEvent
         return $fields;
     }
 
-    public function getYear() {
-        return $this->Date()->Year();
-    }
-
-    public function getPreYear() {
-        return $this->Date()->Year();
+    public function getEventTitle() {
+        return _t('Genealogist.' . $this->Title, $this->Title);
     }
 
     protected function onBeforeWrite() {
         parent::onBeforeWrite();
 
         if ($this->Date) {
-//            $this->Age = $this->Date - $this->Person()->CSSBirth();
+            $this->Age = GenealogistEventsHelper::age_at($this->Date, GenealogistEventsHelper::get_birth_date($this->Person()));
         }
     }
 

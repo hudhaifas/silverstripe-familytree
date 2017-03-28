@@ -33,8 +33,8 @@ class GenealogistEventsHelper {
 
     public static function get_life_events($person) {
         return $person->Events()->filter(array(
-                    'Date:GreaterThanOrEqual' => $person->BirthDate,
-                    'Date:LessThanOrEqual' => $person->DeathDate,
+//                    'Date:GreaterThanOrEqual' => $person->BirthDate,
+//                    'Date:LessThanOrEqual' => $person->DeathDate,
         ));
     }
 
@@ -57,42 +57,46 @@ class GenealogistEventsHelper {
         }
     }
 
-    public static function create_relative_events($person, $relative) {
+    public static function create_relative_events($person, $relative, $realtion = 'Self') {
         if ($person->exists() && $relative->exists()) {
-            self::create_event($person, $relative, 'Birth');
+            self::create_event($person, $relative, 'Birth', $realtion);
 
-            if ($relative->isDead) {
-                self::create_event($person, $relative, 'Death');
+            if ($relative->IsDead) {
+                self::create_event($person, $relative, 'Death', $realtion);
             }
         }
     }
 
-    public static function create_event($person, $relative, $type = 'Custom') {
-        $current = PersonalEvent::get()->filter(array(
-            'PersonID' => $person->ID,
-            'RelatedPersonID' => $relative->ID,
-            'Type' => $type,
-        ));
+    public static function create_event($person, $relative, $type = 'Custom', $relation) {
+        $event = PersonalEvent::get()->filter(array(
+                    'PersonID' => $person->ID,
+                    'RelatedPersonID' => $relative->ID,
+                    'Type' => $type,
+                ))->first();
 
-        echoln($current);
-        if ($current) {
-            
-            return;
+        if (!$event || !$event->exists()) {
+            echoln('New record');
+            $event = new PersonalEvent();
+            $event->PersonID = $person->ID;
+            $event->RelatedPersonID = $relative->ID;
+            $event->Type = $type;
+        } else {
+            echoln('Update record');
         }
 
-        $event = new PersonalEvent();
-        $event->PersonID = $person->ID;
-        $event->RelatedPersonID = $relative->ID;
-        $event->Title = 'Test';
-        $event->Type = $type;
+        $event->Title = self::get_event_title($type, $relation);
 
         switch ($event->Type) {
             case 'Birth':
                 $event->Date = self::get_birth_date($relative);
+                $event->DatePrecision = self::get_birth_date_precision($person);
+                $event->Location = $relative->BirthPlace;
                 break;
 
             case 'Death':
                 $event->Date = self::get_death_date($relative);
+                $event->DatePrecision = self::get_death_date_precision($person);
+                $event->Location = $relative->DeathPlace;
                 break;
         }
         $event->write();
@@ -101,12 +105,29 @@ class GenealogistEventsHelper {
     }
 
     public static function create_all_events($person) {
-        self::create_relative_events($person, $person->Father());
-//        self::create_relative_events($person, $person->Mother());
-//
-//        foreach ($person->Children() as $child) {
-//            self::create_relative_events($person, $child);
-//        }
+        self::create_relative_events($person, $person);
+        self::create_relative_events($person, $person->Father(), 'Father');
+        self::create_relative_events($person, $person->Mother(), 'Mother');
+
+        foreach ($person->Sons() as $son) {
+            self::create_relative_events($person, $son, 'Son');
+        }
+
+        foreach ($person->Daughters() as $daughter) {
+            self::create_relative_events($person, $daughter, 'Daughter');
+        }
+
+        if ($person->isMale()) {
+            foreach ($person->Wives() as $wife) {
+                self::create_relative_events($person, $wife, 'Wife');
+            }
+        }
+
+        if ($person->isFemale()) {
+            foreach ($person->Husbands() as $husband) {
+                self::create_relative_events($person, $husband, 'Husband');
+            }
+        }
     }
 
     public static function get_birth_date($person) {
@@ -121,6 +142,16 @@ class GenealogistEventsHelper {
         return $date;
     }
 
+    public static function get_birth_date_precision($person) {
+        if ($person->BirthDate && !$person->BirthDateEstimated) {
+            return 'Accurate';
+        } else if ($person->BirthDate && $person->BirthDateEstimated) {
+            return 'Estimated';
+        } else {
+            return 'Calculated';
+        }
+    }
+
     public static function get_death_date($person) {
         $date = new Date();
 
@@ -131,6 +162,82 @@ class GenealogistEventsHelper {
         }
 
         return $date;
+    }
+
+    public static function get_death_date_precision($person) {
+        if ($person->DeathDate && !$person->DeathDateEstimated) {
+            return 'Accurate';
+        } else if ($person->DeathDate && $person->DeathDateEstimated) {
+            return 'Estimated';
+        } else {
+            return 'Calculated';
+        }
+    }
+
+    public static function get_event_title($type, $relation) {
+        return $type . '_' . $relation;
+    }
+
+    /**
+     * @param boolean $includeSeconds Show seconds, or just round to "less than a minute".
+     * @param int $significance Minimum significant value of X for "X units ago" to display
+     * @return string
+     */
+    public static function age_at($startDate, $endDate, $significance = 2) {
+        if (!$endDate->value) {
+            return false;
+        }
+
+        if ($startDate && $startDate->value) {
+            $time = $startDate->Format('U');
+        } else {
+            $time = SS_Datetime::now()->Format('U');
+        }
+
+        $ago = abs($time - strtotime($endDate->value));
+        if ($ago < $significance * 86400 * 30) {
+            return self::TimeDiffIn('days', $startDate, $endDate);
+        } elseif ($ago < $significance * 86400 * 365) {
+            return self::TimeDiffIn('months', $startDate, $endDate);
+        } else {
+            return self::TimeDiffIn('years', $startDate, $endDate);
+        }
+    }
+
+    /**
+     * Gets the time difference, but always returns it in a certain format
+     *
+     * @param string $format The format, could be one of these:
+     * 'seconds', 'minutes', 'hours', 'days', 'months', 'years'.
+     * @return string The resulting formatted period
+     */
+    public static function TimeDiffIn($format, $startDate, $endDate) {
+        if (!$endDate->value) {
+            return false;
+        }
+
+        if ($startDate && $startDate->value) {
+            $time = $startDate->Format('U');
+        } else {
+            $time = SS_Datetime::now()->Format('U');
+        }
+        $ago = abs($time - strtotime($endDate->value));
+
+        switch ($format) {
+            case "days":
+                $span = round($ago / 86400);
+//                return ($span != 1) ? "{$span} " . _t("Date.DAYS", "days") : "{$span} " . _t("Date.DAY", "day");
+
+            case "months":
+                $span = round($ago / 86400 / 30);
+//                return ($span != 1) ? "{$span} " . _t("Date.MONTHS", "months") : "{$span} " . _t("Date.MONTH", "month");
+
+            case "years":
+                $span = round($ago / 86400 / 365);
+//                return ($span != 1) ? "{$span} " . _t("Date.YEARS", "years") : "{$span} " . _t("Date.YEAR", "year");
+        }
+
+        return $span;
     }
 
 }

@@ -41,8 +41,10 @@ class Person
         'Postfix' => 'Varchar(255)',
         // Birth
         'BirthDate' => 'Date',
+        'BirthPlace' => 'Varchar(255)',
         'BirthDateEstimated' => 'Boolean',
         'DeathDate' => 'Date',
+        'DeathPlace' => 'Varchar(255)',
         'DeathDateEstimated' => 'Boolean',
         'IsDead' => 'Boolean',
         // Notes
