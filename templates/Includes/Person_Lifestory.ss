@@ -26,7 +26,7 @@
             <% if RelatedPerson  && RelatedPerson.ID != Person.ID %>
                 <p class="tl-content-text"><a href="{$RelatedPerson.ShowLink}" title="{$RelatedPerson.FullName}">$RelatedPerson.AliasSummary</a></p>
             <% end_if %>
-            <div class="tl-content-text">$ExentContent</div>
+            <div class="tl-content-text">$EventContent</div>
         </div>
     </div>
     <% end_loop %>
