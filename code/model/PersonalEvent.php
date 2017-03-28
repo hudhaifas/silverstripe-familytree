@@ -19,7 +19,7 @@ class PersonalEvent
         'EventDate' => 'Date',
         'DatePrecision' => 'Enum("Accurate, Estimated, Calculated", "Accurate")',
         'EventPlace' => 'Varchar(255)',
-        'Content' => 'HTMLText',
+        'ExentContent' => 'HTMLText',
         'EventType' => 'Enum("Birth, Death, Marriage, Resident, Graduated, Custom", "Custom")',
         'IsPrivate' => 'Boolean',
         'IsEdited' => 'Boolean',
