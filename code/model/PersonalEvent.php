@@ -23,6 +23,7 @@ class PersonalEvent
         'EventType' => 'Enum("Birth, Death, Marriage, Resident, Graduated, Custom", "Custom")',
         'IsPrivate' => 'Boolean',
         'IsEdited' => 'Boolean',
+        'Relation' => 'Varchar(25)',
         'Age' => 'Varchar(255)',
     );
     private static $has_one = array(
@@ -68,10 +69,6 @@ class PersonalEvent
         return $fields;
     }
 
-    public function getTitle() {
-        return _t('Genealogist.' . $this->EventTitle, $this->EventTitle);
-    }
-
     protected function onBeforeWrite() {
         parent::onBeforeWrite();
 
@@ -81,6 +78,17 @@ class PersonalEvent
                             $this->EventDate
             );
         }
+
+        $this->EventContent = GenealogistEventsHelper::generate_event_content($this, $this->Person(), $this->RelatedPerson(), $this->EventType, $this->Relation, $this->DatePrecision, $this->Age);
+    }
+
+    public function getTitle() {
+        return _t('Genealogist.' . $this->EventTitle, $this->EventTitle);
+    }
+
+    public function getContent() {
+        return _t('Genealogist.' . $this->EventContent, $this->EventContent);
+//        return GenealogistEventsHelper::generate_event_content($this->Person(), $this->RelatedPerson(), $this->EventType, $this->EventRelation, $this->DatePrecision);
     }
 
 }

@@ -186,6 +186,7 @@ en:
     EVENT_PLACE: 'Event Place'
     EVENT_TYPE: 'Event Type'
     
+    # Events Titles
     Birth_Self: 'Birth'
     Death_Self: 'Death'
     Birth_Father: 'Birth of Father'
@@ -208,6 +209,45 @@ en:
     Death_HalfBrother: 'Death of Half Brother'
     Birth_HalfSister: 'Birth of Half Sister'
     Death_HalfSister: 'Death of Half Sister'
+
+    # Events Contents
+    BORN_ON: '{name} was born on {date}'
+    BORN_IN: '{name} was born in {date}'
+    BORN_TO: 'to {name}, age {age}'
+    BORN_AND: 'and {name}, age {age}'
+    DIED_ON: '{name} died on {date}'
+    DIED_IN: '{name} died in {date}'
+    WHEN_HE_WAS: 'when he was {age}'
+    
+    Birth_Content_1: '{name} was born on {date}, to {mother}, age {motherAge}, and {father}, age {fatherAge}.'
+    Birth_Content_2: '{name} was born in {date}, to {mother}, age {motherAge}, and {father}, age {fatherAge}.'
+    Birth_Content_3: '{name} was born on {date}, to {mother}, and {father}.'
+    Birth_Content_4: '{name} was born in {date}, to {mother}, and {father}.'
+    
+    Death_Content_1: '{name} died on {date}.'
+    Death_Content_2: '{name} died in {date}.'
+
+    Death_Self_Content: 'Death'
+    Birth_Father_Content: 'Birth of Father'
+    Death_Father_Content: 'Death of Father'
+    Birth_Mother_Content: 'Birth of Mother'
+    Death_Mother_Content: 'Death of Mother'
+    Birth_Wife_Content: 'Birth of Wife'
+    Death_Wife_Content: 'Death of Wife'
+    Birth_Husband_Content: 'Birth of Husband'
+    Death_Husband_Content: 'Death of Husband'
+    Birth_Son_Content: 'Birth of Son'
+    Death_Son_Content: 'Death of Son'
+    Birth_Daughter_Content: 'Birth of Daughter'
+    Death_Daughter_Content: 'Death of Daughter'
+    Birth_Brother_Content: 'Birth of Brother'
+    Death_Brother_Content: 'Death of Brother'
+    Birth_Sister_Content: 'Birth of Sister'
+    Death_Sister_Content: 'Death of Sister'
+    Birth_HalfBrother_Content: 'Birth of Half Brother'
+    Death_HalfBrother_Content: 'Death of Half Brother'
+    Birth_HalfSister_Content: 'Birth of Half Sister'
+    Death_HalfSister_Content: 'Death of Half Sister'
 
     # Tutorial
     TUTORIAL_NODE: 'Click on the name to see more details'
