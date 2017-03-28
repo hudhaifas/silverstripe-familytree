@@ -183,7 +183,7 @@ class GenealogistEventsHelper {
      * @param int $significance Minimum significant value of X for "X units ago" to display
      * @return string
      */
-    public static function age_at($startDate, $endDate, $significance = 2) {
+    public static function age_at($startDate, $endDate) {
         if (!$endDate->value) {
             return false;
         }
@@ -195,12 +195,14 @@ class GenealogistEventsHelper {
         }
 
         $ago = abs($time - strtotime($endDate->value));
+        $significance = 2;
+
         if ($ago < $significance * 86400 * 30) {
-            return self::TimeDiffIn('days', $startDate, $endDate);
+            return self::age_at_format('days', $startDate, $endDate);
         } elseif ($ago < $significance * 86400 * 365) {
-            return self::TimeDiffIn('months', $startDate, $endDate);
+            return self::age_at_format('months', $startDate, $endDate);
         } else {
-            return self::TimeDiffIn('years', $startDate, $endDate);
+            return self::age_at_format('years', $startDate, $endDate);
         }
     }
 
@@ -211,7 +213,7 @@ class GenealogistEventsHelper {
      * 'seconds', 'minutes', 'hours', 'days', 'months', 'years'.
      * @return string The resulting formatted period
      */
-    public static function TimeDiffIn($format, $startDate, $endDate) {
+    public static function age_at_format($format, $startDate, $endDate) {
         if (!$endDate->value) {
             return false;
         }
