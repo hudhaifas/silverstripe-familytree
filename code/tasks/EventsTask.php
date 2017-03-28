@@ -34,21 +34,15 @@ class EventsTask
 
     protected $title = 'Crawling people events';
     protected $description = "
-            Indexing all people events and Calculating the estimated birth and death dates
+            Indexing all people events
             
             Parameters:
                 - src: all - index all records, otherwise index only non-indexed records.
                        'ID' - index a specific person
-                - level: all - index all records, otherwise index only non-indexed records.
-                         reset - delete all statistics records
-                         names - index names only
-                         stats - index statistics only
-                         dates - index dates only
             ";
     protected $enabled = true;
 
     public function run($request) {
-        $level = $request->getVar('level');
         $source = $request->getVar('src');
         $count = 1;
 
@@ -57,17 +51,14 @@ class EventsTask
             $count = $people->count();
         } else if (is_numeric($source)) {
             $people = DataObject::get_by_id('Person', (int) $source);
-        } else {
-            $people = Person::get()->where('StatsID = 0');
-            $count = $people->count();
+        }
+
+        if (!$people) {
+            $this->println('No records to be indexed.');
+            return;
         }
 
         $this->println($count . ' record(s) to be indexed.');
-
-        if ($level == 'reset') {
-            $this->reset($people);
-            return;
-        }
 
         foreach ($people as $person) {
             $this->indexEvents($person);
@@ -79,15 +70,8 @@ class EventsTask
     }
 
     private function indexEvents($person) {
-//        if ($person->Stats()->exists() || $person->StatsID) {
-//            $stats = $person->Stats();
-        $this->println('Updating the dates of: ' . $person->Name);
-//            echo '.';
-//        } else {
-//            $stats = new PersonStats();
-////            $this->println('Indexing the dates of: ' . $person->Name);
-//            echo '.';
-//        }
+//        $this->println('Updating the dates of: ' . $person->Name);
+        echo '.';
 
         GenealogistEventsHelper::create_all_events($person);
     }

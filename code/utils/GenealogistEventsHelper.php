@@ -79,20 +79,19 @@ class GenealogistEventsHelper {
                 ))->first();
 
         if (!$event || !$event->exists()) {
-            echo('New record');
+//            echo('New record');
             $event = new PersonalEvent();
             $event->PersonID = $person->ID;
             $event->RelatedPersonID = $relative->ID;
             $event->EventType = $type;
         } else {
-            
+//            echo('Update record');
         }
 
         $event->EventTitle = self::get_event_title($type, $relation);
 
         switch ($type) {
             case 'Birth':
-                echo('Update record');
                 $event->EventDate = null;
                 $event->EventDate = self::get_birth_date($relative);
                 $event->DatePrecision = self::get_birth_date_precision($relative);
@@ -184,48 +183,30 @@ class GenealogistEventsHelper {
         return $type . '_' . $relation;
     }
 
-    public static function age_at($startDate, $endDate) {
-        if (!$startDate) {
+    public static function age_at_event($birthDate, $eventDate) {
+        if (!$eventDate || !$birthDate) {
             return false;
         }
 
-        $diff = strtotime($endDate) - strtotime($startDate);
+        $birthObject = new DateTime($birthDate);
+        $eventObject = new DateTime($eventDate);
 
-        if ($startDate <= $endDate) {
+        // This event is before person was born
+        if ($eventObject <= $birthObject) {
+//            echo('This event is before person was born');
             return 0;
         }
+        $diff = $birthObject->diff($eventObject);
+        $daysAgo = $diff->format('%a');
 
-        $ago = abs($diff);
-        $significance = 2;
-
-        if ($ago < $significance * 86400 * 30) {
-            return self::age_at_format('days', $startDate, $endDate);
-        } elseif ($ago < $significance * 86400 * 365) {
-            return self::age_at_format('months', $startDate, $endDate);
+        if ($daysAgo < 30) {
+            $span = round($daysAgo);
+            return ($span != 1) ? "{$span} " . _t("Date.DAYS", "days") : "{$span} " . _t("Date.DAY", "day");
+        } elseif ($daysAgo < 365) {
+            $span = round($daysAgo / 30);
+            return ($span != 1) ? "{$span} " . _t("Date.MONTHS", "months") : "{$span} " . _t("Date.MONTH", "month");
         } else {
-            return self::age_at_format('years', $startDate, $endDate);
-        }
-    }
-
-    public static function age_at_format($format, $startDate, $endDate) {
-        if (!$startDate) {
-            return false;
-        }
-
-        $diff = strtotime($endDate) - strtotime($startDate);
-        $ago = abs($diff);
-
-        switch ($format) {
-            case "days":
-                $span = round($ago / 86400);
-                return ($span != 1) ? "{$span} " . _t("Date.DAYS", "days") : "{$span} " . _t("Date.DAY", "day");
-
-            case "months":
-                $span = round($ago / 86400 / 30);
-                return ($span != 1) ? "{$span} " . _t("Date.MONTHS", "months") : "{$span} " . _t("Date.MONTH", "month");
-
-            case "years":
-                $span = round($ago / 86400 / 365);
+            $span = round($daysAgo / 365);
 //                return ($span != 1) ? "{$span} " . _t("Date.YEARS", "years") : "{$span} " . _t("Date.YEAR", "year");
         }
 

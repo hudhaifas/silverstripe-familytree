@@ -45,7 +45,7 @@ class PersonalEvent
 
         $labels['DatePrecision'] = _t('Genealogist.Date_Precision', 'Date Precision');
         $labels['IsEdited'] = _t('Genealogist.Date_Precision', 'Date Precision');
-        
+
         $labels['Title'] = _t('Genealogist.EVENT_TITLE', 'Event Title');
         $labels['EventTitle'] = _t('Genealogist.EVENT_TITLE', 'Event Title');
         $labels['Person.Name'] = _t('Genealogist.PERSON', 'Person');
@@ -76,7 +76,10 @@ class PersonalEvent
         parent::onBeforeWrite();
 
         if ($this->EventDate) {
-            $this->Age = GenealogistEventsHelper::age_at($this->EventDate, GenealogistEventsHelper::get_birth_date($this->Person()));
+            $this->Age = GenealogistEventsHelper::age_at_event(
+                            GenealogistEventsHelper::get_birth_date($this->Person()), //
+                            $this->EventDate
+            );
         }
     }
 
