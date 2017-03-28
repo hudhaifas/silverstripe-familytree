@@ -10,9 +10,9 @@
                 <% if DatePrecision == 'Accurate' %>
                     <span class="tl-ball-text">$Date.Format(M d)</span>
                 <% else_if DatePrecision == 'Estimated' %>
-                    <span class="tl-ball-text"><%t Genealogist.ESTIMATED 'Estimated' %></span>
+                    <span class="tl-ball-text"><%t Genealogist.EST 'Est.' %></span>
                 <% else_if DatePrecision == 'Calculated' %>
-                    <span class="tl-ball-text"><%t Genealogist.CALCULATED 'Calculated' %></span>
+                    <span class="tl-ball-text"><%t Genealogist.CALC 'Calc.' %></span>
                 <% end_if %>
 
                 <% if Date.Year %><span class="tl-ball-title">$Date.Year</span><% end_if %>

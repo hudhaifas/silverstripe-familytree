@@ -75,13 +75,13 @@ class GenealogistEventsHelper {
                 ))->first();
 
         if (!$event || !$event->exists()) {
-            echoln('New record');
+            echo('New record');
             $event = new PersonalEvent();
             $event->PersonID = $person->ID;
             $event->RelatedPersonID = $relative->ID;
             $event->Type = $type;
         } else {
-            echoln('Update record');
+            echo('Update record');
         }
 
         $event->Title = self::get_event_title($type, $relation);
@@ -89,13 +89,13 @@ class GenealogistEventsHelper {
         switch ($event->Type) {
             case 'Birth':
                 $event->Date = self::get_birth_date($relative);
-                $event->DatePrecision = self::get_birth_date_precision($person);
+                $event->DatePrecision = self::get_birth_date_precision($relative);
                 $event->Location = $relative->BirthPlace;
                 break;
 
             case 'Death':
                 $event->Date = self::get_death_date($relative);
-                $event->DatePrecision = self::get_death_date_precision($person);
+                $event->DatePrecision = self::get_death_date_precision($relative);
                 $event->Location = $relative->DeathPlace;
                 break;
         }
@@ -136,7 +136,7 @@ class GenealogistEventsHelper {
         if ($person->BirthDate) {
             $date->setValue($person->BirthDate);
         } else if ($person->Stats()->exists()) {
-            $date->setValue($person->Stats()->MinYear);
+            $date->setValue('1/1/' . $person->Stats()->MinYear);
         }
 
         return $date;
@@ -158,7 +158,7 @@ class GenealogistEventsHelper {
         if ($person->DeathDate) {
             $date->setValue($person->DeathDate);
         } else if ($person->Stats()->exists()) {
-            $date->setValue($person->Stats()->MaxYear);
+            $date->setValue('1/1/' . $person->Stats()->MaxYear);
         }
 
         return $date;
@@ -178,11 +178,6 @@ class GenealogistEventsHelper {
         return $type . '_' . $relation;
     }
 
-    /**
-     * @param boolean $includeSeconds Show seconds, or just round to "less than a minute".
-     * @param int $significance Minimum significant value of X for "X units ago" to display
-     * @return string
-     */
     public static function age_at($startDate, $endDate) {
         if (!$endDate->value) {
             return false;
@@ -206,13 +201,6 @@ class GenealogistEventsHelper {
         }
     }
 
-    /**
-     * Gets the time difference, but always returns it in a certain format
-     *
-     * @param string $format The format, could be one of these:
-     * 'seconds', 'minutes', 'hours', 'days', 'months', 'years'.
-     * @return string The resulting formatted period
-     */
     public static function age_at_format($format, $startDate, $endDate) {
         if (!$endDate->value) {
             return false;
@@ -228,11 +216,11 @@ class GenealogistEventsHelper {
         switch ($format) {
             case "days":
                 $span = round($ago / 86400);
-//                return ($span != 1) ? "{$span} " . _t("Date.DAYS", "days") : "{$span} " . _t("Date.DAY", "day");
+                return ($span != 1) ? "{$span} " . _t("Date.DAYS", "days") : "{$span} " . _t("Date.DAY", "day");
 
             case "months":
                 $span = round($ago / 86400 / 30);
-//                return ($span != 1) ? "{$span} " . _t("Date.MONTHS", "months") : "{$span} " . _t("Date.MONTH", "month");
+                return ($span != 1) ? "{$span} " . _t("Date.MONTHS", "months") : "{$span} " . _t("Date.MONTH", "month");
 
             case "years":
                 $span = round($ago / 86400 / 365);
