@@ -72,7 +72,7 @@ class StatsTask extends BuildTask {
 //            $this->println('Updating the index of : ' . $person->Name . '...');
             echo '.';
         } else {
-            $stats = new PersonStats();
+            $stats = new PersonalStats();
 //            $this->println('Indexing: ' . $person->Name . '...');
             echo '.';
         }
@@ -101,7 +101,7 @@ class StatsTask extends BuildTask {
             $person->write();
         }
 
-        $stats = PersonStats::get();
+        $stats = PersonalStats::get();
         $this->println('Deleting: ' . $stats->Count() . ' stats records...');
 
         foreach ($stats as $stat) {
