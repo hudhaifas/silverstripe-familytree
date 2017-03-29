@@ -214,8 +214,10 @@ JS
                 TextField::create('NickName', _t('Genealogist.NICKNAME', 'NickName'), $person->NickName), //
                 TextField::create('Note', _t('Genealogist.NOTE', 'Note'), $person->Note), //
                 TextField::create('BirthDate', _t('Genealogist.BIRTHDATE', 'Birth Date'), $person->BirthDate), //
+                TextField::create('BirthPlace', _t('Genealogist.BIRTHPLACE', 'Birth Place'), $person->BirthPlace), //
                 CheckboxField::create('BirthDateEstimated', _t('Genealogist.BIRTHDATE_ESTIMATED', 'Birth Date Estimated'), $person->BirthDateEstimated), //
                 TextField::create('DeathDate', _t('Genealogist.DEATHDATE', 'Death Date'), $person->DeathDate), //
+                TextField::create('DeathPlace', _t('Genealogist.DEATHPLACE', 'Death Place'), $person->DeathPlace), //
                 CheckboxField::create('DeathDateEstimated', _t('Genealogist.DEATHDATE_ESTIMATED', 'Death Date Estimated'), $person->DeathDateEstimated), //
                 CheckboxField::create('IsDead', _t('Genealogist.ISDEAD', 'Is Dead'), $person->IsDead), //
                 TextareaField::create('Comments', _t('Genealogist.COMMENTS', 'Comments'), $person->Comments) //

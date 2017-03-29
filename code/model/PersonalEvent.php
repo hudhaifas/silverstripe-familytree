@@ -91,4 +91,20 @@ class PersonalEvent
 //        return GenealogistEventsHelper::generate_event_content($this->Person(), $this->RelatedPerson(), $this->EventType, $this->EventRelation, $this->DatePrecision);
     }
 
+    public function getDateValue() {
+        if ($this->DatePrecision == 'Accurate') {
+//            $value = _t("Genealogist.ON_DATE", 'on {date}', array(
+//                'age' => $this->EventDate
+//            ));
+            $value = $this->EventDate;
+        } else {
+            $date = new DateTime($this->EventDate);
+//            $value = _t("Genealogist.IN_DATE", 'in {date}', array(
+//                'age' => $date->format('Y')
+//            ));
+            $value = $date->format('Y');
+        }
+        return $value;
+    }
+
 }

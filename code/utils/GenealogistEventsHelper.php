@@ -33,8 +33,8 @@ class GenealogistEventsHelper {
 
     public static function get_life_events($person) {
         return $person->Events()->filter(array(
-                    'EventDate:GreaterThanOrEqual' => $person->BirthDate,
-                    'EventDate:LessThanOrEqual' => $person->DeathDate,
+//                    'EventDate:GreaterThanOrEqual' => $person->BirthDate,
+//                    'EventDate:LessThanOrEqual' => $person->DeathDate,
         ));
     }
 
@@ -72,6 +72,21 @@ class GenealogistEventsHelper {
     }
 
     public static function create_event($person, $relative, $type = 'Custom', $relation) {
+        switch ($type) {
+            case 'Birth':
+                $eventDate = self::get_birth_date($relative);
+                break;
+
+            case 'Death':
+                $eventDate = self::get_death_date($relative);
+                break;
+        }
+
+        if (!$eventDate) {
+            var_dump('Event must have a valid date');
+            return;
+        }
+
         $event = PersonalEvent::get()->filter(array(
                     'PersonID' => $person->ID,
                     'RelatedPersonID' => $relative->ID,
@@ -79,28 +94,26 @@ class GenealogistEventsHelper {
                 ))->first();
 
         if (!$event || !$event->exists()) {
-//            echo('New record');
+            var_dump('New record');
             $event = new PersonalEvent();
             $event->PersonID = $person->ID;
             $event->RelatedPersonID = $relative->ID;
             $event->EventType = $type;
         } else {
-//            echo('Update record');
+            var_dump('Update record');
         }
 
         $event->EventTitle = self::get_event_title($type, $relation);
         $event->Relation = $relation;
+        $event->EventDate = $eventDate;
 
         switch ($type) {
             case 'Birth':
-                $event->EventDate = null;
-                $event->EventDate = self::get_birth_date($relative);
                 $event->DatePrecision = self::get_birth_date_precision($relative);
                 $event->EventPlace = $relative->BirthPlace;
                 break;
 
             case 'Death':
-                $event->EventDate = self::get_death_date($relative);
                 $event->DatePrecision = self::get_death_date_precision($relative);
                 $event->EventPlace = $relative->DeathPlace;
                 break;
@@ -118,25 +131,25 @@ class GenealogistEventsHelper {
         self::create_relative_events($person, $person->Father(), 'Father');
         self::create_relative_events($person, $person->Mother(), 'Mother');
 
-        foreach ($person->Sons() as $son) {
-            self::create_relative_events($person, $son, 'Son');
-        }
-
-        foreach ($person->Daughters() as $daughter) {
-            self::create_relative_events($person, $daughter, 'Daughter');
-        }
-
-        if ($person->isMale()) {
-            foreach ($person->Wives() as $wife) {
-                self::create_relative_events($person, $wife, 'Wife');
-            }
-        }
-
-        if ($person->isFemale()) {
-            foreach ($person->Husbands() as $husband) {
-                self::create_relative_events($person, $husband, 'Husband');
-            }
-        }
+//        foreach ($person->Sons() as $son) {
+//            self::create_relative_events($person, $son, 'Son');
+//        }
+//
+//        foreach ($person->Daughters() as $daughter) {
+//            self::create_relative_events($person, $daughter, 'Daughter');
+//        }
+//
+//        if ($person->isMale()) {
+//            foreach ($person->Wives() as $wife) {
+//                self::create_relative_events($person, $wife, 'Wife');
+//            }
+//        }
+//
+//        if ($person->isFemale()) {
+//            foreach ($person->Husbands() as $husband) {
+//                self::create_relative_events($person, $husband, 'Husband');
+//            }
+//        }
     }
 
     public static function get_birth_date($person) {
@@ -146,6 +159,8 @@ class GenealogistEventsHelper {
             $date->setValue($person->BirthDate);
         } else if ($person->Stats()->exists()) {
             $date->setValue('1/1/' . $person->Stats()->MinYear);
+        } else {
+            return null;
         }
 
         return $date->getValue();
@@ -168,9 +183,11 @@ class GenealogistEventsHelper {
             $date->setValue($person->DeathDate);
         } else if ($person->Stats()->exists()) {
             $date->setValue('1/1/' . $person->Stats()->MaxYear);
+        } else {
+            return null;
         }
 
-        return $date;
+        return $date->getValue();
     }
 
     public static function get_death_date_precision($person) {
@@ -187,26 +204,33 @@ class GenealogistEventsHelper {
         return $type . '_' . $relation;
     }
 
+    private static function get_personal_date($person, $type, $isAccurate) {
+        $date = $type == 'Birth' ? self::get_birth_date($person) : self::get_death_date($person);
+        return $isAccurate ? $date : strtok($date, '-');
+    }
+
     public static function generate_event_content($event, $person, $relative) {
         $content = '';
+
+        $isAccurate = $event->DatePrecision == 'Accurate';
+
+        $pronoun = $person->isFemale() ? 'SHE' : 'HE';
+        $preposition = $isAccurate ? 'ON' : 'IN';
 
         if ($event->Relation == 'Self' && $event->EventType == 'Birth') {
             $name = $person->Name;
 
-            if ($event->DatePrecision == 'Accurate') {
-                $content .= _t('Genealogist.BORN_ON', '{name} was born on {date}', array(
-                    'name' => $name,
-                    'date' => $person->BirthDate)
-                );
-            } else {
-                $content .= _t('Genealogist.BORN_IN', '{name} was born in {date}', array(
-                    'name' => $name,
-                    'date' => $person->CSSBirth())
-                );
+            $content .= _t("Genealogist.{$pronoun}_BORN_{$preposition}", '{name} was born on {date}', array(
+                'name' => $name,
+                'date' => $event->getDateValue()
+            ));
+
+            if ($event->EventPlace) {
+                $content .= _t("Genealogist.IN_PLACE", " in {place}", array('place' => $event->EventPlace));
             }
 
             if ($person->Father()->exists()) {
-                $content .= _t('Genealogist.BORN_TO', ' to {name}, age {age}', array(
+                $content .= _t("Genealogist.BORN_TO", ' to {name}', array(
                     'name' => $person->Father()->Name,
                 ));
 
@@ -216,14 +240,14 @@ class GenealogistEventsHelper {
                 );
 
                 if ($age) {
-                    $content .= _t('Genealogist.IN_AGE', ', age {age}', array(
+                    $content .= _t("Genealogist.IN_AGE", '', array(
                         'age' => $age
                     ));
                 }
             }
 
             if ($person->Mother()->exists()) {
-                $content .= _t('Genealogist.BORN_AND', ' and {name}', array(
+                $content .= _t("Genealogist.BORN_AND", ' and {name}', array(
                     'name' => $person->Mother()->Name
                 ));
 
@@ -233,58 +257,80 @@ class GenealogistEventsHelper {
                 );
 
                 if ($age) {
-                    $content .= _t('Genealogist.IN_AGE', ', age {age}', array(
+                    $content .= _t("Genealogist.IN_AGE", ', age {age}', array(
                         'age' => $age
                     ));
                 }
             }
+            ////////////////////
         } else if ($event->Relation == 'Self' && $event->EventType == 'Death') {
             $name = $person->Name;
 
-            if ($event->DatePrecision == 'Accurate') {
-                $content .= _t('Genealogist.DIED_ON', '{name} died on {date}', array(
-                    'name' => $name,
-                    'date' => $person->DeathDate)
-                );
-            } else {
-                $content .= _t('Genealogist.DIED_IN', '{name} died in {date}', array(
-                    'name' => $name,
-                    'date' => $person->CSSDeath())
-                );
-            }
+            $content .= _t("Genealogist.{$pronoun}_DIED_{$preposition}", '{name} died on {date}', array(
+                'name' => $name,
+                'date' => $event->getDateValue()
+            ));
 
             if ($event->EventPlace) {
-                $content .= _t('Genealogist.IN_PLACE', " in {place}", array('place' => $event->EventPlace));
+                $content .= _t("Genealogist.IN_PLACE", " in {place}", array('place' => $event->EventPlace));
             }
 
-            $content .= _t('Genealogist.IN_AGE', ", when he was {age}", array('age' => $event->Age));
+            if ($event->Age) {
+                $content .= _t("Genealogist.{$pronoun}_WAS_AGE", ", when he was {age}", array(
+                    'age' => $event->Age
+                ));
+            }
         } else if ($event->Relation == 'Father' && $event->EventType == 'Death') {
             $name = $relative->Name;
 
-            if ($event->DatePrecision == 'Accurate') {
-                $content .= _t('Genealogist.DIED_ON', '{name} died on {date}', array(
-                    'name' => $name,
-                    'date' => $person->DeathDate)
-                );
-            } else {
-                $content .= _t('Genealogist.DIED_IN', '{name} died in {date}', array(
-                    'name' => $name,
-                    'date' => $person->CSSDeath())
-                );
-            }
+            $content .= _t("Genealogist.{$pronoun}_FATHER_DIED_{$preposition}", 'His father {name} died on {date}', array(
+                'name' => $name,
+                'date' => $event->getDateValue()
+            ));
 
             if ($event->EventPlace) {
-                $content .= _t('Genealogist.IN_PLACE', " in {place}", array('place' => $event->EventPlace));
+                $content .= _t("Genealogist.IN_PLACE", " in {place}", array('place' => $event->EventPlace));
             }
-            $content .= _t('Genealogist.WHEN_HE_WAS', ", when he was {age}", array('age' => $event->Age));
+
+            $age = self::age_at_event(
+                            GenealogistEventsHelper::get_birth_date($person->Father()), //
+                            $event->EventDate
+            );
+
+            if ($age) {
+                $content .= _t("Genealogist.HE_WAS_AGE", ", when he was {age}", array(
+                    'age' => $age
+                ));
+            }
         } else if ($event->Relation == 'Mother' && $event->EventType == 'Death') {
-            
+            $name = $relative->Name;
+
+            $content .= _t("Genealogist.{$pronoun}_MOTHER_DIED_{$preposition}", 'His Mother {name} died on {date}', array(
+                'name' => $name,
+                'date' => $event->getDateValue()
+            ));
+
+            if ($event->EventPlace) {
+                $content .= _t("Genealogist.IN_PLACE", " in {place}", array('place' => $event->EventPlace));
+            }
+
+            $age = self::age_at_event(
+                            GenealogistEventsHelper::get_birth_date($person->Mother()), //
+                            $event->EventDate
+            );
+
+            if ($age) {
+                $content .= _t("Genealogist.SHE_WAS_AGE", ", when he was {age}", array(
+                    'age' => $age
+                ));
+            }
         } else if ($event->Relation == 'Son' && $event->EventType == 'Birth') {
             
         } else if ($event->Relation == 'Son' && $event->EventType == 'Death') {
             
         }
-//        var_dump($content);
+
+        var_dump($event->EventTitle . ': ' . $content);
         return $content;
     }
 
