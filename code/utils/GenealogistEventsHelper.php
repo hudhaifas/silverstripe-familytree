@@ -218,7 +218,7 @@ class GenealogistEventsHelper {
         $preposition = $isAccurate ? 'ON' : 'IN';
 
         if ($event->Relation == 'Self' && $event->EventType == 'Birth') {
-            $name = $person->Name;
+            $name = $person->getShortName();
 
             $content .= _t("Genealogist.{$pronoun}_BORN_{$preposition}", '{name} was born on {date}', array(
                 'name' => $name,
@@ -231,7 +231,7 @@ class GenealogistEventsHelper {
 
             if ($person->Father()->exists()) {
                 $content .= _t("Genealogist.BORN_TO", ' to {name}', array(
-                    'name' => $person->Father()->Name,
+                    'name' => $person->Father()->getShortName(),
                 ));
 
                 $age = self::age_at_event(
@@ -248,7 +248,7 @@ class GenealogistEventsHelper {
 
             if ($person->Mother()->exists()) {
                 $content .= _t("Genealogist.BORN_AND", ' and {name}', array(
-                    'name' => $person->Mother()->Name
+                    'name' => $person->Mother()->getShortName()
                 ));
 
                 $age = self::age_at_event(
@@ -264,7 +264,7 @@ class GenealogistEventsHelper {
             }
             ////////////////////
         } else if ($event->Relation == 'Self' && $event->EventType == 'Death') {
-            $name = $person->Name;
+            $name = $person->getShortName();
 
             $content .= _t("Genealogist.{$pronoun}_DIED_{$preposition}", '{name} died on {date}', array(
                 'name' => $name,
@@ -281,7 +281,7 @@ class GenealogistEventsHelper {
                 ));
             }
         } else if ($event->Relation == 'Father' && $event->EventType == 'Death') {
-            $name = $relative->Name;
+            $name = $relative->getShortName();
 
             $content .= _t("Genealogist.{$pronoun}_FATHER_DIED_{$preposition}", 'His father {name} died on {date}', array(
                 'name' => $name,
@@ -303,7 +303,7 @@ class GenealogistEventsHelper {
                 ));
             }
         } else if ($event->Relation == 'Mother' && $event->EventType == 'Death') {
-            $name = $relative->Name;
+            $name = $relative->getShortName();
 
             $content .= _t("Genealogist.{$pronoun}_MOTHER_DIED_{$preposition}", 'His Mother {name} died on {date}', array(
                 'name' => $name,
