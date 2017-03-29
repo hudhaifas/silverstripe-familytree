@@ -209,6 +209,36 @@ class GenealogistEventsHelper {
         return $isAccurate ? $date : strtok($date, '-');
     }
 
+    public static function age_at_event($birthDate, $eventDate) {
+        if (!$eventDate || !$birthDate) {
+            return false;
+        }
+
+        $birthObject = new DateTime($birthDate);
+        $eventObject = new DateTime($eventDate);
+
+        // This event is before person was born
+        if ($eventObject <= $birthObject) {
+//            echo('This event is before person was born');
+            return 0;
+        }
+        $diff = $birthObject->diff($eventObject);
+        $daysAgo = $diff->format('%a');
+
+        if ($daysAgo < 30) {
+            $span = round($daysAgo);
+            return ($span != 1) ? "{$span} " . _t("Date.DAYS", "days") : "{$span} " . _t("Date.DAY", "day");
+        } elseif ($daysAgo < 365) {
+            $span = round($daysAgo / 30);
+            return ($span != 1) ? "{$span} " . _t("Date.MONTHS", "months") : "{$span} " . _t("Date.MONTH", "month");
+        } else {
+            $span = round($daysAgo / 365);
+//                return ($span != 1) ? "{$span} " . _t("Date.YEARS", "years") : "{$span} " . _t("Date.YEAR", "year");
+        }
+
+        return $span;
+    }
+
     public static function generate_event_content($event, $person, $relative) {
         $content = '';
 
@@ -365,36 +395,6 @@ class GenealogistEventsHelper {
         }
 
         return $content;
-    }
-
-    public static function age_at_event($birthDate, $eventDate) {
-        if (!$eventDate || !$birthDate) {
-            return false;
-        }
-
-        $birthObject = new DateTime($birthDate);
-        $eventObject = new DateTime($eventDate);
-
-        // This event is before person was born
-        if ($eventObject <= $birthObject) {
-//            echo('This event is before person was born');
-            return 0;
-        }
-        $diff = $birthObject->diff($eventObject);
-        $daysAgo = $diff->format('%a');
-
-        if ($daysAgo < 30) {
-            $span = round($daysAgo);
-            return ($span != 1) ? "{$span} " . _t("Date.DAYS", "days") : "{$span} " . _t("Date.DAY", "day");
-        } elseif ($daysAgo < 365) {
-            $span = round($daysAgo / 30);
-            return ($span != 1) ? "{$span} " . _t("Date.MONTHS", "months") : "{$span} " . _t("Date.MONTH", "month");
-        } else {
-            $span = round($daysAgo / 365);
-//                return ($span != 1) ? "{$span} " . _t("Date.YEARS", "years") : "{$span} " . _t("Date.YEAR", "year");
-        }
-
-        return $span;
     }
 
 }
