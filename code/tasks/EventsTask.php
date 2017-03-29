@@ -46,6 +46,8 @@ class EventsTask
         $source = $request->getVar('src');
         $count = 1;
 
+        i18n::set_locale('ar_JO');
+        
         if ($source == 'all') {
             $people = Person::get();
             $count = $people->count();
