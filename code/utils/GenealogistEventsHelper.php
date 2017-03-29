@@ -131,13 +131,13 @@ class GenealogistEventsHelper {
         self::create_relative_events($person, $person->Father(), 'Father');
         self::create_relative_events($person, $person->Mother(), 'Mother');
 
-//        foreach ($person->Sons() as $son) {
-//            self::create_relative_events($person, $son, 'Son');
-//        }
-//
-//        foreach ($person->Daughters() as $daughter) {
-//            self::create_relative_events($person, $daughter, 'Daughter');
-//        }
+        foreach ($person->Sons() as $son) {
+            self::create_relative_events($person, $son, 'Son');
+        }
+
+        foreach ($person->Daughters() as $daughter) {
+            self::create_relative_events($person, $daughter, 'Daughter');
+        }
 //
 //        if ($person->isMale()) {
 //            foreach ($person->Wives() as $wife) {
@@ -212,125 +212,158 @@ class GenealogistEventsHelper {
     public static function generate_event_content($event, $person, $relative) {
         $content = '';
 
+        if ($event->Relation == 'Self') {
+            $content = self::generate_self_events_contents($event, $person, $relative);
+        } else {
+            $content = self::generate_relatives_events_content($event, $person, $relative);
+        }
+
+        var_dump($event->EventTitle . ': ' . $content);
+        return $content;
+    }
+
+    private static function generate_self_events_contents($event, $person, $relative) {
+        $content = '';
+
+        $name = $person->getShortName();
         $isAccurate = $event->DatePrecision == 'Accurate';
 
         $pronoun = $person->isFemale() ? 'SHE' : 'HE';
         $preposition = $isAccurate ? 'ON' : 'IN';
 
-        if ($event->Relation == 'Self' && $event->EventType == 'Birth') {
-            $name = $person->getShortName();
-
-            $content .= _t("Genealogist.{$pronoun}_BORN_{$preposition}", '{name} was born on {date}', array(
-                'name' => $name,
-                'date' => $event->getDateValue()
-            ));
-
-            if ($event->EventPlace) {
-                $content .= _t("Genealogist.IN_PLACE", " in {place}", array('place' => $event->EventPlace));
-            }
-
-            if ($person->Father()->exists()) {
-                $content .= _t("Genealogist.BORN_TO", ' to {name}', array(
-                    'name' => $person->Father()->getShortName(),
+        switch ($event->EventType) {
+            case 'Birth':
+                $content = _t("Genealogist.{$pronoun}_BORN_{$preposition}", '{name} was born on {date}', array(
+                    'name' => $name,
+                    'date' => $event->getDateValue()
                 ));
 
-                $age = self::age_at_event(
-                                GenealogistEventsHelper::get_birth_date($person->Father()), //
-                                $event->EventDate
-                );
+                if ($event->EventPlace) {
+                    $content .= _t("Genealogist.IN_PLACE", " in {place}", array('place' => $event->EventPlace));
+                }
 
-                if ($age) {
-                    $content .= _t("Genealogist.IN_AGE", '', array(
-                        'age' => $age
+                if ($person->Father()->exists()) {
+                    $content .= _t("Genealogist.BORN_TO", ' to {name}', array(
+                        'name' => $person->Father()->getShortName(),
+                    ));
+
+                    $age = self::age_at_event(
+                                    GenealogistEventsHelper::get_birth_date($person->Father()), //
+                                    $event->EventDate
+                    );
+
+                    if ($age) {
+                        $content .= _t("Genealogist.IN_AGE", '', array(
+                            'age' => $age
+                        ));
+                    }
+                }
+
+                if ($person->Mother()->exists()) {
+                    $content .= _t("Genealogist.BORN_AND", ' and {name}', array(
+                        'name' => $person->Mother()->getShortName()
+                    ));
+
+                    $age = self::age_at_event(
+                                    GenealogistEventsHelper::get_birth_date($person->Mother()), //
+                                    $event->EventDate
+                    );
+
+                    if ($age) {
+                        $content .= _t("Genealogist.IN_AGE", ', age {age}', array(
+                            'age' => $age
+                        ));
+                    }
+                }
+                break;
+
+            case 'Death':
+                $content = _t("Genealogist.{$pronoun}_DIED_{$preposition}", '{name} died on {date}', array(
+                    'name' => $name,
+                    'date' => $event->getDateValue()
+                ));
+
+                if ($event->EventPlace) {
+                    $content .= _t("Genealogist.IN_PLACE", " in {place}", array('place' => $event->EventPlace));
+                }
+
+                if ($event->Age) {
+                    $content .= _t("Genealogist.{$pronoun}_WAS_AGE", ", when he was {age}", array(
+                        'age' => $event->Age
                     ));
                 }
-            }
-
-            if ($person->Mother()->exists()) {
-                $content .= _t("Genealogist.BORN_AND", ' and {name}', array(
-                    'name' => $person->Mother()->getShortName()
-                ));
-
-                $age = self::age_at_event(
-                                GenealogistEventsHelper::get_birth_date($person->Mother()), //
-                                $event->EventDate
-                );
-
-                if ($age) {
-                    $content .= _t("Genealogist.IN_AGE", ', age {age}', array(
-                        'age' => $age
-                    ));
-                }
-            }
-            ////////////////////
-        } else if ($event->Relation == 'Self' && $event->EventType == 'Death') {
-            $name = $person->getShortName();
-
-            $content .= _t("Genealogist.{$pronoun}_DIED_{$preposition}", '{name} died on {date}', array(
-                'name' => $name,
-                'date' => $event->getDateValue()
-            ));
-
-            if ($event->EventPlace) {
-                $content .= _t("Genealogist.IN_PLACE", " in {place}", array('place' => $event->EventPlace));
-            }
-
-            if ($event->Age) {
-                $content .= _t("Genealogist.{$pronoun}_WAS_AGE", ", when he was {age}", array(
-                    'age' => $event->Age
-                ));
-            }
-        } else if ($event->Relation == 'Father' && $event->EventType == 'Death') {
-            $name = $relative->getShortName();
-
-            $content .= _t("Genealogist.{$pronoun}_FATHER_DIED_{$preposition}", 'His father {name} died on {date}', array(
-                'name' => $name,
-                'date' => $event->getDateValue()
-            ));
-
-            if ($event->EventPlace) {
-                $content .= _t("Genealogist.IN_PLACE", " in {place}", array('place' => $event->EventPlace));
-            }
-
-            $age = self::age_at_event(
-                            GenealogistEventsHelper::get_birth_date($person->Father()), //
-                            $event->EventDate
-            );
-
-            if ($age) {
-                $content .= _t("Genealogist.HE_WAS_AGE", ", when he was {age}", array(
-                    'age' => $age
-                ));
-            }
-        } else if ($event->Relation == 'Mother' && $event->EventType == 'Death') {
-            $name = $relative->getShortName();
-
-            $content .= _t("Genealogist.{$pronoun}_MOTHER_DIED_{$preposition}", 'His Mother {name} died on {date}', array(
-                'name' => $name,
-                'date' => $event->getDateValue()
-            ));
-
-            if ($event->EventPlace) {
-                $content .= _t("Genealogist.IN_PLACE", " in {place}", array('place' => $event->EventPlace));
-            }
-
-            $age = self::age_at_event(
-                            GenealogistEventsHelper::get_birth_date($person->Mother()), //
-                            $event->EventDate
-            );
-
-            if ($age) {
-                $content .= _t("Genealogist.SHE_WAS_AGE", ", when he was {age}", array(
-                    'age' => $age
-                ));
-            }
-        } else if ($event->Relation == 'Son' && $event->EventType == 'Birth') {
-            
-        } else if ($event->Relation == 'Son' && $event->EventType == 'Death') {
-            
+                break;
         }
 
-        var_dump($event->EventTitle . ': ' . $content);
+        return $content;
+    }
+
+    private static function generate_relatives_events_content($event, $person, $relative) {
+        switch ($event->Relation) {
+            case 'Father':
+            case 'Mother':
+            case 'Son':
+            case 'Daughter':
+                switch ($event->EventType) {
+                    case 'Birth':
+                        $content = self::generate_relative_birth_content($event, $person, $relative, $event->Relation);
+                        break;
+
+                    case 'Death':
+                        $content = self::generate_relative_death_content($event, $person, $relative, $event->Relation);
+                        break;
+                }
+                break;
+        }
+
+        return $content;
+    }
+
+    private static function generate_relative_birth_content($event, $person, $relative, $relation) {
+        $name = $relative->getShortName();
+
+        $pronoun = $person->isFemale() ? 'SHE' : 'HE';
+        $rPronoun = $relative->isFemale() ? 'SHE' : 'HE';
+        $preposition = $event->DatePrecision == 'Accurate' ? 'ON' : 'IN';
+
+        $content = _t("Genealogist.{$pronoun}_{$relation}_BORN_{$preposition}", '', array(
+            'name' => $name,
+            'date' => $event->getDateValue()
+        ));
+
+        if ($event->EventPlace) {
+            $content .= _t("Genealogist.IN_PLACE", " in {place}", array('place' => $event->EventPlace));
+        }
+        return $content;
+    }
+
+    private static function generate_relative_death_content($event, $person, $relative, $relation) {
+        $name = $relative->getShortName();
+
+        $pronoun = $person->isFemale() ? 'SHE' : 'HE';
+        $rPronoun = $relative->isFemale() ? 'SHE' : 'HE';
+        $preposition = $event->DatePrecision == 'Accurate' ? 'ON' : 'IN';
+
+        $content = _t("Genealogist.{$pronoun}_{$relation}_DIED_{$preposition}", '', array(
+            'name' => $name,
+            'date' => $event->getDateValue()
+        ));
+
+        if ($event->EventPlace) {
+            $content .= _t("Genealogist.IN_PLACE", " in {place}", array('place' => $event->EventPlace));
+        }
+
+        $age = self::age_at_event(
+                        GenealogistEventsHelper::get_birth_date($relative), //
+                        $event->EventDate
+        );
+
+        if ($age) {
+            $content .= _t("Genealogist.{$rPronoun}_WAS_AGE", ", when he was {age}", array(
+                'age' => $age
+            ));
+        }
+
         return $content;
     }
 
