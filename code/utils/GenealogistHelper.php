@@ -171,6 +171,14 @@ class GenealogistHelper {
                 array_push($stack, $father);
                 $paths[$father->ID] = $p->ID . ',' . $paths[$p->ID];
             }
+
+            if ($p->isMale()) {
+                $tribe = $p->Tribe();
+                if ($tribe && $tribe->exists()) {
+                    array_push($stack, $tribe);
+                    $paths[$tribe->ID] = $p->ID . ',' . $paths[$p->ID];
+                }
+            }
         }
 
         return array($ancestors, $paths);

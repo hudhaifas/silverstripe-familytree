@@ -4,6 +4,9 @@ en:
   Person:
     PLURALNAME: 'Persons'
     SINGULARNAME: 'Persons'
+  Tribe:
+    PLURALNAME: 'Tribe'
+    SINGULARNAME: 'Tribes'
   Clan:
     PLURALNAME: 'Clans'
     SINGULARNAME: 'Clans'
@@ -57,6 +60,9 @@ en:
     FILTERS: 'Filters'
     INFORMATION: 'Information'
     ROOTS: 'Clans'
+    CLANS: 'Clans'
+    TRIBES: 'Tribes'
+    TRIBE: 'Tribe'
     ROOTS_LIST: 'Clans List'
     ROOTS_SEARCH: 'Search in Clans'
     SEARCH_IN_TREE: 'Search for a person in the tree'

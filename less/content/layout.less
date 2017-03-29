@@ -155,6 +155,25 @@ body.modal-open {
             }
         }
 
+        &.tribe {
+            background-color: @color-bg-tribe;
+            &, a {
+                color: @color-fg-tribe;
+            }
+
+            &.dead {
+                background-color: @color-bg-tribe;
+                &, a {
+                    color: @color-fg-tribe;
+                }
+
+            }
+
+            &:after {
+                border-top: none;
+            }
+        }
+
         &.timeline-node {
             .transition(all 0.4s ease);
             /*opacity: 0.25;*/

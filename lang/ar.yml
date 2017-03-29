@@ -4,6 +4,9 @@ ar:
   Person:
     PLURALNAME: 'الأشخاص'
     SINGULARNAME: 'الأشخاص'
+  Tribe:
+    PLURALNAME: 'القبائل'
+    SINGULARNAME: 'القبائل'
   Clan:
     PLURALNAME: 'العشائر'
     SINGULARNAME: 'العشائر'
@@ -57,6 +60,9 @@ ar:
     FILTERS: 'المرشحات'
     INFORMATION: 'معلومات'
     ROOTS: 'العشائر والأفخاذ'
+    CLANS: 'الأفخاذ'
+    TRIBES: 'القبائل'
+    TRIBE: 'القبيلة'
     ROOTS_LIST: 'قائمة العشائر والأفخاذ'
     ROOTS_SEARCH: 'البحث في العشائر'
     SEARCH_IN_TREE: 'ابحث في الشجرة'

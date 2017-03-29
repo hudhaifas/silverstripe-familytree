@@ -30,7 +30,8 @@
  * @author Hudhaifa Shatnawi <hudhaifa.shatnawi@gmail.com>
  * @version 1.0, Nov 2, 2016 - 11:05:40 AM
  */
-class Male extends Person {
+class Male
+        extends Person {
 
     private static $db = array(
         // Order
@@ -38,6 +39,7 @@ class Male extends Person {
     );
     private static $has_one = array(
         'Parent' => 'Person',
+        'Tribe' => 'Tribe',
     );
     private static $has_many = array(
         'Children' => 'Person',
@@ -93,6 +95,34 @@ class Male extends Person {
         $field->setConfig($config);
 
         return $fields;
+    }
+
+    public function getFullName() {
+        $name = $this->getPersonName();
+
+        if ($this->Tribe()->exists()) {
+            $name .= ' ' . $this->Tribe()->getTribeName();
+        }
+
+        if (!$this->Father()->exists()) {
+            return $name;
+        }
+
+        return "{$name} " . $this->Father()->getFullName();
+    }
+
+    public function getTribeName() {
+        $name = '';
+
+        if ($this->Tribe()->exists()) {
+            $name .= $this->Tribe()->getTribeName();
+        }
+
+        if ($this->Father()->exists()) {
+            $name .= $this->Father()->getTribeName();
+        }
+
+        return $name;
     }
 
 }

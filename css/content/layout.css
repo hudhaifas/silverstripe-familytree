@@ -145,6 +145,23 @@ body.modal-open {
 .chart-container .node.clan:after {
   border-top: none;
 }
+.chart-container .node.tribe {
+  background-color: #c1e2b3;
+}
+.chart-container .node.tribe,
+.chart-container .node.tribe a {
+  color: #3a733b;
+}
+.chart-container .node.tribe.dead {
+  background-color: #c1e2b3;
+}
+.chart-container .node.tribe.dead,
+.chart-container .node.tribe.dead a {
+  color: #3a733b;
+}
+.chart-container .node.tribe:after {
+  border-top: none;
+}
 .chart-container .node.timeline-node {
   -webkit-transition: all 0.4s ease;
   -moz-transition: all 0.4s ease;

@@ -1,4 +1,4 @@
-<strong>$AliasName</strong>
+<strong>$ShortName</strong>
 
 <span style="font-size: 82%;">
     <% if BirthDate %>

@@ -22,7 +22,7 @@
                 <div class="panel-body text-center" style="max-height: 240px; overflow-y: auto;">
                     <ul id="filter-list" class="filter-list">
                         <% loop RootClans.Sort(Name, ASC) %>
-                        <li><a href="{$TreeLink}" class="options-item">$ShortName</a></li>
+                        <li><a href="{$TreeLink}" class="options-item">$BriefName</a></li>
                         <% end_loop %>
                     </ul>                       
                 </div>

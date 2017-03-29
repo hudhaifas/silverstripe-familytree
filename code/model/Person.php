@@ -130,6 +130,8 @@ class Person
         $labels['PublicFigure'] = _t('Genealogist.PUBLIC_FIGURE', 'Public Figure');
         $labels['IsPrivate'] = _t('Genealogist.IS_PRIVATE', 'Hide Information');
 
+        $labels['Tribe'] = _t('Genealogist.TRIBE', 'Tribe');
+
         // Tabs
         $labels['Children'] = _t('Genealogist.CHILDREN', 'Children');
         $labels['Sons'] = _t('Genealogist.SONS', 'Sons');
@@ -140,6 +142,7 @@ class Person
         $labels['Events'] = _t('Genealogist.EVENTS', 'Events');
         $labels['RelatedEvents'] = _t('Genealogist.RELATED_EVENTS', 'Related Events');
         $labels['Collectables'] = _t('Genealogist.COLLECTABLES', 'Collectables');
+        $labels['Clans'] = _t('Genealogist.CLANS', 'Clans');
 
 
         return $labels;
@@ -479,7 +482,7 @@ class Person
         $name = $this->getFirstName();
 
         if ($this->NickName) {
-            $name .= ' (' . $this->NickName . ')';
+            $name .= " ({$this->NickName})";
         }
 
         return $name;
@@ -495,7 +498,17 @@ class Person
             return $name;
         }
 
-        return $name . ' ' . $this->Father()->getFullName();
+        return "{$name} {$this->Father()->getFullName()}";
+    }
+
+    /**
+     * Returns the person's brief name
+     * @return string
+     */
+    public function getBriefName() {
+        $name = $this->getPersonName();
+
+        return "{$name} {$this->getClanName()}{$this->getTribeName()}";
     }
 
     /**
@@ -504,11 +517,8 @@ class Person
      */
     public function getShortName() {
         $name = $this->getPersonName();
-        if (!$this->Father()->exists()) {
-            return $name;
-        }
 
-        return $name . ' ' . $this->Father()->getClanName();
+        return "{$name} {$this->getTribeName()}";
     }
 
     /**
@@ -516,12 +526,22 @@ class Person
      * @return string
      */
     public function getClanName() {
-        $name = $this->isClan() ? $this->getPersonName() : '';
+        $name = '';
         if (!$this->Father()->exists()) {
             return $name;
         }
 
-        return $name . ' ' . $this->Father()->getClanName();
+        return "{$name} {$this->Father()->getClanName()}";
+    }
+
+    public function getTribeName() {
+        $name = '';
+
+        if ($this->Father()->exists()) {
+            $name .= $this->Father()->getTribeName();
+        }
+
+        return $name;
     }
 
     /**
@@ -534,7 +554,7 @@ class Person
             return $name;
         }
 
-        return $name . ' ' . $this->Father()->toIndexName();
+        return "{$name} {$this->Father()->toIndexName()}";
     }
 
     /**
@@ -625,6 +645,14 @@ class Person
      */
     public function isClan() {
         return $this instanceof Clan;
+    }
+
+    /**
+     * Checks if this person is a tribe
+     * @return boolean
+     */
+    public function isTribe() {
+        return $this instanceof Tribe;
     }
 
     /// Counters ///
