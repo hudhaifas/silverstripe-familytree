@@ -33,8 +33,8 @@ class GenealogistEventsHelper {
 
     public static function get_life_events($person) {
         return $person->Events()->filter(array(
-//                    'EventDate:GreaterThanOrEqual' => $person->BirthDate,
-//                    'EventDate:LessThanOrEqual' => $person->DeathDate,
+                    'EventDate:GreaterThanOrEqual' => $person->BirthDate,
+                    'EventDate:LessThanOrEqual' => $person->DeathDate,
         ));
     }
 
@@ -208,21 +208,35 @@ class GenealogistEventsHelper {
             if ($person->Father()->exists()) {
                 $content .= _t('Genealogist.BORN_TO', ' to {name}, age {age}', array(
                     'name' => $person->Father()->Name,
-                    'age' => self::age_at_event(
-                            GenealogistEventsHelper::get_birth_date($person->Father()), //
-                            $event->EventDate
-                    )
                 ));
+
+                $age = self::age_at_event(
+                                GenealogistEventsHelper::get_birth_date($person->Father()), //
+                                $event->EventDate
+                );
+
+                if ($age) {
+                    $content .= _t('Genealogist.IN_AGE', ', age {age}', array(
+                        'age' => $age
+                    ));
+                }
             }
 
             if ($person->Mother()->exists()) {
-                $content .= _t('Genealogist.BORN_AND', ' and {name}, age {age}', array(
-                    'name' => $person->Mother()->Name,
-                    'age' => self::age_at_event(
-                            GenealogistEventsHelper::get_birth_date($person->Mother()), //
-                            $event->EventDate
-                    )
+                $content .= _t('Genealogist.BORN_AND', ' and {name}', array(
+                    'name' => $person->Mother()->Name
                 ));
+
+                $age = self::age_at_event(
+                                GenealogistEventsHelper::get_birth_date($person->Mother()), //
+                                $event->EventDate
+                );
+
+                if ($age) {
+                    $content .= _t('Genealogist.IN_AGE', ', age {age}', array(
+                        'age' => $age
+                    ));
+                }
             }
         } else if ($event->Relation == 'Self' && $event->EventType == 'Death') {
             $name = $person->Name;
@@ -242,7 +256,8 @@ class GenealogistEventsHelper {
             if ($event->EventPlace) {
                 $content .= _t('Genealogist.IN_PLACE', " in {place}", array('place' => $event->EventPlace));
             }
-            $content .= _t('Genealogist.WHEN_HE_WAS', ", when he was {age}", array('age' => $event->Age));
+
+            $content .= _t('Genealogist.IN_AGE', ", when he was {age}", array('age' => $event->Age));
         } else if ($event->Relation == 'Father' && $event->EventType == 'Death') {
             $name = $relative->Name;
 

@@ -213,12 +213,13 @@ ar:
     # Events Contents
     BORN_ON: 'ولد {name} في {date}'
     BORN_IN: 'ولد {name} في {date}'
-    BORN_TO: ' لوالده {name}، بعمر {age}'
-    BORN_AND: '، ووالدته {name}، بعمر {age}'
+    BORN_TO: ' لـ {name}'
+    BORN_AND: '، و {name}'
     DIED_ON: 'توفي {name} في {date}'
     DIED_IN: 'توفي {name} في {date}'
     WHEN_HE_WAS: '، وهو في عمر {age}'
-    IN_PLACE: ' في {place}'
+    IN_AGE: '، بعمر {age}'
+    IN_PLACE: '، في {place}'
 
     # Tutorial
     TUTORIAL_NODE: 'اضغط على الاسم للحصول على معلومات إضافية عن هذا الشخص، كتاريخ الميلاد والوفاة، اسم الأب والأم واحضائيات عن ذريته.'

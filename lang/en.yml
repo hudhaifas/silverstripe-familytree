@@ -213,13 +213,14 @@ en:
     # Events Contents
     BORN_ON: '{name} was born on {date}'
     BORN_IN: '{name} was born in {date}'
-    BORN_TO: ' to {name}, age {age}'
-    BORN_AND: ', and {name}, age {age}'
+    BORN_TO: ' to {name}'
+    BORN_AND: ', and {name}'
     DIED_ON: '{name} died on {date}'
     DIED_IN: '{name} died in {date}'
     WHEN_HE_WAS: ', when he was {age}'
+    IN_AGE: ', age {age}'
     IN_PLACE: ' in {place}'
-    
+
     Birth_Content_1: '{name} was born on {date}, to {mother}, age {motherAge}, and {father}, age {fatherAge}.'
     Birth_Content_2: '{name} was born in {date}, to {mother}, age {motherAge}, and {father}, age {fatherAge}.'
     Birth_Content_3: '{name} was born on {date}, to {mother}, and {father}.'

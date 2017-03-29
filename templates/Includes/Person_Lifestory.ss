@@ -23,10 +23,10 @@
         <div class="tl-content">
             <span class="tl-content-place"><span class="tl-content-date">$EventDate.Format(M d)</span><%if EventPlace %> <i class="fa fa-map-marker" aria-hidden="true"></i> $EventPlace<% end_if%></span>
             <span class="tl-content-title">$Title</span>
+            <div class="tl-content-text">$Content</div>
             <% if RelatedPerson  && RelatedPerson.ID != Person.ID %>
                 <p class="tl-content-text"><a href="{$RelatedPerson.ShowLink}" title="{$RelatedPerson.FullName}">$RelatedPerson.AliasSummary</a></p>
             <% end_if %>
-            <div class="tl-content-text">$Content</div>
         </div>
     </div>
     <% end_loop %>
