@@ -39,6 +39,8 @@ en:
     CHILDREN: 'Children'
     SONS: 'Sons'
     DAUGHTERS: 'Daughters'
+    SON_OF: 'Son of'
+    DAUGHTER_OF: 'Daughter of'
 
     BIOGRAPHY: 'Biography'
     PUBLIC_FIGURE: 'Public Figure'

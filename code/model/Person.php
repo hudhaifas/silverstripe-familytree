@@ -492,13 +492,20 @@ class Person
      * Returns the person's full name
      * @return string
      */
-    public function getFullName() {
+    public function getFullName($withChildOf = false) {
         $name = $this->getPersonName();
         if (!$this->Father()->exists()) {
             return $name;
         }
 
-        return "{$name} {$this->Father()->getFullName()}";
+        if ($withChildOf) {
+            $childOf = $this->isFemale() ? _t('Genealogist.DAUGHTER_OF') : _t('Genealogist.SON_OF');
+            $name .= " {$childOf} {$this->Father()->getFullName()}";
+        } else {
+            $name .= " {$this->Father()->getFullName()}";
+        }
+
+        return $name;
     }
 
     /**

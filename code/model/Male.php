@@ -97,7 +97,7 @@ class Male
         return $fields;
     }
 
-    public function getFullName() {
+    public function getFullName($withChildOf = false) {
         $name = $this->getPersonName();
 
         if ($this->Tribe()->exists()) {
@@ -108,7 +108,14 @@ class Male
             return $name;
         }
 
-        return "{$name} " . $this->Father()->getFullName();
+        if ($withChildOf) {
+            $sonOf = _t('Genealogist.SON_OF');
+            $name .= " {$sonOf} {$this->Father()->getFullName()}";
+        } else {
+            $name .= " {$this->Father()->getFullName()}";
+        }
+
+        return $name;
     }
 
     public function getTribeName() {

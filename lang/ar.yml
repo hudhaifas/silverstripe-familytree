@@ -39,6 +39,8 @@ ar:
     CHILDREN: 'النسل'
     SONS: 'الأبناء'
     DAUGHTERS: 'البنات'
+    SON_OF: 'بن'
+    DAUGHTER_OF: 'بنت'
 
     BIOGRAPHY: 'السيرة'
     PUBLIC_FIGURE: 'شخصية عامة'
