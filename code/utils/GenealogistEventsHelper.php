@@ -329,6 +329,7 @@ class GenealogistEventsHelper {
     }
 
     private static function generate_relatives_events_content($event, $person, $relative) {
+        $content = null;
         switch ($event->Relation) {
             case 'Father':
             case 'Mother':

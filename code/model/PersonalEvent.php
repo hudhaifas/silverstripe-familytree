@@ -79,7 +79,10 @@ class PersonalEvent
             );
         }
 
-        $this->EventContent = GenealogistEventsHelper::generate_event_content($this, $this->Person(), $this->RelatedPerson());
+        $content = GenealogistEventsHelper::generate_event_content($this, $this->Person(), $this->RelatedPerson());
+        if ($content) {
+            $this->EventContent = $content;
+        }
     }
 
     public function getTitle() {
