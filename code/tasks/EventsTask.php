@@ -43,11 +43,13 @@ class EventsTask
     protected $enabled = true;
 
     public function run($request) {
+        $GLOBALS['task_caller'] = true;
+
         $source = $request->getVar('src');
         $count = 1;
 
         i18n::set_locale('ar_JO');
-        
+
         if ($source == 'all') {
             $people = Person::get();
             $count = $people->count();
@@ -69,6 +71,8 @@ class EventsTask
 
         $this->println('');
         $this->println('Task is completed');
+        
+        $GLOBALS['task_caller'] = false;
     }
 
     private function indexEvents($person) {

@@ -38,6 +38,32 @@ class GenealogistEventsHelper {
         ));
     }
 
+    public static function create_all_events($person) {
+        self::create_relative_events($person, $person);
+        self::create_relative_events($person, $person->Father(), 'Father');
+        self::create_relative_events($person, $person->Mother(), 'Mother');
+
+        foreach ($person->Sons() as $son) {
+            self::create_relative_events($person, $son, 'Son');
+        }
+
+        foreach ($person->Daughters() as $daughter) {
+            self::create_relative_events($person, $daughter, 'Daughter');
+        }
+
+        if ($person->isMale()) {
+            foreach ($person->Wives() as $wife) {
+                self::create_relative_events($person, $wife, 'Wife');
+            }
+        }
+
+        if ($person->isFemale()) {
+            foreach ($person->Husbands() as $husband) {
+                self::create_relative_events($person, $husband, 'Husband');
+            }
+        }
+    }
+
     public static function update_all_related_events($person) {
         foreach ($person->RelatedEvents() as $event) {
             switch ($event->EventType) {
@@ -124,32 +150,6 @@ class GenealogistEventsHelper {
         $event->write();
 
         return $event;
-    }
-
-    public static function create_all_events($person) {
-        self::create_relative_events($person, $person);
-        self::create_relative_events($person, $person->Father(), 'Father');
-        self::create_relative_events($person, $person->Mother(), 'Mother');
-
-        foreach ($person->Sons() as $son) {
-            self::create_relative_events($person, $son, 'Son');
-        }
-
-        foreach ($person->Daughters() as $daughter) {
-            self::create_relative_events($person, $daughter, 'Daughter');
-        }
-//
-//        if ($person->isMale()) {
-//            foreach ($person->Wives() as $wife) {
-//                self::create_relative_events($person, $wife, 'Wife');
-//            }
-//        }
-//
-//        if ($person->isFemale()) {
-//            foreach ($person->Husbands() as $husband) {
-//                self::create_relative_events($person, $husband, 'Husband');
-//            }
-//        }
     }
 
     public static function get_birth_date($person) {
@@ -332,6 +332,10 @@ class GenealogistEventsHelper {
         switch ($event->Relation) {
             case 'Father':
             case 'Mother':
+                if ($event->EventType == 'Birth') {
+                    return '';
+                }
+
             case 'Son':
             case 'Daughter':
                 switch ($event->EventType) {

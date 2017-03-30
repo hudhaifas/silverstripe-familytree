@@ -40,6 +40,10 @@ class GenealogistHelper {
      * @return boolean true if the user is an authorized member
      */
     public static function is_genealogists() {
+        if (isset($GLOBALS['task_caller']) && $GLOBALS['task_caller']) {
+            return true;
+        }
+
         $member = Member::currentUser();
 
         $groups = Config::inst()->get('GenealogistHelper', 'access_groups');
@@ -362,7 +366,7 @@ class GenealogistHelper {
             switch ($state) {
                 case self::$STATE_ALIVE:
 //                    $count += !$child->IsDead && !$child->isClan() ? 1 : 0;
-                    $count += !$child->IsDead ? 1 : 0;
+                    $count +=!$child->IsDead ? 1 : 0;
                     break;
 
                 case self::$STATE_DEAD:
@@ -397,7 +401,7 @@ class GenealogistHelper {
         foreach ($person->Daughters() as $child) {
             switch ($state) {
                 case self::$STATE_ALIVE:
-                    $count += !$child->IsDead ? 1 : 0;
+                    $count +=!$child->IsDead ? 1 : 0;
                     break;
 
                 case self::$STATE_DEAD:
