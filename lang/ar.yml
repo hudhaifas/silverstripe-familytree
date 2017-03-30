@@ -241,6 +241,10 @@ ar:
     HE_Daughter_BORN_IN: 'ولدت ابنته {name} سنة {date}'
     HE_Daughter_DIED_ON: 'توفيت ابنته {name} في {date}'
     HE_Daughter_DIED_IN: 'توفيت ابنته {name} سنة {date}'
+    HE_Wife_BORN_ON: 'ولدت زوجته {name} في {date}'
+    HE_Wife_BORN_IN: 'ولدت زوجته {name} سنة {date}'
+    HE_Wife_DIED_ON: 'توفيت زوجته {name} في {date}'
+    HE_Wife_DIED_IN: 'توفيت زوجته {name} سنة {date}'
     # She
     SHE_WAS_AGE: '، عن عمر {age} سنة'
     SHE_BORN_ON: 'ولدت {name} في {date}'
@@ -259,6 +263,10 @@ ar:
     SHE_Daughter_BORN_IN: 'ولدت ابنتها {name} سنة {date}'
     SHE_Daughter_DIED_ON: 'توفيت ابنتها {name} في {date}'
     SHE_Daughter_DIED_IN: 'توفيت ابنتها {name} سنة {date}'
+    SHE_Husband_BORN_ON: 'ولد زوجها {name} في {date}'
+    SHE_Husband_BORN_IN: 'ولد زوجها {name} سنة {date}'
+    SHE_Husband_DIED_ON: 'توفي زوجها {name} في {date}'
+    SHE_Husband_DIED_IN: 'توفي زوجها {name} سنة {date}'
 
     # Tutorial
     TUTORIAL_NODE: 'اضغط على الاسم للحصول على معلومات إضافية عن هذا الشخص، كتاريخ الميلاد والوفاة، اسم الأب والأم واحضائيات عن ذريته.'
