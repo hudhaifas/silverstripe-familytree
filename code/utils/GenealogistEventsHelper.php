@@ -338,6 +338,8 @@ class GenealogistEventsHelper {
 
             case 'Son':
             case 'Daughter':
+            case 'Wife':
+            case 'Husband':
                 switch ($event->EventType) {
                     case 'Birth':
                         $content = self::generate_relative_birth_content($event, $person, $relative, $event->Relation);
