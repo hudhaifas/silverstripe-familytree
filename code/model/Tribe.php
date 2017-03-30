@@ -15,7 +15,7 @@ class Tribe
         extends Clan {
 
     private static $has_many = array(
-        'Clans' => 'Male'
+        'Clans' => 'Male.Tribe'
     );
 
     public function getCMSFields() {
@@ -23,8 +23,8 @@ class Tribe
 
 //        $fields->removeFieldFromTab('Root.Main', 'TribeID');
 //        $fields->removeFieldFromTab('Root', 'Children');
-        $fields->removeFieldFromTab('Root', 'Sons');
-        $fields->removeFieldFromTab('Root', 'Daughters');
+//        $fields->removeFieldFromTab('Root', 'Sons');
+//        $fields->removeFieldFromTab('Root', 'Daughters');
         $fields->removeFieldFromTab('Root', 'Wives');
         $fields->removeFieldFromTab('Root.DatesTab', 'BirthDate');
         $fields->removeFieldFromTab('Root.DatesTab', 'BirthPlace');
@@ -40,46 +40,28 @@ class Tribe
         return $fields;
     }
 
-    public function getDescendantsLeaves($males = 1, $malesSeed = 1, $females = 0, $femalesSeed = 0) {
-        if (isset($_GET['ancestral']) && $_GET['ancestral'] == 1) {
-            return $this->getAncestorsLeaves();
-        }
+//    public function getDescendants() {
+//        if (filter_input(INPUT_GET, 'ancestral') == 1) {
+//            return $this->getAncestors();
+//        }
+//
+//        $html = <<<HTML
+//            <li class="{$this->CSSClasses()}" data-birth="{$this->CSSBirth()}" data-death="{$this->CSSDeath()}">
+//                <a href="#" title="{$this->getFullName()}" data-url="{$this->InfoLink()}" class="info-item">{$this->getPersonName()}</a>
+//                <ul>
+//                    {$this->getDescendantsLeaves()}
+//                </ul>
+//            </li>
+//HTML;
+//
+//        return $html;
+//    }
 
-        if (isset($_GET['m'])) {
-            $males = $_GET['m'];
-        }
-
-        if (isset($_GET['ms'])) {
-            $malesSeed = $_GET['ms'];
-        }
-
-        if ($this->hasPermission()) {
-            if (isset($_GET['f'])) {
-                $females = $_GET['f'];
-            }
-
-            if (isset($_GET['fs'])) {
-                $femalesSeed = $_GET['fs'];
-            }
-        }
-
-        $html = <<<HTML
-            <li class="{$this->CSSClasses()}" data-birth="{$this->CSSBirth()}" data-death="{$this->CSSDeath()}">
-                <a href="#" title="{$this->getFullName()}" data-url="{$this->InfoLink()}" class="info-item">{$this->getPersonName()}</a>
-                <ul>
-                    {$this->getClansLeaves($males, $malesSeed, $females, $femalesSeed)}
-                </ul>
-            </li>
-HTML;
-
-        return $html;
-    }
-
-    private function getClansLeaves($males = 1, $malesSeed = 1, $females = 0, $femalesSeed = 0) {
+    public function getDescendantsLeaves() {
         $html = '';
-
+        var_dump($this->Clans()->Count());
         foreach ($this->Clans() as $child) {
-            $html .= $child->getDescendantsLeaves($males, $malesSeed, $females, $femalesSeed);
+            $html .= $child->getDescendants();
         }
 
         return $html;

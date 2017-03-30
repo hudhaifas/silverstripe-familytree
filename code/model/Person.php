@@ -841,42 +841,24 @@ class Person
         return $this->renderWith('Person_Alias');
     }
 
-    public function getDescendantsLeaves($males = 1, $malesSeed = 1, $females = 0, $femalesSeed = 0) {
-        if (isset($_GET['ancestral']) && $_GET['ancestral'] == 1) {
-            return $this->getAncestorsLeaves();
+    public function getDescendants() {
+        if (filter_input(INPUT_GET, 'ancestral') == 1) {
+            return $this->getAncestors();
         }
 
-        if (isset($_GET['m'])) {
-            $males = $_GET['m'];
-        }
-
-        if (isset($_GET['ms'])) {
-            $malesSeed = $_GET['ms'];
-        }
-
-        if ($this->hasPermission()) {
-            if (isset($_GET['f'])) {
-                $females = $_GET['f'];
-            }
-
-            if (isset($_GET['fs'])) {
-                $femalesSeed = $_GET['fs'];
-            }
-        }
-
-        $html = <<<HTML
-            <li class="{$this->CSSClasses()}" data-birth="{$this->CSSBirth()}" data-death="{$this->CSSDeath()}">
-                <a href="#" title="{$this->getFullName()}" data-url="{$this->InfoLink()}" class="info-item">{$this->getPersonName()}</a>
-                <ul>
-                    {$this->getChildrenLeaves($males, $malesSeed, $females, $femalesSeed)}
-                </ul>
-            </li>
-HTML;
-
-        return $html;
+        return $this->renderWith('Person_Node_Descendants');
     }
 
-    private function getChildrenLeaves($males = 1, $malesSeed = 1, $females = 0, $femalesSeed = 0) {
+    private function getAncestors() {
+        return $this->renderWith('Person_Node_Ancestors');
+    }
+
+    public function getDescendantsLeaves() {
+        $default1 = array('options' => array('default' => 1));
+
+        $males = filter_input(INPUT_GET, 'm', FILTER_VALIDATE_INT, $default1);
+        $malesSeed = filter_input(INPUT_GET, 'ms', FILTER_VALIDATE_INT, $default1);
+
         $html = '';
 
         if ($males && !$malesSeed) {
@@ -885,9 +867,18 @@ HTML;
             }
         } else if ($males && $malesSeed) {
             foreach ($this->Sons() as $child) {
-                $html .= $child->getDescendantsLeaves($males, $malesSeed, $females, $femalesSeed);
+                $html .= $child->getDescendants();
             }
         }
+
+        // Do NOT show daughters if no permission
+        if (!$this->hasPermission()) {
+            return $html;
+        }
+
+        $default0 = array('options' => array('default' => 0));
+        $females = filter_input(INPUT_GET, 'f', FILTER_VALIDATE_INT, $default0);
+        $femalesSeed = filter_input(INPUT_GET, 'fs', FILTER_VALIDATE_INT, $default0);
 
         if ($females && !$femalesSeed) {
             foreach ($this->Daughters() as $child) {
@@ -895,54 +886,35 @@ HTML;
             }
         } else if ($females && $femalesSeed) {
             foreach ($this->Daughters() as $child) {
-                $html .= $child->getDescendantsLeaves($males, $malesSeed, $females, $femalesSeed);
+                $html .= $child->getDescendants();
             }
         }
 
         return $html;
     }
 
-    private function getSelfLeaf() {
-        $html = <<<HTML
-            <li class="{$this->CSSClasses()}" data-birth="{$this->CSSBirth()}" data-death="{$this->CSSDeath()}">
-                <a href="#" title="{$this->getFullName()}" data-url="{$this->InfoLink()}" class="info-item">{$this->getPersonName()}</a>
-            </li>
-HTML;
-
-        return $html;
-    }
-
-    private function getAncestorsLeaves() {
-        $noFemales = !$this->hasPermission() && $this->isFemale();
-        $name = $this->getPersonName();
-        $title = $noFemales ? '' : $this->getFullName();
-
-        $html = <<<HTML
-            <li class="{$this->CSSClasses()}" data-birth="{$this->CSSBirth()}" data-death="{$this->CSSDeath()}">
-                <a href="#" title="{$title}" data-url="{$this->InfoLink()}" class="info-item">{$name}</a>
-                <ul>
-                    {$this->getParentsLeaves()}
-                </ul>
-            </li>
-HTML;
-
-        return $html;
-    }
-
-    private function getParentsLeaves() {
+    public function AncestorsLeaves() {
         $html = '';
 
         $father = $this->Father();
         if ($father && $father->exists()) {
-            $html .= $father->getAncestorsLeaves();
+            $html .= $father->getAncestors();
         }
 
         $mother = $this->Mother();
         if ($mother && $mother->exists()) {
-            $html .= $mother->getAncestorsLeaves();
+            $html .= $mother->getAncestors();
         }
 
         return $html;
+    }
+
+    private function getSelfLeaf() {
+        return $this->renderWith('Person_Node_Single');
+    }
+
+    public function isMalesOnly() {
+        return !$this->hasPermission() && $this->isFemale();
     }
 
     /// JSON for future work

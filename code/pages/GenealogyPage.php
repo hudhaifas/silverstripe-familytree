@@ -219,7 +219,7 @@ class GenealogyPage_Controller
         );
 
         return array(
-            'Tree' => $person->getDescendantsLeaves(),
+            'Tree' => $person->getDescendants(),
             'MultiRoot' => false,
             'ShowTimeline' => !$isAncestral,
             'Collapsible' => !$isAncestral,
