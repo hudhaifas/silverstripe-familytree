@@ -278,7 +278,7 @@ class GenealogistEventsHelper {
                     ));
 
                     $age = self::age_at_event(
-                                    GenealogistEventsHelper::get_birth_date($person->Father()), //
+                                    self::get_birth_date($person->Father()), //
                                     $event->EventDate
                     );
 
@@ -295,7 +295,7 @@ class GenealogistEventsHelper {
                     ));
 
                     $age = self::age_at_event(
-                                    GenealogistEventsHelper::get_birth_date($person->Mother()), //
+                                    self::get_birth_date($person->Mother()), //
                                     $event->EventDate
                     );
 
@@ -330,11 +330,12 @@ class GenealogistEventsHelper {
 
     private static function generate_relatives_events_content($event, $person, $relative) {
         $content = null;
+
         switch ($event->Relation) {
             case 'Father':
             case 'Mother':
                 if ($event->EventType == 'Birth') {
-                    return '';
+                    return $content;
                 }
 
             case 'Son':
