@@ -40,26 +40,8 @@ class Tribe
         return $fields;
     }
 
-//    public function getDescendants() {
-//        if (filter_input(INPUT_GET, 'ancestral') == 1) {
-//            return $this->getAncestors();
-//        }
-//
-//        $html = <<<HTML
-//            <li class="{$this->CSSClasses()}" data-birth="{$this->CSSBirth()}" data-death="{$this->CSSDeath()}">
-//                <a href="#" title="{$this->getFullName()}" data-url="{$this->InfoLink()}" class="info-item">{$this->getPersonName()}</a>
-//                <ul>
-//                    {$this->getDescendantsLeaves()}
-//                </ul>
-//            </li>
-//HTML;
-//
-//        return $html;
-//    }
-
     public function getDescendantsLeaves() {
         $html = '';
-        var_dump($this->Clans()->Count());
         foreach ($this->Clans() as $child) {
             $html .= $child->getDescendants();
         }
