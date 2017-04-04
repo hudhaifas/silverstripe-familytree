@@ -2,16 +2,20 @@ var locked = false;
 var timer = null;
 
 jQuery(document).ready(function () {
-    initFilters();
-    initTree();
-
-    initTimeline();
+    console.log('---------------------------------');
+    console.log('Document is Ready');
 
     // Scroll to the tree div
     if ($('.tree-container').length) {
         $('html, body').animate({
             scrollTop: $('.tree-container').offset().top
-        }, 'slow');
+        }, 'slow', function () {
+        }).promise().then(function () {
+            // Animation complete
+            console.log('Animationg done!');
+            initFilters();
+            showPerson();
+        });
     }
 
 //    initIntro();
@@ -51,6 +55,7 @@ var initTree = function () {
 
     initAllControls();
     bindAll();
+    initTimeline();
 
     centerNode($('.node').first());
 };
@@ -130,7 +135,18 @@ var appendFilters = function (url) {
 };
 
 var showPerson = function (url) {
+
+    if (url === undefined) {
+        url = $(location).attr('href');
+    }
+    console.log('Url: ' + url);
+
+    console.log('Filters appended');
+    initFilters();
+
+    console.log('Animationg init!');
     url = appendFilters(url);
+
 
     var param = '&ajax=1';
     var ajaxUrl = (url.indexOf(param) === -1) ? url + param : url;
@@ -139,10 +155,14 @@ var showPerson = function (url) {
     $('#chart-loader').show();
     $('#genealogy-tree').html('');
 
+    console.log('Ajax URL: ' + ajaxUrl);
+
     lockAll();
     $('#tree-container').load(ajaxUrl, function () {
+        console.log('Pre init tree!');
+
         initTree();
-        initTimeline();
+        console.log('Post init tree!');
 
         window.history.pushState(
                 {url: cleanUrl},
@@ -151,8 +171,8 @@ var showPerson = function (url) {
                 );
 
         $('#chart-loader').hide();
+        console.log('Inlock all!');
 
-        initFilters();
         unlockAll();
     });
 };
