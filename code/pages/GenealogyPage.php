@@ -152,25 +152,26 @@ class GenealogyPage_Controller
 
     /// Actions ///
     public function index(SS_HTTPRequest $request) {
-        var_dump('Load Page');
         $id = $this->getRequest()->param('ID');
         if (!$id) {
             return array(
-                'Tree' => false
+                'LandingPage' => true
             );
         }
 
-        $other = $this->getRequest()->param('Other');
-
-        $data = $other ? $this->kinship($id, $other) : $this->tree($id);
 
         if ($request->isAjax()) {
+            $other = $this->getRequest()->param('Other');
+
+            $data = $other ? $this->kinship($id, $other) : $this->tree($id);
             return $this
                             ->customise($data)
                             ->renderWith('TheTree');
         }
 
-        return $data;
+        return array(
+            'Tree' => false
+        );
     }
 
     public function info() {
