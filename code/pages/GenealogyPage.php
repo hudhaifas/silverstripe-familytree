@@ -152,6 +152,7 @@ class GenealogyPage_Controller
 
     /// Actions ///
     public function index(SS_HTTPRequest $request) {
+        var_dump('Load Page');
         $id = $this->getRequest()->param('ID');
         if (!$id) {
             return array(

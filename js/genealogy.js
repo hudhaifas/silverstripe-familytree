@@ -2,17 +2,12 @@ var locked = false;
 var timer = null;
 
 jQuery(document).ready(function () {
-    console.log('---------------------------------');
-    console.log('Document is Ready');
-
     // Scroll to the tree div
     if ($('.tree-container').length) {
         $('html, body').animate({
             scrollTop: $('.tree-container').offset().top
-        }, 'slow', function () {
-        }).promise().then(function () {
+        }, 'slow').promise().then(function () {
             // Animation complete
-            console.log('Animationg done!');
             initFilters();
             showPerson();
         });
@@ -139,11 +134,6 @@ var showPerson = function (url) {
     if (url === undefined) {
         url = $(location).attr('href');
     }
-    console.log('Url: ' + url);
-
-    console.log('Filters appended');
-    initFilters();
-
     console.log('Animationg init!');
     url = appendFilters(url);
 
@@ -155,14 +145,11 @@ var showPerson = function (url) {
     $('#chart-loader').show();
     $('#genealogy-tree').html('');
 
-    console.log('Ajax URL: ' + ajaxUrl);
-
     lockAll();
     $('#tree-container').load(ajaxUrl, function () {
         console.log('Pre init tree!');
 
         initTree();
-        console.log('Post init tree!');
 
         window.history.pushState(
                 {url: cleanUrl},
@@ -171,8 +158,8 @@ var showPerson = function (url) {
                 );
 
         $('#chart-loader').hide();
-        console.log('Inlock all!');
 
+        initFilters();
         unlockAll();
     });
 };

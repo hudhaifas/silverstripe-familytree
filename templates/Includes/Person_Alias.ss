@@ -1,5 +1,6 @@
 <strong>$ShortName</strong>
 
+<% if not isTribe %>
 <span style="font-size: 82%;">
     <% if BirthDate %>
         $BirthYear<% if BirthDateEstimated %><%t Genealogist.ESTIMATED '(Estimated)' %><% end_if %>
@@ -17,3 +18,4 @@
         $CalculatedDeathYear<%t Genealogist.CALCULATIONS '(Calculations)' %>
     <% end_if %>
 </span>
+<% end_if %>
