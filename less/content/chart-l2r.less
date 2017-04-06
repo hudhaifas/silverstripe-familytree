@@ -1,0 +1,24 @@
+@import "../variables.less";
+@import "../mixins/transform.less";
+
+.chart-pane.l2r {
+    .flipX();
+    .rotate(-90deg);
+
+    .node {
+        width: @node-h;
+        height: @node-w;
+
+        a {
+            display: inline-block;
+            .transform(rotate(90deg) translateX(24px));
+        }
+
+        &.dead:after {
+            .rotate(45deg);
+            top: 3px;
+            left: auto;
+            right: 3px;
+        }
+    }
+}

@@ -1,0 +1,40 @@
+/*
+To change this license header, choose License Headers in Project Properties.
+To change this template file, choose Tools | Templates
+and open the template in the editor.
+*/
+/* 
+    Created on : Mar 14, 2017, 2:04:27 PM
+    Author     : hshatnawi
+*/
+/*@tree-w: 0;*/
+.chart-container .chart-controls-left {
+  left: auto;
+  right: 10px;
+}
+.chart-container .chart-controls-top-left {
+  left: auto;
+  right: 10px;
+}
+.chart-container .chart-controls-top-left .navbar .nav-collapse {
+  left: auto;
+  right: 31px;
+  margin-left: auto;
+  margin-right: 3px;
+}
+.chart-container .chart-controls-top-left .navbar-nav > li {
+  margin-left: 3px;
+  margin-right: auto;
+}
+.chart-container .chart-controls-top-left .dropdown-menu .panel-body ul li {
+  text-align: right;
+}
+.chart-container .chart-controls-top-left .dropdown-menu .panel-body ul li input[type='checkbox'] {
+  margin-left: 6px;
+  margin-right: auto;
+}
+.chart-container .chart-extra {
+  left: 10px;
+  right: auto;
+}
+/*# sourceMappingURL=controls-rtl.css.map */

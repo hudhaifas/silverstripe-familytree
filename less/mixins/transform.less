@@ -15,6 +15,19 @@
     transform:         @string;
 }
 
+.transform-origin (@x:center, @y:center) {
+    -webkit-transform-origin: @x @y;
+    -moz-transform-origin:    @x @y;
+    -ms-transform-origin:     @x @y;
+    -o-transform-origin:      @x @y;
+    transform-origin:         @x @y;
+}
+
+.animation-fill-mode(@mode) {
+    animation-fill-mode:         @mode;
+    -webkit-animation-fill-mode: @mode;
+}
+
 .transform2(@rotate: 90deg, @scale: 1, @skew: 1deg, @translate: 0) {
     -webkit-transform: rotate(@rotate) scale(@scale) skew(@skew) translate(@translate);
     -moz-transform:    rotate(@rotate) scale(@scale) skew(@skew) translate(@translate);
@@ -172,6 +185,21 @@
 .reflect (@length: 50%, @opacity: 0.2){
     box-reflect:         below 0px -webkit-gradient(linear, left top, left bottom, from(transparent), color-stop(@length, transparent), to(rgba(255,255,255,@opacity)));
     -webkit-box-reflect: below 0px -webkit-gradient(linear, left top, left bottom, from(transparent), color-stop(@length, transparent), to(rgba(255,255,255,@opacity)));
+}
+
+.closed(@origin: top) {
+    /* Animation */ 
+    display: block; 
+    opacity:.3;
+    .transform-origin(@origin);
+    .animation-fill-mode(forwards); 
+    .scale(1, 0);
+    .transition(all 0.2s linear);
+}
+
+.opened() {
+    .scale(1, 1);  
+    opacity:1;
 }
 
 // Toggle font smoothing mode in Webkit & FF

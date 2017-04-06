@@ -1,0 +1,106 @@
+/* Timeline RTL */
+
+@import "../mixins/transform.less";
+
+
+@timeline-color: #d7e4ed;
+@timeline-width: 4px;
+
+@timeline-ball-dim: 68px;
+
+@timeline-content-bg: #eee;
+@timeline-content-fg: #aaa;
+@timeline-content-arrow-dim: 12px;
+@timeline-content-margin: 24px;
+@timeline-content-border-radius: 0.25em;
+
+@small-timeline-ball-dim: 40px;
+@small-timeline-content-margin: 12px;
+@small-timeline-content-arrow-dim: 7px;
+
+.tl-container {
+}
+
+.tl-block {
+    &::before {
+        left: auto;
+        right: ((@timeline-ball-dim - @timeline-width) / 2);
+    }
+}
+
+.tl-ball {
+    left: auto;
+    right: 0;
+}
+
+.tl-content {
+    margin-left: auto;
+    margin-right: (@timeline-ball-dim + @timeline-content-margin);
+
+    &::before {
+        left: 100%;
+        right: auto;
+        border-left: @timeline-content-arrow-dim solid @timeline-content-bg;
+        border-right: 0;
+    }
+
+    .tl-content-title {
+        float: left;
+    }
+
+    .tl-content-text {
+        float: right;
+    }
+
+    .tl-content-place {
+        float: right;
+    }
+
+    .cd-read-more {
+        float: left;
+    }
+
+    .cd-date {
+        float: right;
+    }
+}
+
+@media (max-width: 979px) {
+    .tl-container {
+    }
+
+    .tl-block {
+        /* this class is used to give a max-width to the element it is applied to, and center it horizontally when it reaches that max-width */
+        &::before {
+            left: auto;
+            right: ((@small-timeline-ball-dim - @timeline-width) / 2);
+        }
+    }
+
+    .tl-content {
+        margin-left: auto;
+        margin-right: (@small-timeline-ball-dim + @small-timeline-content-margin);
+
+        &::before {
+            border-left: @small-timeline-content-arrow-dim solid @timeline-content-bg;
+            border-right: 0;
+            /*display: none;*/
+        }
+
+        .tl-content-title {
+            float: none;
+            text-align: center;
+        }
+    }
+
+    .tl-ball {
+        .tl-ball-content {
+            .tl-ball-title {
+            }
+
+            .tl-ball-text {
+                display: none;
+            }
+        }
+    }
+}

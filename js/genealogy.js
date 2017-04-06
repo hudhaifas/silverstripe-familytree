@@ -2,36 +2,37 @@ var locked = false;
 var timer = null;
 
 jQuery(document).ready(function () {
-    initTree();
-
-    initFilters();
-
-    initTimeline();
-//    updateTimePeriod(1980, 2017);
-//    updateTimePoint(1979);
-
     // Scroll to the tree div
     if ($('.tree-container').length) {
         $('html, body').animate({
             scrollTop: $('.tree-container').offset().top
-        }, 'slow');
+        }, 'slow').promise().then(function () {
+            // Animation complete
+            initFilters();
+            showPerson();
+        });
     }
+
+//    initIntro();
 });
 
 var showPerson = function (url) {
+    if (url === undefined) {
+        url = $(location).attr('href');
+    }
     url = appendFilters(url);
+
 
     var param = '&ajax=1';
     var ajaxUrl = (url.indexOf(param) === -1) ? url + param : url;
     var cleanUrl = url.replace(new RegExp(param + '$'), '');
 
-    $('#tree-loader').show();
+    $('#chart-loader').show();
     $('#genealogy-tree').html('');
 
-    lockLinks();
-    $('#tree-holder').load(ajaxUrl, function () {
+    lockAll();
+    $('#tree-container').load(ajaxUrl, function () {
         initTree();
-        initTimeline();
 
         window.history.pushState(
                 {url: cleanUrl},
@@ -39,61 +40,50 @@ var showPerson = function (url) {
                 cleanUrl
                 );
 
-        $('#tree-loader').hide();
+        $('#chart-loader').hide();
 
-        releaseLinks();
-    });
-};
-
-/**
- * 
- * @param {type} url
- * @returns {undefined}
- */
-var updateInfo = function (url) {
-    var param = '&ajax=1';
-    var ajaxUrl = (url.indexOf(param) === -1) ? url + param : url;
-
-    $('#info-loader').show();
-    $('#info-body').html('');
-    lockLinks();
-
-    $("#panel-info").load(ajaxUrl, function () {
-        registerLinks();
-        $('#info-loader').hide();
-        $('#collapse-info-btn').trigger('click');
-
-        releaseLinks();
+        initFilters();
+        unlockAll();
     });
 };
 
 var initTree = function () {
-    $kinships = $('.genealogy-kinship');
-    dir = $kinships.length > 1 ? 'l2r' : 't2b';
+    var $kinship = $('#chart-list');
+    var multiroot = $kinship.data('multiroot');
+    var collapsible = $kinship.data('collapsible');
 
-    $kinships.each(function () {
-        kinship = $(this).data('kinship');
-        multiple = $(this).data('multiple');
-
-        $(this).jOrgChart({
-            chartElement: '#' + kinship,
-            multipleRoot: multiple, // Support multiple roots tree
+    $kinship.jOrgChart({
+        chartElement: '#chart-container',
+        // Support multiple roots tree
+        multipleRoot: multiroot,
+        // Fullscree options
+        fullscreenOnBtn: $('#fullscreen-in-btn'),
+        fullscreenOffBtn: $('#fullscreen-out-btn'),
+        // Zoom options
+        zoomInBtn: $('#zoom-in-btn'),
+        zoomOneBtn: $('#zoom-one-btn'),
+        zoomOutBtn: $('#zoom-out-btn'),
+        // Export options
+        exportBtn: $('#dwonload-btn'),
+        // Collapse options
+        collapsible: collapsible,
+        collapseBtn: $('#collapse-btn'),
+        expandBtn: $('#expand-btn'),
+//            dragScroller: false,
+//            zoom: false
 //            depth: 3
 //            direction: dir
-        });
     });
 
-    registerLinks();
+//    $('#chart-list .chart-pane').panzoom({
+//        minScale: 1
+//    });
 
-    window.onpopstate = function (e) {
-        console.log('e: ' + e);
-        if (e.state.url) {
-            console.log('onpopstate: ' + e.state.url);
-            showPerson(e.state.url);
-        } else {
-            e.preventDefault();
-        }
-    };
+    initAllControls();
+    bindAll();
+    initTimeline();
+
+    centerNode($('.node').first());
 };
 
 var initFilters = function () {
@@ -109,13 +99,50 @@ var initFilters = function () {
         params['ms'] = 1;
     }
 
-
     $('input.options-check').each(function () {
-        kinship = $(this).attr('id');
-        status = params[kinship];
+        var id = $(this).attr('id');
+        var status = params[id];
         $(this).prop('checked', status == 1 ? true : false);
     });
+};
 
+var initIntro = function () {
+    var $firstNade = $('.node').first();
+    $firstNade.attr('data-intro', 'اضغط على الاسم للحصول على معلومات إضافية عن هذا الشخص: كتاريخ الميلاد والوفاة، اسم الأب والأم والزوج،  واحضائيات عن ذريته.<br />ومن خلال هذه القائمة يمكنك الضغط على ايقونة الملاحظات <i class="fa fa-comment" aria-hidden="true"></i> لتزويدنا بأي ملاحظات أو معلومات إضافية عن هذه الشخص');
+    $firstNade.attr('data-step', '1');
+    $firstNade.attr('data-position', 'left');
+
+    introJs()
+            .setOptions(introOpts)
+            .onbeforechange(function (targetElement) {
+                console.log('Before: ' + this._currentStep);
+                switch (this._currentStep) {
+                    case 1:
+                        break;
+
+                    case 3:
+//                        $(targetElement).find('a').first().trigger('click');
+                        break;
+
+
+                    default:
+
+                        break;
+                }
+            })
+            .onchange(function (targetElement) {
+                console.log('Step: ' + this._currentStep);
+                switch (this._currentStep) {
+                    case 0:
+                        $(targetElement).find('a').first().trigger('click');
+                        break;
+
+                    default:
+
+                        break;
+                }
+            })
+            .start();
 };
 
 var appendFilters = function (url) {
@@ -123,108 +150,139 @@ var appendFilters = function (url) {
 
     var params = {};
     $('input[type=checkbox].options-check').each(function () {
-        kinship = $(this).attr('id');
-        value = this.checked ? 1 : 0;
+        var id = $(this).attr('id');
+        var value = this.checked ? 1 : 0;
 
-        params[kinship] = value;
+        params[id] = value;
     });
     uri.setSearch(params);
 
     return uri.toString();
 };
 
-var lockLinks = function () {
-    $('a.info-item, a.options-item, #toggle-fullscreen, input.options-check').attr('disabled', true);
-    locked = true;
+var centerNode = function ($node) {
+    var $container = $('.chart-content-pane');
+    var offset = {
+        top: ($container.height() - $node.height()) / 2,
+        left: ($container.width() - $node.width()) / 2
+    };
+
+    $node.ScrollTo({
+        duration: 1000,
+        durationMode: 'all',
+        offsetTop: offset.top,
+        offsetLeft: offset.left
+    });
 };
 
-var releaseLinks = function () {
-    locked = false;
-    $('a.info-item, a.options-item, #toggle-fullscreen, input.options-check').attr('disabled', false);
+var showInfoCard = function (src) {
+    hideInfoCard();
+
+    var minScreenWidth = 760;
+    var $source = $(src);
+    var $element = $('#info-card');
+
+    var url = $source.data('url');
+    updateInfo(url);
+
+    var $node = $source.parent();
+
+    if ($(window).width() > minScreenWidth && $node.hasClass('node')) {
+        var errorMargin = 36;
+        var hMargin = 10;
+        var wMargin = 8;
+
+        var $container = $('#chart-container');
+        var cWidth = $container.width();
+        var cHeight = $container.height();
+
+        var nWidth = 64;
+        var nHeight = 30;
+
+        var cardWidth = 420;
+        var cardHeight = 220;
+
+        var rect = $node.position();
+
+        var top = rect.top;
+        var left = rect.left;
+
+        var coord = {};
+
+        if (left + cardWidth > cWidth - errorMargin) {
+            coord['left'] = 'initial';
+            coord['right'] = cWidth - left - nWidth + wMargin;
+        } else {
+            coord['right'] = 'initial';
+            coord['left'] = left + 2;
+        }
+
+        if (top + cardHeight > cHeight - hMargin) {
+            coord['top'] = 'initial';
+            coord['bottom'] = cHeight - top - nHeight + hMargin;
+        } else {
+            coord['bottom'] = 'initial';
+            coord['top'] = top;
+        }
+
+        $element.css(coord);
+    }
+
+    $element.addClass('show');
 };
 
-var unregisterLinks = function () {
-    $("#toggle-fullscreen, #toggle-nodes, #export-tree, input[type=checkbox]").unbind("click");
+var hideInfoCard = function () {
+    $('.info-card').html('');
+    $('.info-card').removeClass('show');
+//    $('.info-card').hide();
+
 };
 
-var registerLinks = function () {
-    unregisterLinks();
+/**
+ *
+ * @param {type} url
+ * @returns {undefined}
+ */
+var updateInfo = function (url) {
+    var param = '&ajax=1';
+    var ajaxUrl = (url.indexOf(param) === -1) ? url + param : url;
 
-    $("a.info-item").click(function (event) {
-        event.preventDefault();
+    $('#info-loader').show();
+    $('#info-body').html('');
+    lockAll();
 
-        if (locked) {
-            return;
-        }
+    $('#info-card').load(ajaxUrl, function () {
+        bindAll();
+        $('#info-loader').hide();
+//        $('#collapse-info-btn').trigger('click');
 
-        url = $(this).attr('data-url');
-        updateInfo(url);
+        unlockAll();
     });
+};
 
-    $("a.options-item").click(function (event) {
-        event.preventDefault();
+var loadModal = function (url) {
+    $.get(url, function (html) {
+//            console.log(html);
+        var $content = $(html);
+        $content.appendTo('body').modal({
+            body: '#tree-container',
+            closeText: '<span aria-hidden="true">×</span>',
+            closeClass: 'close',
+            fadeDuration: 400
+        });
 
-        if (locked) {
-            return;
-        }
+        $content.on($.modal.BEFORE_OPEN, function (event, modal) {
+            $('.ajax-modal-nested').click(function (event) {
+                event.preventDefault();
+                loadModal(this.href);
+            });
+            $("body").addClass("modal-open");
+        });
 
-        url = $(this).attr('href');
-        showPerson(url);
-    });
+        $content.on($.modal.AFTER_CLOSE, function (event, modal) {
+            $content.remove();
+            $("body").removeClass("modal-open")
+        });
 
-    // Kinship form action
-    $("#Form_Form_Kinship_action_findKinship").click(function (event) {
-        event.preventDefault();
-
-        if (locked) {
-            return;
-        }
-
-        p1 = $("[name='Person1']").val();
-        p2 = $("[name='Person2']").val();
-
-        var uri = URI(url);
-        uri.segment(2, p1);
-        uri.segment(3, p2);
-
-        showPerson(uri.toString());
-    });
-
-    $('input[type=checkbox]#f').change(function (event) {
-        event.preventDefault();
-        if (!this.checked) {
-            $('input#fs').prop('checked', false);
-        }
-    });
-
-    $('input[type=checkbox]#fs').change(function (event) {
-        event.preventDefault();
-        if (this.checked) {
-            $('input#f').prop('checked', true);
-        }
-    });
-
-    $('input[type=checkbox]#m').change(function (event) {
-        event.preventDefault();
-        if (!this.checked) {
-            $('input#ms').prop('checked', false);
-        }
-    });
-
-    $('input[type=checkbox]#ms').change(function (event) {
-        event.preventDefault();
-        if (this.checked) {
-            $('input#m').prop('checked', true);
-        }
-    });
-
-    $('input.options-check').change(function (event) {
-        event.preventDefault();
-        if (locked) {
-            return;
-        }
-
-        url = $(location).attr('href');
-        showPerson(url);
     });
 };

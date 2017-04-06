@@ -1,0 +1,211 @@
+/* Timeline */
+.tl-container {
+  width: 65%;
+  margin: 0 auto;
+}
+.tl-plain-block {
+  position: relative;
+  margin: 2em 0;
+}
+.tl-block {
+  position: relative;
+  margin: 2em 0;
+}
+.tl-block::after {
+  clear: both;
+  content: "";
+  display: table;
+}
+.tl-block:not(:last-child)::before {
+  /* this is the vertical line */
+  content: '';
+  position: absolute;
+  top: 34px;
+  left: 32px;
+  height: 100%;
+  width: 4px;
+  background: #d9edf7;
+}
+.tl-block:first-child {
+  margin-top: 0;
+}
+.tl-block:last-child {
+  margin-bottom: 0;
+}
+.tl-ball {
+  display: table;
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 68px;
+  height: 68px;
+  margin: 0;
+  padding: 0;
+  border-radius: 50%;
+  background: #d9edf7;
+  /*box-shadow: 0 0 0 4px #ffffff, inset 0 2px 0 rgba(0, 0, 0, 0.08), 0 3px 0 4px rgba(0, 0, 0, 0.05);*/
+}
+.tl-ball .tl-ball-content {
+  display: table-cell;
+  vertical-align: middle;
+  text-align: center;
+}
+.tl-ball .tl-ball-content .tl-ball-title {
+  display: block;
+  margin: 0;
+  font-size: 14px;
+  font-weight: bold;
+  line-height: 1.4;
+}
+.tl-ball .tl-ball-content .tl-ball-text {
+  display: block;
+  margin: 0;
+  font-size: 10px;
+  line-height: 1.2;
+}
+.tl-ball img {
+  display: block;
+  width: 24px;
+  height: 24px;
+  position: relative;
+  left: 50%;
+  top: 50%;
+  margin-left: -12px;
+  margin-top: -12px;
+}
+.tl-ball.cd-green {
+  background: #75ce66;
+}
+.tl-ball.cd-red {
+  background: #c03b44;
+}
+.tl-ball.cd-yellow {
+  background: #f0ca45;
+}
+.tl-content {
+  position: relative;
+  margin-left: 92px;
+  background: #eee;
+  border-radius: 0.25em;
+  padding: 1em;
+  box-shadow: 0 1px 2px rgba(0, 0, 0, 0.2);
+}
+.tl-content::after {
+  clear: both;
+  content: "";
+  display: table;
+}
+.tl-content::before {
+  content: '';
+  position: absolute;
+  top: 16px;
+  /*top: ((@timeline-ball-dim - @timeline-content-arrow-dim) / 2);*/
+  right: 100%;
+  height: 0;
+  width: 0;
+  border: 12px solid transparent;
+  border-right: 12px solid #eee;
+}
+.tl-content .tl-content-title {
+  float: right;
+  display: block;
+  padding: 0 0 0.8em 0;
+  font-size: 16px;
+  /*font-weight: bold;*/
+  line-height: 1.4;
+}
+.tl-content .tl-content-text {
+  float: right;
+  display: block;
+  margin: 0;
+  width: 100%;
+  font-size: 14px;
+  line-height: 1.4;
+}
+.tl-content .tl-content-place {
+  float: left;
+  padding: 0 0 0.8em 0;
+  opacity: .8;
+}
+.tl-content .tl-content-place .tl-content-date {
+  display: none;
+}
+.tl-content p,
+.tl-content .cd-read-more,
+.tl-content .cd-date {
+  font-size: 13px;
+}
+.tl-content .cd-read-more,
+.tl-content .cd-date {
+  display: inline-block;
+}
+.tl-content p {
+  margin: 1em 0;
+  line-height: 1.6;
+}
+.tl-content .cd-read-more {
+  float: right;
+  padding: .8em 1em;
+  background: #acb7c0;
+  color: #ffffff;
+  border-radius: 0.25em;
+}
+.tl-content .cd-date {
+  float: left;
+  padding: .8em 0;
+  opacity: .7;
+}
+.no-touch .tl-content .cd-read-more:hover {
+  background-color: #bac4cb;
+}
+.female .tl-block:not(:last-child)::before {
+  background: #f2dede;
+}
+.female .tl-ball {
+  background: #f2dede;
+}
+@media (max-width: 979px) {
+  .tl-container {
+    width: 100%;
+  }
+  .tl-block {
+    /* this class is used to give a max-width to the element it is applied to, and center it horizontally when it reaches that max-width */
+  }
+  .tl-block::before {
+    left: 18px;
+  }
+  .tl-content {
+    margin-left: 52px;
+  }
+  .tl-content::before {
+    top: 12px;
+    border: 7px solid transparent;
+    border-right: 7px solid #eee;
+    /*display: none;*/
+  }
+  .tl-content .tl-content-title {
+    float: none;
+    width: 100%;
+    text-align: center;
+  }
+  .tl-content .tl-content-place {
+    float: none;
+    width: 100%;
+    font-size: 11px;
+  }
+  .tl-content .tl-content-place .tl-content-date {
+    display: inline !important;
+  }
+  .tl-ball {
+    width: 40px;
+    height: 40px;
+  }
+  .tl-ball .tl-ball-content .tl-ball-title {
+    font-size: 12px;
+    line-height: 1.2;
+  }
+  .tl-ball .tl-ball-content .tl-ball-text {
+    display: none;
+  }
+}
+/*# sourceMappingURL=timeline.css.map */

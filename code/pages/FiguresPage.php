@@ -47,6 +47,7 @@ class FiguresPage_Controller
 
     private static $allowed_actions = array(
         'edit',
+        'show',
         'Form_EditPerson',
         'doEditPerson',
         'Form_AddFather',
@@ -67,8 +68,19 @@ class FiguresPage_Controller
         'doDeletePerson',
     );
     private static $url_handlers = array(
-        'edit/$ID' => 'edit',
+        'edit/$ID/$form' => 'edit',
+        'show/$ID' => 'show',
     );
+
+    public function init() {
+        parent::init();
+
+        Requirements::css("genealogist/css/profile.css");
+
+        if ($this->isRTL()) {
+            Requirements::css("genealogist/css/profile-rtl.css");
+        }
+    }
 
     protected function getObjectsList() {
         if ($this->hasPermission()) {
@@ -78,7 +90,8 @@ class FiguresPage_Controller
             return DataObject::get('Person')
                             ->filterAny(array(
                                 'PublicFigure' => 1,
-                                'ClassName:StartsWith' => 'Clan'
+                                'ClassName:StartsWith' => 'Clan',
+                                'ClassName:StartsWith' => 'Tribe',
                             ))
                             ->sort('IndexedName ASC');
         }
@@ -100,6 +113,14 @@ class FiguresPage_Controller
         return GenealogistHelper::is_genealogists();
     }
 
+    private $formTemplates = array(
+        'self' => 'Person_Edit_Self',
+        'parents' => 'Person_Edit_Parents',
+        'children' => 'Person_Edit_Children',
+        'spouses' => 'Person_Edit_Spouses',
+        'delete' => 'Person_Delete'
+    );
+
     /// Actions ///
     public function edit() {
         if (!$this->hasPermission()) {
@@ -107,6 +128,7 @@ class FiguresPage_Controller
         }
 
         $id = $this->getRequest()->param('ID');
+        $form = $this->getRequest()->param('form');
 
         if ($id) {
             $person = DataObject::get_by_id('Person', (int) $id);
@@ -115,14 +137,63 @@ class FiguresPage_Controller
         }
 
         if ($person) {
+            switch ($form) {
+                case 'self':
+                case 'parents':
+                case 'children':
+                case 'spouses':
+                case 'delete':
+                    $renderer = array($this->formTemplates[$form]);
+                    break;
+
+                default:
+                    $renderer = $this->getRequest()->isAjax() ?
+                            array('Person_Edit') :
+                            array('FiguresPage_Edit', 'Page');
+                    break;
+            }
+
             return $this
                             ->customise(array(
                                 'Person' => $person,
                                 'Title' => $person->Name
                             ))
-                            ->renderWith(array('FiguresPage_Edit', 'Page'));
+                            ->renderWith($renderer);
         } else {
             return $this->httpError(404, 'That person could not be found!');
+        }
+    }
+
+    public function show() {
+        $id = $this->getRequest()->param('ID');
+        $single = $this->getObjectsList()->filter(array(
+                    'ID' => $id
+                ))->first();
+
+        $align = $this->isRTL() == 'rtl' ? 'right' : 'left';
+
+        Requirements::customScript(<<<JS
+            $(document).ready(function () {
+                $('.imgBox').imgZoom({
+                    boxWidth: 500,
+                    boxHeight: 500,
+                    marginLeft: 5,
+                    align: '{$align}',
+                    origin: 'data-origin'
+                });
+            });
+JS
+        );
+
+        if ($single) {
+            return $this
+                            ->customise(array(
+                                'Person' => $single,
+                                'Title' => $single->Title
+                            ))
+                            ->renderWith(array('FiguresPage_Profile', 'FiguresPage'));
+        } else {
+            return $this->httpError(404, 'That object could not be found!');
         }
     }
 
@@ -144,7 +215,11 @@ class FiguresPage_Controller
                 TextField::create('NickName', _t('Genealogist.NICKNAME', 'NickName'), $person->NickName), //
                 TextField::create('Note', _t('Genealogist.NOTE', 'Note'), $person->Note), //
                 TextField::create('BirthDate', _t('Genealogist.BIRTHDATE', 'Birth Date'), $person->BirthDate), //
+                TextField::create('BirthPlace', _t('Genealogist.BIRTHPLACE', 'Birth Place'), $person->BirthPlace), //
+                CheckboxField::create('BirthDateEstimated', _t('Genealogist.BIRTHDATE_ESTIMATED', 'Birth Date Estimated'), $person->BirthDateEstimated), //
                 TextField::create('DeathDate', _t('Genealogist.DEATHDATE', 'Death Date'), $person->DeathDate), //
+                TextField::create('DeathPlace', _t('Genealogist.DEATHPLACE', 'Death Place'), $person->DeathPlace), //
+                CheckboxField::create('DeathDateEstimated', _t('Genealogist.DEATHDATE_ESTIMATED', 'Death Date Estimated'), $person->DeathDateEstimated), //
                 CheckboxField::create('IsDead', _t('Genealogist.ISDEAD', 'Is Dead'), $person->IsDead), //
                 TextareaField::create('Comments', _t('Genealogist.COMMENTS', 'Comments'), $person->Comments) //
         );
@@ -162,26 +237,10 @@ class FiguresPage_Controller
 
     public function doEditPerson($data, $form) {
         $id = $data['PersonID'];
-        $isPrivate = $data['IsPrivate'];
-        $name = $data['Name'];
-        $nickname = $data['NickName'];
-        $note = $data['Note'];
-        $birthdate = $data['BirthDate'];
-        $deathdate = $data['DeathDate'];
-        $isDead = $data['IsDead'];
-        $comments = $data['Comments'];
 
         $person = DataObject::get_by_id('Person', (int) $id);
 
-        $person->Name = $name;
-        $person->IsPrivate = $isPrivate;
-        $person->NickName = $nickname;
-        $person->Note = $note;
-        $person->BirthDate = $birthdate;
-        $person->DeathDate = $deathdate;
-        $person->IsDead = $isDead;
-        $person->Comments = $comments;
-
+        $form->saveInto($person);
         $person->write();
 
         return $this->owner->redirectBack();

@@ -107,7 +107,7 @@ class CrawlTask
 //            $this->println('Updating the dates of: ' . $person->Name);
             echo '.';
         } else {
-            $stats = new PersonStats();
+            $stats = new PersonalStats();
 //            $this->println('Indexing the dates of: ' . $person->Name);
             echo '.';
         }
@@ -129,7 +129,7 @@ class CrawlTask
             $this->println('Updating the stats of: ' . $person->Name);
             echo '.';
         } else {
-            $stats = new PersonStats();
+            $stats = new PersonalStats();
             $this->println('Indexing the stats of: ' . $person->Name);
             echo '.';
         }
@@ -157,7 +157,7 @@ class CrawlTask
             $person->write();
         }
 
-        $stats = PersonStats::get();
+        $stats = PersonalStats::get();
         $this->println('Deleting: ' . $stats->Count() . ' stats records...');
 
         foreach ($stats as $stat) {

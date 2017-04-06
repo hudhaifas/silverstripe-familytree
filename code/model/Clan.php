@@ -30,7 +30,8 @@
  * @author Hudhaifa Shatnawi <hudhaifa.shatnawi@gmail.com>
  * @version 1.0, Nov 2, 2016 - 11:56:42 AM
  */
-class Clan extends Male {
+class Clan
+        extends Male {
 
     private static $db = array(
     );
@@ -59,6 +60,27 @@ class Clan extends Male {
 
     public function getPersonName() {
         return $this->getAliasName();
+    }
+
+    /**
+     * Returns the person's short name
+     * @return string
+     */
+    public function getBriefName() {
+        return $this->getClanName() . $this->getTribeName();
+    }
+
+    /**
+     * Returns the person's clan names
+     * @return string
+     */
+    public function getClanName() {
+        $name = $this->getPersonName();
+        if (!$this->Father()->exists()) {
+            return $name;
+        }
+
+        return "{$name} " . $this->Father()->getClanName();
     }
 
     public function isObjectDisabled() {

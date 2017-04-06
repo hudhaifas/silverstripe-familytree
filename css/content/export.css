@@ -1,0 +1,26 @@
+/* Export */
+html.exporting {
+  direction: ltr;
+}
+html.exporting .col-md-1,
+html.exporting .col-md-2,
+html.exporting .col-md-3,
+html.exporting .col-md-4,
+html.exporting .col-md-5,
+html.exporting .col-md-6,
+html.exporting .col-md-7,
+html.exporting .col-md-8,
+html.exporting .col-md-9,
+html.exporting .col-md-10,
+html.exporting .col-md-11,
+html.exporting .col-md-12 {
+  float: left;
+}
+html.exporting table {
+  border-spacing: 0;
+  border-collapse: collapse;
+}
+html.exporting .collaplse-btn {
+  display: none;
+}
+/*# sourceMappingURL=export.css.map */

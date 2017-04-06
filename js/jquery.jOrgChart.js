@@ -31,45 +31,53 @@
 
         $this.remove();
         $contentPane.append($chartPane);
-        $controls = createControls($container, $contentPane, $chartPane, opts);
+
+        $controls = setupControls($container, $contentPane, $chartPane, opts);
         $container.append($controls);
-        
+
         $extraPane = $('<div id="chart-extra" class="chart-extra"></div>');
         $container.append($extraPane);
 
+        $container.append('<div id="info-card" class="info-card"></div>');
+
         if (opts.zoom && opts.zoomScroller) {
-            setupZoom($container, $chartPane, opts);
+//            setupZoom($container, $contentPane, $chartPane, opts);
         }
 
         $chartTable = $chartPane.find('table');
-//        $chartPane.css('width', $chartTable.outerWidth());
-//        $chartPane.css('height', $chartTable.outerHeight());
-
-//        centerTree($chartPane.find('table'), $contentPane);
-        centerTree($chartTable, $contentPane);
     };
 
     // Default options
     $.fn.jOrgChart.defaults = {
         chartElement: 'body',
-        multipleRoot: false, // Support multiple roots tree
+        // Support multiple roots tree
+        multipleRoot: false,
+        // Tree depth
         depth: -1, // all
         chartClass: "chart-pane",
         // Direction options
         direction: "t2b",
         // Fullscree options
-        fullscreen: true,
+        fullscreenOnBtn: null,
+        fullscreenOffBtn: null,
         // Drag scroller options
         dragScroller: true,
+        // Collapse options
+        collapsible: true,
+        collapseBtn: null,
+        expandBtn: null,
         // Export options
-        exportImage: true,
+        exportBtn: null,
         exportFile: 'family.png',
         // Zoom options
         zoom: true,
+        zoomInBtn: null,
+        zoomOneBtn: null,
+        zoomOutBtn: null,
         zoomScroller: false,
         minZoom: 0.4,
-        maxZoom: 1.2,
-        stepZoom: 0.2
+        maxZoom: 1.6,
+        stepZoom: 0.1
     };
 
     var nodeCount = 0;
@@ -104,12 +112,15 @@
 
         // Expand and contract nodes
         if ($childNodes.length > 0) {
-            $nodeDiv.click(function () {
+            $collapseBtn = $('<div class="collaplse-btn no-collapse hide-on-timeline"></div>');
+            $nodeDiv.append($collapseBtn);
+
+            $collapseBtn.click(function () {
                 var $this = $(this);
-                var $tr = $this.closest("tr");
+                var $tr = $this.parent().closest("tr");
 
                 if ($tr.hasClass('contracted')) {
-                    $this.css('cursor', 'zoom-out');
+                    $this.removeClass('expand');
                     $tr.removeClass('contracted').addClass('expanded');
                     $tr.nextAll("tr").css('visibility', '');
                     $tr.nextAll("tr").css('display', '');
@@ -118,7 +129,7 @@
                     // maintain their appearance
                     $node.removeClass('collapsed');
                 } else {
-                    $this.css('cursor', 'zoom-in');
+                    $this.addClass('expand');
                     $tr.removeClass('expanded').addClass('contracted');
                     $tr.nextAll("tr").css('visibility', 'hidden');
                     $tr.nextAll("tr").css('display', 'none');
@@ -130,16 +141,13 @@
 
         $nodeCell.append($nodeDiv);
         $nodeRow.append($nodeCell);
-        
+
         /* Support multiple roots tree */
         if (level > 0 || !opts.multipleRoot) {
             $tbody.append($nodeRow);
         }
 
         if ($childNodes.length > 0) {
-            // if it can be expanded then change the cursor
-            $nodeDiv.css('cursor', 'zoom-out');
-
             // recurse until leaves found (-1) or to the level specified
             if (opts.depth == -1 || (level + 1 < opts.depth)) {
                 var $downLineRow = $("<tr/>");
@@ -149,7 +157,7 @@
                 // draw the connecting line from the parent node to the horizontal line
                 $downLine = $("<div></div>").addClass("line down");
                 $downLineCell.append($downLine);
-                
+
                 /* Support multiple roots tree */
                 if (level > 0 || !opts.multipleRoot) {
                     $tbody.append($downLineRow);
@@ -194,11 +202,9 @@
             var classList = $node.attr('class').split(/\s+/);
             $.each(classList, function (index, item) {
                 if (item == 'collapsed') {
-                    console.log($node);
                     $nodeRow.nextAll('tr').css('visibility', 'hidden');
                     $nodeRow.removeClass('expanded');
                     $nodeRow.addClass('contracted');
-                    $nodeDiv.css('cursor', 'zoom-in');
                 } else {
                     $nodeDiv.addClass(item);
                 }
@@ -219,124 +225,157 @@
 
         /* Prevent trees collapsing if a link inside a node is clicked */
         $nodeDiv.children('a').click(function (e) {
-            console.log(e);
+//            console.log(e);
             e.stopPropagation();
         });
     }
 
-    function createControls($container, $contentPane, $chartPane, opts) {
-        $controls = $('<div class="chart-controls"></div>');
+    function setupControls($container, $contentPane, $chartPane, opts) {
+        $controls = $('<div class="hidden"></div>');
 
-        if (opts.fullscreen) {
-            var $fullscreenBtn = createButton('fullscreen hidden-phone hidden-tablet', function () {
+//        if (opts.fullscreenOnBtn && opts.fullscreenOffBtn) {
+//            opts.fullscreenOnBtn.click(function (event) {
+//                event.stopPropagation();
+//                $container.fullscreen();
+//            });
+//            opts.fullscreenOffBtn.click(function (event) {
+//                event.stopPropagation();
+//                $.fullscreen.exit();
+//            });
+//
+//            // document's event
+//            $(document).bind('fscreenchange', function (e, state, elem) {
+//                toggleStrechContainer($container, $.fullscreen.isFullScreen());
+//                // if we currently in fullscreen mode
+//                if ($.fullscreen.isFullScreen()) {
+//                    $('.hide-on-fullscreen').hide();
+//                    opts.fullscreenOnBtn.hide();
+//                    opts.fullscreenOffBtn.show();
+//
+//                } else {
+//                    $('.hide-on-fullscreen').show();
+//                    opts.fullscreenOnBtn.show();
+//                    opts.fullscreenOffBtn.hide();
+//                }
+//            });
+//        }
 
-                event.preventDefault();
-                $container.toggleFullScreen();
-            });
-            $fullscreenBtn.appendTo($controls);
-
-            $(document).bind("fullscreenchange", function () {
-                strechScreen($container, $container.fullScreen());
-                $container.find('.fullscreen, .fullscreen-exit').toggleClass('fullscreen fullscreen-exit');
-            });
+        if (!opts.collapsible) {
+            $('.no-collapse').hide();
+        } else {
+            $('.no-collapse').show();
         }
 
-        var $collapseBtn = createButton('collapse-all', function () {
-            event.preventDefault();
-            toggleAllNodes($container);
-            $container.find('.collapse-all, .expand-all').toggleClass('collapse-all expand-all');
-        });
-        $collapseBtn.appendTo($controls);
+        if (opts.collapseBtn && opts.expandBtn) {
+            opts.collapseBtn.click(function (event) {
+                event.preventDefault();
+
+                toggleAllNodes($container, opts);
+            });
+            opts.expandBtn.click(function (event) {
+                event.preventDefault();
+                toggleAllNodes($container, opts);
+            });
+        }
 
         if (opts.dragScroller) {
             $contentPane.dragScroll({});
         }
 
         if (opts.zoom) {
-            var $zoomInBtn = createButton('zoom-in', function () {
-                event.preventDefault();
-                var newScale = 1 + opts.stepZoom;
-                changeZoom($chartPane, newScale, opts);
-            });
-            var $zoomOutBtn = createButton('zoom-out', function () {
-                event.preventDefault();
-                var newScale = 1 + -(opts.stepZoom);
-                changeZoom($chartPane, newScale, opts);
-            });
+            if (opts.zoomInBtn) {
+                opts.zoomInBtn.click(function (event) {
+                    event.preventDefault();
+                    zoom($contentPane, $chartPane, opts.stepZoom, opts);
+                });
+            }
 
-            $zoomInBtn.appendTo($controls);
-            $zoomOutBtn.appendTo($controls);
+            if (opts.zoomOneBtn) {
+                opts.zoomOneBtn.click(function (event) {
+                    event.preventDefault();
+                    zoom($contentPane, $chartPane, 0, opts);
+                });
+            }
+
+            if (opts.zoomOutBtn) {
+                opts.zoomOutBtn.click(function (event) {
+                    event.preventDefault();
+                    zoom($contentPane, $chartPane, -opts.stepZoom, opts);
+                });
+            }
         }
 
-        if (opts.exportImage) {
-            var $saveBtn = $('<a href="#" id="save-tree" class="hidden" download="' + opts.exportFile + '"></a>');
-            var $exportBtn = createButton('export hidden-phone hidden-tablet', function () {
+        if (opts.exportBtn) {
+            if (!opts.saveBtn) {
+                opts.saveBtn = $('<a href="#" id="save-tree" class="hidden" download="' + opts.exportFile + '"></a>');
+                opts.saveBtn.appendTo($controls);
+            }
+
+            opts.exportBtn.click(function (event) {
                 event.preventDefault();
 
-                exportTree($container, $contentPane, $chartPane, $saveBtn);
+                exportTree($container, $contentPane, $chartPane, opts.saveBtn);
             });
-
-            $exportBtn.appendTo($controls);
-            $saveBtn.appendTo($controls);
         }
 
         return $controls;
     }
 
-    function createButton(icon, onclick) {
-        $btn = $('<div class="chart-control ' + icon + '"></div> ');
-        $btn.on('click', onclick);
-
-        return $btn;
-    }
-
-    function toggleAllNodes($chartPane) {
+    function toggleAllNodes($chartPane, opts) {
         $nodeDiv = $chartPane.find('div.node');
+        $collapseBtn = $nodeDiv.find('.collaplse-btn');
+
         var $tr = $nodeDiv.closest("tr");
 
         if ($tr.hasClass('contracted')) {
-            $nodeDiv.css('cursor', 'zoom-out');
+            $collapseBtn.removeClass('expand');
+
             $tr.removeClass('contracted').addClass('expanded');
             $tr.nextAll("tr").css('visibility', '');
             $tr.nextAll("tr").css('display', '');
 
+            opts.collapseBtn.show();
+            opts.expandBtn.hide();
+
             return true;
         } else {
-            $nodeDiv.css('cursor', 'zoom-in');
+            $collapseBtn.addClass('expand');
+
             $tr.removeClass('expanded').addClass('contracted');
             $tr.nextAll("tr").css('visibility', 'hidden');
             $tr.nextAll("tr").css('display', 'none');
 
+            opts.collapseBtn.hide();
+            opts.expandBtn.show();
             return false;
         }
     }
 
-    function strechScreen($container, strech) {
-        if (strech) {
+    function toggleStrechContainer($container, isStrech) {
+        if (isStrech) {
             $container.css('width', '100%');
             $container.css('max-width', '100%');
             $container.css('height', '100%');
             $container.css('max-height', '100%');
-            $container.find('.export').hide();
 
         } else {
             $container.css('width', '');
             $container.css('max-width', '');
             $container.css('height', '');
             $container.css('max-height', '');
-            $container.find('.export').show();
         }
     }
 
     function exportTree($container, $contentPane, $chartPane, $saveBtn) {
-        $container.fullScreen(false);
+        $.fullscreen.exit();
 
-        $html = $('html');
-        dir = $html.attr('dir');
+        var $html = $('html');
+        var dir = $html.attr('dir');
         $html.attr("dir", "ltr");
         $html.addClass('exporting');
 
         var $chartTable = $chartPane.find('table');
+        var $allNodes = $chartPane.find('.node.dead');
 
         // Pre export
         // Set the HTML page to defaults:
@@ -349,7 +388,8 @@
         var top = $contentPane.scrollTop();
 
         $chartPane.css('transform', '');
-        $('.genealogy-tree .node.dead').addClass('exporting');
+
+        $allNodes.addClass('exporting');
 
         $container.css('width', $chartTable.outerWidth());
         $container.css('height', $chartTable.outerHeight());
@@ -366,22 +406,24 @@
         });
 
         // Post export
-        $chartPane.css('transform', transform);
-        $('.genealogy-tree .node.dead').removeClass('exporting');
         $container.css('width', '');
         $container.css('height', '');
         $contentPane.scrollLeft(left);
         $contentPane.scrollTop(top);
-        $('html').removeClass('exporting');
+
+        $allNodes.removeClass('exporting');
+        $chartPane.css('transform', transform);
+
+        $html.removeClass('exporting');
         $html.attr('dir', dir);
     }
 
-    function setupZoom($container, $chartPane, opts) {
+    function setupZoom($container, $contentPane, $chartPane, opts) {
         $container
                 .on('wheel', function (event) {
                     event.preventDefault();
-                    var newScale = 1 + (event.originalEvent.deltaY > 0 ? -(opts.stepZoom) : opts.stepZoom);
-                    changeZoom($chartPane, newScale, opts);
+                    var newScale = event.originalEvent.deltaY > 0 ? -opts.stepZoom : opts.stepZoom;
+                    zoom($contentPane, $chartPane, newScale, opts);
                 });
 
         $container
@@ -405,77 +447,57 @@
                         $chartPane.data('pinching', false);
                         var diff = $chartPane.data('pinchDistEnd') - $chartPane.data('pinchDistStart');
                         if (diff > 0) {
-                            changeZoom($chartPane, 1.2);
+                            zoom($contentPane, $chartPane, opts.stepZoom, opts);
                         } else if (diff < 0) {
-                            changeZoom($chartPane, 0.8);
+                            zoom($contentPane, $chartPane, -opts.stepZoom, opts);
                         }
                     }
                 });
     }
 
-    function changeZoom($chartPane, newScale, opts) {
-        $parent = $chartPane.parent();
-        pW = $parent.width();
-        pH = $parent.height();
-        cW = $chartPane.width();
-        cH = $chartPane.height();
+    var curScale = 1;
+    function zoom($contentPane, $chartPane, change, opts) {
+        // Determine current scroll positions
+        var curScrollTop = $contentPane.prop('scrollTop');
+        var curScrollLeft = $contentPane.prop('scrollLeft');
+        var newScroll = {};
+        var newScale;
 
-//        console.log('Container: [' + cW + ',' + cH + ']');
-//        console.log('Parent: [' + pW + ',' + pH + ']');
-
-        currentScale = getCurrentScale($chartPane);
-        if ((newScale > 1 && currentScale > opts.maxZoom) || (newScale < 1 && currentScale < opts.minZoom)) {
-            return;
-        }
-
-        var lastTf = $chartPane.css('transform');
-
-        if (lastTf === 'none') {
-            $chartPane.css('transform', 'scale(' + newScale + ',' + newScale + ')');
-
+        if (change === 0) {
+            newScale = 1;
         } else {
-            if (lastTf.indexOf('3d') === -1) {
-                $chartPane.css('transform', lastTf + ' scale(' + newScale + ',' + newScale + ')');
-            } else {
-                $chartPane.css('transform', lastTf + ' scale3d(' + newScale + ',' + newScale + ', 1)');
-            }
-        }
-    }
-
-    function parseMatrix(_str) {
-        return _str.replace(/^matrix(3d)?\((.*)\)$/, '$2').split(/, /);
-    }
-
-    function getCurrentScale($element) {
-        var matrix = parseMatrix(getMatrix($element));
-        var scale = 1;
-
-        if (matrix[0] !== 'none') {
-            var a = matrix[0];
-            var b = matrix[1];
-            var d = 10;
-            scale = Math.round(Math.sqrt(a * a + b * b) * d) / d;
+            newScale = curScale + change;
         }
 
-        return scale;
-    }
+//        if ((newScale) > opts.maxZoom || (newScale) < opts.minZoom) {
+//            return;
+//        }
 
-    function getMatrix($element) {
-        var matrix = $element.css("-webkit-transform") ||
-                $element.css("-moz-transform") ||
-                $element.css("-ms-transform") ||
-                $element.css("-o-transform") ||
-                $element.css("transform");
-        return matrix;
-    }
+        var ratio = newScale / curScale;
+        newScroll.scrollTop = curScrollTop * ratio;
+        newScroll.scrollLeft = curScrollLeft * ratio;
 
-    var centerTree = function (table, container) {
-        var out = $(container);
-        var tar = $(table);
-        var x = out.width();
-        var y = tar.outerWidth(true);
-        var z = tar.index();
-        out.scrollLeft(Math.max(0, (y * z) - (x - y) / 2));
-    };
+        curScale = newScale;
+        $chartPane.css('transform', 'scale(' + curScale + ',' + curScale + ')');
+
+        if (opts.zoomInBtn) {
+            opts.zoomInBtn.attr('disabled', curScale >= opts.maxZoom);
+        }
+
+        if (opts.zoomOneBtn) {
+            opts.zoomOneBtn.attr('disabled', curScale === 1);
+        }
+
+        if (opts.zoomOutBtn) {
+            opts.zoomOutBtn.attr('disabled', curScale <= opts.minZoom);
+        }
+
+        $contentPane.scrollTop(newScroll.scrollTop);
+        $contentPane.scrollLeft(newScroll.scrollLeft);
+//        $contentPane.animate(newScroll, {
+//            duration: 400,
+//            easing: 'linear'
+//        });
+    }
 
 })(jQuery);

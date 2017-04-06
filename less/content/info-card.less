@@ -1,0 +1,113 @@
+@import "../variables.less";
+@import "../mixins/transform.less";
+
+/* Info Card*/
+
+.info-card {
+    background: @card-bg;
+    color: @card-fg;
+
+    visibility: hidden;
+    position: absolute;
+    width: @node-w;
+    height: @node-h;
+    border: 0;
+    padding: @card-padding @card-padding;
+
+    cursor: auto;
+
+    border: 1px solid transparent;
+    border-color: @tree-branches-color;
+    border-radius: @border-radius;
+    /*box-shadow: inset 0 1px 1px rgba(0,0,0,.075);*/
+    box-shadow: 0 0 9px rgba(0, 0, 0, 0.16);
+
+    -webkit-transition: all 0.4s ease, top 1ms, left 1ms, bottom 1ms, right 1ms;
+    -moz-transition:    all 0.4s ease, top 1ms, left 1ms, bottom 1ms, right 1ms;
+    -ms-transition:     all 0.4s ease, top 1ms, left 1ms, bottom 1ms, right 1ms;
+    -o-transition:      all 0.4s ease, top 1ms, left 1ms, bottom 1ms, right 1ms;
+    transition:         all 0.4s ease, top 1ms, left 1ms, bottom 1ms, right 1ms;
+
+    &:hover {
+    }
+
+    &.show {
+        visibility: visible;
+
+        width: @card-w;
+        height: @card-h;
+
+        z-index: 999;
+    }
+
+    .card-controls {
+        position: absolute;
+        bottom: 0;
+        left: 0;
+        right: 0;
+        padding-bottom: @card-padding;
+        text-align: center;
+    }
+
+    .table {
+        > thead, > tbody, > tfoot {
+            > tr {
+                > th {
+                    border-top: 1px solid transparent;
+                }
+
+                > th, > td {
+                    font-size: 95%;
+                    padding: 2px;
+                }
+            }
+        }
+    }
+
+    p {
+        margin: 0 0 5px;
+    }
+
+    .close-card {
+        display: none;
+    }
+
+    .btn {
+        width: @info-btn-dim;
+        height: @info-btn-dim;
+        border-radius: @border-radius;
+        padding: @info-btn-padding 0;
+    }
+}
+
+@media only screen and (max-width: 760px) {
+
+    .info-card {
+        &.show {
+            position: fixed;
+
+            top: @screen-card-padding;
+            left: @screen-card-padding;
+            width: calc(~"100% - " (@screen-card-padding * 2));
+            height: calc(~"100% - " (@screen-card-padding * 2));
+        }
+
+        .table {
+            > thead, > tbody, > tfoot {
+                > tr {
+                    > th, > td {
+                        padding: 4px 1px;
+                    }
+                }
+            }
+        }
+
+        p {
+            margin: 0 0 12px;
+        }
+
+        .close-card {
+            display: inline-block;
+        }
+    }
+}

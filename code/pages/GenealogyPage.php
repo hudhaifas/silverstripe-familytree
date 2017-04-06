@@ -123,21 +123,30 @@ class GenealogyPage_Controller
     public function init() {
         parent::init();
 
-        Requirements::css("genealogist/css/jquery.jOrgChart.css");
-        Requirements::css("genealogist/css/jquery.jOrgChart-rtl.css");
-        Requirements::css("genealogist/css/export.css");
-//        Requirements::css("https://cdnjs.cloudflare.com/ajax/libs/bootstrap-slider/9.7.2/css/bootstrap-slider.css");
-        Requirements::css("genealogist/css/bootstrap-slider.css");
+        Requirements::css("genealogist/css/vendors/bootstrap-slider.css");
+        Requirements::css("genealogist/css/vendors/introjs.css");
+        Requirements::css("genealogist/css/vendors/jquery.modal.css");
         Requirements::css("genealogist/css/genealogy.css");
 
+        if ($this->isRTL()) {
+            Requirements::css("genealogist/css/vendors/introjs-rtl.css");
+            Requirements::css("genealogist/css/genealogy-rtl.css");
+        }
+
+        Requirements::javascript("genealogist/js/vendors/jquery.dragscroll.js");
+        Requirements::javascript("genealogist/js/vendors/jquery.fullscreen.js");
+        Requirements::javascript("genealogist/js/vendors/jquery.panzoom.js");
+        Requirements::javascript("genealogist/js/vendors/jquery-scrollto.js");
+        Requirements::javascript("genealogist/js/vendors/jquery.modal.js");
+
+        Requirements::javascript("genealogist/js/vendors/URI.js");
+        Requirements::javascript("genealogist/js/vendors/html2canvas.js");
+        Requirements::javascript("genealogist/js/vendors/bootstrap-slider.js");
+        Requirements::javascript("genealogist/js/vendors/intro.js");
+
         Requirements::javascript("genealogist/js/jquery.jOrgChart.js");
-        Requirements::javascript("genealogist/js/jquery.dragscroll.js");
-        Requirements::javascript("genealogist/js/jquery.fullscreen.js");
-        Requirements::javascript("genealogist/js/URI.js");
-        Requirements::javascript("genealogist/js/html2canvas.js");
-//        Requirements::javascript("https://cdnjs.cloudflare.com/ajax/libs/bootstrap-slider/9.7.2/bootstrap-slider.js");
-        Requirements::javascript("genealogist/js/bootstrap-slider.js");
-        Requirements::javascript("genealogist/js/genealogy-timeline.js");
+        Requirements::javascript("genealogist/js/genealogy.timeline.js");
+        Requirements::javascript("genealogist/js/genealogy.controls.js");
         Requirements::javascript("genealogist/js/genealogy.js");
     }
 
@@ -145,27 +154,33 @@ class GenealogyPage_Controller
     public function index(SS_HTTPRequest $request) {
         $id = $this->getRequest()->param('ID');
         if (!$id) {
-            return array();
+            return array(
+                'LandingPage' => true,
+                'RandClan' => $this->getClans()->sort('rand()')->first(),
+                'RandFigure' => $this->getFigures()->sort('rand()')->first()
+            );
         }
 
-        $other = $this->getRequest()->param('Other');
-
-        $data = $other ? $this->kinship($id, $other) : $this->tree($id);
 
         if ($request->isAjax()) {
+            $other = $this->getRequest()->param('Other');
+
+            $data = $other ? $this->kinship($id, $other) : $this->tree($id);
             return $this
                             ->customise($data)
                             ->renderWith('TheTree');
         }
 
-        return $data;
+        return array(
+            'Tree' => false
+        );
     }
 
     public function info() {
         $id = $this->getRequest()->param('ID');
         $person = GenealogistHelper::get_person($id);
 
-        return $person->renderWith("Side_Info");
+        return $person->renderWith("TheTree_InfoCard");
     }
 
     public function suggest() {
@@ -199,17 +214,20 @@ class GenealogyPage_Controller
             return $this->httpError(404, 'No books could be found!');
         }
 
-        $trees = array(
-            ArrayData::create(array('Tree' => $person->getDescendantsLeaves()))
+        $isAncestral = $this->getRequest()->getVar('ancestral') ? 1 : 0;
+        $title = _t('Genealogist.TREE_OF', //
+                "Family Tree of {value}", //
+                array(
+            'value' => $person->getShortName()
+                )
         );
 
-        $showTimeline = $this->getRequest()->getVar('ancestral') ? 0 : 1;
-
         return array(
-            'Trees' => new ArrayList($trees),
-            'Cols' => 12,
-            'Multiple' => false,
-            'ShowTimeline' => $showTimeline,
+            'Tree' => $person->getDescendants(),
+            'MultiRoot' => false,
+            'ShowTimeline' => !$isAncestral,
+            'Collapsible' => !$isAncestral,
+            'Title' => $title
         );
     }
 
@@ -233,15 +251,20 @@ class GenealogyPage_Controller
             $roots[] = $this->getKinshipLeaves($kinship);
         }
 
-        $trees = array(
-            ArrayData::create(array('Tree' => $this->virtualRoot($roots)))
+        $title = _t('Genealogist.KINSHIP_OF', //
+                "Kinships Between {value1} & {value2}", //
+                array(
+            'value1' => $p1->getShortName(),
+            'value2' => $p2->getShortName(),
+                )
         );
 
         return array(
-            'Trees' => new ArrayList($trees),
-            'Cols' => 12,
-            'Multiple' => true,
-            'Title' => $p1->getFirstName() . ' : ' . $p2->getFirstName()
+            'Tree' => $this->virtualRoot($roots),
+            'MultiRoot' => true,
+            'ShowTimeline' => false,
+            'Collapsible' => false,
+            'Title' => $title//$p1->getShortName() . ' : ' . $p2->getShortName()
         );
     }
 
@@ -329,23 +352,27 @@ HTML;
         $link = $this->AbsoluteLink();
         $fields = new FieldList(
                 AutoPersonField::create(
-                        'Person1', //
-                        _t('Genealogist.FIRST_PERSON', 'First Person'), //
-                        '', //
-                        null, //
-                        null, //
-                        $source, //
-                        array('IndexedName', 'Name', 'NickName') //
-                )->setSourceSort('CHAR_LENGTH(IndexedName) ASC'), //
+                                'Person1', //
+                                _t('Genealogist.FIRST_PERSON', 'First Person'), //
+                                '', //
+                                null, //
+                                null, //
+                                $source, //
+                                array('IndexedName', 'Name', 'NickName') //
+                        )
+                        ->setSourceSort('CHAR_LENGTH(IndexedName) ASC')
+                        ->setLimit(20), //
                 AutoPersonField::create(
-                        'Person2', //
-                        _t('Genealogist.SECOND_PERSON', 'Second Person'), //
-                        '', //
-                        null, //
-                        null, //
-                        $source, //
-                        array('IndexedName', 'Name', 'NickName') //
-                )->setSourceSort('CHAR_LENGTH(IndexedName) ASC')
+                                'Person2', //
+                                _t('Genealogist.SECOND_PERSON', 'Second Person'), //
+                                '', //
+                                null, //
+                                null, //
+                                $source, //
+                                array('IndexedName', 'Name', 'NickName') //
+                        )
+                        ->setSourceSort('CHAR_LENGTH(IndexedName) ASC')
+                        ->setLimit(20)
         );
 
         // Create action
@@ -419,6 +446,15 @@ HTML;
 
     public function getPerson($id) {
         return GenealogistHelper::get_person($id);
+    }
+
+    public function getFigures() {
+        return DataObject::get('Person')
+                        ->filterAny(array(
+                            'PublicFigure' => 1,
+                            'ClassName:StartsWith' => 'Clan',
+                            'ClassName:StartsWith' => 'Tribe',
+        ));
     }
 
     public function getRootClans() {

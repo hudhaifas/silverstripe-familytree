@@ -1,0 +1,36 @@
+@import "../variables.less";
+@import "../mixins/transform.less";
+
+/* Basic styling */
+.chart-pane {
+
+    .left {
+        border-left: @tree-branches-w solid @tree-branches-color;
+        border-right: 0;
+    }
+
+    .right {
+        border-left: 0;
+        border-right: @tree-branches-w solid @tree-branches-color;
+    }
+}
+
+.navbar-collapse.collapse {
+    display: block!important;
+}
+
+.navbar-nav {
+    &, > li {
+        float: right !important;
+    }
+
+    &.navbar-right:last-child {
+        margin-left: -15px !important;
+        margin-right: auto;
+    }
+
+}
+
+.navbar-right {
+    float: left !important;
+}

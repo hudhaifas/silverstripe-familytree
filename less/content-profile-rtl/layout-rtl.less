@@ -1,0 +1,56 @@
+/* Layout RTL */
+
+@import "../mixins/transform.less";
+
+@profile-top: 15px;
+@user-picture-size: 160px;
+
+.user-header {
+    .user-card {
+        .user-picture {
+        }
+
+        .user-brief {
+            text-align: right;
+            margin-left: auto;
+            margin-right: (@user-picture-size + 8px);
+
+            .user-title {
+            }
+
+            .user-info {
+            }
+        }
+    }
+}
+
+.user-pills {
+    .nav-tabs {
+        > li, .nav-pills > li {
+        }
+    }
+}
+
+@media (max-width: 767px) {
+    .user-header {
+
+        .user-card {
+            .user-picture {
+            }
+
+            .user-brief {
+                display: block;
+                margin: 12px auto;
+                text-align: center;
+
+                .user-title {
+                }
+
+                .user-info {
+                    text-align: right;
+                }
+            }
+        }
+    }
+
+}

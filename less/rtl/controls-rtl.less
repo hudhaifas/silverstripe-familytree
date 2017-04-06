@@ -1,0 +1,53 @@
+@import "../variables.less";
+@import "../mixins/transform.less";
+
+.chart-container {
+    .chart-controls-left {
+        left: auto;
+        right: 10px;
+
+        .chart-control {
+        }
+    }
+
+    .chart-controls-bottom {
+    }
+
+    .chart-controls-top-left {
+        left: auto;
+        right: 10px;
+
+        .navbar {
+            .nav-collapse {
+                left: auto;
+                right: @control-dim;
+                margin-left: auto;
+                margin-right: @control-margin;
+            }
+        }
+        .navbar-nav > li {
+            margin-left: @control-margin;
+            margin-right: auto;
+        }
+
+        .dropdown-menu {
+            .panel-body {
+                ul {
+                    li {
+                        text-align: right;
+
+                        input[type='checkbox'] {
+                            margin-left: 6px;
+                            margin-right: auto;
+                        }
+                    }
+                }
+            }
+        }
+    }
+
+    .chart-extra {
+        left: 10px;
+        right: auto;
+    }
+}

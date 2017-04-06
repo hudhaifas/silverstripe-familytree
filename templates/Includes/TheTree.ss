@@ -1,35 +1,32 @@
-<% if ShowTimeline %>
-    <a class="btn btn-primary" href="" id="timeline-btn"><%t Genealogist.TIMELINE 'Timeline' %></a>
-    <div class="well" style="display: none">
-        <div class="row">
-            <div class="col-sm-1">
-                <button id="timeline-control" class="timeline-control center-block"><i class="fa fa-3x fa-play-circle" aria-hidden="true"></i></button>
-            </div>
-            
-            <div class="col-sm-11">
-                <input
-                    id="timeline-input" 
-                    data-slider-id='timeline-slider'
-                    type="text" 
-                    data-slider-min="1900"
-                    data-slider-max="2017"
-                    data-slider-step="1"
-                    data-slider-value="1980" />
-            </div>
-        </div>
-    </div>
+<!--    
+<div class="alert alert-info alert-dismissable">
+    <a href="#" class="close" data-dismiss="alert" aria-label="close">×</a>
+    <strong><%t Genealogist.NOTE 'Note' %>: </strong>
+    <%t Genealogist.SUGGEST_EDIT_MESSAGE_1 'Please forgive for the lack of accuracy of the data in this tree, ' %>
+    <a href="$Link(suggest)" target="_blank"><u><%t Genealogist.CLICK_HERE 'click here' %></u></a> <i class="fa fa-comment" aria-hidden="true"></i>
+    <%t Genealogist.SUGGEST_EDIT_MESSAGE_2 ' to provide us with any data.' value=$Link(suggest) %>
+</div>
+-->
+
+<% if $Tree %>
+<ul id="chart-list" style="display:none;" data-multiroot="{$MultiRoot}" data-collapsible="{$Collapsible}">
+    $Tree
+</ul>
+
+
+<div style="display: none;">
+    <% if ShowTimeline %>
+        <% include TheTree_Timeline %>
+    <% end_if %>
+
+    <% include TheTree_Nav %>
+
+    <% include TheTree_Controls %>
+</div>
 <% end_if %>
 
-<% loop Trees %>
-    <ul id="genealogy-relations" class="genealogy-kinship" style="display:none" data-kinship="k{$Pos}" data-multiple="{$Up.Multiple}">
-        $Tree
-    </ul>
-
-    <div id="k{$Pos}" class="genealogy-tree dragscroll col-md-{$Up.Cols}"></div>
-<% end_loop %>
-    
-<div id="tree-loader" class="ajax-loader">
+<div id="chart-container"></div>
+<div id="chart-loader" class="ajax-loader">
     <span></span>
     <i class="fa fa-spinner fa-pulse fa-4x fa-fw"></i>
 </div>
-

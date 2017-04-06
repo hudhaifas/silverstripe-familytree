@@ -41,8 +41,10 @@ class Person
         'Postfix' => 'Varchar(255)',
         // Birth
         'BirthDate' => 'Date',
+        'BirthPlace' => 'Varchar(255)',
         'BirthDateEstimated' => 'Boolean',
         'DeathDate' => 'Date',
+        'DeathPlace' => 'Varchar(255)',
         'DeathDateEstimated' => 'Boolean',
         'IsDead' => 'Boolean',
         // Notes
@@ -61,11 +63,13 @@ class Person
         'Photo' => 'Image',
         'Father' => 'Male',
         'Mother' => 'Female',
-        'Stats' => 'PersonStats',
+        'Stats' => 'PersonalStats',
     );
     private static $has_many = array(
         'Sons' => 'Male',
         'Daughters' => 'Female',
+        'Events' => 'PersonalEvent.Person',
+        'RelatedEvents' => 'PersonalEvent.RelatedPerson',
         'Suggestions' => 'Suggestion',
     );
     private static $many_many = array(
@@ -108,17 +112,13 @@ class Person
         $labels['Mother.Name'] = _t('Genealogist.MOTHER_NAME', 'Mother Name');
 
         $labels['Husband'] = _t('Genealogist.HUSBAND', 'Husband');
-        $labels['Husbands'] = _t('Genealogist.HUSBANDS', 'Husbands');
         $labels['Wife'] = _t('Genealogist.WIFE', 'Wife');
-        $labels['Wives'] = _t('Genealogist.WIVES', 'Wives');
-
-        $labels['Children'] = _t('Genealogist.CHILDREN', 'Children');
-        $labels['Sons'] = _t('Genealogist.SONS', 'Sons');
-        $labels['Daughters'] = _t('Genealogist.DAUGHTERS', 'Daughters');
 
         $labels['BirthDate'] = _t('Genealogist.BIRTHDATE', 'Birth Date');
+        $labels['BirthPlace'] = _t('Genealogist.BIRTHPLACE', 'Birth Place');
         $labels['BirthDateEstimated'] = _t('Genealogist.BIRTHDATE_ESTIMATED', 'Birth Date Estimated');
         $labels['DeathDate'] = _t('Genealogist.DEATHDATE', 'Death Date');
+        $labels['DeathPlace'] = _t('Genealogist.DEATHPLACE', 'Death Place');
         $labels['DeathDateEstimated'] = _t('Genealogist.DEATHDATE_ESTIMATED', 'Death Date Estimated');
         $labels['Age'] = _t('Genealogist.AGE', 'Age');
         $labels['IsDead'] = _t('Genealogist.ISDEAD', 'Is Dead');
@@ -130,28 +130,26 @@ class Person
         $labels['PublicFigure'] = _t('Genealogist.PUBLIC_FIGURE', 'Public Figure');
         $labels['IsPrivate'] = _t('Genealogist.IS_PRIVATE', 'Hide Information');
 
+        $labels['Tribe'] = _t('Genealogist.TRIBE', 'Tribe');
+
+        // Tabs
+        $labels['Children'] = _t('Genealogist.CHILDREN', 'Children');
+        $labels['Sons'] = _t('Genealogist.SONS', 'Sons');
+        $labels['Daughters'] = _t('Genealogist.DAUGHTERS', 'Daughters');
+        $labels['Husbands'] = _t('Genealogist.HUSBANDS', 'Husbands');
+        $labels['Wives'] = _t('Genealogist.WIVES', 'Wives');
         $labels['Suggestions'] = _t('Genealogist.SUGGESTIONS', 'Suggestions');
+        $labels['Events'] = _t('Genealogist.EVENTS', 'Events');
+        $labels['RelatedEvents'] = _t('Genealogist.RELATED_EVENTS', 'Related Events');
+        $labels['Collectables'] = _t('Genealogist.COLLECTABLES', 'Collectables');
+        $labels['Clans'] = _t('Genealogist.CLANS', 'Clans');
+
 
         return $labels;
     }
 
     public function getCMSFields() {
         $fields = parent::getCMSFields();
-
-        if ($field = $fields->fieldByName('Root.Main.BirthDate')) {
-            $field->setConfig('showcalendar', true);
-            $field->setConfig('dateformat', 'dd-MM-yyyy');
-        }
-
-        if ($field = $fields->fieldByName('Root.Main.DeathDate')) {
-            $field->setConfig('showcalendar', true);
-            $field->setConfig('dateformat', 'dd-MM-yyyy');
-        }
-
-        if ($field = $fields->fieldByName('Root.Main.Photo')) {
-            $field->getValidator()->setAllowedExtensions(array('jpg', 'jpeg', 'png', 'gif'));
-            $field->setFolderName("genealogist/photos");
-        }
 
         $fields->removeFieldFromTab('Root.Main', 'ParentID');
         $fields->removeFieldFromTab('Root.Main', 'IndexedName');
@@ -190,16 +188,7 @@ class Person
         $this->reorderField($fields, 'Postfix', 'Root.Main', 'Root.Main');
         $this->reorderField($fields, 'Note', 'Root.Main', 'Root.Main');
 
-        $datesTab = new Tab('DatesTab', _t('Genealogist.DATES', 'Dates'));
-        $fields->insertAfter('Main', $datesTab);
-        $this->reorderField($fields, 'BirthDate', 'Root.Main', 'Root.DatesTab');
-        $this->reorderField($fields, 'BirthDateEstimated', 'Root.Main', 'Root.DatesTab');
-        $this->reorderField($fields, 'DeathDate', 'Root.Main', 'Root.DatesTab');
-        $this->reorderField($fields, 'DeathDateEstimated', 'Root.Main', 'Root.DatesTab');
-        $this->reorderField($fields, 'IsDead', 'Root.Main', 'Root.DatesTab');
-        $fields->addFieldsToTab('Root.DatesTab', array(
-            ReadonlyField::create('Age', _t('Genealogist.AGE', 'Age'), $this->getAge())
-        ));
+        $this->getCMSEvents($fields);
 
         $this->reorderField($fields, 'FatherID', 'Root.Main', 'Root.Main');
         $this->reorderField($fields, 'MotherID', 'Root.Main', 'Root.Main');
@@ -215,6 +204,58 @@ class Person
         $this->reorderField($fields, 'Comments', 'Root.Main', 'Root.DetailsTab');
 
         return $fields;
+    }
+
+    protected function getCMSEvents(&$fields) {
+        if ($field = $fields->fieldByName('Root.Main.BirthDate')) {
+            $field->setConfig('showcalendar', true);
+            $field->setConfig('dateformat', 'dd-MM-yyyy');
+        }
+
+        if ($field = $fields->fieldByName('Root.Main.DeathDate')) {
+            $field->setConfig('showcalendar', true);
+            $field->setConfig('dateformat', 'dd-MM-yyyy');
+        }
+
+        if ($field = $fields->fieldByName('Root.Main.Photo')) {
+            $field->getValidator()->setAllowedExtensions(array('jpg', 'jpeg', 'png', 'gif'));
+            $field->setFolderName("genealogist/photos");
+        }
+
+        $datesTab = new Tab('DatesTab', _t('Genealogist.EVENTS', 'Events'));
+        $fields->insertAfter('Main', $datesTab);
+        $this->reorderField($fields, 'BirthDate', 'Root.Main', 'Root.DatesTab');
+        $this->reorderField($fields, 'BirthPlace', 'Root.Main', 'Root.DatesTab');
+        $this->reorderField($fields, 'BirthDateEstimated', 'Root.Main', 'Root.DatesTab');
+        $this->reorderField($fields, 'DeathDate', 'Root.Main', 'Root.DatesTab');
+        $this->reorderField($fields, 'DeathPlace', 'Root.Main', 'Root.DatesTab');
+        $this->reorderField($fields, 'DeathDateEstimated', 'Root.Main', 'Root.DatesTab');
+        $this->reorderField($fields, 'IsDead', 'Root.Main', 'Root.DatesTab');
+        $fields->addFieldsToTab('Root.DatesTab', array(
+            ReadonlyField::create('Age', _t('Genealogist.AGE', 'Age'), $this->getAge())
+        ));
+
+        if ($events = $fields->fieldByName('Root.Events.Events')) {
+            $fields->removeFieldFromTab('Root.Events', 'Events');
+            $fields->removeFieldFromTab('Root', 'Events');
+            $fields->addFieldToTab('Root.DatesTab', ToggleCompositeField::create(
+                            'EventsComposite', //
+                            _t('Genealogist.EVENTS', 'Events'), //
+                            $events
+                    )
+            );
+        }
+
+        if ($relatedEvents = $fields->fieldByName('Root.RelatedEvents.RelatedEvents')) {
+            $fields->removeFieldFromTab('Root.RelatedEvents', 'RelatedEvents');
+            $fields->removeFieldFromTab('Root', 'RelatedEvents');
+            $fields->addFieldToTab('Root.DatesTab', ToggleCompositeField::create(
+                            'EventsComposite', //
+                            _t('Genealogist.RELATED_EVENTS', 'Related Events'), //
+                            $relatedEvents
+                    )
+            );
+        }
     }
 
     protected function personConfigs($showFather = false, $showMother = true, $allowCreate = true) {
@@ -402,7 +443,7 @@ class Person
     }
 
     function EditLink($action = null) {
-        return FiguresPage::get()->first()->Link("edit/$this->ID");
+        return FiguresPage::get()->first()->Link("edit/$this->ID/$action");
     }
 
     function TreeLink($action = null) {
@@ -410,7 +451,8 @@ class Person
     }
 
     function ShowLink($action = null) {
-        return $this->personLink("show/$this->ID");
+        return FiguresPage::get()->first()->Link("show/$this->ID");
+//        return $this->personLink("show/$this->ID");
     }
 
     /// Getters ///
@@ -440,7 +482,7 @@ class Person
         $name = $this->getFirstName();
 
         if ($this->NickName) {
-            $name .= ' (' . $this->NickName . ')';
+            $name .= " ({$this->NickName})";
         }
 
         return $name;
@@ -450,13 +492,30 @@ class Person
      * Returns the person's full name
      * @return string
      */
-    public function getFullName() {
+    public function getFullName($withChildOf = false) {
         $name = $this->getPersonName();
         if (!$this->Father()->exists()) {
             return $name;
         }
 
-        return $name . ' ' . $this->Father()->getFullName();
+        if ($withChildOf) {
+            $childOf = $this->isFemale() ? _t('Genealogist.DAUGHTER_OF') : _t('Genealogist.SON_OF');
+            $name .= " {$childOf} {$this->Father()->getFullName()}";
+        } else {
+            $name .= " {$this->Father()->getFullName()}";
+        }
+
+        return $name;
+    }
+
+    /**
+     * Returns the person's brief name
+     * @return string
+     */
+    public function getBriefName() {
+        $name = $this->getPersonName();
+
+        return "{$name} {$this->getClanName()}{$this->getTribeName()}";
     }
 
     /**
@@ -465,11 +524,8 @@ class Person
      */
     public function getShortName() {
         $name = $this->getPersonName();
-        if (!$this->Father()->exists()) {
-            return $name;
-        }
 
-        return $name . ' ' . $this->Father()->getClanName();
+        return "{$name} {$this->getTribeName()}";
     }
 
     /**
@@ -477,12 +533,22 @@ class Person
      * @return string
      */
     public function getClanName() {
-        $name = $this->isClan() ? $this->getPersonName() : '';
+        $name = '';
         if (!$this->Father()->exists()) {
             return $name;
         }
 
-        return $name . ' ' . $this->Father()->getClanName();
+        return "{$name} {$this->Father()->getClanName()}";
+    }
+
+    public function getTribeName() {
+        $name = '';
+
+        if ($this->Father()->exists()) {
+            $name .= $this->Father()->getTribeName();
+        }
+
+        return $name;
     }
 
     /**
@@ -495,7 +561,7 @@ class Person
             return $name;
         }
 
-        return $name . ' ' . $this->Father()->toIndexName();
+        return "{$name} {$this->Father()->toIndexName()}";
     }
 
     /**
@@ -588,6 +654,14 @@ class Person
         return $this instanceof Clan;
     }
 
+    /**
+     * Checks if this person is a tribe
+     * @return boolean
+     */
+    public function isTribe() {
+        return $this instanceof Tribe;
+    }
+
     /// Counters ///
     /**
      * Counts the of all descendants
@@ -677,6 +751,19 @@ class Person
         return $this->Stats()->MaxYear;
     }
 
+    /// Events ///
+    public function getLifeEvents() {
+        return GenealogistEventsHelper::get_life_events($this);
+    }
+
+    public function getBirthEventDate() {
+        return GenealogistEventsHelper::get_birth_date($this);
+    }
+
+    public function getDeathEventDate() {
+        return GenealogistEventsHelper::get_death_date($this);
+    }
+
     /// Utils ///
     function reorderField($fields, $name, $fromTab, $toTab, $disabled = false) {
         $field = $fields->fieldByName($fromTab . '.' . $name);
@@ -750,42 +837,28 @@ class Person
         return $year == 0 ? null : $year;
     }
 
-    public function getDescendantsLeaves($males = 1, $malesSeed = 1, $females = 0, $femalesSeed = 0) {
-        if (isset($_GET['ancestral']) && $_GET['ancestral'] == 1) {
-            return $this->getAncestorsLeaves();
-        }
-
-        if (isset($_GET['m'])) {
-            $males = $_GET['m'];
-        }
-
-        if (isset($_GET['ms'])) {
-            $malesSeed = $_GET['ms'];
-        }
-
-        if ($this->hasPermission()) {
-            if (isset($_GET['f'])) {
-                $females = $_GET['f'];
-            }
-
-            if (isset($_GET['fs'])) {
-                $femalesSeed = $_GET['fs'];
-            }
-        }
-
-        $html = <<<HTML
-            <li class="{$this->CSSClasses()}" data-birth="{$this->CSSBirth()}" data-death="{$this->CSSDeath()}">
-                <a href="#" title="{$this->getFullName()}" data-url="{$this->InfoLink()}" class="info-item">{$this->getPersonName()}</a>
-                <ul>
-                    {$this->getChildrenLeaves($males, $malesSeed, $females, $femalesSeed)}
-                </ul>
-            </li>
-HTML;
-
-        return $html;
+    public function getAliasSummary() {
+        return $this->renderWith('Person_Alias');
     }
 
-    private function getChildrenLeaves($males = 1, $malesSeed = 1, $females = 0, $femalesSeed = 0) {
+    public function getDescendants() {
+        if (filter_input(INPUT_GET, 'ancestral') == 1) {
+            return $this->getAncestors();
+        }
+
+        return $this->renderWith('Person_Node_Descendants');
+    }
+
+    private function getAncestors() {
+        return $this->renderWith('Person_Node_Ancestors');
+    }
+
+    public function getDescendantsLeaves() {
+        $default1 = array('options' => array('default' => 1));
+
+        $males = filter_input(INPUT_GET, 'm', FILTER_VALIDATE_INT, $default1);
+        $malesSeed = filter_input(INPUT_GET, 'ms', FILTER_VALIDATE_INT, $default1);
+
         $html = '';
 
         if ($males && !$malesSeed) {
@@ -794,9 +867,18 @@ HTML;
             }
         } else if ($males && $malesSeed) {
             foreach ($this->Sons() as $child) {
-                $html .= $child->getDescendantsLeaves($males, $malesSeed, $females, $femalesSeed);
+                $html .= $child->getDescendants();
             }
         }
+
+        // Do NOT show daughters if no permission
+        if (!$this->hasPermission()) {
+            return $html;
+        }
+
+        $default0 = array('options' => array('default' => 0));
+        $females = filter_input(INPUT_GET, 'f', FILTER_VALIDATE_INT, $default0);
+        $femalesSeed = filter_input(INPUT_GET, 'fs', FILTER_VALIDATE_INT, $default0);
 
         if ($females && !$femalesSeed) {
             foreach ($this->Daughters() as $child) {
@@ -804,54 +886,35 @@ HTML;
             }
         } else if ($females && $femalesSeed) {
             foreach ($this->Daughters() as $child) {
-                $html .= $child->getDescendantsLeaves($males, $malesSeed, $females, $femalesSeed);
+                $html .= $child->getDescendants();
             }
         }
 
         return $html;
     }
 
-    private function getSelfLeaf() {
-        $html = <<<HTML
-            <li class="{$this->CSSClasses()}" data-birth="{$this->CSSBirth()}" data-death="{$this->CSSDeath()}">
-                <a href="#" title="{$this->getFullName()}" data-url="{$this->InfoLink()}" class="info-item">{$this->getPersonName()}</a>
-            </li>
-HTML;
-
-        return $html;
-    }
-
-    private function getAncestorsLeaves() {
-        $noFemales = !$this->hasPermission() && $this->isFemale();
-        $name = $this->getPersonName();
-        $title = $noFemales ? '' : $this->getFullName();
-
-        $html = <<<HTML
-            <li class="{$this->CSSClasses()}" data-birth="{$this->CSSBirth()}" data-death="{$this->CSSDeath()}">
-                <a href="#" title="{$title}" data-url="{$this->InfoLink()}" class="info-item">{$name}</a>
-                <ul>
-                    {$this->getParentsLeaves()}
-                </ul>
-            </li>
-HTML;
-
-        return $html;
-    }
-
-    private function getParentsLeaves() {
+    public function AncestorsLeaves() {
         $html = '';
 
         $father = $this->Father();
         if ($father && $father->exists()) {
-            $html .= $father->getAncestorsLeaves();
+            $html .= $father->getAncestors();
         }
 
         $mother = $this->Mother();
         if ($mother && $mother->exists()) {
-            $html .= $mother->getAncestorsLeaves();
+            $html .= $mother->getAncestors();
         }
 
         return $html;
+    }
+
+    private function getSelfLeaf() {
+        return $this->renderWith('Person_Node_Single');
+    }
+
+    public function isMalesOnly() {
+        return !$this->hasPermission() && $this->isFemale();
     }
 
     /// JSON for future work
@@ -907,6 +970,12 @@ HTML;
 
     public function getObjectTabs() {
         $lists = array();
+
+        $lists[] = array(
+            'Title' => _t('Genealogist.LIFESTORY', 'Life Story'),
+            'Content' => $this->renderWith('Person_Lifestory')
+        );
+
         $lists[] = array(
             'Title' => _t('Genealogist.FAMILY', 'Family'),
             'Content' => $this->renderWith('Person_Family')

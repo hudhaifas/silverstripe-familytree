@@ -1,0 +1,34 @@
+/*
+To change this license header, choose License Headers in Project Properties.
+To change this template file, choose Tools | Templates
+and open the template in the editor.
+*/
+/* 
+    Created on : Mar 14, 2017, 2:04:27 PM
+    Author     : hshatnawi
+*/
+/*@tree-w: 0;*/
+/* Basic styling */
+.chart-pane .left {
+  border-left: 2px solid #8e8c84;
+  border-right: 0;
+}
+.chart-pane .right {
+  border-left: 0;
+  border-right: 2px solid #8e8c84;
+}
+.navbar-collapse.collapse {
+  display: block!important;
+}
+.navbar-nav,
+.navbar-nav > li {
+  float: right !important;
+}
+.navbar-nav.navbar-right:last-child {
+  margin-left: -15px !important;
+  margin-right: auto;
+}
+.navbar-right {
+  float: left !important;
+}
+/*# sourceMappingURL=chart-rtl.css.map */
