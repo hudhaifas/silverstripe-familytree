@@ -16,6 +16,37 @@ jQuery(document).ready(function () {
 //    initIntro();
 });
 
+var showPerson = function (url) {
+    if (url === undefined) {
+        url = $(location).attr('href');
+    }
+    url = appendFilters(url);
+
+
+    var param = '&ajax=1';
+    var ajaxUrl = (url.indexOf(param) === -1) ? url + param : url;
+    var cleanUrl = url.replace(new RegExp(param + '$'), '');
+
+    $('#chart-loader').show();
+    $('#genealogy-tree').html('');
+
+    lockAll();
+    $('#tree-container').load(ajaxUrl, function () {
+        initTree();
+
+        window.history.pushState(
+                {url: cleanUrl},
+                document.title,
+                cleanUrl
+                );
+
+        $('#chart-loader').hide();
+
+        initFilters();
+        unlockAll();
+    });
+};
+
 var initTree = function () {
     var $kinship = $('#chart-list');
     var multiroot = $kinship.data('multiroot');
@@ -129,41 +160,6 @@ var appendFilters = function (url) {
     return uri.toString();
 };
 
-var showPerson = function (url) {
-
-    if (url === undefined) {
-        url = $(location).attr('href');
-    }
-    console.log('Animationg init!');
-    url = appendFilters(url);
-
-
-    var param = '&ajax=1';
-    var ajaxUrl = (url.indexOf(param) === -1) ? url + param : url;
-    var cleanUrl = url.replace(new RegExp(param + '$'), '');
-
-    $('#chart-loader').show();
-    $('#genealogy-tree').html('');
-
-    lockAll();
-    $('#tree-container').load(ajaxUrl, function () {
-        console.log('Pre init tree!');
-
-        initTree();
-
-        window.history.pushState(
-                {url: cleanUrl},
-                document.title,
-                cleanUrl
-                );
-
-        $('#chart-loader').hide();
-
-        initFilters();
-        unlockAll();
-    });
-};
-
 var centerNode = function ($node) {
     var $container = $('.chart-content-pane');
     var offset = {
@@ -177,35 +173,6 @@ var centerNode = function ($node) {
         offsetTop: offset.top,
         offsetLeft: offset.left
     });
-};
-
-/**
- *
- * @param {type} url
- * @returns {undefined}
- */
-var updateInfo = function (url) {
-    var param = '&ajax=1';
-    var ajaxUrl = (url.indexOf(param) === -1) ? url + param : url;
-
-    $('#info-loader').show();
-    $('#info-body').html('');
-    lockAll();
-
-    $('#info-card').load(ajaxUrl, function () {
-        bindAll();
-        $('#info-loader').hide();
-//        $('#collapse-info-btn').trigger('click');
-
-        unlockAll();
-    });
-};
-
-var hideInfoCard = function () {
-    $('.info-card').html('');
-    $('.info-card').removeClass('show');
-//    $('.info-card').hide();
-
 };
 
 var showInfoCard = function (src) {
@@ -262,6 +229,35 @@ var showInfoCard = function (src) {
     }
 
     $element.addClass('show');
+};
+
+var hideInfoCard = function () {
+    $('.info-card').html('');
+    $('.info-card').removeClass('show');
+//    $('.info-card').hide();
+
+};
+
+/**
+ *
+ * @param {type} url
+ * @returns {undefined}
+ */
+var updateInfo = function (url) {
+    var param = '&ajax=1';
+    var ajaxUrl = (url.indexOf(param) === -1) ? url + param : url;
+
+    $('#info-loader').show();
+    $('#info-body').html('');
+    lockAll();
+
+    $('#info-card').load(ajaxUrl, function () {
+        bindAll();
+        $('#info-loader').hide();
+//        $('#collapse-info-btn').trigger('click');
+
+        unlockAll();
+    });
 };
 
 var loadModal = function (url) {
