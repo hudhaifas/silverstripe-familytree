@@ -1,6 +1,6 @@
 <section class="tl-container <% if isFemale %>female<% end_if %>">
     <div class="tl-plain-block">
-        <p>Test test test</p>
+        <p></p>
     </div>
 
     <% loop LifeEvents %>
