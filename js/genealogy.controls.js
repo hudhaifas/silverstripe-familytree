@@ -75,11 +75,15 @@ var initFullScreen = function () {
     if ($fullscreenOnBtn && $fullscreenOffBtn) {
         $fullscreenOnBtn.click(function (event) {
             event.stopPropagation();
+            event.preventDefault();
+            
             $container.fullscreen();
         });
 
         $fullscreenOffBtn.click(function (event) {
             event.stopPropagation();
+            event.preventDefault();
+            
             $.fullscreen.exit();
         });
 
