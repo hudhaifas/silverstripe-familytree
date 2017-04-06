@@ -32,8 +32,8 @@ and open the template in the editor.
 }
 .info-card.show {
   visibility: visible;
-  width: 460px;
-  height: 220px;
+  width: 500px;
+  height: 280px;
   z-index: 999;
 }
 .info-card .card-controls {

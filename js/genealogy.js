@@ -199,8 +199,8 @@ var showInfoCard = function (src) {
         var nWidth = 64;
         var nHeight = 30;
 
-        var cardWidth = 420;
-        var cardHeight = 220;
+        var cardWidth = 500;
+        var cardHeight = 280;
 
         var rect = $node.position();
 
