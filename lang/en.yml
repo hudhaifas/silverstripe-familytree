@@ -39,6 +39,7 @@ en:
     CHILDREN: 'Children'
     SONS: 'Sons'
     DAUGHTERS: 'Daughters'
+    SONS_OF: 'Sons of'
     SON_OF: 'Son of'
     DAUGHTER_OF: 'Daughter of'
 

@@ -480,7 +480,7 @@ class Person
      */
     public function getAliasName() {
         $name = '';
-        
+
         if ($this->Prefix) {
             $name .= "{$this->Prefix} ";
         }
@@ -503,12 +503,22 @@ class Person
      */
     public function getFullName($withChildOf = true) {
         $name = $this->getPersonName();
+
+        if ($this->isMale() && $this->Tribe()->exists()) {
+            $name .= ' ' . $this->Tribe()->getTribeName();
+        }
+
         if (!$this->Father()->exists()) {
             return $name;
         }
 
         if ($withChildOf) {
-            $childOf = $this->isFemale() ? _t('Genealogist.DAUGHTER_OF') : _t('Genealogist.SON_OF');
+            $childOf = '';
+            if ($this->Father()->isClan()) {
+                $childOf = _t('Genealogist.SONS_OF');
+            } else {
+                $childOf = $this->isFemale() ? _t('Genealogist.DAUGHTER_OF') : _t('Genealogist.SON_OF');
+            }
             $name .= " {$childOf} {$this->Father()->getFullName()}";
         } else {
             $name .= " {$this->Father()->getFullName()}";

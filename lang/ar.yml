@@ -39,6 +39,7 @@ ar:
     CHILDREN: 'النسل'
     SONS: 'الأبناء'
     DAUGHTERS: 'البنات'
+    SONS_OF: 'آل'
     SON_OF: 'بن'
     DAUGHTER_OF: 'بنت'
 

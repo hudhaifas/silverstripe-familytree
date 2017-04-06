@@ -67,7 +67,7 @@ class Clan
      * @return string
      */
     public function getBriefName() {
-        return $this->getClanName() . $this->getTribeName();
+        return "{$this->getClanName()} {$this->getTribeName()}";
     }
 
     /**
@@ -75,12 +75,14 @@ class Clan
      * @return string
      */
     public function getClanName() {
-        $name = $this->getPersonName();
+        $childOf = _t('Genealogist.SONS_OF');
+        $name = "{$childOf} {$this->getPersonName()}";
+
         if (!$this->Father()->exists()) {
             return $name;
         }
 
-        return "{$name} " . $this->Father()->getClanName();
+        return "{$name} {$this->Father()->getClanName()}";
     }
 
     public function isObjectDisabled() {
