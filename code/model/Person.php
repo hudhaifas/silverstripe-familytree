@@ -491,7 +491,7 @@ class Person
         }
 
         if ($this->Postfix) {
-            $name = " {$this->Postfix}";
+            $name .= " {$this->Postfix}";
         }
 
         return $name;
