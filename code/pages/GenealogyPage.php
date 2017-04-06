@@ -155,7 +155,9 @@ class GenealogyPage_Controller
         $id = $this->getRequest()->param('ID');
         if (!$id) {
             return array(
-                'LandingPage' => true
+                'LandingPage' => true,
+                'RandClan' => $this->getClans()->sort('rand()')->first(),
+                'RandFigure' => $this->getFigures()->sort('rand()')->first()
             );
         }
 
@@ -444,6 +446,15 @@ HTML;
 
     public function getPerson($id) {
         return GenealogistHelper::get_person($id);
+    }
+
+    public function getFigures() {
+        return DataObject::get('Person')
+                        ->filterAny(array(
+                            'PublicFigure' => 1,
+                            'ClassName:StartsWith' => 'Clan',
+                            'ClassName:StartsWith' => 'Tribe',
+        ));
     }
 
     public function getRootClans() {
