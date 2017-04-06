@@ -193,7 +193,7 @@ en:
     EVENT_DATE: 'Event Date'
     EVENT_PLACE: 'Event Place'
     EVENT_TYPE: 'Event Type'
-    
+
     # Events Titles
     Birth_Self: 'Birth'
     Death_Self: 'Death'
@@ -263,3 +263,11 @@ en:
     TUTORIAL_PREV: "Prev"
     TUTORIAL_SKIP: "Skip"
     TUTORIAL_DONE: "Done"
+
+    # Home Page
+    FIND_RELATIVES: 'Find Relatives'
+    FIND_RELATIVES_CONTENT: 'Find Relatives'
+    FAMILY_TREE: 'Family Tree'
+    FAMILY_TREE_CONTENT: 'Family Tree'
+    LIFE_STORY: 'Life Story'
+    LIFE_STORY_CONTENT: 'Life Story'

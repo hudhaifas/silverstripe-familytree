@@ -109,7 +109,7 @@ class GenealogistEventsHelper {
         }
 
         if (!$eventDate) {
-            var_dump('Event must have a valid date');
+//            var_dump('Event must have a valid date');
             return;
         }
 
@@ -120,13 +120,13 @@ class GenealogistEventsHelper {
                 ))->first();
 
         if (!$event || !$event->exists()) {
-            var_dump('New record');
+//            var_dump('New record');
             $event = new PersonalEvent();
             $event->PersonID = $person->ID;
             $event->RelatedPersonID = $relative->ID;
             $event->EventType = $type;
         } else {
-            var_dump('Update record');
+//            var_dump('Update record');
         }
 
         $event->EventTitle = self::get_event_title($type, $relation);
@@ -248,7 +248,7 @@ class GenealogistEventsHelper {
             $content = self::generate_relatives_events_content($event, $person, $relative);
         }
 
-        var_dump($event->EventTitle . ': ' . $content);
+//        var_dump($event->EventTitle . ': ' . $content);
         return $content;
     }
 
