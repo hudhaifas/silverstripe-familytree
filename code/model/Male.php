@@ -97,7 +97,7 @@ class Male
         return $fields;
     }
 
-    public function getFullName($withChildOf = false) {
+    public function getFullName($withChildOf = true) {
         $name = $this->getPersonName();
 
         if ($this->Tribe()->exists()) {

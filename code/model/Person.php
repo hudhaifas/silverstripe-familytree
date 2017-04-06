@@ -479,10 +479,19 @@ class Person
      * @return string
      */
     public function getAliasName() {
-        $name = $this->getFirstName();
+        $name = '';
+        
+        if ($this->Prefix) {
+            $name .= "{$this->Prefix} ";
+        }
+        $name .= $this->getFirstName();
 
         if ($this->NickName) {
             $name .= " ({$this->NickName})";
+        }
+
+        if ($this->Postfix) {
+            $name = " {$this->Postfix}";
         }
 
         return $name;
@@ -492,7 +501,7 @@ class Person
      * Returns the person's full name
      * @return string
      */
-    public function getFullName($withChildOf = false) {
+    public function getFullName($withChildOf = true) {
         $name = $this->getPersonName();
         if (!$this->Father()->exists()) {
             return $name;
