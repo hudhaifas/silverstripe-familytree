@@ -75,11 +75,22 @@ class FiguresPage_Controller
     public function init() {
         parent::init();
 
+        Requirements::css("genealogist/css/vendors/jquery.modal.css");
         Requirements::css("genealogist/css/profile.css");
 
         if ($this->isRTL()) {
             Requirements::css("genealogist/css/profile-rtl.css");
         }
+
+        Requirements::javascript("genealogist/js/vendors/jquery.modal.js");
+        Requirements::javascript("genealogist/js/genealogy.ajax.js");
+        Requirements::customScript(<<<JS
+            jQuery(document).ready(function () {
+                rebindAjaxmodal();
+            });
+
+JS
+                );
     }
 
     protected function getObjectsList() {

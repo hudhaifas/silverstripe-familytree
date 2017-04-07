@@ -260,30 +260,3 @@ var updateInfo = function (url) {
     });
 };
 
-var loadModal = function (url) {
-    $.get(url, function (html) {
-//            console.log(html);
-        var $content = $(html);
-        $content.appendTo('body').modal({
-            body: '#tree-container',
-            closeText: '<span aria-hidden="true">×</span>',
-            closeClass: 'close',
-            fadeDuration: 400
-        });
-
-        $content.on($.modal.BEFORE_OPEN, function (event, modal) {
-            $('.ajax-modal-nested').click(function (event) {
-                event.preventDefault();
-                loadModal(this.href);
-            });
-            $("body").addClass("modal-open");
-        });
-
-        $content.on($.modal.AFTER_CLOSE, function (event, modal) {
-            $content.remove();
-            $("body").removeClass("modal-open")
-        });
-
-        rebindAutocomplete();
-    });
-};

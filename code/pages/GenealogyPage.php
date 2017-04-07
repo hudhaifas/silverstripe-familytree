@@ -147,6 +147,7 @@ class GenealogyPage_Controller
         Requirements::javascript("genealogist/js/jquery.jOrgChart.js");
         Requirements::javascript("genealogist/js/genealogy.timeline.js");
         Requirements::javascript("genealogist/js/genealogy.controls.js");
+        Requirements::javascript("genealogist/js/genealogy.ajax.js");
         Requirements::javascript("genealogist/js/genealogy.js");
     }
 
