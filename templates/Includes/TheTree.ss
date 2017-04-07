@@ -13,6 +13,7 @@
     $Tree
 </ul>
 
+<% end_if %>
 
 <div style="display: none;">
     <% if ShowTimeline %>
@@ -23,9 +24,9 @@
 
     <% include TheTree_Controls %>
 </div>
-<% end_if %>
 
 <div id="chart-container"></div>
+
 <div id="chart-loader" class="ajax-loader">
     <span></span>
     <i class="fa fa-spinner fa-pulse fa-4x fa-fw"></i>

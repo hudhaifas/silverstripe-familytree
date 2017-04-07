@@ -284,5 +284,6 @@ var loadModal = function (url) {
             $("body").removeClass("modal-open")
         });
 
+        rebindAutocomplete();
     });
 };
