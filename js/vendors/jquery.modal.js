@@ -32,6 +32,10 @@
   $.modal = function(el, options) {
     var remove, target;
     this.$body = $(options.body);
+    if(!this.$body.length) {
+        this.$body = $('body');
+    }
+
     this.options = $.extend({}, $.modal.defaults, options);
     this.options.doFade = !isNaN(parseInt(this.options.fadeDuration, 10));
     this.$blocker = null;
