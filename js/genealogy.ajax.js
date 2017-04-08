@@ -54,6 +54,7 @@ var rebindAutocomplete = function () {
 
 };
 
+
 var loadModal = function (url) {
     $.get(url, function (html) {
 //            console.log(html);

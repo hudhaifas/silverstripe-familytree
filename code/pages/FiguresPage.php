@@ -82,6 +82,9 @@ class FiguresPage_Controller
             Requirements::css("genealogist/css/profile-rtl.css");
         }
 
+        Requirements::css(THIRDPARTY_DIR . '/jquery-ui-themes/smoothness/jquery-ui.css');
+        Requirements::javascript(THIRDPARTY_DIR . '/jquery-ui/jquery-ui.js');
+
         Requirements::javascript("genealogist/js/vendors/jquery.modal.js");
         Requirements::javascript("genealogist/js/genealogy.ajax.js");
         Requirements::customScript(<<<JS
@@ -90,7 +93,7 @@ class FiguresPage_Controller
             });
 
 JS
-                );
+        );
     }
 
     protected function getObjectsList() {

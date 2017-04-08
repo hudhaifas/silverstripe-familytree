@@ -1,0 +1,13 @@
+.modal {
+  text-align: right;
+}
+.modal a.close-modal {
+  left: 8px;
+  right: auto;
+}
+@media (max-width: 979px) {
+  .blocker .modal .panel-heading {
+    padding: 8px 8px 8px 20px;
+  }
+}
+/*# sourceMappingURL=modal-rtl.css.map */

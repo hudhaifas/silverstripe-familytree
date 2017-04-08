@@ -8,7 +8,7 @@
   max-width: 1200px;
   vertical-align: top;
   width: auto;
-  z-index: 3;
+  /*z-index: 3;*/
   text-align: center;
   margin: 0 auto;
   font-size: 18px;
@@ -31,7 +31,8 @@
   vertical-align: middle;
   text-align: left;
   width: 100%;
-  margin-left: 168px;
+  /*margin-left: (@user-picture-size + 8px);*/
+  padding-left: 168px;
 }
 .user-header .user-card .user-brief .user-title {
   font-size: 22px;
@@ -54,7 +55,8 @@
   }
   .user-header .user-card .user-brief {
     display: block;
-    margin: 12px auto;
+    /*margin: 12px auto;*/
+    padding: 12px 0;
     text-align: center;
   }
   .user-header .user-card .user-brief .user-title {
@@ -275,5 +277,106 @@
   .tl-ball .tl-ball-content .tl-ball-text {
     display: none;
   }
+}
+/*
+To change this license header, choose License Headers in Project Properties.
+To change this template file, choose Tools | Templates
+and open the template in the editor.
+*/
+/* 
+    Created on : Mar 14, 2017, 2:04:27 PM
+    Author     : hshatnawi
+*/
+/*@tree-w: 0;*/
+/* Layout */
+body.modal-open {
+  overflow: hidden;
+}
+.modal {
+  background: #fff;
+  color: #111;
+  border: 0;
+  padding: 0;
+  cursor: auto;
+  border: 1px solid transparent;
+  border-color: #8e8c84;
+  border-radius: 4px;
+  /*box-shadow: inset 0 1px 1px rgba(0,0,0,.075);*/
+  box-shadow: 0 0 9px rgba(0, 0, 0, 0.16);
+}
+.modal > .panel-heading {
+  background: transparent;
+  border: 0;
+}
+.modal a.close-modal {
+  top: 8px;
+  right: 8px;
+  background: none;
+  width: auto;
+  height: auto;
+  text-indent: initial;
+}
+@media (max-width: 979px) {
+  .blocker {
+    padding: 10px;
+  }
+  .blocker .modal {
+    width: auto;
+    max-width: none;
+  }
+  .blocker .modal .panel-heading {
+    padding: 8px 20px 8px 8px;
+  }
+  .blocker .modal .panel-body {
+    padding: 8px;
+  }
+}
+/* Autocomplete */
+.ui-autocomplete {
+  max-width: 240px;
+  max-height: 360px;
+  overflow-y: auto;
+}
+.ui-autocomplete li {
+  color: black;
+}
+.ui-autocomplete li:nth-child(odd) {
+  background: #fefefe;
+}
+.ui-autocomplete li:nth-child(even) {
+  background: #efefef;
+}
+.ui-autocomplete li.ui-menu-item a {
+  margin: -1px;
+  border: 1px solid transparent;
+  font-weight: normal;
+}
+input[type="text"].autocomplete {
+  max-height: 240px;
+  overflow-x: hidden;
+  overflow-y: auto;
+  display: block;
+  width: 100%;
+  height: 34px;
+  padding: 6px 12px;
+  font-size: 14px;
+  line-height: 1.42857143;
+  color: #555;
+  background-color: #fff;
+  background-image: none;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  -webkit-box-shadow: inset 0 1px 1px rgba(0, 0, 0, 0.075);
+  box-shadow: inset 0 1px 1px rgba(0, 0, 0, 0.075);
+  -webkit-transition: border-color ease-in-out 0.15s, -webkit-box-shadow ease-in-out 0.15s;
+  -o-transition: border-color ease-in-out 0.15s, box-shadow ease-in-out 0.15s;
+  transition: border-color ease-in-out 0.15s, box-shadow ease-in-out 0.15s;
+  /** sorry about the !important but the specificity of other selectors mandates it over writing out very specific selectors **/
+}
+input[type="text"].autocomplete.ui-autocomplete-loading {
+  background-image: url(../images/loading.gif) !important;
+  background-position: 2% center !important;
+  background-repeat: no-repeat !important;
+  background-size: auto !important;
 }
 /*# sourceMappingURL=profile.css.map */

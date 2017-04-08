@@ -4,6 +4,7 @@
     </div>
 
     <% loop LifeEvents %>
+    <% if RelatedPerson.isMale || RelatedPerson.hasPermission %>
     <div class="tl-block $EventType">
         <div class="tl-ball">
             <div class="tl-ball-content">
@@ -29,5 +30,6 @@
             <% end_if %>
         </div>
     </div>
+    <% end_if %>
     <% end_loop %>
 </section>
