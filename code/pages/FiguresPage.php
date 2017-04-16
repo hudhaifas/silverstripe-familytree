@@ -306,14 +306,16 @@ JS
         $fields = new FieldList(
                 HiddenField::create('PersonID', 'PersonID', $id), //
                 AutoPersonField::create(
-                        'FatherID', //
-                        _t('Genealogist.FATHER', 'Father'), //
-                        '', //
-                        null, //
-                        null, //
-                        'Male', //
-                        array('IndexedName', 'Name', 'NickName') //
-                )->setSourceSort('CHAR_LENGTH(IndexedName) ASC')
+                                'FatherID', //
+                                _t('Genealogist.FATHER', 'Father'), //
+                                '', //
+                                null, //
+                                null, //
+                                'Male', //
+                                array('IndexedName', 'Name', 'NickName') //
+                        )
+                        ->setSourceSort('CHAR_LENGTH(IndexedName) ASC')
+                        ->setLimit(20)
         );
 
         // Create action
