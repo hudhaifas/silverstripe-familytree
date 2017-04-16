@@ -162,7 +162,6 @@ class GenealogyPage_Controller
             );
         }
 
-
         if ($request->isAjax()) {
             $other = $this->getRequest()->param('Other');
 
