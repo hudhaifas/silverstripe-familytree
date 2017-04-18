@@ -260,7 +260,7 @@ class Person
 
     protected function personConfigs($showFather = false, $showMother = true, $allowCreate = true) {
         $config = GridFieldConfig::create();
-        $config->addComponent(new GridFieldPaginator(15));
+        $config->addComponent(new GridFieldPaginator(25));
         $config->addComponent(new GridFieldButtonRow('before'));
         $config->addComponent(new GridFieldToolbarHeader());
         $config->addComponent(new GridFieldTitleHeader());
