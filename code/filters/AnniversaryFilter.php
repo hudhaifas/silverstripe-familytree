@@ -39,7 +39,7 @@ class AnniversaryFilter
         $monthClause = 'MONTH(' . $this->getDbName() . ')';
 
         $date = $this->getDate();
-
+        var_dump($date['d'] . '/'. $date['m']);
         return $query->where(array(
                     $dayClause => $date['d'],
                     $monthClause => $date['m'],

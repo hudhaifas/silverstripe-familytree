@@ -405,4 +405,41 @@ class GenealogistEventsHelper {
         return $content;
     }
 
+    /// Filters ///
+    public static function get_events_today($type, $date, $precision) {
+        return self::get_filtered_events('Anniversary', $type, $date, $precision);
+    }
+
+    public static function get_events_this_year($type, $date, $precision) {
+        return self::get_filtered_events('Annual', $type, $date, $precision);
+    }
+
+    public static function get_today_date() {
+        $today = new Date();
+        $time = SS_Datetime::now()->Format('U');
+        $today->setValue($time);
+
+        return $today->Nice();
+    }
+
+    public static function get_filtered_events($filter = 'Anniversary', $type = 'Birth', $date = null, $precision = 'Accurate') {
+//        var_dump($type);
+//        var_dump($filter);
+//        var_dump($date);
+//        var_dump($precision);
+
+        if (!$date) {
+            $date = self::get_today_date();
+        }
+
+        $events = DataObject::get('PersonalEvent')->filter(array(
+            'EventDate:' . $filter => $date,
+            'EventType' => $type,
+            'EventTitle:EndsWith' => 'Self',
+            'DatePrecision' => $precision,
+        ));
+
+        return $events;
+    }
+
 }

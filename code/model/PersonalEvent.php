@@ -12,7 +12,8 @@
  * @version 1.0, Mar 27, 2017 - 1:33:25 PM
  */
 class PersonalEvent
-        extends DataObject {
+        extends DataObject
+        implements SingleDataObject {
 
     private static $db = array(
         'EventTitle' => 'Varchar(255)',
@@ -108,6 +109,35 @@ class PersonalEvent
             $value = $date->format('Y');
         }
         return $value;
+    }
+
+    public function getObjectImage() {
+        return $this->Person()->Photo();
+    }
+
+    public function getObjectLink() {
+        return $this->Person()->getObjectLink();
+    }
+
+    public function getObjectRelated() {
+        return null;
+    }
+
+    public function getObjectSummary() {
+        return null;
+    }
+
+    public function getObjectTabs() {
+        return null;
+    }
+
+    public function getObjectTitle() {
+//        return $this->getTitle();
+        return $this->EventType . ' ' . $this->Person()->getFullName();
+    }
+
+    public function isObjectDisabled() {
+        return $this->Person()->IsPrivate || !($this->Person()->PublicFigure || $this->Person()->hasPermission());
     }
 
 }
