@@ -36,28 +36,37 @@ class EventsPage_Controller
     }
 
     protected function getObjectsList() {
-        $filter = filter_input(INPUT_GET, 'f');
-        $type = filter_input(INPUT_GET, 't');
+//        $filter = filter_input(INPUT_GET, 'f');
+//        $type = filter_input(INPUT_GET, 't');
+//        $date = filter_input(INPUT_GET, 'd');
+//        $precision = filter_input(INPUT_GET, 'p');
+//
+        return null;
+    }
+
+    public function Anniversaries($title, $type) {
         $date = filter_input(INPUT_GET, 'd');
-        $precision = filter_input(INPUT_GET, 'p');
 
-//        if ($this->hasPermission()) {
-//            return DataObject::get('PersonalEvent')
-//                            ->sort('RAND()');
-//        } else {
-//            return DataObject::get('PersonalEvent')
-//                            ->filterAny(array(
-//                                'PublicFigure' => 1,
-//                                'ClassName:StartsWith' => 'Clan',
-//                                'ClassName:StartsWith' => 'Tribe',
-//                            ))
-//                            ->sort('IndexedName ASC');
-//        }
+        $results = GenealogistEventsHelper::get_events_today($type, $date);
 
-//        return GenealogistEventsHelper::get_events_this_year($type, $date, $precision);
-        return GenealogistEventsHelper::get_filtered_events($filter, $type, $date, $precision);
+        return $results->Count() ? $this->EventsList($title, $results) : null;
+    }
 
-//        return null;
+    public function Annuals($title, $type) {
+        $date = filter_input(INPUT_GET, 'd');
+
+        $results = GenealogistEventsHelper::get_events_this_year($type, $date);
+
+        return $results->Count() ? $this->EventsList($title, $results) : null;
+    }
+
+    public function EventsList($title, $lis) {
+        return $this
+                        ->customise(array(
+                            'ListTitle' => _t('Genealogist.' . $title, ''),
+                            'Results' => $lis
+                        ))
+                        ->renderWith('Event_List');
     }
 
     protected function getPageLength() {

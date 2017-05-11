@@ -219,6 +219,12 @@ ar:
     Birth_HalfSister: 'ولادة أخت'
     Death_HalfSister: 'وفاة أخت'
 
+    # Events Types
+    BORN_TODAY: 'ولد في مثل هذا اليوم'
+    DIED_TODAY: 'توفي في مثل هذا اليوم'
+    BORN_THIS_YEAR: 'مواليد هذا العام'
+    DIED_THIS_YEAR: 'وفيات هذه السنة'
+        
     # Events Contents
     IN_AGE: '؛ بعمر {age} سنة'
     IN_PLACE: '، في {place}'

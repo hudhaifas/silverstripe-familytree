@@ -124,7 +124,7 @@ class PersonalEvent
     }
 
     public function getObjectSummary() {
-        return null;
+        return $this->Person()->getObjectSummary();
     }
 
     public function getObjectTabs() {
@@ -133,11 +133,16 @@ class PersonalEvent
 
     public function getObjectTitle() {
 //        return $this->getTitle();
-        return $this->EventType . ' ' . $this->Person()->getFullName();
+//        return $this->EventType . ' ' . $this->Person()->getFullName();
+        return $this->Person()->getFullName();
     }
 
     public function isObjectDisabled() {
-        return $this->Person()->IsPrivate || !($this->Person()->PublicFigure || $this->Person()->hasPermission());
+        if($this->Person()->PublicFigure || $this->Person()->hasPermission()){
+            return false;
+        }
+        return $this->Person()->IsPrivate;
+//        return $this->Person()->IsPrivate || !($this->Person()->PublicFigure || $this->Person()->hasPermission());
     }
 
 }

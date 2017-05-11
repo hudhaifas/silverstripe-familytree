@@ -406,11 +406,11 @@ class GenealogistEventsHelper {
     }
 
     /// Filters ///
-    public static function get_events_today($type, $date, $precision) {
+    public static function get_events_today($type = 'Birth', $date = null, $precision = 'Accurate') {
         return self::get_filtered_events('Anniversary', $type, $date, $precision);
     }
 
-    public static function get_events_this_year($type, $date, $precision) {
+    public static function get_events_this_year($type = 'Birth', $date = null, $precision = 'Accurate') {
         return self::get_filtered_events('Annual', $type, $date, $precision);
     }
 

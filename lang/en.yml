@@ -219,6 +219,12 @@ en:
     Birth_HalfSister: 'Birth of Half Sister'
     Death_HalfSister: 'Death of Half Sister'
 
+    # Events Types
+    BORN_TODAY: 'Born on this day'
+    DIED_TODAY: 'Died on this day'
+    BORN_THIS_YEAR: 'Born in this year'
+    DIED_THIS_YEAR: 'Died in this year'
+        
     # Events Contents
     IN_AGE: ', age {age}'
     IN_PLACE: ' in {place}'
