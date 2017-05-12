@@ -116,7 +116,9 @@ JS
     }
 
     protected function searchObjects($list, $keywords) {
-        return GenealogistSearchHelper::search_objects($list, $keywords);
+        $pieces = GenealogistSearchHelper::explode_keywords($keywords);
+
+        return GenealogistSearchHelper::search_objects($list, $pieces['NameSeries'], $pieces['ClanID']);
     }
 
     /**

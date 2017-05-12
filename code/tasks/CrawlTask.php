@@ -126,11 +126,11 @@ class CrawlTask
     private function indexStats($person) {
         if ($person->Stats()->exists() || $person->StatsID) {
             $stats = $person->Stats();
-            $this->println('Updating the stats of: ' . $person->Name);
+//            $this->println('Updating the index of : ' . $person->Name . '...');
             echo '.';
         } else {
             $stats = new PersonalStats();
-            $this->println('Indexing the stats of: ' . $person->Name);
+//            $this->println('Indexing: ' . $person->Name . '...');
             echo '.';
         }
 
@@ -144,6 +144,10 @@ class CrawlTask
         $stats->LiveMales = GenealogistHelper::count_males($person, 1);
         $stats->LiveFemales = GenealogistHelper::count_females($person, 1);
         $stats->LiveTotal = GenealogistHelper::count_descendants($person, 1);
+
+        $ancestors = GenealogistHelper::get_ancestors_ids($person);
+        $person->IndexedAncestors = '|' . implode("|", $ancestors) . '|';
+
         $stats->PersonID = $person->ID;
         $stats->write();
 

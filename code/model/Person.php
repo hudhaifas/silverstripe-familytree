@@ -56,6 +56,7 @@ class Person
         'IsPrivate' => 'Boolean',
         // Indexing
         'IndexedName' => 'Text',
+        'IndexedAncestors' => 'Text',
         // Order
         'ChildOrder' => 'Int'
     );

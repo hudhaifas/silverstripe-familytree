@@ -189,6 +189,42 @@ class GenealogistHelper {
     }
 
     /**
+     * Returns a list of all fathers ID's
+     *
+     * @param Person $person
+     */
+    public static function get_ancestors_ids($person) {
+        $stack = array();
+        array_push($stack, $person);
+
+        $ancestors_ids = array();
+
+        while ($stack) {
+            $p = array_pop($stack);
+
+            if (in_array($p->ID, $ancestors_ids)) {
+                continue;
+            }
+
+            $ancestors_ids[] = $p->ID;
+
+            $father = $p->Father();
+            if ($father && $father->exists()) {
+                array_push($stack, $father);
+            }
+
+            if ($p->isMale()) {
+                $tribe = $p->Tribe();
+                if ($tribe && $tribe->exists()) {
+                    array_push($stack, $tribe);
+                }
+            }
+        }
+
+        return $ancestors_ids;
+    }
+
+    /**
      * Returns a list of all ancestors ID's
      *
      * @param array $ancestors1 ancestors list of a person
@@ -366,7 +402,7 @@ class GenealogistHelper {
             switch ($state) {
                 case self::$STATE_ALIVE:
 //                    $count += !$child->IsDead && !$child->isClan() ? 1 : 0;
-                    $count +=!$child->IsDead ? 1 : 0;
+                    $count += !$child->IsDead ? 1 : 0;
                     break;
 
                 case self::$STATE_DEAD:
@@ -401,7 +437,7 @@ class GenealogistHelper {
         foreach ($person->Daughters() as $child) {
             switch ($state) {
                 case self::$STATE_ALIVE:
-                    $count +=!$child->IsDead ? 1 : 0;
+                    $count += !$child->IsDead ? 1 : 0;
                     break;
 
                 case self::$STATE_DEAD:

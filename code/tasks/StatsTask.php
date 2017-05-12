@@ -87,6 +87,10 @@ class StatsTask extends BuildTask {
         $stats->LiveMales = GenealogistHelper::count_males($person, 1);
         $stats->LiveFemales = GenealogistHelper::count_females($person, 1);
         $stats->LiveTotal = GenealogistHelper::count_descendants($person, 1);
+        
+        $ancestors = GenealogistHelper::get_ancestors_ids($person);
+        $person->IndexedAncestors = '|' . implode("|", $ancestors) . '|';
+        
         $stats->PersonID = $person->ID;
         $stats->write();
 

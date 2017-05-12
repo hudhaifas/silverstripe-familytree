@@ -17,20 +17,24 @@ class GenealogistSearchHelper {
     private static $all_names = array(
         // Similar names
         'سالم', 'سليم', 'سليمان', 'سلمان', 'مسلم',
+        'عايد', 'عواد', 'عيد', 'عويد', 'عودة',
         'موسى', 'عيسى',
-        'سعيد', 'سعد', 'مسعد', 'سعدى', 'سعدي',
+        'سعيد', 'سعد', 'مسعد', 'سعدى', 'سعدي', 'سعاد',
         'محسن', 'حسان',
         'فالح', 'مفلح', 'فليح', 'فلاح',
-        'ناجي', 'راجي', 
-         'حمود', 'حمد', 'حمدان', 'حميدان', 'حميد',
-        'رشيد', 'رشدة', 'ارشيد', 'الرشدان', 'رشدي', 'رشوان', 'فواز', '', '', '', '', '', '', '',
+        'صالح', 'مصلح', 'صلاح',
+        'ناجي', 'راجي',
+        'حمود', 'حمد', 'حمدان', 'حميدان', 'حميد',
+        'رشيد', 'رشدة', 'ارشيد', 'الرشدان', 'رشدي', 'رشوان', 'فواز',
         // Weird names
-        'شهرزاد', 'فريال', 
+        'شهرزاد', 'فريال',
         // Males names
         // Femous names
         'محمد', 'محمود', 'حامد', 'حسن', 'حسين', 'مصطفى',
         // starts with ء
         'أحمد', 'أمجد', 'أسعد', 'إبراهيم', 'إسماعيل', 'أدهم', 'أوس', 'أمير', 'إدريس', 'إقبال', 'آدم', 'أشرف', 'أنس',
+        // starts with ا
+        'إرحيل', 'رحيل', 'إرحيلة', 'رحيلة',
         // ends with ء
         'علاء', 'بهاء',
         // ends with الدين
@@ -50,21 +54,23 @@ class GenealogistSearchHelper {
         // ends with ء
         'غيداء', 'شفاء', 'صفاء', 'فداء', 'رجاء', 'آلاء', 'نداء', 'هنا', 'هناء', 'شيماء', 'علياء',
         // ends with ا
-        'شما', 'عليا', 'فضا', 'سميا', 'صبحا', 'فلحا', 
+        'شما', 'عليا', 'فضا', 'سميا', 'صبحا', 'فلحا',
         // ends with ى
         'سلمى', 'سلوى',
         // with ة
         'سكينة', 'نجاة', 'ناجية', 'خولة', 'بسمة', 'عشبة', 'شيخة', 'نصرة', 'شريفة', 'فاطمة', 'سالمة', 'حاجة', 'حياة', 'سميرة', 'بديوية', 'زانة', 'رية', 'جهينة', 'سمية',
-        'فلحة', 'ربيعة', 'طردة', 'رحيلة', 'زغندة', 'كرمة', 'بدرة', 'طولة', 'طلة', 'قطنة', 'حسنة', 'فندية', 'شمسية', 'عائشة', 'عيشة', 
-        //
+        'فلحة', 'ربيعة', 'طردة', 'رحيلة', 'زغندة', 'كرمة', 'بدرة', 'طولة', 'طلة', 'قطنة', 'حسنة', 'فندية', 'شمسية', 'عائشة', 'عيشة',
+            //
 //        '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '',
     );
 
 //    private static $sort = 'IndexedName ASC';
 
-    public static function search_objects($list, $keywords) {
-        $r1 = self::search_round($list, $keywords);
-        
+    public static function search_objects($list, $keywords, $parentID = null) {
+        $parenKey = '|' . $parentID . '|';
+
+        $r1 = self::search_round($list, $keywords, $parenKey);
+
         $words = explode(" ", $keywords);
         $newQuery = '';
         foreach ($words as $input) {
@@ -74,7 +80,7 @@ class GenealogistSearchHelper {
 //        $keywords = self::words_ends_with($keywords, array("ة", "ه", "ى", "ئ", "ء"));
 //        $keywords = self::words_starts_with($keywords, array("أ", "إ", "آ", "ا"));
 
-        $r2 = self::search_round($list, $newQuery);
+        $r2 = self::search_round($list, $newQuery, $parenKey);
 
         $results = self::merge($r1, $r2);
 
@@ -95,16 +101,22 @@ class GenealogistSearchHelper {
         return $results;
     }
 
-    private static function search_round($list, $keywords) {
-        $r1 = $list->filterAny(array(
-                    'IndexedName:StartsWith' => $keywords,
-                ))->sort(self::$sort);
-
-        $r2 = $list->filterAny(array(
-                    'IndexedName:PartialMatch' => $keywords,
-                ))->sort(self::$sort);
+    private static function search_round($list, $keywords, $parentID = null) {
+        $r1 = $list->filter(self::get_filters_array('StartsWith', $keywords, $parentID))->sort(self::$sort);
+        $r2 = $list->filter(self::get_filters_array('PartialMatch', $keywords, $parentID))->sort(self::$sort);
 
         return self::merge($r1, $r2);
+    }
+
+    private static function get_filters_array($filter, $keywords, $parentID = null) {
+        $filters = array();
+
+        $filters['IndexedName:' . $filter] = $keywords;
+        if ($parentID && $parentID != '||') {
+            $filters['IndexedAncestors:PartialMatch'] = $parentID;
+        }
+
+        return $filters;
     }
 
     private static function words_starts_with($keywords, $vowels) {
@@ -176,7 +188,7 @@ class GenealogistSearchHelper {
                 $shortest = $lev;
             }
         }
-        
+
         return $closest;
     }
 
@@ -198,6 +210,47 @@ class GenealogistSearchHelper {
         }
 
         return (substr($word, -$length) === $needle);
+    }
+
+    public static function get_all_descendants($parent) {
+        if ($parent instanceof Person) {
+            $parent = $parent->ID;
+        }
+
+        $key = '|' . $parent . '|';
+
+        $descendants = DataObject::get('Person')->filter(array(
+            'IndexedAncestors:PartialMatchFilter' => $key
+        ));
+
+        return $descendants;
+    }
+
+    public static function explode_keywords($keywords) {
+        $pieces = 0;
+//        preg_match_all("/\\(([^)]*)\\)/", $keywords, $pieces);
+        preg_match_all('/"([^"]+)"/', $keywords, $pieces);
+//        print_r($pieces);
+//        die();
+        $clanName = $pieces[1];
+
+        $nameSeries = str_replace($pieces[0], "", $keywords);
+
+        $clan = DataObject::get('Clan')->filter(array('Name' => $clanName))->first();
+        $clanID = null;
+
+        if ($clan) {
+//            var_dump($clanName);
+//            var_dump($clan->Name);
+            $clanID = $clan->ID;
+        }
+
+//        var_dump($nameSeries);
+
+        return array(
+            'ClanID' => $clanID,
+            'NameSeries' => $nameSeries,
+        );
     }
 
 }
