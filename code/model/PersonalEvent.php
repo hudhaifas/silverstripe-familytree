@@ -114,7 +114,9 @@ class PersonalEvent
     public function getObjectImage() {
         return $this->Person()->Photo();
     }
-
+    public function getObjectDefaultImage() {
+        return $this->Person()->getObjectDefaultImage();
+    }
     public function getObjectLink() {
         return $this->Person()->getObjectLink();
     }

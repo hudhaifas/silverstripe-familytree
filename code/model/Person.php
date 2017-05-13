@@ -975,6 +975,10 @@ class Person
         return $this->Photo();
     }
 
+    public function getObjectDefaultImage() {
+        return "genealogist/images/default-person.png";
+    }
+
     public function getObjectLink() {
         return FiguresPage::get()->first()->Link("show/$this->ID");
     }

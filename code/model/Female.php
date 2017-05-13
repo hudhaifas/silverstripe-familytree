@@ -30,7 +30,8 @@
  * @author Hudhaifa Shatnawi <hudhaifa.shatnawi@gmail.com>
  * @version 1.0, Nov 2, 2016 - 11:05:49 AM
  */
-class Female extends Person {
+class Female
+        extends Person {
 
     private static $db = array(
         // Order
@@ -75,7 +76,7 @@ class Female extends Person {
 
         // Sons
         $config = $this->personConfigs(true, false, false);
-        
+
         $field = $fields->fieldByName('Root.Sons.Sons');
         $field->setConfig($config);
 
@@ -100,6 +101,10 @@ class Female extends Person {
      */
     public function getFirstName() {
         return $this->hasPermission() ? $this->Name : _t('Genealogist.HIDDEN', 'Hidden');
+    }
+
+    public function getObjectDefaultImage() {
+        return "genealogist/images/default-female.png";
     }
 
 }

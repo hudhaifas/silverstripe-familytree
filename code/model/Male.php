@@ -111,4 +111,8 @@ class Male
         return $name;
     }
 
+    public function getObjectDefaultImage() {
+        return "genealogist/images/default-male.png";
+    }
+
 }
