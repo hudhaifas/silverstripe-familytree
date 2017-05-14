@@ -51,6 +51,8 @@ var initTree = function () {
     var $kinship = $('#chart-list');
     var multiroot = $kinship.data('multiroot');
     var collapsible = $kinship.data('collapsible');
+    var pageTitle = $kinship.data('title');
+    $(document).prop('title', pageTitle);
 
     $kinship.jOrgChart({
         chartElement: '#chart-container',

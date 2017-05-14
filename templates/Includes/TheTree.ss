@@ -9,7 +9,7 @@
 -->
 
 <% if $Tree %>
-<ul id="chart-list" style="display:none;" data-multiroot="{$MultiRoot}" data-collapsible="{$Collapsible}">
+<ul id="chart-list" style="display:none;" data-multiroot="{$MultiRoot}" data-collapsible="{$Collapsible}" data-title="$PageTitle">
     $Tree
 </ul>
 

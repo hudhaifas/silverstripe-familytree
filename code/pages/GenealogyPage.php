@@ -215,11 +215,22 @@ class GenealogyPage_Controller
         }
 
         $isAncestral = $this->getRequest()->getVar('ancestral') ? 1 : 0;
-        $title = _t('Genealogist.TREE_OF', //
-                "Family Tree of {value}", //
-                array(
-            'value' => $person->getShortName()
-                )
+
+        $config = SiteConfig::current_site_config();
+
+        $title = $config->Title . ' - ';
+        $title .= $isAncestral ?
+                _t('Genealogist.ANCESTORS_OF', //
+                        "Family Ancestors of {value}", //
+                        array(
+                    'value' => $person->getShortName()
+                        )
+                ) :
+                _t('Genealogist.TREE_OF', //
+                        "Family Tree of {value}", //
+                        array(
+                    'value' => $person->getShortName()
+                        )
         );
 
         return array(
@@ -227,7 +238,7 @@ class GenealogyPage_Controller
             'MultiRoot' => false,
             'ShowTimeline' => !$isAncestral,
             'Collapsible' => !$isAncestral,
-            'Title' => $title
+            'PageTitle' => $title
         );
     }
 
@@ -251,7 +262,10 @@ class GenealogyPage_Controller
             $roots[] = $this->getKinshipLeaves($kinship);
         }
 
-        $title = _t('Genealogist.KINSHIP_OF', //
+        $config = SiteConfig::current_site_config();
+
+        $title = $config->Title . ' - ';
+        $title .= _t('Genealogist.KINSHIP_OF', //
                 "Kinships Between {value1} & {value2}", //
                 array(
             'value1' => $p1->getShortName(),
@@ -264,7 +278,7 @@ class GenealogyPage_Controller
             'MultiRoot' => true,
             'ShowTimeline' => false,
             'Collapsible' => false,
-            'Title' => $title//$p1->getShortName() . ' : ' . $p2->getShortName()
+            'PageTitle' => $title//$p1->getShortName() . ' : ' . $p2->getShortName()
         );
     }
 
