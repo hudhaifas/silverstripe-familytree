@@ -973,7 +973,7 @@ class Person
     }
 
     public function getObjectImage() {
-        return $this->Photo()->Watermark();
+        return $this->Photo();
     }
 
     public function getObjectDefaultImage() {
