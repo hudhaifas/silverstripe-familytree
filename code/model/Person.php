@@ -156,6 +156,7 @@ class Person
         $fields->removeFieldFromTab('Root.Main', 'IndexedName');
         $fields->removeFieldFromTab('Root.Main', 'StatsID');
         $fields->removeFieldFromTab('Root.Main', 'ChildOrder');
+        $fields->removeFieldFromTab('Root.Main', 'IndexedAncestors');
 
         $fields->removeFieldFromTab('Root.Main', 'FatherID');
         $fields->addFieldsToTab('Root.Main', array(
@@ -972,7 +973,7 @@ class Person
     }
 
     public function getObjectImage() {
-        return $this->Photo();
+        return $this->Photo()->Watermark();
     }
 
     public function getObjectDefaultImage() {
