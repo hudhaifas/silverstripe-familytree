@@ -6,7 +6,7 @@
         </p>
     <% end_if %>
 
-    <% if Mother %>
+    <% if Mother && hasPermission %>
         <p>
             <b><%t Genealogist.MOTHER 'Mother' %></b><br />
 
@@ -25,7 +25,7 @@
             </ul>
         </p>
 
-    <% else_if Wives %>
+    <% else_if Wives && hasPermission %>
         <p>
             <b><%t Genealogist.WIVES 'Wives' %></b>: $Wives.Count<br />
 
@@ -47,7 +47,7 @@
         </p>
     <% end_if %>
 
-    <% if Daughters %>
+    <% if Daughters  && hasPermission %>
         <p>
             <b><%t Genealogist.DAUGHTERS 'Daughters' %></b>: $DaughtersCount<br />
 

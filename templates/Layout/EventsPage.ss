@@ -19,9 +19,11 @@
 </style>
 
 <div class="container">
+    <% if hasPermission %>
     <div class="row">
         $Anniversaries(BORN_TODAY,Birth)
     </div>
+    <% end_if %>
 
     <div class="row">
         $Anniversaries(DIED_TODAY,Death)
