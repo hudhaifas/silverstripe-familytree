@@ -34,14 +34,15 @@ class PersonalExtension
 
     public function updateCMSFields(FieldList $fields) {
         $field = $fields->fieldByName('Root.People.People');
-
+        if ($field != null) {
 //        $config = GridFieldConfig::create();
-        $config = $field->getConfig();
-        
-        $config->removeComponentsByType('GridFieldAddExistingAutocompleter');
-        $config->addComponent(new GridFieldAddExistingAutocompleter('buttons-before-right', array('IndexedName', 'Name')));
+            $config = $field->getConfig();
 
-        $field->setConfig($config);
+            $config->removeComponentsByType('GridFieldAddExistingAutocompleter');
+            $config->addComponent(new GridFieldAddExistingAutocompleter('buttons-before-right', array('IndexedName', 'Name')));
+
+            $field->setConfig($config);
+        }
     }
 
 }
