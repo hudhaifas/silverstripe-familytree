@@ -6,7 +6,7 @@
     <p class="details edit"><a href="{$EditLink}"><%t Genealogist.EDIT_THIS_PERSON 'Edit this person' %></a></p>
 <% end_if %>
 
-<% if canView %>
+<% if not isTribe && canView %>
     <p class="details edit">
         <% if BirthDate && BirthDateEstimated %>
             <%t Genealogist.ESTIMATED_BIRTHDATE 'Birth Date (Estimated)' %>: $BirthYear
