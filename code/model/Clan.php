@@ -42,19 +42,7 @@ class Clan
     private static $many_many = array(
     );
 
-    public function canCreate($member = null) {
-        return true;
-    }
-
     public function canView($member = false) {
-        return true;
-    }
-
-    public function canDelete($member = false) {
-        return true;
-    }
-
-    public function canEdit($member = false) {
         return true;
     }
 

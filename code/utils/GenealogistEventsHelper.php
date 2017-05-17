@@ -423,21 +423,20 @@ class GenealogistEventsHelper {
     }
 
     public static function get_filtered_events($filter = 'Anniversary', $type = 'Birth', $date = null, $precision = 'Accurate') {
-//        var_dump($type);
-//        var_dump($filter);
-//        var_dump($date);
-//        var_dump($precision);
-
         if (!$date) {
             $date = self::get_today_date();
         }
 
-        $events = DataObject::get('PersonalEvent')->filter(array(
-            'EventDate:' . $filter => $date,
-            'EventType' => $type,
-            'EventTitle:EndsWith' => 'Self',
-            'DatePrecision' => $precision,
-        ));
+        $events = DataObject::get('PersonalEvent')
+                ->filter(array(
+                    'EventDate:' . $filter => $date,
+                    'EventType' => $type,
+                    'EventTitle:EndsWith' => 'Self',
+                    'DatePrecision' => $precision,
+                ))
+                ->filterByCallback(function($record) {
+            return $record->canView();
+        });
 
         return $events;
     }

@@ -300,7 +300,7 @@ HTML;
 
     private function getKinshipLeaves($kinships = array()) {
         $root = $kinships[0];
-        $noFemales = !$this->hasPermission() && $root->isFemale();
+        $noFemales = !$this->isAdmin() && $root->isFemale();
         $name = $noFemales ? _t('Genealogist.MOTHER', 'Mother') : $root->getPersonName();
         $title = $noFemales ? '' : $root->getFullName();
 
@@ -342,7 +342,7 @@ HTML;
         }
 
         $person = $kinship[$index];
-        $noFemales = !$this->hasPermission() && $person->isFemale();
+        $noFemales = !$this->isAdmin() && $person->isFemale();
         $title = $noFemales ? '' : $person->getFullName();
 
         $index++;
@@ -361,7 +361,7 @@ HTML;
     /// Forms ///
     public function Form_Kinship($personID = null) {
         // Create fields
-        $source = $this->hasPermission() ? 'Person' : 'Male';
+        $source = $this->isAdmin() ? 'Person' : 'Male';
 
         $link = $this->AbsoluteLink();
         $fields = new FieldList(
@@ -480,7 +480,7 @@ HTML;
      * Checks if the user is an authorized member
      * @return boolean true if the user is an authorized member
      */
-    public function hasPermission() {
+    public function isAdmin() {
         return GenealogistHelper::is_genealogists();
     }
 

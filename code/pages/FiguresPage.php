@@ -97,18 +97,31 @@ JS
     }
 
     protected function getObjectsList() {
-        if ($this->hasPermission()) {
+//        return DataObject::get('Person')
+//                        ->filterByCallback(function($record) {
+//                            return $record->canView();
+//                        })
+//                        ->sort('RAND()');
+        if ($this->isAdmin()) {
             return DataObject::get('Person')
                             ->sort('RAND()');
-        } else {
-            return DataObject::get('Person')
-                            ->filterAny(array(
-                                'PublicFigure' => 1,
-                                'ClassName:StartsWith' => 'Clan',
-                                'ClassName:StartsWith' => 'Tribe',
-                            ))
-                            ->sort('IndexedName ASC');
         }
+//        else {
+////            return DataObject::get('Person')
+////                            ->filterAny(array(
+////                                'PublicFigure' => 1,
+////                                'ClassName:StartsWith' => 'Clan',
+////                                'ClassName:StartsWith' => 'Tribe',
+////                            ))
+////                            ->sort('IndexedName ASC');
+//            return DataObject::get('Person')
+//                            ->filterByCallback(function($record) {
+//                                return $record->canView();
+//                            })
+//                            ->sort('IndexedName ASC');
+//        }
+
+        return null;
     }
 
     protected function getPageLength() {
@@ -118,14 +131,14 @@ JS
     protected function searchObjects($list, $keywords) {
         $pieces = GenealogistSearchHelper::explode_keywords($keywords);
 
-        return GenealogistSearchHelper::search_objects($list, $pieces['NameSeries'], $pieces['ClanID']);
+        return GenealogistSearchHelper::search_objects(DataObject::get('Person'), $pieces['NameSeries'], $pieces['ClanID']);
     }
 
     /**
      * Checks if the user is an authorized member
      * @return boolean true if the user is an authorized member
      */
-    public function hasPermission() {
+    public function isAdmin() {
         return GenealogistHelper::is_genealogists();
     }
 
@@ -139,10 +152,6 @@ JS
 
     /// Actions ///
     public function edit() {
-        if (!$this->hasPermission()) {
-            return $this->httpError(404, 'That person could not be found!');
-        }
-
         $id = $this->getRequest()->param('ID');
         $form = $this->getRequest()->param('form');
 
@@ -150,6 +159,10 @@ JS
             $person = DataObject::get_by_id('Person', (int) $id);
         } else {
             $person = $this->getClans()->first();
+        }
+
+        if (!$person || !$person->canEdit()) {
+            return $this->httpError(404, 'That person could not be found!');
         }
 
         if ($person) {
@@ -182,9 +195,13 @@ JS
 
     public function show() {
         $id = $this->getRequest()->param('ID');
-        $single = $this->getObjectsList()->filter(array(
+        $single = DataObject::get('Person')->filter(array(
                     'ID' => $id
                 ))->first();
+
+        if (!$single || !$single->canView()) {
+            return $this->httpError(404, 'That person could not be found!');
+        }
 
         $align = $this->isRTL() == 'rtl' ? 'right' : 'left';
 

@@ -27,14 +27,6 @@ class EventsPage
 class EventsPage_Controller
         extends DataObjectPage_Controller {
 
-    /**
-     * Checks if the user is an authorized member
-     * @return boolean true if the user is an authorized member
-     */
-    public function hasPermission() {
-        return GenealogistHelper::is_genealogists();
-    }
-
     protected function getObjectsList() {
 //        $filter = filter_input(INPUT_GET, 'f');
 //        $type = filter_input(INPUT_GET, 't');

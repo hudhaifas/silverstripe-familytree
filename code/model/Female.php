@@ -47,6 +47,8 @@ class Female
         'Husbands' => 'Male',
     );
     private static $defaults = array(
+        "CanViewType" => "OnlyTheseUsers",
+        "CanEditType" => "Inherit",
         'IsPrivate' => 1,
     );
 
@@ -54,16 +56,54 @@ class Female
         return true;
     }
 
+    public function ViewableHusbands() {
+        $flag = false;
+        foreach ($this->Husbands() as $husband) {
+            $flag = $flag || $husband->canView();
+        }
+        return $flag;
+    }
+
     public function canView($member = false) {
-        return true;
-    }
+        if (!$member) {
+            $member = Member::currentUserID();
+        }
 
-    public function canDelete($member = false) {
-        return true;
-    }
+        if ($member && is_numeric($member)) {
+            $member = DataObject::get_by_id('Member', $member);
+        }
 
-    public function canEdit($member = false) {
-        return true;
+        if ($member && Permission::checkMember($member, "ADMIN")) {
+            return true;
+        }
+
+        $extended = $this->extendedCan('canViewPersons', $member);
+        if ($extended !== null) {
+            return $extended;
+        }
+
+        if (!$this->CanViewType || $this->CanViewType == 'Anyone') {
+            return true;
+        }
+
+        // check for inherit
+        if ($this->CanViewType == 'Inherit') {
+            if ($this->FatherID && !$this->Father()->isClan()) {
+                return $this->Father()->canView($member);
+            }
+        }
+
+        // check for any logged-in users
+        if ($this->CanViewType === 'LoggedInUsers' && $member) {
+            return true;
+        }
+
+        // check for specific groups
+        if ($this->CanViewType === 'OnlyTheseUsers' && $member && $member->inGroups($this->ViewerGroups())) {
+            return true;
+        }
+
+        return false;
     }
 
     public function getCMSFields() {
@@ -100,7 +140,7 @@ class Female
      * @return strnig
      */
     public function getFirstName() {
-        return $this->hasPermission() ? $this->Name : _t('Genealogist.HIDDEN', 'Hidden');
+        return $this->canView() ? $this->Name : _t('Genealogist.HIDDEN', 'Hidden');
     }
 
     public function getObjectDefaultImage() {

@@ -58,7 +58,10 @@ class Person
         'IndexedName' => 'Text',
         'IndexedAncestors' => 'Text',
         // Order
-        'ChildOrder' => 'Int'
+        'ChildOrder' => 'Int',
+        // Permession Level
+        "CanViewType" => "Enum('Anyone, LoggedInUsers, OnlyTheseUsers, Inherit', 'Inherit')",
+        "CanEditType" => "Enum('LoggedInUsers, OnlyTheseUsers, Inherit', 'Inherit')",
     );
     private static $has_one = array(
         'Photo' => 'Image',
@@ -74,8 +77,14 @@ class Person
         'Suggestions' => 'Suggestion',
     );
     private static $many_many = array(
+        "ViewerGroups" => "Group",
+        "EditorGroups" => "Group",
     );
     private static $belongs_many_many = array(
+    );
+    private static $defaults = array(
+        "CanViewType" => "Inherit",
+        "CanEditType" => "Inherit"
     );
     private static $searchable_fields = array(
         'Name' => array(
@@ -191,6 +200,7 @@ class Person
         $this->reorderField($fields, 'Note', 'Root.Main', 'Root.Main');
 
         $this->getCMSEvents($fields);
+        $this->getSettingsFields($fields);
 
         $this->reorderField($fields, 'FatherID', 'Root.Main', 'Root.Main');
         $this->reorderField($fields, 'MotherID', 'Root.Main', 'Root.Main');
@@ -206,6 +216,32 @@ class Person
         $this->reorderField($fields, 'Comments', 'Root.Main', 'Root.DetailsTab');
 
         return $fields;
+    }
+
+    public function getSettingsFields(&$fields) {
+//        $groupsMap = array();
+//        foreach (Group::get() as $group) {
+//            // Listboxfield values are escaped, use ASCII char instead of &raquo;
+//            $groupsMap[$group->ID] = $group->getBreadcrumbs(' > ');
+//        }
+//        asort($groupsMap);
+
+        $settingsTab = new Tab('SettingsTab', _t('Genealogist.Settings', 'Settings'));
+        $fields->insertAfter('Main', $settingsTab);
+
+        $this->reorderField($fields, 'CanViewType', 'Root.Main', 'Root.SettingsTab');
+        if ($viewerGroups = $fields->fieldByName('Root.ViewerGroups.ViewerGroups')) {
+            $fields->removeFieldFromTab('Root.ViewerGroups', 'ViewerGroups');
+            $fields->removeFieldFromTab('Root', 'ViewerGroups');
+            $fields->addFieldToTab('Root.SettingsTab', $viewerGroups);
+        }
+
+        $this->reorderField($fields, 'CanEditType', 'Root.Main', 'Root.SettingsTab');
+        if ($editorGroups = $fields->fieldByName('Root.EditorGroups.EditorGroups')) {
+            $fields->removeFieldFromTab('Root.EditorGroups', 'EditorGroups');
+            $fields->removeFieldFromTab('Root', 'EditorGroups');
+            $fields->addFieldToTab('Root.SettingsTab', $editorGroups);
+        }
     }
 
     protected function getCMSEvents(&$fields) {
@@ -392,23 +428,120 @@ class Person
     }
 
     public function canView($member = false) {
-        return true;
+        if (!$member) {
+            $member = Member::currentUserID();
+        }
+
+        if ($member && is_numeric($member)) {
+            $member = DataObject::get_by_id('Member', $member);
+        }
+
+        if ($member && Permission::checkMember($member, "ADMIN")) {
+            return true;
+        }
+
+        $extended = $this->extendedCan('canViewPersons', $member);
+        if ($extended !== null) {
+            return $extended;
+        }
+
+        if (!$this->CanViewType || $this->CanViewType == 'Anyone') {
+            return true;
+        }
+
+        // check for inherit
+        if ($this->CanViewType == 'Inherit') {
+            if ($this->FatherID && !$this->Father()->isClan()) {
+                return $this->Father()->canView($member);
+            }
+        }
+
+        // check for any logged-in users
+        if ($this->CanViewType === 'LoggedInUsers' && $member) {
+            return true;
+        }
+
+        // check for specific groups
+        if ($this->CanViewType === 'OnlyTheseUsers' && $member && $member->inGroups($this->ViewerGroups())) {
+            return true;
+        }
+
+        return false;
     }
 
     public function canDelete($member = false) {
+        if (!$member) {
+            $member = Member::currentUserID();
+        }
+
+        if ($member && is_numeric($member)) {
+            $member = DataObject::get_by_id('Member', $member);
+        }
+
+        if ($member && Permission::checkMember($member, "ADMIN")) {
+            return true;
+        }
+
+        $extended = $this->extendedCan('canDeletePersons', $member);
+        if ($extended !== null) {
+            return $extended;
+        }
+
         return false;
     }
 
     public function canEdit($member = false) {
-        return true;
+        if (!$member) {
+            $member = Member::currentUserID();
+        }
+
+        if ($member && is_numeric($member)) {
+            $member = DataObject::get_by_id('Member', $member);
+        }
+
+        if ($member && Permission::checkMember($member, "ADMIN")) {
+            return true;
+        }
+
+        $extended = $this->extendedCan('canEditPersons', $member);
+        if ($extended !== null) {
+            return $extended;
+        }
+
+        // check for inherit
+        if ($this->CanEditType == 'Inherit') {
+            if ($this->ParentID) {
+                return $this->Parent()->canEdit($member);
+            }
+        }
+
+        // check for any logged-in users with CMS access
+        if ($this->CanEditType === 'LoggedInUsers' && Permission::checkMember($member, $this->config()->required_permission)) {
+            return true;
+        }
+
+        // check for specific groups
+        if ($this->CanEditType === 'OnlyTheseUsers' && $member && $member->inGroups($this->EditorGroups())) {
+            return true;
+        }
+
+        return false;
     }
 
-    /**
-     * Checks if the user is an authorized member
-     * @return boolean true if the user is an authorized member
-     */
-    public function hasPermission() {
-        return GenealogistHelper::is_genealogists();
+    public function ViewableSons() {
+        $flag = false;
+        foreach ($this->Sons() as $son) {
+            $flag = $flag || $son->canView();
+        }
+        return $flag;
+    }
+
+    public function ViewableDaughters() {
+        $flag = false;
+        foreach ($this->Daughters() as $daughter) {
+            $flag = $flag || $daughter->canView();
+        }
+        return $flag;
     }
 
     protected function onBeforeWrite() {
@@ -463,7 +596,6 @@ class Person
     }
 
     public function getFirstName() {
-//        return $this->hasPermission() || !$this->IsPrivate ? $this->Name : _t('Genealogist.HIDDEN', 'Hidden');
         return $this->Name;
     }
 
@@ -893,9 +1025,9 @@ class Person
         }
 
         // Do NOT show daughters if no permission
-        if (!$this->hasPermission()) {
-            return $html;
-        }
+//        if (!$this->canView()) {
+//            return $html;
+//        }
 
         $default0 = array('options' => array('default' => 0));
         $females = filter_input(INPUT_GET, 'f', FILTER_VALIDATE_INT, $default0);
@@ -935,7 +1067,7 @@ class Person
     }
 
     public function isMalesOnly() {
-        return !$this->hasPermission() && $this->isFemale();
+        return !$this->canView() && $this->isFemale();
     }
 
     /// JSON for future work
@@ -990,7 +1122,7 @@ class Person
     }
 
     public function isObjectDisabled() {
-        return $this->IsPrivate || !($this->PublicFigure || $this->hasPermission());
+        return $this->canView();
     }
 
     public function getObjectTabs() {

@@ -52,16 +52,12 @@ class Male
         return true;
     }
 
-    public function canView($member = false) {
-        return true;
-    }
-
-    public function canDelete($member = false) {
-        return true;
-    }
-
-    public function canEdit($member = false) {
-        return true;
+    public function ViewableWives() {
+        $flag = false;
+        foreach ($this->Wives() as $wife) {
+            $flag = $flag || $wife->canView();
+        }
+        return $flag;
     }
 
     public function getCMSFields() {

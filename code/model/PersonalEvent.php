@@ -86,6 +86,22 @@ class PersonalEvent
         }
     }
 
+    public function canCreate($member = null) {
+        return $this->Person() && $this->Person()->canCreate($member) && $this->RelatedPerson() && $this->RelatedPerson()->canCreate($member);
+    }
+
+    public function canView($member = false) {
+        return $this->Person() && $this->Person()->canView($member) && $this->RelatedPerson() && $this->RelatedPerson()->canView($member);
+    }
+
+    public function canDelete($member = false) {
+        return $this->Person() && $this->Person()->canDelete($member) && $this->RelatedPerson() && $this->RelatedPerson()->canDelete($member);
+    }
+
+    public function canEdit($member = false) {
+        return $this->Person() && $this->Person()->canEdit($member) && $this->RelatedPerson() && $this->RelatedPerson()->canEdit($member);
+    }
+
     public function getTitle() {
         return _t('Genealogist.' . $this->EventTitle, $this->EventTitle);
     }
@@ -114,9 +130,11 @@ class PersonalEvent
     public function getObjectImage() {
         return $this->Person()->Photo();
     }
+
     public function getObjectDefaultImage() {
         return $this->Person()->getObjectDefaultImage();
     }
+
     public function getObjectLink() {
         return $this->Person()->getObjectLink();
     }
@@ -140,11 +158,7 @@ class PersonalEvent
     }
 
     public function isObjectDisabled() {
-        if($this->Person()->PublicFigure || $this->Person()->hasPermission()){
-            return false;
-        }
-        return $this->Person()->IsPrivate;
-//        return $this->Person()->IsPrivate || !($this->Person()->PublicFigure || $this->Person()->hasPermission());
+        return !$this->canView();
     }
 
 }

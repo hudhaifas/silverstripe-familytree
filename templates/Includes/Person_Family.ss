@@ -2,57 +2,65 @@
     <% if $Father %>
         <p>
             <b><%t Genealogist.FATHER 'Father' %></b><br />
-            <a href="{$Father.ObjectLink()}">$Father.FullName</a>
+            <a href="{$Father.ObjectLink}">$Father.FullName</a>
         </p>
     <% end_if %>
 
-    <% if Mother && hasPermission %>
+    <% if Mother && Mother.canView %>
         <p>
             <b><%t Genealogist.MOTHER 'Mother' %></b><br />
 
-            <a href="{$Mother.ObjectLink()}">$Mother.FullName</a>
+            <a href="{$Mother.ObjectLink}">$Mother.FullName</a>
         </p>
     <% end_if %>
 
-    <% if Husbands %>
+    <% if Husbands && ViewableHusbands %>
         <p>
             <b><%t Genealogist.HUSBANDS 'Husbands' %></b>: $Husbands.Count<br />
 
             <ul>
                 <% loop Husbands.Sort(HusbandOrder) %>
-                    <li><a href="{$ObjectLink()}">$FullName</a></li>
+                    <% if canView %>
+                        <li><a href="{$ObjectLink}">$FullName</a></li>
+                    <% end_if %>
                 <% end_loop %>
             </ul>
         </p>
 
-    <% else_if Wives && hasPermission %>
+    <% else_if Wives && ViewableWives %>
         <p>
             <b><%t Genealogist.WIVES 'Wives' %></b>: $Wives.Count<br />
 
             <ul>
                 <% loop Wives.Sort(WifeOrder) %>
-                <li><a href="{$ObjectLink()}">$FullName</a></li>
+                    <% if canView %>
+                        <li><a href="{$ObjectLink}">$FullName</a></li>
+                    <% end_if %>
                 <% end_loop %>
             </ul>
         </p>
     <% end_if %>
 
-    <% if Sons %>
+    <% if Sons && ViewableSons %>
         <p>
             <b><%t Genealogist.SONS 'Sons' %></b>: $SonsCount<br />
 
             <% loop Sons %>
-                <a href="{$ObjectLink()}" title="$FullName">$AliasName</a><% if not Last %><%t Genealogist.COMMA ',' %><% end_if %>
+                <% if canView %>
+                    <a href="{$ObjectLink}" title="$FullName">$AliasName</a><% if not Last %><%t Genealogist.COMMA ',' %><% end_if %>
+                <% end_if %>
             <% end_loop %>
         </p>
     <% end_if %>
 
-    <% if Daughters  && hasPermission %>
+    <% if Daughters  && ViewableDaughters %>
         <p>
             <b><%t Genealogist.DAUGHTERS 'Daughters' %></b>: $DaughtersCount<br />
 
             <% loop Daughters %>
-                <a href="{$ObjectLink()}" title="$FullName">$AliasName</a><% if not Last %><%t Genealogist.COMMA ',' %><% end_if %>
+                <% if canView %>
+                    <a href="{$ObjectLink}" title="$FullName">$AliasName</a><% if not Last %><%t Genealogist.COMMA ',' %><% end_if %>
+                <% end_if %>
             <% end_loop %>
         </p>
     <% end_if %>

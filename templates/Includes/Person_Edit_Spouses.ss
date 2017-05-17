@@ -11,7 +11,7 @@
                     <% end_loop %>
                 </ul>
 
-            <% else_if hasPermission && Wives %>
+            <% else_if Wives %>
                 <b><%t Genealogist.WIVES 'Wives' %></b>: $Wives.Count<br />
 
                 <ul>

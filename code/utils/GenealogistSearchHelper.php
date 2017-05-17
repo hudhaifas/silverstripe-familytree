@@ -85,7 +85,11 @@ class GenealogistSearchHelper {
         $results = self::merge($r1, $r2);
 
         $results->removeDuplicates();
-        return $results;
+        return $results->filterByCallback(function($record) {
+                    return $record->canView();
+                });
+
+//        return $results;
     }
 
     private static function merge($list1, $list2) {
