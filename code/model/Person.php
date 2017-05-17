@@ -210,10 +210,7 @@ class Person
         $this->reorderField($fields, 'PublicFigure', 'Root.Main', 'Root.BiographyTab');
         $this->reorderField($fields, 'IsPrivate', 'Root.Main', 'Root.BiographyTab');
         $this->reorderField($fields, 'Biography', 'Root.Main', 'Root.BiographyTab');
-
-        $detailsTab = new Tab('DetailsTab', _t('Genealogist.DETAILS', 'Details'));
-        $fields->insertAfter('Wives', $detailsTab);
-        $this->reorderField($fields, 'Comments', 'Root.Main', 'Root.DetailsTab');
+        $this->reorderField($fields, 'Comments', 'Root.Main', 'Root.BiographyTab');
 
         return $fields;
     }
@@ -226,7 +223,7 @@ class Person
 //        }
 //        asort($groupsMap);
 
-        $settingsTab = new Tab('SettingsTab', _t('Genealogist.Settings', 'Settings'));
+        $settingsTab = new Tab('SettingsTab', _t('Genealogist.SETTINGS', 'Settings'));
         $fields->insertAfter('Main', $settingsTab);
 
         $this->reorderField($fields, 'CanViewType', 'Root.Main', 'Root.SettingsTab');
