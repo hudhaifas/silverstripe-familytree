@@ -1122,7 +1122,7 @@ class Person
     }
 
     public function isObjectDisabled() {
-        return $this->canView();
+        return !$this->canView();
     }
 
     public function getObjectTabs() {
