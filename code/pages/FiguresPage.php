@@ -101,23 +101,11 @@ JS
             return DataObject::get('Person')
                             ->sort('RAND()');
         } else {
-//            $rrr = DataObject::get('Person')
-//                    ->filterAny(array(
-//                'ClassName' => 'Clan',
-//                'CanViewType' => 'Anyone',
-//            ))->sort('IndexedName ASC');
-
             return DataObject::get('Person')
                             ->filterAny(array(
                                 'ClassName' => 'Clan',
                                 'CanViewType' => 'Anyone',
                             ))->sort('IndexedName ASC');
-//            return $rrr;
-//            return DataObject::get('Person')
-//                            ->filterByCallback(function($record) {
-//                                return $record->canView();
-//                            })
-//                            ->sort('IndexedName ASC');
         }
     }
 

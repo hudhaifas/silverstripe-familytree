@@ -77,6 +77,8 @@ class Person
     private static $many_many = array(
         "ViewerGroups" => "Group",
         "EditorGroups" => "Group",
+        "ViewerMembers" => "Member",
+        "EditorMembers" => "Member",
     );
     private static $belongs_many_many = array(
     );
@@ -453,7 +455,7 @@ class Person
         }
 
         // check for specific groups
-        if ($this->CanViewType === 'OnlyTheseUsers' && $member && $member->inGroups($this->ViewerGroups())) {
+        if ($this->CanViewType === 'OnlyTheseUsers' && $member && ($member->inGroups($this->ViewerGroups()) || $this->ViewerMembers()->byID($member->ID))) {
             return true;
         }
 
@@ -512,7 +514,7 @@ class Person
         }
 
         // check for specific groups
-        if ($this->CanEditType === 'OnlyTheseUsers' && $member && $member->inGroups($this->EditorGroups())) {
+        if ($this->CanEditType === 'OnlyTheseUsers' && $member && ($member->inGroups($this->EditorGroups()) || $this->EditorMembers()->byID($member->ID))) {
             return true;
         }
 

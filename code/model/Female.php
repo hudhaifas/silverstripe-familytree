@@ -63,48 +63,6 @@ class Female
         return $flag;
     }
 
-    public function canView($member = false) {
-        if (!$member) {
-            $member = Member::currentUserID();
-        }
-
-        if ($member && is_numeric($member)) {
-            $member = DataObject::get_by_id('Member', $member);
-        }
-
-        if ($member && Permission::checkMember($member, "ADMIN")) {
-            return true;
-        }
-
-        $extended = $this->extendedCan('canViewPersons', $member);
-        if ($extended !== null) {
-            return $extended;
-        }
-
-        if (!$this->CanViewType || $this->CanViewType == 'Anyone') {
-            return true;
-        }
-
-        // check for inherit
-        if ($this->CanViewType == 'Inherit') {
-            if ($this->FatherID && !$this->Father()->isClan()) {
-                return $this->Father()->canView($member);
-            }
-        }
-
-        // check for any logged-in users
-        if ($this->CanViewType === 'LoggedInUsers' && $member) {
-            return true;
-        }
-
-        // check for specific groups
-        if ($this->CanViewType === 'OnlyTheseUsers' && $member && $member->inGroups($this->ViewerGroups())) {
-            return true;
-        }
-
-        return false;
-    }
-
     public function getCMSFields() {
         $fields = parent::getCMSFields();
         $fields->removeFieldFromTab('Root.Main', 'WifeOrder');
