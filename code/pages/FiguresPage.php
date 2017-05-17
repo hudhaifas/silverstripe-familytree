@@ -109,7 +109,6 @@ JS
 //        else {
 ////            return DataObject::get('Person')
 ////                            ->filterAny(array(
-////                                'PublicFigure' => 1,
 ////                                'ClassName:StartsWith' => 'Clan',
 ////                                'ClassName:StartsWith' => 'Tribe',
 ////                            ))

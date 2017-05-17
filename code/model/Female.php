@@ -49,7 +49,6 @@ class Female
     private static $defaults = array(
         "CanViewType" => "OnlyTheseUsers",
         "CanEditType" => "Inherit",
-        'IsPrivate' => 1,
     );
 
     public function canCreate($member = null) {

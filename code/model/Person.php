@@ -51,9 +51,7 @@ class Person
         'Note' => 'Varchar(255)',
         'Comments' => 'Text',
         // Biography
-        'PublicFigure' => 'Boolean',
         'Biography' => 'HTMLText',
-        'IsPrivate' => 'Boolean',
         // Indexing
         'IndexedName' => 'Text',
         'IndexedAncestors' => 'Text',
@@ -137,8 +135,6 @@ class Person
         $labels['Comments'] = _t('Genealogist.COMMENTS', 'Comments');
 
         $labels['Biography'] = _t('Genealogist.BIOGRAPHY', 'Biography');
-        $labels['PublicFigure'] = _t('Genealogist.PUBLIC_FIGURE', 'Public Figure');
-        $labels['IsPrivate'] = _t('Genealogist.IS_PRIVATE', 'Hide Information');
 
         $labels['Tribe'] = _t('Genealogist.TRIBE', 'Tribe');
 
@@ -207,8 +203,6 @@ class Person
 
         $biographyTab = new Tab('BiographyTab', _t('Genealogist.BIOGRAPHY', 'Biography'));
         $fields->insertAfter('Main', $biographyTab);
-        $this->reorderField($fields, 'PublicFigure', 'Root.Main', 'Root.BiographyTab');
-        $this->reorderField($fields, 'IsPrivate', 'Root.Main', 'Root.BiographyTab');
         $this->reorderField($fields, 'Biography', 'Root.Main', 'Root.BiographyTab');
         $this->reorderField($fields, 'Comments', 'Root.Main', 'Root.BiographyTab');
 
@@ -1114,8 +1108,8 @@ class Person
     }
 
     public function getObjectRelated() {
-        return DataObject::get('Person', "`PublicFigure` = 1 OR `ClassName` = 'Clan'")->sort('RAND()');
-//        return DataObject::get('Person')->sort('RAND()');
+//        return DataObject::get('Person', "`PublicFigure` = 1 OR `ClassName` = 'Clan'")->sort('RAND()');
+        return DataObject::get('Person')->sort('RAND()');
     }
 
     public function isObjectDisabled() {
