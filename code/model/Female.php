@@ -143,6 +143,22 @@ class Female
         return $this->canView() ? $this->Name : _t('Genealogist.HIDDEN', 'Hidden');
     }
 
+    public function getFullName($withChildOf = true) {
+        return $this->canView() ? parent::getFullName() : _t('Genealogist.HIDDEN', 'Hidden');
+    }
+
+    public function getAliasName() {
+        return $this->canView() ? parent::getAliasName() : _t('Genealogist.HIDDEN', 'Hidden');
+    }
+
+    public function getBriefName() {
+        return $this->canView() ? parent::getBriefName() : _t('Genealogist.HIDDEN', 'Hidden');
+    }
+
+    public function getShortName() {
+        return $this->canView() ? parent::getShortName() : _t('Genealogist.HIDDEN', 'Hidden');
+    }
+
     public function getObjectDefaultImage() {
         return "genealogist/images/default-female.png";
     }

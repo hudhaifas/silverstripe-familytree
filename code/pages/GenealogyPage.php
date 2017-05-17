@@ -300,11 +300,10 @@ HTML;
 
     private function getKinshipLeaves($kinships = array()) {
         $root = $kinships[0];
-        $title = !$root->isFemale() || $root->canView() ? $root->getFullName() : '';
 
         $html = <<<HTML
             <li class="{$root->CSSClasses()}">
-                <a href="#" title="{$title}" data-url="{$root->InfoLink()}" class="info-item">{$root->getPersonName()}</a>
+                <a href="#" title="{$root->getFullName()}" data-url="{$root->InfoLink()}" class="info-item">{$root->getPersonName()}</a>
                 <ul>
                     {$this->appendLeaf($kinships[1])}
                     {$this->appendLeaf($kinships[2])}
@@ -340,12 +339,11 @@ HTML;
         }
 
         $person = $kinship[$index];
-        $title = !$person->isFemale() || $person->canView() ? $person->getFullName() : '';
         
         $index++;
         $html = <<<HTML
             <li class="{$person->CSSClasses()}">
-                <a href="#" title="{$title}" data-url="{$person->InfoLink()}" class="info-item">{$person->getPersonName()}</a>
+                <a href="#" title="{$person->getFullName()}" data-url="{$person->InfoLink()}" class="info-item">{$person->getPersonName()}</a>
                 <ul>
                     {$this->appendLeaf($kinship, $index)}
                 </ul>
