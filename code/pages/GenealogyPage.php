@@ -300,20 +300,18 @@ HTML;
 
     private function getKinshipLeaves($kinships = array()) {
         $root = $kinships[0];
-        $noFemales = !$this->isAdmin() && $root->isFemale();
-        $name = $noFemales ? _t('Genealogist.MOTHER', 'Mother') : $root->getPersonName();
-        $title = $noFemales ? '' : $root->getFullName();
+        $title = !$root->isFemale() || $root->canView() ? $root->getFullName() : '';
 
         $html = <<<HTML
             <li class="{$root->CSSClasses()}">
-                <a href="#" title="{$title}" data-url="{$root->InfoLink()}" class="info-item">{$name}</a>
+                <a href="#" title="{$title}" data-url="{$root->InfoLink()}" class="info-item">{$root->getPersonName()}</a>
                 <ul>
                     {$this->appendLeaf($kinships[1])}
                     {$this->appendLeaf($kinships[2])}
                 </ul>
             </li>
 HTML;
-//        return $html;
+                    
         return $this->appendParents($root, $html);
     }
 
@@ -342,9 +340,8 @@ HTML;
         }
 
         $person = $kinship[$index];
-        $noFemales = !$this->isAdmin() && $person->isFemale();
-        $title = $noFemales ? '' : $person->getFullName();
-
+        $title = !$person->isFemale() || $person->canView() ? $person->getFullName() : '';
+        
         $index++;
         $html = <<<HTML
             <li class="{$person->CSSClasses()}">
