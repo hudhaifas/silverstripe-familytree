@@ -97,30 +97,28 @@ JS
     }
 
     protected function getObjectsList() {
-//        return DataObject::get('Person')
-//                        ->filterByCallback(function($record) {
-//                            return $record->canView();
-//                        })
-//                        ->sort('RAND()');
         if ($this->isAdmin()) {
             return DataObject::get('Person')
                             ->sort('RAND()');
-        }
-//        else {
-////            return DataObject::get('Person')
-////                            ->filterAny(array(
-////                                'ClassName:StartsWith' => 'Clan',
-////                                'ClassName:StartsWith' => 'Tribe',
-////                            ))
-////                            ->sort('IndexedName ASC');
+        } else {
+//            $rrr = DataObject::get('Person')
+//                    ->filterAny(array(
+//                'ClassName' => 'Clan',
+//                'CanViewType' => 'Anyone',
+//            ))->sort('IndexedName ASC');
+
+            return DataObject::get('Person')
+                            ->filterAny(array(
+                                'ClassName' => 'Clan',
+                                'CanViewType' => 'Anyone',
+                            ))->sort('IndexedName ASC');
+//            return $rrr;
 //            return DataObject::get('Person')
 //                            ->filterByCallback(function($record) {
 //                                return $record->canView();
 //                            })
 //                            ->sort('IndexedName ASC');
-//        }
-
-        return null;
+        }
     }
 
     protected function getPageLength() {
@@ -130,7 +128,7 @@ JS
     protected function searchObjects($list, $keywords) {
         $pieces = GenealogistSearchHelper::explode_keywords($keywords);
 
-        return GenealogistSearchHelper::search_objects(DataObject::get('Person'), $pieces['NameSeries'], $pieces['ClanID']);
+        return GenealogistSearchHelper::search_objects($list, $pieces['NameSeries'], $pieces['ClanID']);
     }
 
     /**
