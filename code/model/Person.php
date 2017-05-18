@@ -152,6 +152,10 @@ class Person
         $labels['Collectables'] = _t('Genealogist.COLLECTABLES', 'Collectables');
         $labels['Clans'] = _t('Genealogist.CLANS', 'Clans');
 
+        // Settings
+        $labels['CanViewType'] = _t('Genealogist.CAN_VIEW_TYPE', 'Who can view this person');
+        $labels['CanEditType'] = _t('Genealogist.CAN_EDIT_TYPE', 'Who can edit this person');
+
 
         return $labels;
     }
@@ -243,39 +247,31 @@ class Person
 
         $this->reorderField($fields, 'CanViewType', 'Root.Main', 'Root.SettingsTab');
 
-        $viewerGroupsField = ListboxField::create("ViewerGroups", _t('SiteTree.VIEWERGROUPS', "Viewer Groups"))
+        $viewerGroupsField = ListboxField::create("ViewerGroups", _t('Genealogist.VIEWER_GROUPS', "Viewer Groups"))
                 ->setMultiple(true)
                 ->setSource($groupsMap)
-                ->setAttribute(
-                'data-placeholder', _t('SiteTree.GroupPlaceholder', 'Click to select group')
-        );
+                ->setAttribute('data-placeholder', _t('Genealogist.GROUP_PLACEHOLDER', 'Click to select group'));
         $fields->addFieldToTab('Root.SettingsTab', $viewerGroupsField);
 
-        $viewerMembersField = ListboxField::create("ViewerMembers", _t('SiteTree.VIEWERGROUPS', "Viewer Members"))
+        $viewerMembersField = ListboxField::create("ViewerMembers", _t('Genealogist.VIEWER_MEMBERS', "Viewer Users"))
                 ->setMultiple(true)
                 ->setSource($membersMap)
-                ->setAttribute(
-                'data-placeholder', _t('SiteTree.GroupPlaceholder', 'Click to select group')
-        );
+                ->setAttribute('data-placeholder', _t('Genealogist.MEMBER_PLACEHOLDER', 'Click to select user'));
         $fields->addFieldToTab('Root.SettingsTab', $viewerMembersField);
 
 
         $this->reorderField($fields, 'CanEditType', 'Root.Main', 'Root.SettingsTab');
 
-        $editorGroupsField = ListboxField::create("EditorGroups", _t('SiteTree.VIEWERGROUPS', "Editor Groups"))
+        $editorGroupsField = ListboxField::create("EditorGroups", _t('Genealogist.EDITOR_GROUPS', "Editor Groups"))
                 ->setMultiple(true)
                 ->setSource($groupsMap)
-                ->setAttribute(
-                'data-placeholder', _t('SiteTree.GroupPlaceholder', 'Click to select group')
-        );
+                ->setAttribute('data-placeholder', _t('Genealogist.GROUP_PLACEHOLDER', 'Click to select group'));
         $fields->addFieldToTab('Root.SettingsTab', $editorGroupsField);
 
-        $editorMembersField = ListboxField::create("EditorMembers", _t('SiteTree.VIEWERGROUPS', "Editor Members"))
+        $editorMembersField = ListboxField::create("EditorMembers", _t('Genealogist.EDITOR_MEMBERS', "Editor Users"))
                 ->setMultiple(true)
                 ->setSource($membersMap)
-                ->setAttribute(
-                'data-placeholder', _t('SiteTree.GroupPlaceholder', 'Click to select group')
-        );
+                ->setAttribute('data-placeholder', _t('Genealogist.MEMBER_PLACEHOLDER', 'Click to select user'));
         $fields->addFieldToTab('Root.SettingsTab', $editorMembersField);
     }
 

@@ -56,7 +56,6 @@ en:
     COLLECTOR: 'Collector'
     COLLECTION: 'Collection'
     COLLECTABLES: 'Documents'
-    SETTINGS: 'Settings'
     ALSO_SEE: 'Also See'
     PERSON: 'Person'
     PEOPLE: 'People'
@@ -128,7 +127,18 @@ en:
     EDIT_HUSBANDS: 'Edit Husbands'
     EDIT_WIVES: 'Edit Wives'
     DELETE_THIS_PERSON: 'Delete this Person'
-
+    
+    # Settings
+    SETTINGS: 'Settings'
+    CAN_VIEW_TYPE: 'Who can view this person?'
+    VIEWER_GROUPS: 'Viewer Groups'
+    VIEWER_MEMBERS: 'Viewer Users'
+    CAN_EDIT_TYPE: 'Who can edit this person?'
+    EDITOR_GROUPS: 'Editor Groups'
+    EDITOR_MEMBERS: 'Editor Users'
+    GROUP_PLACEHOLDER: 'Click to select group'
+    MEMBER_PLACEHOLDER: 'Click to select user'
+    
     # Filters menu
     ANCESTRAL_TREE: 'Ancestral Tree'
     SHOW_FEMALES_TREE: 'Show Females Tree'

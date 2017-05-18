@@ -56,7 +56,6 @@ ar:
     COLLECTOR: 'المقتني'
     COLLECTION: 'من مقتنيات'
     COLLECTABLES: 'الوثائق'
-    SETTINGS: 'الإعدادات'
     ALSO_SEE: 'انظر أيضا'
     PERSON: 'الشخص'
     PEOPLE: 'الشخوص'
@@ -128,6 +127,17 @@ ar:
     EDIT_HUSBANDS: 'تعديل الأزواج'
     EDIT_WIVES: 'تعديل الزوجات'
     DELETE_THIS_PERSON: 'حذف هذا الشخص'
+
+    # Settings
+    SETTINGS: 'الإعدادات'
+    CAN_VIEW_TYPE: 'من يستطيع مشاهدة هذا الشخص؟'
+    VIEWER_GROUPS: 'مجموعات الزوار'
+    VIEWER_MEMBERS: 'الأعضاء الزوار'
+    CAN_EDIT_TYPE: 'من يستطيع تعديل هذا الشخص؟'
+    EDITOR_GROUPS: 'مجموعات المحررين'
+    EDITOR_MEMBERS: 'الأعضاء المحررين'
+    GROUP_PLACEHOLDER: 'انقر لاختيار المجموعات'
+    MEMBER_PLACEHOLDER: 'انقر لاختيار الأعضاء'
 
     # Filters menu
     ANCESTRAL_TREE: 'شجرة الأسلاف'

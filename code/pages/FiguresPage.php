@@ -291,27 +291,29 @@ JS
         }
         asort($membersMap);
 
-        $viewerGroupsField = ListboxField::create("ViewerGroups", _t('SiteTree.VIEWERGROUPS', "Viewer Groups"))
+        $viewerGroupsField = ListboxField::create("ViewerGroups", _t('Genealogist.VIEWER_GROUPS', "Viewer Groups"))
                 ->setMultiple(true)
                 ->setSource($groupsMap)
                 ->setValue(null, $person)
-                ->setAttribute('data-placeholder', _t('SiteTree.GroupPlaceholder', 'Click to select group'));
-        $viewerMembersField = ListboxField::create("ViewerMembers", _t('SiteTree.VIEWERGROUPS', "Viewer Members"))
-                ->setMultiple(true)
-                ->setSource($membersMap)
-                ->setValue(null, $person)
-                ->setAttribute('data-placeholder', _t('SiteTree.GroupPlaceholder', 'Click to select group'));
+                ->setAttribute('data-placeholder', _t('Genealogist.GROUP_PLACEHOLDER', 'Click to select group'));
 
-        $editorGroupsField = ListboxField::create("EditorGroups", _t('SiteTree.VIEWERGROUPS', "Editor Groups"))
-                ->setMultiple(true)
-                ->setSource($groupsMap)
-                ->setValue(null, $person)
-                ->setAttribute('data-placeholder', _t('SiteTree.GroupPlaceholder', 'Click to select group'));
-        $editorMembersField = ListboxField::create("EditorMembers", _t('SiteTree.VIEWERGROUPS', "Editor Members"))
+        $viewerMembersField = ListboxField::create("ViewerMembers", _t('Genealogist.VIEWER_MEMBERS', "Viewer Users"))
                 ->setMultiple(true)
                 ->setSource($membersMap)
                 ->setValue(null, $person)
-                ->setAttribute('data-placeholder', _t('SiteTree.GroupPlaceholder', 'Click to select group'));
+                ->setAttribute('data-placeholder', _t('Genealogist.MEMBER_PLACEHOLDER', 'Click to select user'));
+
+        $editorGroupsField = ListboxField::create("EditorGroups", _t('Genealogist.EDITOR_GROUPS', "Editor Groups"))
+                ->setMultiple(true)
+                ->setSource($groupsMap)
+                ->setValue(null, $person)
+                ->setAttribute('data-placeholder', _t('Genealogist.GROUP_PLACEHOLDER', 'Click to select group'));
+        
+        $editorMembersField = ListboxField::create("EditorMembers", _t('Genealogist.EDITOR_MEMBERS', "Editor Users"))
+                ->setMultiple(true)
+                ->setSource($membersMap)
+                ->setValue(null, $person)
+                ->setAttribute('data-placeholder', _t('Genealogist.MEMBER_PLACEHOLDER', 'Click to select user'));
 
         // Create fields          
         $fields = new FieldList(
