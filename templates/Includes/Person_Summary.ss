@@ -1,4 +1,4 @@
-<p class="title"><a href="$ObjectLink" title="$Title">$Title.LimitCharacters(50)</a></p>
+<p class="title"><a <% if canView %>href="$ObjectLink"<% end_if %> title="$Title">$Title.LimitCharacters(50)</a></p>
 
 <p class="details"><a href="{$TreeLink}"><%t Genealogist.SHOW_TREE 'Show genealogist tree' %></a></p>
 
