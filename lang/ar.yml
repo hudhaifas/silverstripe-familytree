@@ -121,6 +121,7 @@ ar:
     SHOW_CLAN: 'عرض شجرة عائلة هذا الشخص'
     SHOW_PROFILE: 'عرض الملف الشخصي'
     EDIT_THIS_PERSON: 'تعديل البيانات'
+    EDIT_SETTINGS: 'تعديل الإعدادات'
     EDIT_PARENTS: 'تعديل الوالدين'
     EDIT_CHILDREN: 'تعديل الأبناء'
     EDIT_SPOUSES: 'تعديل الأزواج'

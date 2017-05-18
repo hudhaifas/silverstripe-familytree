@@ -121,6 +121,7 @@ en:
     SHOW_CLAN: 'Show this person clan tree'
     SHOW_PROFILE: 'Show Personal Profile'
     EDIT_THIS_PERSON: 'Edit this Person'
+    EDIT_SETTINGS: 'Edit Settings'
     EDIT_PARENTS: 'Edit Parents'
     EDIT_CHILDREN: 'Edit Children'
     EDIT_SPOUSES: 'Edit Spouses'

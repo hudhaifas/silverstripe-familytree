@@ -50,6 +50,8 @@ class FiguresPage_Controller
         'show',
         'Form_EditPerson',
         'doEditPerson',
+        'Form_EditSettings',
+        'doEditSettings',
         'Form_AddFather',
         'doAddFather',
         'Form_ChangeFather',
@@ -128,6 +130,7 @@ JS
 
     private $formTemplates = array(
         'self' => 'Person_Edit_Self',
+        'settings' => 'Person_Edit_Settings',
         'parents' => 'Person_Edit_Parents',
         'children' => 'Person_Edit_Children',
         'spouses' => 'Person_Edit_Spouses',
@@ -152,6 +155,7 @@ JS
         if ($person) {
             switch ($form) {
                 case 'self':
+                case 'settings':
                 case 'parents':
                 case 'children':
                 case 'spouses':
@@ -258,6 +262,94 @@ JS
         $person = DataObject::get_by_id('Person', (int) $id);
 
         $form->saveInto($person);
+        $person->write();
+
+        return $this->owner->redirectBack();
+    }
+
+    public function Form_EditSettings($personID) {
+        if ($personID instanceof SS_HTTPRequest) {
+            $id = $personID->postVar('PersonID');
+        } else {
+            $id = $personID;
+        }
+
+        $person = DataObject::get_by_id('Person', (int) $id);
+
+        // Prepare groups and members lists
+        $groupsMap = array();
+        foreach (Group::get() as $group) {
+            // Listboxfield values are escaped, use ASCII char instead of &raquo;
+            $groupsMap[$group->ID] = $group->getBreadcrumbs(' > ');
+        }
+        asort($groupsMap);
+
+        $membersMap = array();
+        foreach (Member::get() as $member) {
+            // Listboxfield values are escaped, use ASCII char instead of &raquo;
+            $membersMap[$member->ID] = $member->getTitle();
+        }
+        asort($membersMap);
+
+        $viewerGroupsField = ListboxField::create("ViewerGroups", _t('SiteTree.VIEWERGROUPS', "Viewer Groups"))
+                ->setMultiple(true)
+                ->setSource($groupsMap)
+                ->setValue(null, $person)
+                ->setAttribute('data-placeholder', _t('SiteTree.GroupPlaceholder', 'Click to select group'));
+        $viewerMembersField = ListboxField::create("ViewerMembers", _t('SiteTree.VIEWERGROUPS', "Viewer Members"))
+                ->setMultiple(true)
+                ->setSource($membersMap)
+                ->setValue(null, $person)
+                ->setAttribute('data-placeholder', _t('SiteTree.GroupPlaceholder', 'Click to select group'));
+
+        $editorGroupsField = ListboxField::create("EditorGroups", _t('SiteTree.VIEWERGROUPS', "Editor Groups"))
+                ->setMultiple(true)
+                ->setSource($groupsMap)
+                ->setValue(null, $person)
+                ->setAttribute('data-placeholder', _t('SiteTree.GroupPlaceholder', 'Click to select group'));
+        $editorMembersField = ListboxField::create("EditorMembers", _t('SiteTree.VIEWERGROUPS', "Editor Members"))
+                ->setMultiple(true)
+                ->setSource($membersMap)
+                ->setValue(null, $person)
+                ->setAttribute('data-placeholder', _t('SiteTree.GroupPlaceholder', 'Click to select group'));
+
+        // Create fields          
+        $fields = new FieldList(
+                HiddenField::create('PersonID', 'PersonID', $id), //
+                DropdownField::create(
+                        'CanViewType', //
+                        _t('Genealogist.MOTHER', 'Mother'), //
+                        singleton('Person')->dbObject('CanViewType')->enumValues(), $person->CanViewType
+                ), //
+                $viewerGroupsField, //
+                $viewerMembersField, //
+                DropdownField::create(
+                        'CanEditType', //
+                        _t('Genealogist.MOTHER', 'Mother'), //
+                        singleton('Person')->dbObject('CanEditType')->enumValues(), $person->CanEditType
+                ), //
+                $editorGroupsField, //
+                $editorMembersField
+        );
+
+        // Create action
+        $actions = new FieldList(
+                new FormAction('doEditSettings', _t('Genealogist.SAVE', 'Save'))
+        );
+
+        // Create Validators
+        $validator = new RequiredFields();
+
+        return new Form($this, 'Form_EditSettings', $fields, $actions, $validator);
+    }
+
+    public function doEditSettings($data, $form) {
+        $id = $data['PersonID'];
+
+        $person = DataObject::get_by_id('Person', (int) $id);
+        var_dump($data['CanViewType']);
+        $form->saveInto($person);
+        var_dump($person->CanViewType);
         $person->write();
 
         return $this->owner->redirectBack();

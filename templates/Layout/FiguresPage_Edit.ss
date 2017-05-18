@@ -43,6 +43,22 @@
                         <div class="panel panel-default">
                             <div class="panel-heading">
                                 <h4 class="panel-title">
+                                    <a data-toggle="collapse" data-parent="#accordion" href="#collapse-edit-settings">
+                                        <%t Genealogist.EDIT 'Edit' %>
+                                    </a>
+                                </h4>
+                            </div>
+
+                            <div id="collapse-edit-settings" class="panel-collapse collapse">
+                                <div class="panel-body">
+                                    $Up.Form_EditSettings($ID)
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="panel panel-default">
+                            <div class="panel-heading">
+                                <h4 class="panel-title">
                                     <a data-toggle="collapse" data-parent="#accordion" href="#collapse-add-father">
                                         <%t Genealogist.ADD_FATHER 'Add Father' %>
                                     </a>

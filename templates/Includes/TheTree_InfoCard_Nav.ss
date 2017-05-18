@@ -11,24 +11,8 @@
         <a id="ttt" class="btn btn-default dropdown-toggle" data-toggle="dropdown" title="<%t Genealogist.EDIT_THIS_PERSON 'Edit this Person' %>">
             <i class="fa fa-pencil" aria-hidden="true"></i> <span class="caret"></span>
         </a>
-
-        <ul class="dropdown-menu pull-right" role="menu">
-            <li><a href="{$EditLink(self)}" class="ajax-modal"><%t Genealogist.EDIT_THIS_PERSON 'Edit this Person' %></a></li>
-            <li><a href="{$EditLink(parents)}" class="ajax-modal"><%t Genealogist.EDIT_PARENTS 'Edit Parents' %></a></li>
-            <% if isMale %>
-                <li><a href="{$EditLink(children)}" class="ajax-modal"><%t Genealogist.EDIT_CHILDREN 'Edit Children' %></a></li>
-            <% end_if %>
-            <li>
-                <a href="{$EditLink(spouses)}" class="ajax-modal">
-                    <% if isMale %>
-                        <%t Genealogist.EDIT_WIVES 'Edit Wives' %>
-                    <% else %>
-                        <%t Genealogist.EDIT_HUSBANDS 'Edit Husbands' %>
-                    <% end_if %>
-                </a>
-            </li>
-            <li><a href="{$EditLink(delete)}" class="ajax-modal"><%t Genealogist.DELETE_THIS_PERSON 'Delete this Person' %></a></li>
-        </ul>
+        
+        <% include Person_Edit_Options %>
     </div>
     <% end_if %>
 </div>
