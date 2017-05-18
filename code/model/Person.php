@@ -212,39 +212,71 @@ class Person
     }
 
     public function getSettingsFields(&$fields) {
-//        $groupsMap = array();
-//        foreach (Group::get() as $group) {
-//            // Listboxfield values are escaped, use ASCII char instead of &raquo;
-//            $groupsMap[$group->ID] = $group->getBreadcrumbs(' > ');
-//        }
-//        asort($groupsMap);
+        // Prepare groups and members lists
+        $groupsMap = array();
+        foreach (Group::get() as $group) {
+            // Listboxfield values are escaped, use ASCII char instead of &raquo;
+            $groupsMap[$group->ID] = $group->getBreadcrumbs(' > ');
+        }
+        asort($groupsMap);
 
+        $membersMap = array();
+        foreach (Member::get() as $member) {
+            // Listboxfield values are escaped, use ASCII char instead of &raquo;
+            $membersMap[$member->ID] = $member->getTitle();
+        }
+        asort($membersMap);
+
+        // Remove existing fields
+        $fields->removeFieldFromTab('Root.ViewerGroups', 'ViewerGroups');
+        $fields->removeFieldFromTab('Root', 'ViewerGroups');
+        $fields->removeFieldFromTab('Root.ViewerMembers', 'ViewerMembers');
+        $fields->removeFieldFromTab('Root', 'ViewerMembers');
+        $fields->removeFieldFromTab('Root.EditorGroups', 'EditorGroups');
+        $fields->removeFieldFromTab('Root', 'EditorGroups');
+        $fields->removeFieldFromTab('Root.EditorMembers', 'EditorMembers');
+        $fields->removeFieldFromTab('Root', 'EditorMembers');
+
+        // Prepare Settings tab
         $settingsTab = new Tab('SettingsTab', _t('Genealogist.SETTINGS', 'Settings'));
         $fields->insertAfter('Main', $settingsTab);
 
         $this->reorderField($fields, 'CanViewType', 'Root.Main', 'Root.SettingsTab');
-        if ($viewerGroups = $fields->fieldByName('Root.ViewerGroups.ViewerGroups')) {
-            $fields->removeFieldFromTab('Root.ViewerGroups', 'ViewerGroups');
-            $fields->removeFieldFromTab('Root', 'ViewerGroups');
-            $fields->addFieldToTab('Root.SettingsTab', $viewerGroups);
-        }
-        if ($viewerMembers = $fields->fieldByName('Root.ViewerMembers.ViewerMembers')) {
-            $fields->removeFieldFromTab('Root.ViewerMembers', 'ViewerMembers');
-            $fields->removeFieldFromTab('Root', 'ViewerMembers');
-            $fields->addFieldToTab('Root.SettingsTab', $viewerMembers);
-        }
+
+        $viewerGroupsField = ListboxField::create("ViewerGroups", _t('SiteTree.VIEWERGROUPS', "Viewer Groups"))
+                ->setMultiple(true)
+                ->setSource($groupsMap)
+                ->setAttribute(
+                'data-placeholder', _t('SiteTree.GroupPlaceholder', 'Click to select group')
+        );
+        $fields->addFieldToTab('Root.SettingsTab', $viewerGroupsField);
+
+        $viewerMembersField = ListboxField::create("ViewerMembers", _t('SiteTree.VIEWERGROUPS', "Viewer Members"))
+                ->setMultiple(true)
+                ->setSource($membersMap)
+                ->setAttribute(
+                'data-placeholder', _t('SiteTree.GroupPlaceholder', 'Click to select group')
+        );
+        $fields->addFieldToTab('Root.SettingsTab', $viewerMembersField);
+
 
         $this->reorderField($fields, 'CanEditType', 'Root.Main', 'Root.SettingsTab');
-        if ($editorGroups = $fields->fieldByName('Root.EditorGroups.EditorGroups')) {
-            $fields->removeFieldFromTab('Root.EditorGroups', 'EditorGroups');
-            $fields->removeFieldFromTab('Root', 'EditorGroups');
-            $fields->addFieldToTab('Root.SettingsTab', $editorGroups);
-        }
-        if ($editorMembers = $fields->fieldByName('Root.EditorMembers.EditorMembers')) {
-            $fields->removeFieldFromTab('Root.EditorMembers', 'EditorMembers');
-            $fields->removeFieldFromTab('Root', 'EditorMembers');
-            $fields->addFieldToTab('Root.SettingsTab', $editorMembers);
-        }
+
+        $editorGroupsField = ListboxField::create("EditorGroups", _t('SiteTree.VIEWERGROUPS', "Editor Groups"))
+                ->setMultiple(true)
+                ->setSource($groupsMap)
+                ->setAttribute(
+                'data-placeholder', _t('SiteTree.GroupPlaceholder', 'Click to select group')
+        );
+        $fields->addFieldToTab('Root.SettingsTab', $editorGroupsField);
+
+        $editorMembersField = ListboxField::create("EditorMembers", _t('SiteTree.VIEWERGROUPS', "Editor Members"))
+                ->setMultiple(true)
+                ->setSource($membersMap)
+                ->setAttribute(
+                'data-placeholder', _t('SiteTree.GroupPlaceholder', 'Click to select group')
+        );
+        $fields->addFieldToTab('Root.SettingsTab', $editorMembersField);
     }
 
     protected function getCMSEvents(&$fields) {
