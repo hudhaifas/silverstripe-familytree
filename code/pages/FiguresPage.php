@@ -91,7 +91,6 @@ class FiguresPage_Controller
             jQuery(document).ready(function () {
                 rebindAjaxmodal();
             });
-
 JS
         );
     }

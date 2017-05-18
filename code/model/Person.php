@@ -228,12 +228,22 @@ class Person
             $fields->removeFieldFromTab('Root', 'ViewerGroups');
             $fields->addFieldToTab('Root.SettingsTab', $viewerGroups);
         }
+        if ($viewerMembers = $fields->fieldByName('Root.ViewerMembers.ViewerMembers')) {
+            $fields->removeFieldFromTab('Root.ViewerMembers', 'ViewerMembers');
+            $fields->removeFieldFromTab('Root', 'ViewerMembers');
+            $fields->addFieldToTab('Root.SettingsTab', $viewerMembers);
+        }
 
         $this->reorderField($fields, 'CanEditType', 'Root.Main', 'Root.SettingsTab');
         if ($editorGroups = $fields->fieldByName('Root.EditorGroups.EditorGroups')) {
             $fields->removeFieldFromTab('Root.EditorGroups', 'EditorGroups');
             $fields->removeFieldFromTab('Root', 'EditorGroups');
             $fields->addFieldToTab('Root.SettingsTab', $editorGroups);
+        }
+        if ($editorMembers = $fields->fieldByName('Root.EditorMembers.EditorMembers')) {
+            $fields->removeFieldFromTab('Root.EditorMembers', 'EditorMembers');
+            $fields->removeFieldFromTab('Root', 'EditorMembers');
+            $fields->addFieldToTab('Root.SettingsTab', $editorMembers);
         }
     }
 
