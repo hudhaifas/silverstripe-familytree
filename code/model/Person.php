@@ -471,6 +471,10 @@ class Person
             return true;
         }
 
+        if ($member && $this->hasMethod('CreatedBy') && $member == $this->CreatedBy()) {
+            return true;
+        }
+
         $extended = $this->extendedCan('canViewPersons', $member);
         if ($extended !== null) {
             return $extended;
@@ -492,7 +496,7 @@ class Person
             return true;
         }
 
-        // check for specific groups
+        // check for specific groups && users
         if ($this->CanViewType === 'OnlyTheseUsers' && $member && ($member->inGroups($this->ViewerGroups()) || $this->ViewerMembers()->byID($member->ID))) {
             return true;
         }
@@ -531,6 +535,10 @@ class Person
         }
 
         if ($member && Permission::checkMember($member, "ADMIN")) {
+            return true;
+        }
+
+        if ($member && $this->hasMethod('CreatedBy') && $member == $this->CreatedBy()) {
             return true;
         }
 
