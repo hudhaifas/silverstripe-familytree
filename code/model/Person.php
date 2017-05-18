@@ -459,21 +459,25 @@ class Person
     }
 
     public function canView($member = false) {
-        if (!$member) {
-            $member = Member::currentUserID();
-        }
-
-        if ($member && is_numeric($member)) {
-            $member = DataObject::get_by_id('Member', $member);
-        }
-
-        if ($member && Permission::checkMember($member, "ADMIN")) {
+        if ($this->canEdit($member)) {
             return true;
         }
 
-        if ($member && $this->hasMethod('CreatedBy') && $member == $this->CreatedBy()) {
-            return true;
-        }
+//        if (!$member) {
+//            $member = Member::currentUserID();
+//        }
+//
+//        if ($member && is_numeric($member)) {
+//            $member = DataObject::get_by_id('Member', $member);
+//        }
+//
+//        if ($member && Permission::checkMember($member, "ADMIN")) {
+//            return true;
+//        }
+//
+//        if ($member && $this->hasMethod('CreatedBy') && $member == $this->CreatedBy()) {
+//            return true;
+//        }
 
         $extended = $this->extendedCan('canViewPersons', $member);
         if ($extended !== null) {
@@ -549,8 +553,8 @@ class Person
 
         // check for inherit
         if ($this->CanEditType == 'Inherit') {
-            if ($this->ParentID) {
-                return $this->Parent()->canEdit($member);
+            if ($this->FatherID) {
+                return $this->Father()->canEdit($member);
             }
         }
 
