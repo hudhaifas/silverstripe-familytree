@@ -41,10 +41,9 @@ class Clan
     );
     private static $many_many = array(
     );
-
-    public function canView($member = false) {
-        return true;
-    }
+    private static $defaults = array(
+        "CanViewType" => "Anyone",
+    );
 
     public function getPersonName() {
         return $this->getAliasName();

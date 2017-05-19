@@ -38,11 +38,11 @@
             <tr>
                 <th></th>
                 <th><%t Genealogist.SONS 'Sons' %></th>
-                <% if ViewableDaughters %>
+                <% if canViewDaughters %>
                     <th><%t Genealogist.DAUGHTERS 'Daughters' %></th>
                 <% end_if %>
                 <th><%t Genealogist.MALES 'Males' %></th>
-                <% if ViewableDaughters %>
+                <% if canViewDaughters %>
                     <th><%t Genealogist.FEMALES 'Females' %></th>
                     <th><%t Genealogist.TOTAL 'Total' %></th>
                 <% end_if %>
@@ -50,11 +50,11 @@
             <tr>
                 <td><%t Genealogist.DESCENDANTS 'Descendants' %></td>
                 <td>$SonsCount</td>
-                <% if ViewableDaughters %>
+                <% if canViewDaughters %>
                     <td>$DaughtersCount</td>
                 <% end_if %>
                 <td>$MalesCount</td>
-                <% if ViewableDaughters %>
+                <% if canViewDaughters %>
                     <td>$FemalesCount</td>
                     <td>$DescendantsCount</td>
                 <% end_if %>
@@ -62,12 +62,12 @@
             <tr>
                 <td><%t Genealogist.ALIVE 'Alive' %></td>
                 <td>$SonsCount(1)</td>
-                <% if ViewableDaughters %>
+                <% if canViewDaughters %>
                     <td>$DaughtersCount(1)</td>
                 <% end_if %>
                 <td>$MalesCount(1)</td>
 
-                <% if ViewableDaughters %>
+                <% if canViewDaughters %>
                     <td>$FemalesCount(1)</td>
                     <td>$DescendantsCount(1)</td>
                 <% end_if %>
@@ -82,7 +82,7 @@
                 <th></th>
                 <th><%t Genealogist.CLANS 'Clans' %></th>
                 <th><%t Genealogist.MALES 'Males' %></th>
-                <% if ViewableDaughters %>
+                <% if canViewDaughters %>
                     <th><%t Genealogist.FEMALES 'Females' %></th>
                     <th><%t Genealogist.TOTAL 'Total' %></th>
                 <% end_if %>
@@ -91,7 +91,7 @@
                 <td><%t Genealogist.DESCENDANTS 'Descendants' %></td>
                 <td>$Clans.Count</td>
                 <td>$MalesCount</td>
-                <% if ViewableDaughters %>
+                <% if canViewDaughters %>
                     <td>$FemalesCount</td>
                     <td>$DescendantsCount</td>
                 <% end_if %>
@@ -101,7 +101,7 @@
                 <td>--</td>
                 <td>$MalesCount(1)</td>
 
-                <% if ViewableDaughters %>
+                <% if canViewDaughters %>
                     <td>$FemalesCount(1)</td>
                     <td>$DescendantsCount(1)</td>
                 <% end_if %>

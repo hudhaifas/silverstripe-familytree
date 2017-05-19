@@ -468,11 +468,9 @@ class Person
             $member = DataObject::get_by_id('Member', $member);
         }
 
-        if ($member) {
-            $cachedPermission = self::cache_permission_check('view', $member->ID, $this->ID);
-            if (isset($cachedPermission)) {
-                return $cachedPermission;
-            }
+        $cachedPermission = self::cache_permission_check('view', $member ? $member->ID : '?', $this->ID);
+        if (isset($cachedPermission)) {
+            return $cachedPermission;
         }
 
         if ($this->canEdit($member)) {
@@ -517,11 +515,9 @@ class Person
             $member = DataObject::get_by_id('Member', $member);
         }
 
-        if ($member) {
-            $cachedPermission = self::cache_permission_check('delete', $member->ID, $this->ID);
-            if (isset($cachedPermission)) {
-                return $cachedPermission;
-            }
+        $cachedPermission = self::cache_permission_check('delete', $member ? $member->ID : '?', $this->ID);
+        if (isset($cachedPermission)) {
+            return $cachedPermission;
         }
 
         if ($member && Permission::checkMember($member, "ADMIN")) {
@@ -545,11 +541,9 @@ class Person
             $member = DataObject::get_by_id('Member', $member);
         }
 
-        if ($member) {
-            $cachedPermission = self::cache_permission_check('edit', $member->ID, $this->ID);
-            if (isset($cachedPermission)) {
-                return $cachedPermission;
-            }
+        $cachedPermission = self::cache_permission_check('edit', $member ? $member->ID : '?', $this->ID);
+        if (isset($cachedPermission)) {
+            return $cachedPermission;
         }
 
         if ($member && Permission::checkMember($member, "ADMIN")) {
@@ -585,20 +579,36 @@ class Person
         return self::cache_permission_check('edit', $member->ID, $this->ID, false);
     }
 
-    public function ViewableSons() {
-        $flag = false;
+    public function canViewSons() {
+        $flag = $this->canView();
         foreach ($this->Sons() as $son) {
             $flag = $flag || $son->canView();
         }
         return $flag;
     }
 
-    public function ViewableDaughters() {
-        $flag = false;
+    public function canViewDaughters() {
+        $flag = $this->canView();
         foreach ($this->Daughters() as $daughter) {
             $flag = $flag || $daughter->canView();
         }
         return $flag;
+    }
+
+    public function ViewableSons() {
+        $count = 0;
+        foreach ($this->Sons() as $son) {
+            $count += $son->canView() ? 1 : 0;
+        }
+        return $count;
+    }
+
+    public function ViewableDaughters() {
+        $count = 0;
+        foreach ($this->Daughters() as $daughter) {
+            $count += $daughter->canView() ? 1 : 0;
+        }
+        return $count;
     }
 
     public static function cache_permission_check($typeField, $memberID, $personID, $result = null) {

@@ -73,7 +73,7 @@
         </p>
     <% end_if %>
 
-    <% if Daughters  && ViewableDaughters %>
+    <% if Daughters && ViewableDaughters %>
         <hr />
         <p>
             <b><%t Genealogist.DAUGHTERS 'Daughters' %></b>: $DaughtersCount<br />
