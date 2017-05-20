@@ -468,42 +468,42 @@ class Person
             $member = DataObject::get_by_id('Member', $member);
         }
 
-        $cachedPermission = self::cache_permission_check('view', $member ? $member->ID : '?', $this->ID);
+        $cachedPermission = self::cache_permission_check('view', $member, $this->ID);
         if (isset($cachedPermission)) {
             return $cachedPermission;
         }
 
         if ($this->canEdit($member)) {
-            return self::cache_permission_check('view', $member->ID, $this->ID, true);
+            return self::cache_permission_check('view', $member, $this->ID, true);
         }
 
         $extended = $this->extendedCan('canViewPersons', $member);
         if ($extended !== null) {
-            return self::cache_permission_check('view', $member->ID, $this->ID, $extended);
+            return self::cache_permission_check('view', $member, $this->ID, $extended);
         }
 
         if (!$this->CanViewType || $this->CanViewType == 'Anyone') {
-            return self::cache_permission_check('view', $member->ID, $this->ID, true);
+            return self::cache_permission_check('view', $member, $this->ID, true);
         }
 
         // check for inherit
         if ($this->CanViewType == 'Inherit') {
             if ($this->FatherID && !$this->Father()->isClan()) {
-                return self::cache_permission_check('view', $member->ID, $this->ID, $this->Father()->canView($member));
+                return self::cache_permission_check('view', $member, $this->ID, $this->Father()->canView($member));
             }
         }
 
         // check for any logged-in users
         if ($this->CanViewType === 'LoggedInUsers' && $member) {
-            return self::cache_permission_check('view', $member->ID, $this->ID, true);
+            return self::cache_permission_check('view', $member, $this->ID, true);
         }
 
         // check for specific groups && users
         if ($this->CanViewType === 'OnlyTheseUsers' && $member && ($member->inGroups($this->ViewerGroups()) || $this->ViewerMembers()->byID($member->ID))) {
-            return self::cache_permission_check('view', $member->ID, $this->ID, true);
+            return self::cache_permission_check('view', $member, $this->ID, true);
         }
 
-        return self::cache_permission_check('view', $member->ID, $this->ID, false);
+        return self::cache_permission_check('view', $member, $this->ID, false);
     }
 
     public function canDelete($member = false) {
@@ -515,7 +515,7 @@ class Person
             $member = DataObject::get_by_id('Member', $member);
         }
 
-        $cachedPermission = self::cache_permission_check('delete', $member ? $member->ID : '?', $this->ID);
+        $cachedPermission = self::cache_permission_check('delete', $member, $this->ID);
         if (isset($cachedPermission)) {
             return $cachedPermission;
         }
@@ -541,54 +541,70 @@ class Person
             $member = DataObject::get_by_id('Member', $member);
         }
 
-        $cachedPermission = self::cache_permission_check('edit', $member ? $member->ID : '?', $this->ID);
+        $cachedPermission = self::cache_permission_check('edit', $member, $this->ID);
         if (isset($cachedPermission)) {
             return $cachedPermission;
         }
 
         if ($member && Permission::checkMember($member, "ADMIN")) {
-            return self::cache_permission_check('edit', $member->ID, $this->ID, true);
+            return self::cache_permission_check('edit', $member, $this->ID, true);
         }
 
         if ($member && $this->hasMethod('CreatedBy') && $member == $this->CreatedBy()) {
-            return self::cache_permission_check('edit', $member->ID, $this->ID, true);
+            return self::cache_permission_check('edit', $member, $this->ID, true);
         }
 
         $extended = $this->extendedCan('canEditPersons', $member);
         if ($extended !== null) {
-            return self::cache_permission_check('edit', $member->ID, $this->ID, $extended);
+            return self::cache_permission_check('edit', $member, $this->ID, $extended);
         }
 
         // check for inherit
         if ($this->CanEditType == 'Inherit') {
             if ($this->FatherID) {
-                return self::cache_permission_check('edit', $member->ID, $this->ID, $this->Father()->canEdit($member));
+                return self::cache_permission_check('edit', $member, $this->ID, $this->Father()->canEdit($member));
             }
         }
 
         // check for any logged-in users with CMS access
         if ($this->CanEditType === 'LoggedInUsers' && Permission::checkMember($member, $this->config()->required_permission)) {
-            return self::cache_permission_check('edit', $member->ID, $this->ID, true);
+            return self::cache_permission_check('edit', $member, $this->ID, true);
         }
 
         // check for specific groups
         if ($this->CanEditType === 'OnlyTheseUsers' && $member && ($member->inGroups($this->EditorGroups()) || $this->EditorMembers()->byID($member->ID))) {
-            return self::cache_permission_check('edit', $member->ID, $this->ID, true);
+            return self::cache_permission_check('edit', $member, $this->ID, true);
         }
 
-        return self::cache_permission_check('edit', $member->ID, $this->ID, false);
+        return self::cache_permission_check('edit', $member, $this->ID, false);
     }
 
-    public function canViewSons() {
-        $flag = $this->canView();
+    public function canViewSons($member = false) {
+        if (!$member) {
+            $member = Member::currentUserID();
+        }
+
+        if (!$member || !$this->canView()) {
+            return false;
+        }
+
+        $flag = false;
         foreach ($this->Sons() as $son) {
             $flag = $flag || $son->canView();
         }
         return $flag;
     }
 
-    public function canViewDaughters() {
-        $flag = $this->canView();
+    public function canViewDaughters($member = false) {
+        if (!$member) {
+            $member = Member::currentUserID();
+        }
+
+        if (!$member || !$this->canView()) {
+            return false;
+        }
+
+        $flag = false;
         foreach ($this->Daughters() as $daughter) {
             $flag = $flag || $daughter->canView();
         }
@@ -611,7 +627,17 @@ class Person
         return $count;
     }
 
-    public static function cache_permission_check($typeField, $memberID, $personID, $result = null) {
+    public static function cache_permission_check($typeField, $member, $personID, $result = null) {
+        if (!$member) {
+            $member = Member::currentUserID();
+        }
+
+        if ($member && is_numeric($member)) {
+            $member = DataObject::get_by_id('Member', $member);
+        }
+
+        $memberID = $member ? $member->ID : '?';
+        
         // This is the name used on the permission cache
         // converts something like 'CanEditType' to 'edit'.
         $cacheKey = strtolower($typeField) . "-$memberID-$personID";
