@@ -19,6 +19,9 @@ en:
   Suggestion:
     PLURALNAME: 'Suggestions'
     SINGULARNAME: 'Suggestions'
+  Town:
+    PLURALNAME: 'Towns'
+    SINGULARNAME: 'Towns'
   Genealogist:
     PHOTO: 'Photo'
     PREFIX: 'Prefix'
@@ -158,6 +161,16 @@ en:
     CLICK_HERE: 'click here'
     SUGGEST_EDIT_MESSAGE_2: 'to provide us with any data or suggestions.'
 
+    # Towns
+    TOWN_NAME: 'Town Name'
+    TWON_NAMES: 'Twon Names'
+    TOWN_ID: 'Town ID'
+    TOWN_DEFAULT_NAME: 'Default Name'
+    START_DATE: 'Start Date'
+    END_DATE: 'End Date'
+    LATITUDE: 'Latitude'
+    LONGITUDE: 'Longitude'
+    
     NOTE: 'Note'
     COMMENTS: 'Comments'
     FROM: 'From'

@@ -19,6 +19,9 @@ ar:
   Suggestion:
     PLURALNAME: 'الاقتراحات'
     SINGULARNAME: 'الاقتراحات'
+  Town:
+    PLURALNAME: 'المدن'
+    SINGULARNAME: 'المدن'
   Genealogist:
     PHOTO: 'الصورة'
     PREFIX: 'المزيد المقدم'
@@ -158,6 +161,16 @@ ar:
     CLICK_HERE: 'اضغط هنا'
     SUGGEST_EDIT_MESSAGE_2: 'لتزويدنا بأي اقتراحات أو بيانات.'
 
+    # Towns
+    TOWN_NAME: 'اسم المدينة'
+    TWON_NAMES: 'أسماء المدن'
+    TOWN_ID: 'رمز المدينة'
+    TOWN_DEFAULT_NAME: 'الاسم التلقائي'
+    START_DATE: 'منذ تاريخ'
+    END_DATE: 'إلى تاريخ'
+    LATITUDE: 'خط العرض'
+    LONGITUDE: 'خط الطول'
+    
     NOTE: 'ملاحظة'
     COMMENTS: 'التعليقات'
     FROM: 'من'

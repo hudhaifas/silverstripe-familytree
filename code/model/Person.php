@@ -205,6 +205,7 @@ class Person
         $this->getCMSEvents($fields);
         $this->getSettingsFields($fields);
 
+        $this->reorderField($fields, 'TribeID', 'Root.Main', 'Root.Main');
         $this->reorderField($fields, 'FatherID', 'Root.Main', 'Root.Main');
         $this->reorderField($fields, 'MotherID', 'Root.Main', 'Root.Main');
 
