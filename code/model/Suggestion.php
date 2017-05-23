@@ -21,6 +21,7 @@ class Suggestion
         'Phone' => 'Varchar(255)',
         'Subject' => "Enum('General, Name, Father, Mother, Spouse, Sons, Daughters, BirthDate, DeathDate', 'Name')",
         'Message' => 'Text',
+        'Proceeded' => 'Boolean',
     );
     private static $has_one = array(
         'Person' => 'Person',
@@ -28,6 +29,9 @@ class Suggestion
     private static $has_many = array(
     );
     private static $many_many = array(
+    );
+    private static $defaults = array(
+        "Proceeded" => 0,
     );
     private static $searchable_fields = array(
         'Message' => array(
@@ -41,7 +45,9 @@ class Suggestion
         'Subject',
         'Message',
         'Created',
+        'Proceeded',
     );
+    private static $default_sort = 'Created';
 
     public function fieldLabels($includerelations = true) {
         $labels = parent::fieldLabels($includerelations);
@@ -53,31 +59,10 @@ class Suggestion
         $labels['Subject'] = _t('Genealogist.SUBJECT', 'Subject');
         $labels['Message'] = _t('Genealogist.MESSAGE', 'Message');
         $labels['Person'] = _t('Genealogist.PERSON', 'Person');
+        $labels['Created'] = _t('Genealogist.CREATED', 'Created');
+        $labels['Proceeded'] = _t('Genealogist.PROCEEDED', 'Proceeded');
 
         return $labels;
-    }
-
-    public function getCMSFields() {
-        $self = & $this;
-
-        $this->beforeUpdateCMSFields(function ($fields) use ($self) {
-//            $fields->removeFieldFromTab('Root.Main', 'ParentID');
-//            $self->reorderField($fields, 'Name', 'Root.Main', 'Root.Main');
-//            $self->reorderField($fields, 'NickName', 'Root.Main', 'Root.Main');
-//            $self->reorderField($fields, 'BirthDate', 'Root.Main', 'Root.Main');
-//            $self->reorderField($fields, 'DeathDate', 'Root.Main', 'Root.Main');
-//            $self->reorderField($fields, 'DeathDate', 'Root.Main', 'Root.Main');
-//            $self->reorderField($fields, 'IsDead', 'Root.Main', 'Root.Main');
-//            
-//            $self->reorderField($fields, 'FatherID', 'Root.Main', 'Root.Main');
-//            $self->reorderField($fields, 'MotherID', 'Root.Main', 'Root.Main');
-//            
-//            $self->reorderField($fields, 'FatherID', 'Root.Main', 'Root.Main');
-        });
-
-        $fields = parent::getCMSFields();
-
-        return $fields;
     }
 
     public function canCreate($member = null) {
@@ -94,14 +79,6 @@ class Suggestion
 
     public function canEdit($member = false) {
         return true;
-    }
-
-    protected function onBeforeWrite() {
-        parent::onBeforeWrite();
-    }
-
-    protected function onBeforeDelete() {
-        parent::onBeforeDelete();
     }
 
     public function getTitle() {

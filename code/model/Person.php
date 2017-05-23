@@ -637,7 +637,7 @@ class Person
         }
 
         $memberID = $member ? $member->ID : '?';
-        
+
         // This is the name used on the permission cache
         // converts something like 'CanEditType' to 'edit'.
         $cacheKey = strtolower($typeField) . "-$memberID-$personID";
@@ -1250,6 +1250,13 @@ class Person
             $lists[] = array(
                 'Title' => _t('Genealogist.BIOGRAPHY', 'Biography'),
                 'Content' => $this->Biography
+            );
+        }
+
+        if ($this->canEdit() && $this->Suggestions()->Count()) {
+            $lists[] = array(
+                'Title' => _t('Genealogist.SUGGESTIONS', 'Suggestions'),
+            'Content' => $this->renderWith('Person_Suggestions')
             );
         }
 

@@ -149,6 +149,8 @@ ar:
 
     # Suggestions
     SUGGESTIONS: 'الاقتراحات'
+    CREATED: 'التاريخ'
+    PROCEEDED: 'تم'
     SUGGEST_PERSON_EDIT: 'اقترح تعديلا على هذا الشخص'
     SUGGEST_EDIT: 'اقترح تعديلا'
     SUGGEST_EDIT_ON: 'اقترح تعديلا على'
