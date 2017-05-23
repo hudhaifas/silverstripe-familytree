@@ -41,10 +41,10 @@ class Person
         'Postfix' => 'Varchar(255)',
         // Birth
         'BirthDate' => 'Date',
-        'BirthPlace' => 'Varchar(255)',
+//        'BirthPlace' => 'Varchar(255)',
         'BirthDateEstimated' => 'Boolean',
         'DeathDate' => 'Date',
-        'DeathPlace' => 'Varchar(255)',
+//        'DeathPlace' => 'Varchar(255)',
         'DeathDateEstimated' => 'Boolean',
         'IsDead' => 'Boolean',
         // Notes
@@ -66,6 +66,9 @@ class Person
         'Father' => 'Male',
         'Mother' => 'Female',
         'Stats' => 'PersonalStats',
+        'BirthPlace' => 'Town',
+        'DeathPlace' => 'Town',
+        'BurialPlace' => 'Town',
     );
     private static $has_many = array(
         'Sons' => 'Male',
@@ -131,6 +134,7 @@ class Person
         $labels['DeathDate'] = _t('Genealogist.DEATHDATE', 'Death Date');
         $labels['DeathPlace'] = _t('Genealogist.DEATHPLACE', 'Death Place');
         $labels['DeathDateEstimated'] = _t('Genealogist.DEATHDATE_ESTIMATED', 'Death Date Estimated');
+        $labels['BurialPlace'] = _t('Genealogist.BURIALPLACE', 'Burial Place');
         $labels['Age'] = _t('Genealogist.AGE', 'Age');
         $labels['IsDead'] = _t('Genealogist.ISDEAD', 'Is Dead');
 
@@ -296,12 +300,13 @@ class Person
         $datesTab = new Tab('DatesTab', _t('Genealogist.EVENTS', 'Events'));
         $fields->insertAfter('Main', $datesTab);
         $this->reorderField($fields, 'BirthDate', 'Root.Main', 'Root.DatesTab');
-        $this->reorderField($fields, 'BirthPlace', 'Root.Main', 'Root.DatesTab');
+        $this->reorderField($fields, 'BirthPlaceID', 'Root.Main', 'Root.DatesTab');
         $this->reorderField($fields, 'BirthDateEstimated', 'Root.Main', 'Root.DatesTab');
         $this->reorderField($fields, 'DeathDate', 'Root.Main', 'Root.DatesTab');
-        $this->reorderField($fields, 'DeathPlace', 'Root.Main', 'Root.DatesTab');
+        $this->reorderField($fields, 'DeathPlaceID', 'Root.Main', 'Root.DatesTab');
         $this->reorderField($fields, 'DeathDateEstimated', 'Root.Main', 'Root.DatesTab');
         $this->reorderField($fields, 'IsDead', 'Root.Main', 'Root.DatesTab');
+        $this->reorderField($fields, 'BurialPlaceID', 'Root.Main', 'Root.DatesTab');
         $fields->addFieldsToTab('Root.DatesTab', array(
             ReadonlyField::create('Age', _t('Genealogist.AGE', 'Age'), $this->getAge())
         ));

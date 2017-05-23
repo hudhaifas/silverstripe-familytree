@@ -170,6 +170,9 @@ ar:
     END_DATE: 'إلى تاريخ'
     LATITUDE: 'خط العرض'
     LONGITUDE: 'خط الطول'
+    BIRTHS: 'المواليد'
+    DEATHS: 'الوفيات'
+    BURIED: 'المدفونون'
     
     NOTE: 'ملاحظة'
     COMMENTS: 'التعليقات'
@@ -209,9 +212,11 @@ ar:
     ISDEAD: 'متوفى؟'
     DEATHDATE: 'تاريخ الوفاة'
     DEATHPLACE: 'مكان الوفاة'
+    BURIALPLACE: 'مكان الدفن'
     DEATHDATE_ESTIMATED: 'تاريخ الوفاة تقريبي'
     ESTIMATED_DEATHDATE: 'تاريخ الوفاة (تقريبا)'
     CALCULATIONS_DEATHDATE: 'تاريخ الوفاة (تقديرا)'
+    CHOOSE_PLACE: 'اختر مكانا'
 
     # Events
     EVENTS: 'الأحداث'

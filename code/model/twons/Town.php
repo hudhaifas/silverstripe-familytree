@@ -24,6 +24,10 @@ class Town
     );
     private static $has_many = array(
         'TwonNames' => 'TwonName',
+        'Events' => 'PersonalEvent',
+        'Births' => 'Person.BirthPlace',
+        'Deaths' => 'Person.DeathPlace',
+        'Buried' => 'Person.BurialPlace',
     );
     private static $many_many = array(
     );
@@ -43,6 +47,11 @@ class Town
         $labels['TwonNames'] = _t('Genealogist.TWON_NAMES', 'Twon Names');
         $labels['Latitude'] = _t('Genealogist.LATITUDE', 'Latitude');
         $labels['Longitude'] = _t('Genealogist.LONGITUDE', 'Longitude');
+        
+        $labels['Events'] = _t('Genealogist.EVENTS', 'Events');
+        $labels['Births'] = _t('Genealogist.BIRTHS', 'Births');
+        $labels['Deaths'] = _t('Genealogist.DEATHS', 'Deaths');
+        $labels['Buried'] = _t('Genealogist.BURIED', 'Buried');
 
         return $labels;
     }

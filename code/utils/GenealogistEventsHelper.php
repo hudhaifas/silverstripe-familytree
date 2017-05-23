@@ -70,13 +70,13 @@ class GenealogistEventsHelper {
                 case 'Birth':
                     $event->EventDate = self::get_birth_date($relative);
                     $event->DatePrecision = self::get_birth_date_precision($relative);
-                    $event->EventPlace = $relative->BirthPlace;
+                    $event->EventPlaceID = $relative->BirthPlaceID;
                     break;
 
                 case 'Death':
                     $event->EventDate = self::get_death_date($relative);
                     $event->DatePrecision = self::get_death_date_precision($relative);
-                    $event->EventPlace = $relative->DeathPlace;
+                    $event->EventPlaceID = $relative->DeathPlaceID;
                     break;
 
                 default:
@@ -136,12 +136,12 @@ class GenealogistEventsHelper {
         switch ($type) {
             case 'Birth':
                 $event->DatePrecision = self::get_birth_date_precision($relative);
-                $event->EventPlace = $relative->BirthPlace;
+                $event->EventPlaceID = $relative->BirthPlaceID;
                 break;
 
             case 'Death':
                 $event->DatePrecision = self::get_death_date_precision($relative);
-                $event->EventPlace = $relative->DeathPlace;
+                $event->EventPlaceID = $relative->DeathPlaceID;
                 break;
         }
 
@@ -268,8 +268,8 @@ class GenealogistEventsHelper {
                     'date' => $event->getDateValue()
                 ));
 
-                if ($event->EventPlace) {
-                    $content .= _t("Genealogist.IN_PLACE", " in {place}", array('place' => $event->EventPlace));
+                if ($event->EventPlaceID) {
+                    $content .= _t("Genealogist.IN_PLACE", " in {place}", array('place' => $event->EventPlaceID));
                 }
 
                 if ($person->Father()->exists()) {
@@ -313,8 +313,8 @@ class GenealogistEventsHelper {
                     'date' => $event->getDateValue()
                 ));
 
-                if ($event->EventPlace) {
-                    $content .= _t("Genealogist.IN_PLACE", " in {place}", array('place' => $event->EventPlace));
+                if ($event->EventPlaceID) {
+                    $content .= _t("Genealogist.IN_PLACE", " in {place}", array('place' => $event->EventPlaceID));
                 }
 
                 if ($event->Age) {
@@ -369,8 +369,8 @@ class GenealogistEventsHelper {
             'date' => $event->getDateValue()
         ));
 
-        if ($event->EventPlace) {
-            $content .= _t("Genealogist.IN_PLACE", " in {place}", array('place' => $event->EventPlace));
+        if ($event->EventPlaceID) {
+            $content .= _t("Genealogist.IN_PLACE", " in {place}", array('place' => $event->EventPlaceID));
         }
         return $content;
     }
@@ -387,8 +387,8 @@ class GenealogistEventsHelper {
             'date' => $event->getDateValue()
         ));
 
-        if ($event->EventPlace) {
-            $content .= _t("Genealogist.IN_PLACE", " in {place}", array('place' => $event->EventPlace));
+        if ($event->EventPlaceID) {
+            $content .= _t("Genealogist.IN_PLACE", " in {place}", array('place' => $event->EventPlaceID));
         }
 
         $age = self::age_at_event(

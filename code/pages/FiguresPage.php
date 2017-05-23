@@ -228,6 +228,8 @@ JS
 
         $person = DataObject::get_by_id('Person', (int) $id);
 
+        $towns = DataObject::get('Town')->map();
+
         // Create fields          
         $fields = new FieldList(
                 HiddenField::create('PersonID', 'PersonID', $id), //
@@ -236,10 +238,26 @@ JS
                 TextField::create('NickName', _t('Genealogist.NICKNAME', 'NickName'), $person->NickName), //
                 TextField::create('Note', _t('Genealogist.NOTE', 'Note'), $person->Note), //
                 TextField::create('BirthDate', _t('Genealogist.BIRTHDATE', 'Birth Date'), $person->BirthDate), //
-                TextField::create('BirthPlace', _t('Genealogist.BIRTHPLACE', 'Birth Place'), $person->BirthPlace), //
+                DropdownField::create(
+                        'BirthPlaceID', //
+                        _t('Genealogist.BIRTHPLACE', 'Birth Place'), //
+                        $towns, //
+                        $person->BirthPlaceID
+                )->setEmptyString(_t('Genealogist.BIRTHPLACE', 'Birth Place')), //
                 CheckboxField::create('BirthDateEstimated', _t('Genealogist.BIRTHDATE_ESTIMATED', 'Birth Date Estimated'), $person->BirthDateEstimated), //
                 TextField::create('DeathDate', _t('Genealogist.DEATHDATE', 'Death Date'), $person->DeathDate), //
-                TextField::create('DeathPlace', _t('Genealogist.DEATHPLACE', 'Death Place'), $person->DeathPlace), //
+                DropdownField::create(
+                        'DeathPlaceID', //
+                        _t('Genealogist.DEATHPLACE', 'Death Place'), //
+                        $towns, //
+                        $person->DeathPlaceID
+                )->setEmptyString(_t('Genealogist.DEATHPLACE', 'Death Place')), //
+                DropdownField::create(
+                        'BurialPlaceID', //
+                        _t('Genealogist.BURIALPLACE', 'Burial Place'), //
+                        $towns, //
+                        $person->BurialPlaceID
+                )->setEmptyString(_t('Genealogist.BURIALPLACE', 'Burial Place')), //
                 CheckboxField::create('DeathDateEstimated', _t('Genealogist.DEATHDATE_ESTIMATED', 'Death Date Estimated'), $person->DeathDateEstimated), //
                 CheckboxField::create('IsDead', _t('Genealogist.ISDEAD', 'Is Dead'), $person->IsDead), //
                 TextareaField::create('Comments', _t('Genealogist.COMMENTS', 'Comments'), $person->Comments) //
@@ -308,7 +326,7 @@ JS
                 ->setSource($groupsMap)
                 ->setValue(null, $person)
                 ->setAttribute('data-placeholder', _t('Genealogist.GROUP_PLACEHOLDER', 'Click to select group'));
-        
+
         $editorMembersField = ListboxField::create("EditorMembers", _t('Genealogist.EDITOR_MEMBERS', "Editor Users"))
                 ->setMultiple(true)
                 ->setSource($membersMap)

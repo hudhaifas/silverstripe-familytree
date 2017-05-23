@@ -19,7 +19,7 @@ class PersonalEvent
         'EventTitle' => 'Varchar(255)',
         'EventDate' => 'Date',
         'DatePrecision' => 'Enum("Accurate, Estimated, Calculated", "Accurate")',
-        'EventPlace' => 'Varchar(255)',
+//        'EventPlace' => 'Varchar(255)',
         'EventContent' => 'HTMLText',
         'EventType' => 'Enum("Birth, Death, Marriage, Resident, Graduated, Custom", "Custom")',
         'IsPrivate' => 'Boolean',
@@ -30,13 +30,14 @@ class PersonalEvent
     private static $has_one = array(
         'Person' => 'Person',
         'RelatedPerson' => 'Person',
+        'EventPlace' => 'Town',
     );
     private static $summary_fields = array(
         'Title',
         'Person.Name',
         'RelatedPerson.Name',
         'EventDate',
-        'EventPlace',
+        'EventPlace.Title',
         'Age',
         'EventType',
     );
@@ -104,6 +105,10 @@ class PersonalEvent
 
     public function getTitle() {
         return _t('Genealogist.' . $this->EventTitle, $this->EventTitle);
+    }
+
+    public function getPlaceTitle() {
+        return $this->EventPlace()->getTitle($this->EventDate);
     }
 
     public function getContent() {

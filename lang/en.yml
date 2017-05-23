@@ -170,6 +170,9 @@ en:
     END_DATE: 'End Date'
     LATITUDE: 'Latitude'
     LONGITUDE: 'Longitude'
+    BIRTHS: 'Births'
+    DEATHS: 'Deaths'
+    BURIED: 'Buried'
     
     NOTE: 'Note'
     COMMENTS: 'Comments'
@@ -209,9 +212,11 @@ en:
     ISDEAD: 'Is Dead'
     DEATHDATE: 'Death Date'
     DEATHPLACE: 'Death Place'
+    BURIALPLACE: 'Burial Place'
     DEATHDATE_ESTIMATED: 'Death Date Estimated'
     ESTIMATED_DEATHDATE: 'Death Date (Estimated)'
     CALCULATIONS_DEATHDATE: 'Death Date (Calculations)'
+    CHOOSE_PLACE: 'Choose Place'
 
     # Events
     EVENTS: 'Events'

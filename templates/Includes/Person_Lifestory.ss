@@ -24,7 +24,7 @@
                 <div class="tl-content">
                     <span class="tl-content-place">
                         <% if DatePrecision == 'Accurate' %><span class="tl-content-date">$EventDate.Format(M d)</span><% end_if%>
-                        <%if EventPlace %> <i class="fa fa-map-marker" aria-hidden="true"></i> $EventPlace<% end_if%>
+                        <%if EventPlace %> <i class="fa fa-map-marker" aria-hidden="true"></i> $PlaceTitle<% end_if%>
                     </span>
                     <span class="tl-content-title">$Title</span>
                     <div class="tl-content-text">$Content</div>
