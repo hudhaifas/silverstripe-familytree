@@ -96,27 +96,22 @@ class Female
      * @return strnig
      */
     public function getFirstName() {
-        print $GLOBALS['task_caller'];
         return $this->canView() || $GLOBALS['task_caller']  ? $this->Name : _t('Genealogist.HIDDEN', 'Hidden');
     }
 
     public function getFullName($withChildOf = true) {
-        print $GLOBALS['task_caller'];
         return $this->canView() || $GLOBALS['task_caller']  ? parent::getFullName() : _t('Genealogist.HIDDEN', 'Hidden');
     }
 
     public function getAliasName() {
-        print $GLOBALS['task_caller'];
         return $this->canView() || $GLOBALS['task_caller']  ? parent::getAliasName() : _t('Genealogist.HIDDEN', 'Hidden');
     }
 
     public function getBriefName() {
-        print $GLOBALS['task_caller'];
         return $this->canView() || $GLOBALS['task_caller']  ? parent::getBriefName() : _t('Genealogist.HIDDEN', 'Hidden');
     }
 
     public function getShortName() {
-        print $GLOBALS['task_caller'];
         return $this->canView() || $GLOBALS['task_caller'] ? parent::getShortName() : _t('Genealogist.HIDDEN', 'Hidden');
     }
 
