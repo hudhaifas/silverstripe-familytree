@@ -719,7 +719,16 @@ class Person
      */
     public function getPersonName() {
 //        return $this->getFirstName();
-        return $this->getAliasName();
+//        return $this->getAliasName();
+        $name = '';
+
+        $name .= $this->getFirstName();
+
+        if ($this->NickName) {
+            $name .= " ({$this->NickName})";
+        }
+
+        return $name;
     }
 
     /**
