@@ -594,7 +594,7 @@ class Person
             return false;
         }
 
-        $flag = false;
+        $flag = $this->canView();
         foreach ($this->Sons() as $son) {
             $flag = $flag || $son->canView();
         }
@@ -610,7 +610,7 @@ class Person
             return false;
         }
 
-        $flag = false;
+        $flag = $this->canView();
         foreach ($this->Daughters() as $daughter) {
             $flag = $flag || $daughter->canView();
         }
