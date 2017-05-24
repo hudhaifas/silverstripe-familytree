@@ -269,7 +269,7 @@ class GenealogistEventsHelper {
                 ));
 
                 if ($event->EventPlaceID) {
-                    $content .= _t("Genealogist.IN_PLACE", " in {place}", array('place' => $event->EventPlaceID));
+                    $content .= _t("Genealogist.IN_PLACE", " in {place}", array('place' => $event->getPlaceTitle()));
                 }
 
                 if ($person->Father()->exists()) {
@@ -314,7 +314,7 @@ class GenealogistEventsHelper {
                 ));
 
                 if ($event->EventPlaceID) {
-                    $content .= _t("Genealogist.IN_PLACE", " in {place}", array('place' => $event->EventPlaceID));
+                    $content .= _t("Genealogist.IN_PLACE", " in {place}", array('place' => $event->getPlaceTitle()));
                 }
 
                 if ($event->Age) {
@@ -370,7 +370,7 @@ class GenealogistEventsHelper {
         ));
 
         if ($event->EventPlaceID) {
-            $content .= _t("Genealogist.IN_PLACE", " in {place}", array('place' => $event->EventPlaceID));
+            $content .= _t("Genealogist.IN_PLACE", " in {place}", array('place' => $event->getPlaceTitle()));
         }
         return $content;
     }
@@ -388,7 +388,7 @@ class GenealogistEventsHelper {
         ));
 
         if ($event->EventPlaceID) {
-            $content .= _t("Genealogist.IN_PLACE", " in {place}", array('place' => $event->EventPlaceID));
+            $content .= _t("Genealogist.IN_PLACE", " in {place}", array('place' => $event->getPlaceTitle()));
         }
 
         $age = self::age_at_event(
