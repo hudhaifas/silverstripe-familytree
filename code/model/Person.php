@@ -792,7 +792,11 @@ class Person
     public function getShortName() {
         $name = $this->getPersonName();
 
-        return "{$name} {$this->getTribeName()}";
+        if ($this->getTribeName()) {
+            return "{$name} {$this->getTribeName()}";
+        } else {
+            return "{$name} {$this->getRootClan()}";
+        }
     }
 
     /**
@@ -875,6 +879,20 @@ class Person
         }
 
         return $person;
+    }
+
+    public function getRootClan() {
+        $person = $this;
+
+        $clan = null;
+        while ($person->Father()->exists()) {
+            $person = $person->Father();
+            if ($person->isClan()) {
+                $clan = $person;
+            }
+        }
+
+        return $clan ? $clan->Name : '';
     }
 
     /**
@@ -1262,7 +1280,7 @@ class Person
         if ($this->canEdit() && $this->Suggestions()->Count()) {
             $lists[] = array(
                 'Title' => _t('Genealogist.SUGGESTIONS', 'Suggestions'),
-            'Content' => $this->renderWith('Person_Suggestions')
+                'Content' => $this->renderWith('Person_Suggestions')
             );
         }
 
