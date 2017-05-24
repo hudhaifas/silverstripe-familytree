@@ -367,9 +367,9 @@ JS
         $id = $data['PersonID'];
 
         $person = DataObject::get_by_id('Person', (int) $id);
-        var_dump($data['CanViewType']);
+//        var_dump($data['CanViewType']);
         $form->saveInto($person);
-        var_dump($person->CanViewType);
+//        var_dump($person->CanViewType);
         $person->write();
 
         return $this->owner->redirectBack();
