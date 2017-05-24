@@ -45,6 +45,16 @@ class EventsPage
 class EventsPage_Controller
         extends DataObjectPage_Controller {
 
+    public function init() {
+        parent::init();
+
+        Requirements::css("genealogist/css/events.css");
+
+        if ($this->isRTL()) {
+            
+        }
+    }
+
     protected function getObjectsList() {
 //        $filter = filter_input(INPUT_GET, 'f');
 //        $type = filter_input(INPUT_GET, 't');

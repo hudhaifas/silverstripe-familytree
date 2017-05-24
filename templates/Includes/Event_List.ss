@@ -1,24 +1,20 @@
 <h4>$ListTitle <super>($Results.Count)</super></h4>
-<div class="cover-container">
-    <% loop Results %>
-        <% if not $isObjectDisabled %>
-            <div class="cover-item">
-                <a <% if not $isObjectDisabled %>href="$ObjectLink"<% end_if %> title="$ObjectTitle ($EventDate)">
-                    <div class="thumbnail text-center col-sm-12 col-xs-4 dataobject-image">
-                        <% include List_Image %>
 
-                        <% if not $isObjectDisabled %>
-                        <div class="mask">
-                            <div class="info"><%t DataObjectPage.MORE_ABOUT 'More' %></div>
-                        </div>
-                        <% end_if %>
+<div class="events-container">
+    <% if Results  %>
+        <div class="dataobject-grid">
+            <% loop $Results %>
+                <% if not $isObjectDisabled %>
+                    <div class="dataobject-item events-item">
+                        <% include Event_Item %>
                     </div>
+                <% end_if %>
+            <% end_loop %>
+        </div>
 
-                    <div class="content col-sm-12 col-xs-8 dataobject-summary">
-                        <% include Single_Summary %>
-                    </div>		
-                </a>
-            </div>
-        <% end_if %>
-    <% end_loop %>
+    <% else %>
+        <div class="row">
+            <p><%t DataObjectPage.SEARCH_NO_RESULTS 'Sorry, your search query did not return any results.' %></p>
+        </div>
+    <% end_if %>
 </div>

@@ -1,29 +1,9 @@
-<style>
-    .cover-container {
-        /*height: 180px;*/
-        width: 100%;
-        white-space: nowrap;
-        overflow-x: scroll;
-        overflow-y: hidden;
-    }
-
-    .cover-item {
-        display: inline-block;
-        margin: 8px 8px;
-        white-space: initial;
-        width: 144px;
-        height: 240px;
-        vertical-align: bottom;
-        font-size: 12px;
-    }
-</style>
-
-<div class="container">
+<div class="container dataobject-page">
     <div class="row">
         $Anniversaries(BORN_TODAY,Birth)
     </div>
 
-    <div class="row">
+    <div class="row death">
         $Anniversaries(DIED_TODAY,Death)
     </div>
 
@@ -31,7 +11,7 @@
         $Annuals(BORN_THIS_YEAR,Birth)
     </div>
 
-    <div class="row">
+    <div class="row death">
         $Annuals(DIED_THIS_YEAR,Death)
     </div>
 </div>

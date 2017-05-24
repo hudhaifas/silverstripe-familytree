@@ -111,6 +111,16 @@ class PersonalEvent
         return $this->EventPlace()->getTitle($this->EventDate);
     }
 
+    public function getEventAgo() {
+        if ($this->EventDate) {
+            $date = new Date();
+            $date->setValue($this->EventDate);
+            return $date->TimeDiff();
+        }
+
+        return null;
+    }
+
     public function getContent() {
         return _t('Genealogist.' . $this->EventContent, $this->EventContent);
 //        return GenealogistEventsHelper::generate_event_content($this->Person(), $this->RelatedPerson(), $this->EventType, $this->EventRelation, $this->DatePrecision);

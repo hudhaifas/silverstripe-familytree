@@ -1,0 +1,110 @@
+/** Events **/
+
+.events-container {
+    /*height: 180px;*/
+    width: 100%;
+    white-space: nowrap;
+    overflow-x: scroll;
+    overflow-y: hidden;
+
+    .events-item {
+        position: relative;
+        display: inline-block;
+        /*margin: 8px 8px;*/
+        white-space: initial;
+        width: 240px;
+        vertical-align: bottom;
+        font-size: 12px;
+
+        .event-ago {
+            position: absolute;
+            top: 24px;
+            left: -1px;
+            width: 70px;
+            height: 26px;
+            background-color: red;
+            text-align: center;
+            vertical-align: middle;
+            line-height: 25px;
+            color: #fff;
+        }
+    }
+}
+
+.dataobject-page {
+    .dataobject-grid {
+        .dataobject-item {
+            > div {
+            }
+
+            .dataobject-image {
+                img {
+                    height: 200px;
+                }
+            }
+        }
+    }
+}
+
+.death {
+    .events-container {
+        .events-item {
+            .event-ago {
+                background-color: #000;
+                color: #fff;
+            }
+        }
+    }
+}
+
+@media (max-width: 767px) {
+    .events-container {
+        /*height: 180px;*/
+        width: 100%;
+        white-space: nowrap;
+        overflow-x: scroll;
+        overflow-y: hidden;
+
+        .events-item {
+            display: inline-block;
+            /*margin: 8px 8px;*/
+            white-space: initial;
+            width: 200px;
+            /*height: 240px;*/
+            vertical-align: bottom;
+            font-size: 12px;
+
+            .event-ago {
+                width: 66px;
+                height: 24px;
+                line-height: 22px;
+                font-size: 10px;
+            }
+        }
+    }
+
+    .dataobject-page {
+        .dataobject-grid {
+            .dataobject-item {
+                padding: 5px 3px;
+
+                > div {
+                    padding: 5px;
+                    height: 240px;
+                }
+
+                .dataobject-image {
+                    img {
+                        height: 100px;
+                    }
+                }
+
+                .title {
+                    font-size: 11px;
+                    /* line-height: 16px; */
+                    margin-bottom: 4px;
+                }
+            }
+        }
+    }
+}
