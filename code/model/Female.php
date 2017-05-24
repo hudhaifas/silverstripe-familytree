@@ -112,7 +112,7 @@ class Female
     }
 
     public function getShortName() {
-        return $this->canView() ? parent::getShortName() : _t('Genealogist.HIDDEN', 'Hidden');
+        return $this->canView() || $GLOBALS['task_caller'] ? parent::getShortName() : _t('Genealogist.HIDDEN', 'Hidden');
     }
 
     public function getObjectDefaultImage() {
