@@ -2,6 +2,14 @@
     <button id="close-card" type="button" class="close close-card" aria-label="Close"><span aria-hidden="true">×</span></button>
 </div>
 
+<% if $ObjectImage && not $isObjectDisabled %>
+    <div class="card-picture">
+        <div>
+            <img src="$ObjectImage.PaddedImage(300,300).Watermark.URL" data-origin="$ObjectImage.Watermark.URL">
+        </div>
+    </div>
+<% end_if %>
+
 <div>
     <p>
         $AliasSummary
