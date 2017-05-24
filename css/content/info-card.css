@@ -47,6 +47,7 @@ and open the template in the editor.
   position: absolute;
   top: -1px;
   left: -1px;
+  z-index: 2;
 }
 .info-card .card-picture img {
   width: 40px;

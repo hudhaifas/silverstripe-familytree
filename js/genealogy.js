@@ -191,8 +191,8 @@ var showInfoCard = function (src) {
 
     if ($(window).width() > minScreenWidth && $node.hasClass('node')) {
         var errorMargin = 36;
-        var hMargin = 10;
-        var wMargin = 8;
+        var hMargin = 26;
+        var wMargin = 20;
 
         var $container = $('#chart-container');
         var cWidth = $container.width();
