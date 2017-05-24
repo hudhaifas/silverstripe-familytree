@@ -37,6 +37,7 @@ class Town
         'TownID',
         'Title',
     );
+    private static $default_sort = 'DefaultName';
 
     public function fieldLabels($includerelations = true) {
         $labels = parent::fieldLabels($includerelations);
