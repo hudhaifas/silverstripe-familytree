@@ -30,13 +30,13 @@
             <% if Husbands && ViewableHusbands %>
                 <strong><%t Genealogist.HUSBANDS 'Husbands' %>: </strong>
                 <% loop Husbands.Sort(HusbandOrder) %>
-                    <a href="#" data-url="{$InfoLink}" class="info-item" title="$FullName">$AliasName</a><% if not Last %><%t Genealogist.COMMA ',' %><% end_if %>
+                    <a href="#" data-url="{$InfoLink}" class="info-item" title="$FullName">$ShortName</a><% if not Last %><%t Genealogist.COMMA ',' %><% end_if %>
                 <% end_loop %>
 
             <% else_if Wives && ViewableWives %>
                 <strong><%t Genealogist.WIVES 'Wives' %>: </strong>
                 <% loop Wives.Sort(WifeOrder) %>
-                    <a href="#" data-url="{$InfoLink}" class="info-item" title="$FullName">$AliasName</a><% if not Last %><%t Genealogist.COMMA ',' %><% end_if %>
+                    <a href="#" data-url="{$InfoLink}" class="info-item" title="$FullName">$ShortName</a><% if not Last %><%t Genealogist.COMMA ',' %><% end_if %>
                 <% end_loop %>
             <% end_if %>
         </p>
