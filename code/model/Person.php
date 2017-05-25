@@ -161,7 +161,6 @@ class Person
         $labels['CanViewType'] = _t('Genealogist.CAN_VIEW_TYPE', 'Who can view this person');
         $labels['CanEditType'] = _t('Genealogist.CAN_EDIT_TYPE', 'Who can edit this person');
 
-
         return $labels;
     }
 

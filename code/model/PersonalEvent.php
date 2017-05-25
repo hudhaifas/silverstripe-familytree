@@ -22,7 +22,6 @@ class PersonalEvent
 //        'EventPlace' => 'Varchar(255)',
         'EventContent' => 'HTMLText',
         'EventType' => 'Enum("Birth, Death, Marriage, Resident, Graduated, Custom", "Custom")',
-        'IsPrivate' => 'Boolean',
         'IsEdited' => 'Boolean',
         'Relation' => 'Varchar(25)',
         'Age' => 'Varchar(255)',

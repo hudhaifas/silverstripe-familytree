@@ -234,7 +234,6 @@ JS
         $fields = new FieldList(
                 HiddenField::create('PersonID', 'PersonID', $id), //
                 TextField::create('Name', _t('Genealogist.NAME', 'Name'), $person->Name), //
-                CheckboxField::create('IsPrivate', _t('Genealogist.IS_PRIVATE', 'Is Private'), $person->IsPrivate), //
                 TextField::create('NickName', _t('Genealogist.NICKNAME', 'NickName'), $person->NickName), //
                 TextField::create('Note', _t('Genealogist.NOTE', 'Note'), $person->Note), //
                 TextField::create('BirthDate', _t('Genealogist.BIRTHDATE', 'Birth Date'), $person->BirthDate), //
