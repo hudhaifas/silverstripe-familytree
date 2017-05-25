@@ -1258,7 +1258,7 @@ class Person
 
     public function getObjectRelated() {
 //        return DataObject::get('Person', "`PublicFigure` = 1 OR `ClassName` = 'Clan'")->sort('RAND()');
-        return DataObject::get('Person')->sort('RAND()');
+        return null;
     }
 
     public function isObjectDisabled() {

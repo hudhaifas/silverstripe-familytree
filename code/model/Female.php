@@ -51,7 +51,29 @@ class Female
     );
 
     public function canCreate($member = null) {
-        return true;
+        if (!$member) {
+            $member = Member::currentUserID();
+        }
+
+        if ($member && is_numeric($member)) {
+            $member = DataObject::get_by_id('Member', $member);
+        }
+
+        $cachedPermission = self::cache_permission_check('create', $member, $this->ID);
+        if (isset($cachedPermission)) {
+            return $cachedPermission;
+        }
+
+        if ($member && Permission::checkMember($member, "ADMIN")) {
+            return true;
+        }
+
+        $extended = $this->extendedCan('canCreateFemale', $member);
+        if ($extended !== null) {
+            return $extended;
+        }
+
+        return false;
     }
 
     public function ViewableHusbands() {
@@ -96,19 +118,19 @@ class Female
      * @return strnig
      */
     public function getFirstName() {
-        return $this->canView() || $GLOBALS['task_caller']  ? $this->Name : _t('Genealogist.HIDDEN', 'Hidden');
+        return $this->canView() || $GLOBALS['task_caller'] ? $this->Name : _t('Genealogist.HIDDEN', 'Hidden');
     }
 
     public function getFullName($withChildOf = true) {
-        return $this->canView() || $GLOBALS['task_caller']  ? parent::getFullName() : _t('Genealogist.HIDDEN', 'Hidden');
+        return $this->canView() || $GLOBALS['task_caller'] ? parent::getFullName() : _t('Genealogist.HIDDEN', 'Hidden');
     }
 
     public function getAliasName() {
-        return $this->canView() || $GLOBALS['task_caller']  ? parent::getAliasName() : _t('Genealogist.HIDDEN', 'Hidden');
+        return $this->canView() || $GLOBALS['task_caller'] ? parent::getAliasName() : _t('Genealogist.HIDDEN', 'Hidden');
     }
 
     public function getBriefName() {
-        return $this->canView() || $GLOBALS['task_caller']  ? parent::getBriefName() : _t('Genealogist.HIDDEN', 'Hidden');
+        return $this->canView() || $GLOBALS['task_caller'] ? parent::getBriefName() : _t('Genealogist.HIDDEN', 'Hidden');
     }
 
     public function getShortName() {
