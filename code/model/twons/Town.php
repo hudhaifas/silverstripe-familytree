@@ -350,7 +350,8 @@ class Town
 
     public function getObjectDefaultImage() {
         if ($this->Latitude && $this->Longitude) {
-            return "https://maps.googleapis.com/maps/api/staticmap?center={$this->Latitude},{$this->Longitude}&zoom=15&scale=1&size=500x410&maptype=roadmap&format=png&visual_refresh=true";
+//            return "https://maps.googleapis.com/maps/api/staticmap?center={$this->Latitude},{$this->Longitude}&zoom=15&scale=1&size=500x410&maptype=roadmap&format=png&visual_refresh=true";
+            return "https://maps.googleapis.com/maps/api/staticmap?center={$this->Latitude},{$this->Longitude}&zoom=15&scale=1&size=500x410&maptype=roadmap&key=AIzaSyD0dSMxxrcDGP79yWVRKkncKW0TdtBh96Y&format=png&visual_refresh=true";
         }
         return "genealogist/images/default-town.png";
     }
