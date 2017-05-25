@@ -37,7 +37,7 @@ class GenealogyPage
     private static $group_permission = 'CMS_ACCESS_CMSMain';
     private static $co_group_code = 'co-genealogists';
     private static $co_group_title = 'Co-Genealogists';
-    private static $icon = "genealogist/images/genealogy.png";
+    private static $icon = "genealogist/images/icn-genealogy.png";
 
     public function canCreate($member = false) {
         if (!$member || !(is_a($member, 'Member')) || is_numeric($member)) {

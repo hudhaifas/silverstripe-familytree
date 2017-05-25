@@ -162,6 +162,7 @@ ar:
     SUGGEST_EDIT_MESSAGE_2: 'لتزويدنا بأي اقتراحات أو بيانات.'
 
     # Towns
+    TOWNS: 'المدن'
     TOWN_NAME: 'اسم المدينة'
     TWON_NAMES: 'أسماء أخرى'
     TOWN_ID: 'رمز المدينة'

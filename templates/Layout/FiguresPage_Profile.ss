@@ -1,4 +1,4 @@
-<div>
+<div class="dataobject-page">
     <div class="container" style="margin-bottom: 1.5em;">
         <div class="row" >
             <div class="col-md-4">

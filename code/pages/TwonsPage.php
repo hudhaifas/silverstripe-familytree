@@ -14,6 +14,11 @@
 class TwonsPage
         extends DataObjectPage {
 
+    private static $group_code = 'towns';
+    private static $group_title = 'Towns';
+    private static $icon = "genealogist/images/icn-town.png";
+
+
     public function canCreate($member = false) {
         if (!$member || !(is_a($member, 'Member')) || is_numeric($member)) {
             $member = Member::currentUserID();

@@ -162,6 +162,7 @@ en:
     SUGGEST_EDIT_MESSAGE_2: 'to provide us with any data or suggestions.'
 
     # Towns
+    TOWNS: 'Towns'
     TOWN_NAME: 'Town Name'
     TWON_NAMES: 'Other Names'
     TOWN_ID: 'Town ID'
