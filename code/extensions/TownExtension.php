@@ -27,23 +27,23 @@
 /**
  *
  * @author Hudhaifa Shatnawi <hudhaifa.shatnawi@gmail.com>
- * @version 1.0, Feb 1, 2017 - 1:15:17 PM
+ * @version 1.0, May 25, 2017 - 12:52:10 PM
  */
-class PersonalExtension
+class TownExtension
         extends DataExtension {
 
     private static $many_many = array(
-        'People' => 'Person',
+        'Towns' => 'Town',
     );
 
     public function extraTabs(&$lists) {
-        $people = $this->owner->People();
-        if ($people->Count()) {
+        $towns = $this->owner->Towns();
+        if ($towns->Count()) {
             $lists[] = array(
-                'Title' => _t('Genealogist.PEOPLE', 'People'),
+                'Title' => _t('Genealogist.TOWNS', 'Towns'),
                 'Content' => $this->owner
                         ->customise(array(
-                            'Results' => $people
+                            'Results' => $towns
                         ))
                         ->renderWith('List_Grid')
             );
@@ -51,7 +51,7 @@ class PersonalExtension
     }
 
     public function updateCMSFields(FieldList $fields) {
-        $field = $fields->fieldByName('Root.People.People');
+        $field = $fields->fieldByName('Root.Towns.Towns');
         if ($field != null) {
 //        $config = GridFieldConfig::create();
             $config = $field->getConfig();

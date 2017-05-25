@@ -12,3 +12,7 @@ GenealogistHelper:
 Person:
   extensions:
     - DataObject_MemberExtension
+      
+Town:
+  extensions:
+    - DataObject_MemberExtension

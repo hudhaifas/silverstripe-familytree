@@ -349,7 +349,7 @@ class Town
     }
 
     public function getObjectDefaultImage() {
-        return "genealogist/images/default-person.png";
+        return "genealogist/images/default-town.png";
     }
 
     public function getObjectImage() {
