@@ -132,7 +132,7 @@ ar:
     DELETE_THIS_PERSON: 'حذف هذا الشخص'
 
     # Settings
-    SETTINGS: 'الإعدادات'
+    SETTINGS: 'إعدادات الخصوصية'
     CAN_VIEW_TYPE: 'من يستطيع مشاهدة هذا الشخص؟'
     VIEWER_GROUPS: 'مجموعات الزوار'
     VIEWER_MEMBERS: 'الأعضاء الزوار'
@@ -163,7 +163,7 @@ ar:
 
     # Towns
     TOWN_NAME: 'اسم المدينة'
-    TWON_NAMES: 'أسماء المدن'
+    TWON_NAMES: 'أسماء أخرى'
     TOWN_ID: 'رمز المدينة'
     TOWN_DEFAULT_NAME: 'الاسم التلقائي'
     START_DATE: 'منذ تاريخ'

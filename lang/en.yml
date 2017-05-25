@@ -132,7 +132,7 @@ en:
     DELETE_THIS_PERSON: 'Delete this Person'
     
     # Settings
-    SETTINGS: 'Settings'
+    SETTINGS: 'Privacy Settings'
     CAN_VIEW_TYPE: 'Who can view this person?'
     VIEWER_GROUPS: 'Viewer Groups'
     VIEWER_MEMBERS: 'Viewer Users'
@@ -163,7 +163,7 @@ en:
 
     # Towns
     TOWN_NAME: 'Town Name'
-    TWON_NAMES: 'Twon Names'
+    TWON_NAMES: 'Other Names'
     TOWN_ID: 'Town ID'
     TOWN_DEFAULT_NAME: 'Default Name'
     START_DATE: 'Start Date'
