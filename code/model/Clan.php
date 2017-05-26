@@ -41,6 +41,9 @@ class Clan
     );
     private static $many_many = array(
     );
+    private static $belongs_many_many = array(
+        "ClanTowns" => "Town",
+    );
     private static $defaults = array(
         "CanViewType" => "Anyone",
     );
@@ -78,6 +81,25 @@ class Clan
 
     public function getFirstName() {
         return $this->Name;
+    }
+
+    public function getObjectTabs() {
+        $lists = parent::getObjectTabs();
+
+        $townsCount = $this->ClanTowns()->Count();
+        if ($townsCount) {
+            $item = array(
+                'Title' => _t('Genealogist.TOWNS', 'Towns') . " ({$townsCount})",
+                'Content' => $this
+                        ->customise(array(
+                            'Results' => $this->ClanTowns()
+                        ))
+                        ->renderWith('List_Grid')
+            );
+            $lists->add($item);
+        }
+
+        return $lists;
     }
 
 }

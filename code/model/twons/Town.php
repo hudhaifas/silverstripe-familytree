@@ -37,6 +37,7 @@ class Town
         'Buried' => 'Person.BurialPlace',
     );
     private static $many_many = array(
+        'TownClans' => 'Clan',
         "ViewerGroups" => "Group",
         "EditorGroups" => "Group",
         "ViewerMembers" => "Member",
@@ -396,6 +397,18 @@ class Town
             $lists[] = array(
                 'Title' => _t('Genealogist.TWON_NAMES', 'Other Names') . " ({$namesCount})",
                 'Content' => $this->renderWith('Town_Names')
+            );
+        }
+
+        $clansCount = $this->TownClans()->Count();
+        if ($clansCount) {
+            $lists[] = array(
+                'Title' => _t('Genealogist.CLANS', 'Clans') . " ({$clansCount})",
+                'Content' => $this
+                        ->customise(array(
+                            'Results' => $this->TownClans()
+                        ))
+                        ->renderWith('List_Grid')
             );
         }
 
