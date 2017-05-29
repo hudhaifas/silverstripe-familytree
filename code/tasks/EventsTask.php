@@ -55,6 +55,7 @@ class EventsTask
             $count = $people->count();
         } else if (is_numeric($source)) {
             $people = DataObject::get_by_id('Person', (int) $source);
+            $count = 1;
         }
 
         if (!$people) {
@@ -62,29 +63,43 @@ class EventsTask
             return;
         }
 
-        $this->println($count . ' record(s) to be indexed.');
+        foreach ($people as $index => $person) {
+            $this->printProgress($index, $count);
 
-        foreach ($people as $person) {
             $this->indexEvents($person);
             $person->write();
         }
 
         $this->println('');
         $this->println('Task is completed');
-        
+
         $GLOBALS['task_caller'] = false;
     }
 
     private function indexEvents($person) {
-//        $this->println('Updating the dates of: ' . $person->Name);
-        echo '.';
-
         GenealogistEventsHelper::create_all_events($person);
     }
 
     function println($string_message = '') {
         return isset($_SERVER['SERVER_PROTOCOL']) ? print "$string_message<br />" . PHP_EOL :
                 print $string_message . PHP_EOL;
+    }
+
+    function printProgress($index, $total) {
+        $bs = chr(8);
+        $backspaces = '';
+
+        $digitsCount = 0;
+        if ($index > 0) {
+            $digitsCount = strlen((string) $index);
+            $digitsCount += strlen((string) $total);
+            $digitsCount += 1;
+        }
+        for ($i = 0; $i < $digitsCount; $i++) {
+            $backspaces .= $bs;
+        }
+
+        echo "{$backspaces}" . ($index + 1) . "/{$total}";
     }
 
 }

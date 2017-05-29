@@ -29,7 +29,8 @@
  * @author Hudhaifa Shatnawi <hudhaifa.shatnawi@gmail.com>
  * @version 1.0, Jan 8, 2017 - 7:51:02 AM
  */
-class StatsTask extends BuildTask {
+class StatsTask
+        extends BuildTask {
 
     protected $title = 'Indexing people statistics';
     protected $description = "
@@ -44,22 +45,27 @@ class StatsTask extends BuildTask {
         $level = $request->getVar('level');
 
         if ($level == 'all') {
-            $people = Person::get()->sort('ID');
+            $people = Person::get()->limit(120)->sort('ID');
+            $count = $people->count();
         } else if ($level == 'reset') {
             $this->reset();
             return;
         } else {
             $people = Person::get()->where('StatsID = 0')->sort('ID');
+            $count = $people->count();
         }
 
-        foreach ($people as $person) {
+        foreach ($people as $index => $person) {
+            $this->printProgress($index, $count);
+
             $this->indexStats($person);
             $this->indexName($person);
 
             $person->write();
         }
 
-        $this->println($people->count() . ' records has been indexed.');
+        $this->println('');
+        $this->println('Task is completed');
     }
 
     private function indexName($person) {
@@ -69,12 +75,8 @@ class StatsTask extends BuildTask {
     private function indexStats($person) {
         if ($person->Stats()->exists() || $person->StatsID) {
             $stats = $person->Stats();
-//            $this->println('Updating the index of : ' . $person->Name . '...');
-            echo '.';
         } else {
             $stats = new PersonalStats();
-//            $this->println('Indexing: ' . $person->Name . '...');
-            echo '.';
         }
 
         $stats->Sons = GenealogistHelper::count_sons($person);
@@ -87,10 +89,10 @@ class StatsTask extends BuildTask {
         $stats->LiveMales = GenealogistHelper::count_males($person, 1);
         $stats->LiveFemales = GenealogistHelper::count_females($person, 1);
         $stats->LiveTotal = GenealogistHelper::count_descendants($person, 1);
-        
+
         $ancestors = GenealogistHelper::get_ancestors_ids($person);
         $person->IndexedAncestors = '|' . implode("|", $ancestors) . '|';
-        
+
         $stats->PersonID = $person->ID;
         $stats->write();
 
@@ -116,6 +118,23 @@ class StatsTask extends BuildTask {
     function println($string_message = '') {
         return isset($_SERVER['SERVER_PROTOCOL']) ? print "$string_message<br />" . PHP_EOL :
                 print $string_message . PHP_EOL;
+    }
+
+    function printProgress($index, $total) {
+        $bs = chr(8);
+        $backspaces = '';
+
+        $digitsCount = 0;
+        if ($index > 0) {
+            $digitsCount = strlen((string) $index);
+            $digitsCount += strlen((string) $total);
+            $digitsCount += 1;
+        }
+        for ($i = 0; $i < $digitsCount; $i++) {
+            $backspaces .= $bs;
+        }
+
+        echo "{$backspaces}" . ($index + 1) . "/{$total}";
     }
 
 }

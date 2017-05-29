@@ -57,19 +57,20 @@ class CrawlTask
             $count = $people->count();
         } else if (is_numeric($source)) {
             $people = DataObject::get_by_id('Person', (int) $source);
+            $count = 1;
         } else {
             $people = Person::get()->where('StatsID = 0')->sort('ID');
             $count = $people->count();
         }
-
-        $this->println($count . ' record(s) to be indexed.');
 
         if ($level == 'reset') {
             $this->reset($people);
             return;
         }
 
-        foreach ($people as $person) {
+        foreach ($people as $index => $person) {
+            $this->printProgress($index, $count);
+
             switch ($level) {
                 case 'all':
                     $this->indexStats($person);
@@ -98,18 +99,13 @@ class CrawlTask
 
     private function indexName($person) {
         $person->IndexedName = $person->toIndexName();
-        $this->println('Indexing the name of: ' . $person->IndexedName);
     }
 
     private function indexDates($person) {
         if ($person->Stats()->exists() || $person->StatsID) {
             $stats = $person->Stats();
-//            $this->println('Updating the dates of: ' . $person->Name);
-            echo '.';
         } else {
             $stats = new PersonalStats();
-//            $this->println('Indexing the dates of: ' . $person->Name);
-            echo '.';
         }
 
         $stats->MinYear = GenealogistCrawlHelper::calculate_min_person_year($person);
@@ -126,12 +122,8 @@ class CrawlTask
     private function indexStats($person) {
         if ($person->Stats()->exists() || $person->StatsID) {
             $stats = $person->Stats();
-//            $this->println('Updating the index of : ' . $person->Name . '...');
-            echo '.';
         } else {
             $stats = new PersonalStats();
-//            $this->println('Indexing: ' . $person->Name . '...');
-            echo '.';
         }
 
         $stats->Sons = GenealogistHelper::count_sons($person);
@@ -172,6 +164,23 @@ class CrawlTask
     function println($string_message = '') {
         return isset($_SERVER['SERVER_PROTOCOL']) ? print "$string_message<br />" . PHP_EOL :
                 print $string_message . PHP_EOL;
+    }
+
+    function printProgress($index, $total) {
+        $bs = chr(8);
+        $backspaces = '';
+
+        $digitsCount = 0;
+        if ($index > 0) {
+            $digitsCount = strlen((string) $index);
+            $digitsCount += strlen((string) $total);
+            $digitsCount += 1;
+        }
+        for ($i = 0; $i < $digitsCount; $i++) {
+            $backspaces .= $bs;
+        }
+
+        echo "{$backspaces}" . ($index + 1) . "/{$total}";
     }
 
 }

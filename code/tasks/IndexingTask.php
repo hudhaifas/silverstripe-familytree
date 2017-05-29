@@ -52,12 +52,29 @@ class IndexingTask
             $people = Person::get()->where('IndexedName IS NULL')->sort('ID');
         }
 
-        echo $people->count() . ' records to be indexed.\n';
+        foreach ($people as $index => $person) {
+            $this->printProgress($index, $count);
 
-        foreach ($people as $person) {
             $person->IndexedName = $person->toIndexName();
             $person->write();
         }
+    }
+
+    function printProgress($index, $total) {
+        $bs = chr(8);
+        $backspaces = '';
+
+        $digitsCount = 0;
+        if ($index > 0) {
+            $digitsCount = strlen((string) $index);
+            $digitsCount += strlen((string) $total);
+            $digitsCount += 1;
+        }
+        for ($i = 0; $i < $digitsCount; $i++) {
+            $backspaces .= $bs;
+        }
+
+        echo "{$backspaces}" . ($index + 1) . "/{$total}";
     }
 
 }
