@@ -57,6 +57,7 @@ class Town
     public function fieldLabels($includerelations = true) {
         $labels = parent::fieldLabels($includerelations);
 
+        $labels['Photo'] = _t('Genealogist.PHOTO', 'Photo');
         $labels['Title'] = _t('Genealogist.TOWN_NAME', 'Town Name');
         $labels['TownID'] = _t('Genealogist.TOWN_ID', 'Town ID');
         $labels['DefaultName'] = _t('Genealogist.TOWN_DEFAULT_NAME', 'Default Name');
@@ -68,6 +69,8 @@ class Town
         $labels['Births'] = _t('Genealogist.BIRTHS', 'Births');
         $labels['Deaths'] = _t('Genealogist.DEATHS', 'Deaths');
         $labels['Buried'] = _t('Genealogist.BURIED', 'Buried');
+        $labels['TownClas'] = _t('Genealogist.TOWN_CLANS', 'Town Clans');
+        $labels['Coordinates'] = _t('Genealogist.COORDINATES', 'Coordinates');
 
         // Settings
         $labels['CanViewType'] = _t('Genealogist.CAN_VIEW_TYPE', 'Who can view this person');
@@ -78,6 +81,12 @@ class Town
 
     public function getCMSFields() {
         $fields = parent::getCMSFields();
+
+        $this->reorderField($fields, 'PhotoID', 'Root.Main', 'Root.Main');
+        $this->reorderField($fields, 'TownID', 'Root.Main', 'Root.Main');
+        $this->reorderField($fields, 'DefaultName', 'Root.Main', 'Root.Main');
+        $fields->addFieldToTab('Root.Main', new GoogleMapField($this, _t('Genealogist.COORDINATES', 'Coordinates')));
+        $this->reorderField($fields, 'Biography', 'Root.Main', 'Root.Main');
 
         $this->getSettingsFields($fields);
 
