@@ -107,8 +107,8 @@ class Person
     private static $default_sort = 'ChildOrder';
     public static $STATE_ALIVE = 1;
     public static $STATE_DEAD = 2;
-    private static $cache_permissions = array();
-    private static $cache_names = array();
+    protected static $cache_permissions = array();
+    protected static $cache_names = array();
 
     public function fieldLabels($includerelations = true) {
         $labels = parent::fieldLabels($includerelations);
@@ -659,6 +659,21 @@ class Person
         return self::$cache_permissions[$cacheKey];
     }
 
+    public static function cache_name_check($nameType, $personID, $result = null) {
+        // This is the name used on the permission cache
+        // converts something like 'CanEditType' to 'edit'.
+        $cacheKey = strtolower($nameType) . "-$personID";
+
+        if (isset(self::$cache_names[$cacheKey])) {
+            $cachedValues = self::$cache_names[$cacheKey];
+            return $cachedValues;
+        }
+
+        self::$cache_names[$cacheKey] = $result;
+
+        return self::$cache_names[$cacheKey];
+    }
+
     protected function onBeforeWrite() {
         parent::onBeforeWrite();
 
@@ -707,11 +722,24 @@ class Person
 
     /// Getters ///
     public function getTitle() {
-        return $this->getFullName();
+        $cachedName = self::cache_name_check('title-name', $this->ID);
+        if (isset($cachedName)) {
+            return $cachedName;
+        }
+
+        $name = $this->getFullName();
+
+        return self::cache_name_check('title-name', $this->ID, $name);
     }
 
     public function getFirstName() {
-        return $this->Name;
+        $cachedName = self::cache_name_check('first-name', $this->ID);
+        if (isset($cachedName)) {
+            return $cachedName;
+        }
+
+        $name = $this->Name;
+        return self::cache_name_check('first-name', $this->ID, $name);
     }
 
     /**
@@ -719,17 +747,18 @@ class Person
      * @return strnig
      */
     public function getPersonName() {
-//        return $this->getFirstName();
-//        return $this->getAliasName();
-        $name = '';
+        $cachedName = self::cache_name_check('person-name', $this->ID);
+        if (isset($cachedName)) {
+            return $cachedName;
+        }
 
-        $name .= $this->getFirstName();
+        $name = $this->getFirstName();
 
         if ($this->NickName) {
             $name .= " ({$this->NickName})";
         }
 
-        return $name;
+        return self::cache_name_check('person-name', $this->ID, $name);
     }
 
     /**
@@ -737,6 +766,11 @@ class Person
      * @return string
      */
     public function getAliasName() {
+        $cachedName = self::cache_name_check('alias-name', $this->ID);
+        if (isset($cachedName)) {
+            return $cachedName;
+        }
+
         $name = '';
 
         if ($this->Prefix) {
@@ -752,7 +786,7 @@ class Person
             $name .= " {$this->Postfix}";
         }
 
-        return $name;
+        return self::cache_name_check('alias-name', $this->ID, $name);
     }
 
     /**
@@ -760,6 +794,11 @@ class Person
      * @return string
      */
     public function getFullName($withChildOf = true) {
+        $cachedName = self::cache_name_check('full-name-' . $withChildOf, $this->ID);
+        if (isset($cachedName)) {
+            return $cachedName;
+        }
+
         $name = $this->getPersonName();
 
         if ($this->isMale() && $this->Tribe()->exists()) {
@@ -782,7 +821,7 @@ class Person
             $name .= " {$this->Father()->getFullName($withChildOf)}";
         }
 
-        return $name;
+        return self::cache_name_check('full-name-' . $withChildOf, $this->ID, $name);
     }
 
     /**
@@ -790,9 +829,15 @@ class Person
      * @return string
      */
     public function getBriefName() {
-        $name = $this->getPersonName();
+        $cachedName = self::cache_name_check('brief-name', $this->ID);
+        if (isset($cachedName)) {
+            return $cachedName;
+        }
 
-        return "{$name} {$this->getClanName()}{$this->getTribeName()}";
+        $name = $this->getPersonName();
+        $name .= " {$this->getClanName()}{$this->getTribeName()}";
+
+        return self::cache_name_check('brief-name', $this->ID, $name);
     }
 
     /**
@@ -800,13 +845,20 @@ class Person
      * @return string
      */
     public function getShortName() {
+        $cachedName = self::cache_name_check('short-name', $this->ID);
+        if (isset($cachedName)) {
+            return $cachedName;
+        }
+
         $name = $this->getPersonName();
 
         if ($this->getTribeName()) {
-            return "{$name} {$this->getTribeName()}";
+            $name .= " {$this->getTribeName()}";
         } else {
-            return "{$name} {$this->getRootClan()}";
+            $name .= " {$this->getRootClan()}";
         }
+
+        return self::cache_name_check('short-name', $this->ID, $name);
     }
 
     /**
@@ -814,22 +866,32 @@ class Person
      * @return string
      */
     public function getClanName() {
-        $name = '';
-        if (!$this->Father()->exists()) {
-            return $name;
+        $cachedName = self::cache_name_check('clan-name', $this->ID);
+        if (isset($cachedName)) {
+            return $cachedName;
         }
 
-        return "{$name} {$this->Father()->getClanName()}";
+        $name = '';
+        if ($this->Father()->exists()) {
+            $name .= " {$this->Father()->getClanName()}";
+        }
+
+        return self::cache_name_check('clan-name', $this->ID, $name);
     }
 
     public function getTribeName() {
+        $cachedName = self::cache_name_check('tribe-name', $this->ID);
+        if (isset($cachedName)) {
+            return $cachedName;
+        }
+
         $name = '';
 
-        if ($this->Father()->exists()) {
+        if ($this->Father()->exists() && $this->Father()->getTribeName()) {
             $name .= $this->Father()->getTribeName();
         }
 
-        return $name;
+        return self::cache_name_check('tribe-name', $this->ID, $name);
     }
 
     /**
@@ -837,12 +899,58 @@ class Person
      * @return string
      */
     public function toIndexName() {
-        $name = $this->Name;
-        if (!$this->Father()->exists()) {
-            return $name;
+        $cachedName = self::cache_name_check('indexed-name', $this->ID);
+        if (isset($cachedName)) {
+            return $cachedName;
         }
 
-        return "{$name} {$this->Father()->toIndexName()}";
+        $name = $this->Name;
+        if ($this->Father()->exists()) {
+            $name .= " {$this->Father()->toIndexName()}";
+        }
+
+        return self::cache_name_check('indexed-name', $this->ID, $name);
+    }
+
+    /**
+     * Returns the full name series of the person's parents.
+     * @return string
+     */
+    public function getParents() {
+        $cachedName = self::cache_name_check('parents-name', $this->ID);
+        if (isset($cachedName)) {
+            return $cachedName;
+        }
+
+        $person = $this;
+        $name = '';
+
+        while ($person->Father()->exists()) {
+            $person = $person->Father();
+            $name .= ' ' . $person->getFirstName();
+        }
+
+        return self::cache_name_check('parents-name', $this->ID, $name);
+    }
+
+    public function getRootClan() {
+        $cachedName = self::cache_name_check('root-clan', $this->ID);
+        if (isset($cachedName)) {
+            return $cachedName;
+        }
+
+        $person = $this;
+
+        $clan = null;
+        while ($person->Father()->exists()) {
+            $person = $person->Father();
+            if ($person->isClan()) {
+                $clan = $person;
+            }
+        }
+
+        $name = $clan ? $clan->Name : '';
+        return self::cache_name_check('root-clan', $this->ID, $name);
     }
 
     /**
@@ -862,22 +970,6 @@ class Person
     }
 
     /**
-     * Returns the full name series of the person's parents.
-     * @return string
-     */
-    public function getParents() {
-        $person = $this;
-        $name = '';
-
-        while ($person->Father()->exists()) {
-            $person = $person->Father();
-            $name .= ' ' . $person->getFirstName();
-        }
-
-        return $name;
-    }
-
-    /**
      * Returns the root of this person
      * @return Person
      */
@@ -889,20 +981,6 @@ class Person
         }
 
         return $person;
-    }
-
-    public function getRootClan() {
-        $person = $this;
-
-        $clan = null;
-        while ($person->Father()->exists()) {
-            $person = $person->Father();
-            if ($person->isClan()) {
-                $clan = $person;
-            }
-        }
-
-        return $clan ? $clan->Name : '';
     }
 
     /**

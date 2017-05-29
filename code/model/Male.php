@@ -116,17 +116,22 @@ class Male
     }
 
     public function getTribeName() {
+        $cachedName = self::cache_name_check('tribe-name', $this->ID);
+        if (isset($cachedName)) {
+            return $cachedName;
+        }
+
         $name = '';
 
         if ($this->Tribe()->exists()) {
             $name .= $this->Tribe()->getTribeName();
         }
 
-        if ($this->Father()->exists()) {
+        if ($this->Father()->exists() && $this->Father()->getTribeName()) {
             $name .= $this->Father()->getTribeName();
         }
 
-        return $name;
+        return self::cache_name_check('tribe-name', $this->ID, $name);
     }
 
     public function getObjectDefaultImage() {

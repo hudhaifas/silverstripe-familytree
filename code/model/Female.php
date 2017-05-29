@@ -118,28 +118,63 @@ class Female
      * @return strnig
      */
     public function getFirstName() {
+        $cachedName = self::cache_name_check('first-name', $this->ID);
+        if (isset($cachedName)) {
+            return $cachedName;
+        }
+
         $isTaskCaller = isset($GLOBALS['task_caller']) && $GLOBALS['task_caller'];
-        return $this->canView() || $isTaskCaller ? $this->Name : _t('Genealogist.HIDDEN', 'Hidden');
+        $name = $this->canView() || $isTaskCaller ? $this->Name : _t('Genealogist.HIDDEN', 'Hidden');
+
+        return self::cache_name_check('first-name', $this->ID, $name);
     }
 
     public function getFullName($withChildOf = true) {
+        $cachedName = self::cache_name_check('full-name-' . $withChildOf, $this->ID);
+        if (isset($cachedName)) {
+            return $cachedName;
+        }
+
         $isTaskCaller = isset($GLOBALS['task_caller']) && $GLOBALS['task_caller'];
-        return $this->canView() || $isTaskCaller ? parent::getFullName($withChildOf) : _t('Genealogist.HIDDEN', 'Hidden');
+        $name = $this->canView() || $isTaskCaller ? parent::getFullName($withChildOf) : _t('Genealogist.HIDDEN', 'Hidden');
+
+        return self::cache_name_check('full-name-' . $withChildOf, $this->ID, $name);
     }
 
     public function getAliasName() {
+        $cachedName = self::cache_name_check('alias-name', $this->ID);
+        if (isset($cachedName)) {
+            return $cachedName;
+        }
+
         $isTaskCaller = isset($GLOBALS['task_caller']) && $GLOBALS['task_caller'];
-        return $this->canView() || $isTaskCaller ? parent::getAliasName() : _t('Genealogist.HIDDEN', 'Hidden');
+        $name = $this->canView() || $isTaskCaller ? parent::getAliasName() : _t('Genealogist.HIDDEN', 'Hidden');
+
+        return self::cache_name_check('alias-name', $this->ID, $name);
     }
 
     public function getBriefName() {
+        $cachedName = self::cache_name_check('brief-name', $this->ID);
+        if (isset($cachedName)) {
+            return $cachedName;
+        }
+
         $isTaskCaller = isset($GLOBALS['task_caller']) && $GLOBALS['task_caller'];
-        return $this->canView() || $isTaskCaller ? parent::getBriefName() : _t('Genealogist.HIDDEN', 'Hidden');
+        $name = $this->canView() || $isTaskCaller ? parent::getBriefName() : _t('Genealogist.HIDDEN', 'Hidden');
+
+        return self::cache_name_check('brief-name', $this->ID, $name);
     }
 
     public function getShortName() {
+        $cachedName = self::cache_name_check('short-name', $this->ID);
+        if (isset($cachedName)) {
+            return $cachedName;
+        }
+
         $isTaskCaller = isset($GLOBALS['task_caller']) && $GLOBALS['task_caller'];
-        return $this->canView() || $isTaskCaller ? parent::getShortName() : _t('Genealogist.HIDDEN', 'Hidden');
+        $name = $this->canView() || $isTaskCaller ? parent::getShortName() : _t('Genealogist.HIDDEN', 'Hidden');
+
+        return self::cache_name_check('short-name', $this->ID, $name);
     }
 
     public function getObjectDefaultImage() {
