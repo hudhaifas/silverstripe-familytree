@@ -53,12 +53,12 @@ class CrawlTask
         $count = 1;
 
         if ($source == 'all') {
-            $people = Person::get();
+            $people = Person::get()->sort('ID');
             $count = $people->count();
         } else if (is_numeric($source)) {
             $people = DataObject::get_by_id('Person', (int) $source);
         } else {
-            $people = Person::get()->where('StatsID = 0');
+            $people = Person::get()->where('StatsID = 0')->sort('ID');
             $count = $people->count();
         }
 

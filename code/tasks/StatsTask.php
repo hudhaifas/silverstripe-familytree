@@ -44,12 +44,12 @@ class StatsTask extends BuildTask {
         $level = $request->getVar('level');
 
         if ($level == 'all') {
-            $people = Person::get();
+            $people = Person::get()->sort('ID');
         } else if ($level == 'reset') {
             $this->reset();
             return;
         } else {
-            $people = Person::get()->where('StatsID = 0');
+            $people = Person::get()->where('StatsID = 0')->sort('ID');
         }
 
         foreach ($people as $person) {

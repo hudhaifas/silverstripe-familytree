@@ -51,7 +51,7 @@ class Town
         'TownID',
         'Title',
     );
-    private static $default_sort = 'DefaultName';
+    private static $default_sort = 'Latitude, Longitude';
     private static $cache_permissions = array();
 
     public function fieldLabels($includerelations = true) {
@@ -366,16 +366,21 @@ class Town
     }
 
     public function getObjectRelated() {
-        $list = $this->get()
-                ->filter(array(
-                    'ID:Negation' => $this->ID
-                ))
-                ->filterByCallback(function($record) {
-                    return $record->canView();
-                })
-                ->sort('RAND()');
+        if ($this->Latitude && $this->Longitude) {
+            // Sort by distance
+            $sort = "(POW((Longitude-{$this->Longitude}),2) + POW((Latitude-{$this->Latitude}),2))";
+        } else {
+            $sort = 'RAND()';
+        }
 
-        return $list;
+        return $this->get()
+                        ->filter(array(
+                            'ID:Negation' => $this->ID
+                        ))
+                        ->sort($sort)
+                        ->filterByCallback(function($record) {
+                            return $record->canView();
+                        });
     }
 
     public function getObjectSummary() {

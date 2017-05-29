@@ -45,11 +45,11 @@ class IndexingTask
         $level = $request->getVar('level');
 
         if ($level == 'all') {
-            $people = Person::get();
+            $people = Person::get()->sort('ID');
         } else if (is_numeric($level)) {
             $people = DataObject::get_by_id('Person', (int) $level);
         } else {
-            $people = Person::get()->where('IndexedName IS NULL');
+            $people = Person::get()->where('IndexedName IS NULL')->sort('ID');
         }
 
         echo $people->count() . ' records to be indexed.\n';

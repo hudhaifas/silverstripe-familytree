@@ -41,10 +41,8 @@ class Person
         'Postfix' => 'Varchar(255)',
         // Birth
         'BirthDate' => 'Date',
-//        'BirthPlace' => 'Varchar(255)',
         'BirthDateEstimated' => 'Boolean',
         'DeathDate' => 'Date',
-//        'DeathPlace' => 'Varchar(255)',
         'DeathDateEstimated' => 'Boolean',
         'IsDead' => 'Boolean',
         // Notes
@@ -71,10 +69,13 @@ class Person
         'BurialPlace' => 'Town',
     );
     private static $has_many = array(
+        // Descendants
         'Sons' => 'Male',
         'Daughters' => 'Female',
+        // Events
         'Events' => 'PersonalEvent.Person',
         'RelatedEvents' => 'PersonalEvent.RelatedPerson',
+        // Suggestions
         'Suggestions' => 'Suggestion',
     );
     private static $many_many = array(

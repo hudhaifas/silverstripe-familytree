@@ -51,7 +51,7 @@ class EventsTask
         i18n::set_locale('ar_JO');
 
         if ($source == 'all') {
-            $people = Person::get();
+            $people = Person::get()->sort('ID');
             $count = $people->count();
         } else if (is_numeric($source)) {
             $people = DataObject::get_by_id('Person', (int) $source);
