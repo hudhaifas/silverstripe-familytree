@@ -18,8 +18,10 @@ class Town
     private static $db = array(
         'TownID' => 'Varchar(255)',
         'DefaultName' => 'Varchar(255)',
+        // Map
         'Latitude' => 'Varchar(255)',
         'Longitude' => 'Varchar(255)',
+        'Zoom' => 'Varchar(255)',
         // Biography
         'Biography' => 'HTMLText',
         // Permession Level
@@ -44,6 +46,7 @@ class Town
         "EditorMembers" => "Member",
     );
     private static $defaults = array(
+        "Zoom" => 15,
         "CanViewType" => "Anyone",
         "CanEditType" => "OnlyTheseUsers"
     );
@@ -84,6 +87,7 @@ class Town
 
         $fields->removeFieldFromTab('Root.Main', 'Latitude');
         $fields->removeFieldFromTab('Root.Main', 'Longitude');
+        $fields->removeFieldFromTab('Root.Main', 'Zoom');
 
         $this->reorderField($fields, 'PhotoID', 'Root.Main', 'Root.Main');
         $this->reorderField($fields, 'TownID', 'Root.Main', 'Root.Main');
@@ -363,8 +367,21 @@ class Town
 
     public function getObjectDefaultImage() {
         if ($this->Latitude && $this->Longitude) {
+            $apiKey = "AIzaSyB3XOLhZ8e3iI_rnBGQonCUw7Dz0CtDFyE";
+            $gmapsParams = array(
+                'center' => "{$this->Latitude},{$this->Longitude}",
+                'zoom' => $this->Zoom,
+                'scale' => 1,
+                'size' => '500x410',
+                'maptype' => 'roadmap',
+                'key' => $apiKey,
+                'format' => 'png',
+                'visual_refresh' => true,
+            );
+
 //            return "https://maps.googleapis.com/maps/api/staticmap?center={$this->Latitude},{$this->Longitude}&zoom=15&scale=1&size=500x410&maptype=roadmap&format=png&visual_refresh=true";
-            return "https://maps.googleapis.com/maps/api/staticmap?center={$this->Latitude},{$this->Longitude}&zoom=15&scale=1&size=500x410&maptype=roadmap&key=AIzaSyD0dSMxxrcDGP79yWVRKkncKW0TdtBh96Y&format=png&visual_refresh=true";
+//            return "//maps.googleapis.com/maps/api/staticmap?center={$this->Latitude},{$this->Longitude}&zoom=15&scale=1&size=500x410&maptype=roadmap&key={$apiKey}&format=png&visual_refresh=true";
+            return "//maps.googleapis.com/maps/api/staticmap?" . http_build_query($gmapsParams);
         }
         return "genealogist/images/default-town.png";
     }

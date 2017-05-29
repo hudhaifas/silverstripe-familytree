@@ -16,13 +16,3 @@ Person:
 Town:
   extensions:
     - DataObject_MemberExtension
-
-GoogleMapField:
-  default_options:
-    api_key: AIzaSyD0dSMxxrcDGP79yWVRKkncKW0TdtBh96Y
-    show_search_box: true
-    field_names:
-      Latitude: 'Latitude'
-      Longitude: 'Longitude'
-    map:
-      zoom: 15
