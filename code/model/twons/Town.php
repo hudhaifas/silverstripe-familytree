@@ -72,7 +72,7 @@ class Town
         $labels['Births'] = _t('Genealogist.BIRTHS', 'Births');
         $labels['Deaths'] = _t('Genealogist.DEATHS', 'Deaths');
         $labels['Buried'] = _t('Genealogist.BURIED', 'Buried');
-        $labels['TownClas'] = _t('Genealogist.TOWN_CLANS', 'Town Clans');
+        $labels['TownClans'] = _t('Genealogist.TOWN_CLANS', 'Town Clans');
         $labels['Coordinates'] = _t('Genealogist.COORDINATES', 'Coordinates');
 
         // Settings
