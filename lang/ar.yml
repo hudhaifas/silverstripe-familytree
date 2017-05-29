@@ -163,13 +163,13 @@ ar:
     SUGGEST_EDIT_MESSAGE_2: 'لتزويدنا بأي اقتراحات أو بيانات.'
 
     # Towns
-    TOWNS: 'المدن'
-    TOWN_NAME: 'اسم المدينة'
+    TOWNS: 'البلدات'
+    TOWN_NAME: 'اسم البلدة'
     TWON_NAMES: 'أسماء أخرى'
     HISTORICAL_NAMES: 'الأسماء التاريخية'
-    TOWN_ID: 'رمز المدينة'
+    TOWN_ID: 'رمز البلدة'
     TOWN_DEFAULT_NAME: 'الاسم التلقائي'
-    TOWN_CLANS: 'عشائر المدينة'
+    TOWN_CLANS: 'عشائر البلدة'
     START_DATE: 'منذ تاريخ'
     END_DATE: 'إلى تاريخ'
     COORDINATES: 'الإحداثيات'
