@@ -776,9 +776,9 @@ class Person
             } else {
                 $childOf = $this->isFemale() ? _t('Genealogist.DAUGHTER_OF') : _t('Genealogist.SON_OF');
             }
-            $name .= " {$childOf} {$this->Father()->getFullName()}";
+            $name .= " {$childOf} {$this->Father()->getFullName($withChildOf)}";
         } else {
-            $name .= " {$this->Father()->getFullName()}";
+            $name .= " {$this->Father()->getFullName($withChildOf)}";
         }
 
         return $name;
