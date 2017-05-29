@@ -82,6 +82,9 @@ class Town
     public function getCMSFields() {
         $fields = parent::getCMSFields();
 
+        $fields->removeFieldFromTab('Root.Main', 'Latitude');
+        $fields->removeFieldFromTab('Root.Main', 'Longitude');
+
         $this->reorderField($fields, 'PhotoID', 'Root.Main', 'Root.Main');
         $this->reorderField($fields, 'TownID', 'Root.Main', 'Root.Main');
         $this->reorderField($fields, 'DefaultName', 'Root.Main', 'Root.Main');
