@@ -48,6 +48,8 @@ class CrawlTask
     protected $enabled = true;
 
     public function run($request) {
+        $startTime = microtime(true);
+
         $level = $request->getVar('level');
         $source = $request->getVar('src');
         $count = 1;
@@ -93,8 +95,9 @@ class CrawlTask
             $person->write();
         }
 
+        $taskTime = gmdate("H:i:s", microtime(true) - $startTime);
         $this->println('');
-        $this->println('Task is completed');
+        $this->println("Task is completed in $taskTime");
     }
 
     private function indexName($person) {

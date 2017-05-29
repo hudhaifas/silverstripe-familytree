@@ -43,6 +43,8 @@ class EventsTask
     protected $enabled = true;
 
     public function run($request) {
+        $startTime = microtime(true);
+
         $GLOBALS['task_caller'] = true;
 
         $source = $request->getVar('src');
@@ -70,10 +72,11 @@ class EventsTask
             $person->write();
         }
 
-        $this->println('');
-        $this->println('Task is completed');
-
         $GLOBALS['task_caller'] = false;
+
+        $taskTime = gmdate("H:i:s", microtime(true) - $startTime);
+        $this->println('');
+        $this->println("Task is completed in $taskTime");
     }
 
     private function indexEvents($person) {

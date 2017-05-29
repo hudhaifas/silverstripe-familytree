@@ -42,6 +42,8 @@ class StatsTask
     protected $enabled = true;
 
     public function run($request) {
+        $startTime = microtime(true);
+
         $level = $request->getVar('level');
 
         if ($level == 'all') {
@@ -64,8 +66,9 @@ class StatsTask
             $person->write();
         }
 
+        $taskTime = gmdate("H:i:s", microtime(true) - $startTime);
         $this->println('');
-        $this->println('Task is completed');
+        $this->println("Task is completed in $taskTime");
     }
 
     private function indexName($person) {

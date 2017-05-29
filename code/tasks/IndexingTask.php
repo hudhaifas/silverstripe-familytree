@@ -37,19 +37,24 @@ class IndexingTask
             Indexing all people full name for searching purposes
             
             Parameters:
-                - level: all - to index all records, otherwise index only non-indexed records.
+                - src: all - to index all records, otherwise index only non-indexed records.
             ";
     protected $enabled = true;
 
     public function run($request) {
-        $level = $request->getVar('level');
+        $startTime = microtime(true);
 
-        if ($level == 'all') {
+        $source = $request->getVar('src');
+
+        if ($source == 'all') {
             $people = Person::get()->sort('ID');
-        } else if (is_numeric($level)) {
-            $people = DataObject::get_by_id('Person', (int) $level);
+            $count = $people->count();
+        } else if (is_numeric($source)) {
+            $people = DataObject::get_by_id('Person', (int) $source);
+            $count = 1;
         } else {
             $people = Person::get()->where('IndexedName IS NULL')->sort('ID');
+            $count = $people->count();
         }
 
         foreach ($people as $index => $person) {
@@ -58,6 +63,10 @@ class IndexingTask
             $person->IndexedName = $person->toIndexName();
             $person->write();
         }
+
+        $taskTime = gmdate("H:i:s", microtime(true) - $startTime);
+        $this->println('');
+        $this->println("Task is completed in $taskTime");
     }
 
     function printProgress($index, $total) {
