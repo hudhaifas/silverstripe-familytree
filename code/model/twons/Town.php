@@ -56,6 +56,7 @@ class Town
     );
     private static $default_sort = 'Latitude, Longitude';
     private static $cache_permissions = array();
+    private static $apiKey = "AIzaSyB3XOLhZ8e3iI_rnBGQonCUw7Dz0CtDFyE";
 
     public function fieldLabels($includerelations = true) {
         $labels = parent::fieldLabels($includerelations);
@@ -92,7 +93,9 @@ class Town
         $this->reorderField($fields, 'PhotoID', 'Root.Main', 'Root.Main');
         $this->reorderField($fields, 'TownID', 'Root.Main', 'Root.Main');
         $this->reorderField($fields, 'DefaultName', 'Root.Main', 'Root.Main');
-        $fields->addFieldToTab('Root.Main', new GoogleMapField($this, _t('Genealogist.COORDINATES', 'Coordinates')));
+        $fields->addFieldToTab('Root.Main', new GoogleMapField($this, _t('Genealogist.COORDINATES', 'Coordinates'), array(
+            'api_key' => self::$apiKey
+        )));
         $this->reorderField($fields, 'Biography', 'Root.Main', 'Root.Main');
 
         $this->getSettingsFields($fields);
@@ -367,14 +370,13 @@ class Town
 
     public function getObjectDefaultImage() {
         if ($this->Latitude && $this->Longitude) {
-            $apiKey = "AIzaSyB3XOLhZ8e3iI_rnBGQonCUw7Dz0CtDFyE";
             $gmapsParams = array(
                 'center' => "{$this->Latitude},{$this->Longitude}",
                 'zoom' => $this->Zoom,
                 'scale' => 1,
                 'size' => '500x410',
                 'maptype' => 'roadmap',
-                'key' => $apiKey,
+                'key' => self::$apiKey,
                 'format' => 'png',
                 'visual_refresh' => true,
             );
