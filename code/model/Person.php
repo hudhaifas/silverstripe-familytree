@@ -108,6 +108,7 @@ class Person
     public static $STATE_ALIVE = 1;
     public static $STATE_DEAD = 2;
     private static $cache_permissions = array();
+    private static $cache_names = array();
 
     public function fieldLabels($includerelations = true) {
         $labels = parent::fieldLabels($includerelations);

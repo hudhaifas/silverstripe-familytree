@@ -39,10 +39,9 @@ class GenealogistCrawlHelper {
     /// Calucluates the estemiated BIRTH year ///
     public static function calculate_min_person_year(Person $person, $space = '') {
         if ($person->BirthDate) {
-            return $person->BirthDate;
+            return $person->getBirthYear();
         }
-            self::_debugln();
-
+        
         $eldestChild = self::calculate_eldest_child_year($person, $space . '-');
         $youngestParent = self::calculate_youngest_parent_year($person, $space . '-');
 
@@ -64,13 +63,13 @@ class GenealogistCrawlHelper {
     }
 
     private static function calculate_eldest_child_year(Person $person, $space = '') {
-        $eldestChild = self::get_eldest_child_year($person, $space . '-');
+        self::_debugln($space . 'Calculating from children for ' . $person->getFullName(false));
+
+        $eldestChild = self::get_eldest_child_year($person, $space . '---');
 
         if (self::is_year($eldestChild)) {
             $eldestChild -= $person->isFemale() ? self::$GENERATION_FEMALE_GAP : self::$GENERATION_MALE_GAP;
-        }
 
-        if (self::is_year($eldestChild)) {
             self::_debugln($space . 'Calculated from children for ' . $person->getFullName(false) . ': ' . $eldestChild);
         }
 
@@ -93,6 +92,7 @@ class GenealogistCrawlHelper {
 
             if (self::is_year($date)) {
                 $dates[] = $date;
+                self::_debugln($space . 'Calculated from parents for ' . $child->getFullName(false) . ': ' . $date);
             }
         }
 
@@ -106,9 +106,7 @@ class GenealogistCrawlHelper {
 
         if (self::is_year($youngestParent)) {
             $youngestParent += $person->isFemale() ? self::$GENERATION_FEMALE_GAP : self::$GENERATION_MALE_GAP;
-        }
 
-        if (self::is_year($youngestParent)) {
             self::_debugln($space . 'Calculated from parents for ' . $person->getFullName(false) . ': ' . $youngestParent);
         }
 
