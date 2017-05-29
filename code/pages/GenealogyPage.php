@@ -254,7 +254,7 @@ class GenealogyPage_Controller
 
         $config = SiteConfig::current_site_config();
         $title = $config->Title . ' - ';
-        $title .= $this->getSubTitle('Kinship', $person);
+        $title .= $this->getSubTitle($p1, $p2);
 
         return array(
             'Tree' => $this->virtualRoot($roots),
