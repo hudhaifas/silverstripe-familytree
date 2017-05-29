@@ -154,6 +154,8 @@ class GenealogyPage_Controller
     /// Actions ///
     public function index(SS_HTTPRequest $request) {
         $id = $this->getRequest()->param('ID');
+        $other = $this->getRequest()->param('Other');
+
         if (!$id) {
             return array(
                 'LandingPage' => true,
@@ -163,16 +165,17 @@ class GenealogyPage_Controller
         }
 
         if ($request->isAjax()) {
-            $other = $this->getRequest()->param('Other');
-
             $data = $other ? $this->kinship($id, $other) : $this->tree($id);
             return $this
                             ->customise($data)
                             ->renderWith('TheTree');
         }
 
+        $title = $this->getSubTitle($id, $other);
+
         return array(
-            'Tree' => false
+            'Tree' => false,
+            'Title' => $title
         );
     }
 
@@ -217,21 +220,8 @@ class GenealogyPage_Controller
         $isAncestral = $this->getRequest()->getVar('ancestral') ? 1 : 0;
 
         $config = SiteConfig::current_site_config();
-
         $title = $config->Title . ' - ';
-        $title .= $isAncestral ?
-                _t('Genealogist.ANCESTORS_OF', //
-                        "Family Ancestors of {value}", //
-                        array(
-                    'value' => $person->getShortName()
-                        )
-                ) :
-                _t('Genealogist.TREE_OF', //
-                        "Family Tree of {value}", //
-                        array(
-                    'value' => $person->getShortName()
-                        )
-        );
+        $title .= $this->getSubTitle($person);
 
         return array(
             'Tree' => $person->getDescendants(),
@@ -263,15 +253,8 @@ class GenealogyPage_Controller
         }
 
         $config = SiteConfig::current_site_config();
-
         $title = $config->Title . ' - ';
-        $title .= _t('Genealogist.KINSHIP_OF', //
-                "Kinships Between {value1} & {value2}", //
-                array(
-            'value1' => $p1->getShortName(),
-            'value2' => $p2->getShortName(),
-                )
-        );
+        $title .= $this->getSubTitle('Kinship', $person);
 
         return array(
             'Tree' => $this->virtualRoot($roots),
@@ -280,6 +263,42 @@ class GenealogyPage_Controller
             'Collapsible' => false,
             'PageTitle' => $title//$p1->getShortName() . ' : ' . $p2->getShortName()
         );
+    }
+
+    private function getSubTitle($p1, $p2 = null) {
+        if (is_numeric($p1)) {
+            $p1 = $p1 ? DataObject::get_by_id('Person', (int) $p1) : $this->getRootClans()->last();
+        }
+        if (is_numeric($p2)) {
+            $p2 = DataObject::get_by_id('Person', (int) $p2);
+        }
+
+        if ($p2) {
+            $title = _t('Genealogist.KINSHIP_OF', //
+                    "Kinships Between {value1} & {value2}", //
+                    array(
+                'value1' => $p1->getShortName(),
+                'value2' => $p2->getShortName(),
+                    )
+            );
+            return $title;
+        } else {
+            $isAncestral = $this->getRequest()->getVar('ancestral') ? 1 : 0;
+            $title = $isAncestral ?
+                    _t('Genealogist.ANCESTORS_OF', //
+                            "Family Ancestors of {value}", //
+                            array(
+                        'value' => $p1->getShortName()
+                            )
+                    ) :
+                    _t('Genealogist.TREE_OF', //
+                            "Family Tree of {value}", //
+                            array(
+                        'value' => $p1->getShortName()
+                            )
+            );
+            return $title;
+        }
     }
 
     private function virtualRoot($trees) {
@@ -310,7 +329,7 @@ HTML;
                 </ul>
             </li>
 HTML;
-                    
+
         return $this->appendParents($root, $html);
     }
 
@@ -339,7 +358,7 @@ HTML;
         }
 
         $person = $kinship[$index];
-        
+
         $index++;
         $html = <<<HTML
             <li class="{$person->CSSClasses()}">

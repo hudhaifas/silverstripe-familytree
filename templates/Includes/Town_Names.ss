@@ -8,8 +8,8 @@
         <% loop TwonNames %>
         <tr>
             <td>$Name</td>
-            <td>$StartDate</td>
-            <td>$EndDate</td>
+            <td><% if StartDate %>$StartDate<% else %>--<% end_if %></td>
+            <td><% if EndDate %>$EndDate<% else %>--<% end_if %></td>
         </tr>
         <% end_loop %>
     </table>
