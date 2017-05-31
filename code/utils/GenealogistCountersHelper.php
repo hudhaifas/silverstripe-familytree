@@ -47,7 +47,14 @@ class GenealogistCountersHelper {
             return 0;
         }
 
-        return self::count_males($person, $state) + self::count_females($person, $state);
+        $cachedCount = self::cache_counters_check('count-descendants', $person->ID, $state);
+        if (isset($cachedCount)) {
+            return $cachedCount;
+        }
+
+        $count = self::count_males($person, $state) + self::count_females($person, $state);
+
+        return self::cache_counters_check('count-descendants', $person->ID, $state, $count);
     }
 
     /**
@@ -58,6 +65,15 @@ class GenealogistCountersHelper {
      * @return number
      */
     public static function count_males($person, $state = 0) {
+        if (!$person) {
+            return 0;
+        }
+
+        $cachedCount = self::cache_counters_check('count-males', $person->ID, $state);
+        if (isset($cachedCount)) {
+            return $cachedCount;
+        }
+
         $stack = array();
         $count = 0;
         array_push($stack, $person);
@@ -84,7 +100,7 @@ class GenealogistCountersHelper {
             }
         }
 
-        return $count;
+        return self::cache_counters_check('count-males', $person->ID, $state, $count);
     }
 
     /**
@@ -95,6 +111,15 @@ class GenealogistCountersHelper {
      * @return number
      */
     public static function count_females($person, $state = 0) {
+        if (!$person) {
+            return 0;
+        }
+
+        $cachedCount = self::cache_counters_check('count-females', $person->ID, $state);
+        if (isset($cachedCount)) {
+            return $cachedCount;
+        }
+
         $stack = array();
         $count = 0;
         array_push($stack, $person);
@@ -123,7 +148,7 @@ class GenealogistCountersHelper {
             }
         }
 
-        return $count;
+        return self::cache_counters_check('count-females', $person->ID, $state, $count);
     }
 
     /**
@@ -136,6 +161,11 @@ class GenealogistCountersHelper {
     public static function count_sons($person, $state = 0) {
         if (!$person) {
             return 0;
+        }
+
+        $cachedCount = self::cache_counters_check('count-sons', $person->ID, $state);
+        if (isset($cachedCount)) {
+            return $cachedCount;
         }
 
         $count = 0;
@@ -159,7 +189,7 @@ class GenealogistCountersHelper {
             }
         }
 
-        return $count;
+        return self::cache_counters_check('count-sons', $person->ID, $state, $count);
     }
 
     /**
@@ -172,6 +202,11 @@ class GenealogistCountersHelper {
     public static function count_daughters($person, $state = 0) {
         if (!$person) {
             return 0;
+        }
+
+        $cachedCount = self::cache_counters_check('count-daughters', $person->ID, $state);
+        if (isset($cachedCount)) {
+            return $cachedCount;
         }
 
         $count = 0;
@@ -192,7 +227,22 @@ class GenealogistCountersHelper {
             }
         }
 
-        return $count;
+        return self::cache_counters_check('count-daughters', $person->ID, $state, $count);
+    }
+
+    public static function cache_counters_check($counterType, $personID, $state, $result = null) {
+        // This is the name used on the permission cache
+        // converts something like 'CanEditType' to 'edit'.
+        $cacheKey = strtolower($counterType) . "-$personID-$state";
+
+        if (isset(self::$cache_counters[$cacheKey])) {
+            $cachedValues = self::$cache_counters[$cacheKey];
+            return $cachedValues;
+        }
+
+        self::$cache_counters[$cacheKey] = $result;
+
+        return self::$cache_counters[$cacheKey];
     }
 
 }
