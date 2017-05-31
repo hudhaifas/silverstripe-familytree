@@ -1045,7 +1045,7 @@ class Person
         if ($this->Stats()->exists()) {
             return $this->MalesCount($state) + $this->FemalesCount($state);
         }
-        return GenealogistHelper::count_descendants($this, $state);
+        return GenealogistCountersHelper::count_descendants($this, $state);
     }
 
     /**
@@ -1057,7 +1057,7 @@ class Person
         if ($this->Stats()->exists()) {
             return $state ? $this->Stats()->LiveMales : $this->Stats()->Males;
         }
-        return GenealogistHelper::count_males($this, $state);
+        return GenealogistCountersHelper::count_males($this, $state);
     }
 
     /**
@@ -1069,7 +1069,7 @@ class Person
         if ($this->Stats()->exists()) {
             return $state ? $this->Stats()->LiveFemales : $this->Stats()->Females;
         }
-        return GenealogistHelper::count_females($this, $state);
+        return GenealogistCountersHelper::count_females($this, $state);
     }
 
     /**
@@ -1081,7 +1081,7 @@ class Person
         if ($this->Stats()->exists()) {
             return $state ? $this->Stats()->LiveSons : $this->Stats()->Sons;
         }
-        return GenealogistHelper::count_sons($this, $state);
+        return GenealogistCountersHelper::count_sons($this, $state);
     }
 
     /**
@@ -1093,7 +1093,7 @@ class Person
         if ($this->Stats()->exists()) {
             return $state ? $this->Stats()->LiveDaughters : $this->Stats()->Daughters;
         }
-        return GenealogistHelper::count_daughters($this, $state);
+        return GenealogistCountersHelper::count_daughters($this, $state);
     }
 
     public function getBirthYear() {

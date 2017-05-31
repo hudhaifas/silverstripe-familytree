@@ -82,16 +82,16 @@ class StatsTask
             $stats = new PersonalStats();
         }
 
-        $stats->Sons = GenealogistHelper::count_sons($person);
-        $stats->Daughters = GenealogistHelper::count_daughters($person);
-        $stats->Males = GenealogistHelper::count_males($person);
-        $stats->Females = GenealogistHelper::count_females($person);
-        $stats->Total = GenealogistHelper::count_descendants($person);
-        $stats->LiveSons = GenealogistHelper::count_sons($person, 1);
-        $stats->LiveDaughters = GenealogistHelper::count_daughters($person, 1);
-        $stats->LiveMales = GenealogistHelper::count_males($person, 1);
-        $stats->LiveFemales = GenealogistHelper::count_females($person, 1);
-        $stats->LiveTotal = GenealogistHelper::count_descendants($person, 1);
+        $stats->Sons = GenealogistCountersHelper::count_sons($person);
+        $stats->Daughters = GenealogistCountersHelper::count_daughters($person);
+        $stats->Males = GenealogistCountersHelper::count_males($person);
+        $stats->Females = GenealogistCountersHelper::count_females($person);
+        $stats->Total = GenealogistCountersHelper::count_descendants($person);
+        $stats->LiveSons = GenealogistCountersHelper::count_sons($person, 1);
+        $stats->LiveDaughters = GenealogistCountersHelper::count_daughters($person, 1);
+        $stats->LiveMales = GenealogistCountersHelper::count_males($person, 1);
+        $stats->LiveFemales = GenealogistCountersHelper::count_females($person, 1);
+        $stats->LiveTotal = GenealogistCountersHelper::count_descendants($person, 1);
 
         $ancestors = GenealogistHelper::get_ancestors_ids($person);
         $person->IndexedAncestors = '|' . implode("|", $ancestors) . '|';
