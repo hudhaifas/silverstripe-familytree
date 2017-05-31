@@ -31,8 +31,6 @@
  */
 class GenealogistHelper {
 
-    public static $STATE_ALIVE = 1;
-    public static $STATE_DEAD = 2;
     private static $access_groups = array('administrators', 'librarians', 'genealogists', 'co-genealogists');
 
     /**
