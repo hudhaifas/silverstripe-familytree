@@ -141,6 +141,18 @@ class PersonalEvent
         return $value;
     }
 
+    public function isAccurateDate() {
+        return $this->DatePrecision == 'Accurate';
+    }
+
+    public function isEstimatedDate() {
+        return $this->DatePrecision == 'Estimated';
+    }
+
+    public function isCalculatedDate() {
+        return $this->DatePrecision == 'Calculated';
+    }
+
     public function getObjectImage() {
         return $this->Person()->Photo();
     }

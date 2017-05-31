@@ -317,7 +317,7 @@ class GenealogistEventsHelper {
                     $content .= _t("Genealogist.IN_PLACE", " in {place}", array('place' => $event->getPlaceTitle()));
                 }
 
-                if ($event->Age) {
+                if ($event->Age && !$event->isCalculatedDate()) {
                     $content .= _t("Genealogist.{$pronoun}_WAS_AGE", ", when he was {age}", array(
                         'age' => $event->Age
                     ));
@@ -396,7 +396,7 @@ class GenealogistEventsHelper {
                         $event->EventDate
         );
 
-        if ($age) {
+        if ($age && !$event->isCalculatedDate()) {
             $content .= _t("Genealogist.{$rPronoun}_WAS_AGE", ", when he was {age}", array(
                 'age' => $age
             ));
