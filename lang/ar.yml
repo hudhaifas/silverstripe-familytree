@@ -222,6 +222,8 @@ ar:
     ESTIMATED_DEATHDATE: 'تاريخ الوفاة (تقريبا)'
     CALCULATIONS_DEATHDATE: 'تاريخ الوفاة (تقديرا)'
     CHOOSE_PLACE: 'اختر مكانا'
+    MARRIAGEDATE: 'تاريخ الزواج'
+    MARRIAGEPLACE: 'مكان الزواج'
 
     # Events
     EVENTS: 'الأحداث'

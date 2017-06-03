@@ -39,6 +39,16 @@ class Tribe
     public function getCMSFields() {
         $fields = parent::getCMSFields();
 
+        if (!$this->ID) {
+            return $fields;
+        }
+
+        // Clans
+        $config = $this->personConfigs();
+
+        $field = $fields->fieldByName('Root.Clans.Clans');
+        $field->setConfig($config);
+
 //        $fields->removeFieldFromTab('Root.Main', 'TribeID');
 //        $fields->removeFieldFromTab('Root', 'Children');
 //        $fields->removeFieldFromTab('Root', 'Sons');

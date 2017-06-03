@@ -103,6 +103,7 @@ class Person
         'BirthDate',
         'Age',
         'Note',
+        'MarriageDate',
     );
     private static $default_sort = 'ChildOrder';
     public static $STATE_ALIVE = 1;
@@ -139,6 +140,7 @@ class Person
         $labels['BurialPlace'] = _t('Genealogist.BURIALPLACE', 'Burial Place');
         $labels['Age'] = _t('Genealogist.AGE', 'Age');
         $labels['IsDead'] = _t('Genealogist.ISDEAD', 'Is Dead');
+        $labels['MarriageDate'] = _t('Genealogist.MARRIAGEDATE', 'Marriage Date');
 
         $labels['Note'] = _t('Genealogist.NOTE', 'Note');
         $labels['Comments'] = _t('Genealogist.COMMENTS', 'Comments');
@@ -335,7 +337,7 @@ class Person
         }
     }
 
-    protected function personConfigs($showFather = false, $showMother = true, $allowCreate = true) {
+    protected function personConfigs($showFather = false, $showMother = true, $allowCreate = true, $married = false) {
         $config = GridFieldConfig::create();
         $config->addComponent(new GridFieldPaginator(25));
         $config->addComponent(new GridFieldButtonRow('before'));
@@ -421,6 +423,17 @@ class Person
             'title' => _t('Genealogist.NOTE', 'Note'),
             'field' => 'TextField'
         );
+        if ($married) {
+            $columns['MarriageDate'] = array(
+                'title' => _t('Genealogist.MARRIAGEDATE', 'Marriage Date'),
+                'callback' => function($record, $column, $grid) {
+                    $field = DateField::create($column);
+                    $field->setConfig('showcalendar', true);
+                    $field->setConfig('dateformat', 'dd-MM-yyyy');
+                    return $field;
+                }
+            );
+        }
 
         $edit = new GridFieldEditableColumns();
         $edit->setDisplayFields($columns);

@@ -222,6 +222,8 @@ en:
     ESTIMATED_DEATHDATE: 'Death Date (Estimated)'
     CALCULATIONS_DEATHDATE: 'Death Date (Calculations)'
     CHOOSE_PLACE: 'Choose Place'
+    MARRIAGEDATE: 'Marriage Date'
+    MARRIAGEPLACE: 'Marriage Place'
 
     # Events
     EVENTS: 'Events'

@@ -47,6 +47,11 @@ class Male
     private static $many_many = array(
         'Wives' => 'Female',
     );
+    static $many_many_extraFields = array(
+        'Wives' => array(
+            'MarriageDate' => 'Date'
+        )
+    );
 
     public function canCreate($member = null) {
         if (!$member) {
@@ -106,11 +111,23 @@ class Male
         $config->addComponent(new GridFieldOrderableRows('ChildOrder'));
         $field->setConfig($config);
 
-        // Husbands
-        $field = $fields->fieldByName('Root.Wives.Wives');
-        $config = $this->personConfigs(true);
+        // Wives
+        $wifeFields = singleton('Female')->getCMSFields();
+        $wifeFields->addFieldToTab(
+                'Root.DatesTab',
+                // The "ManyMany[<extradata-name>]" convention
+                $dateField = new DateField('ManyMany[MarriageDate]', _t('Genealogist.MARRIAGEDATE', 'Marriage Date'))
+        );
+
+        $dateField->setConfig('showcalendar', true);
+        $dateField->setConfig('dateformat', 'dd-MM-yyyy');
+
+        $config = $this->personConfigs(true, true, true, true);
         $config->addComponent(new GridFieldOrderableRows('WifeOrder'));
-        $field->setConfig($config);
+        $config->getComponentByType('GridFieldDetailForm')->setFields($wifeFields);
+
+        $gridField = new GridField('Wives', 'Wives', $this->Wives(), $config);
+        $fields->findOrMakeTab('Root.Wives')->replaceField('Wives', $gridField);
 
         return $fields;
     }

@@ -107,8 +107,22 @@ class Female
         $field->setConfig($config);
 
         // Husbands
-        $field = $fields->fieldByName('Root.Husbands.Husbands');
-        $field->setConfig($this->personConfigs(true));
+        $husbandFields = singleton('Male')->getCMSFields();
+        $husbandFields->addFieldToTab(
+                'Root.DatesTab',
+                // The "ManyMany[<extradata-name>]" convention
+                $dateField = new DateField('ManyMany[MarriageDate]', _t('Genealogist.MARRIAGEDATE', 'Marriage Date'))
+        );
+
+        $dateField->setConfig('showcalendar', true);
+        $dateField->setConfig('dateformat', 'dd-MM-yyyy');
+
+        $config = $this->personConfigs(true, true, true, true);
+        $config->addComponent(new GridFieldOrderableRows('HusbandOrder'));
+        $config->getComponentByType('GridFieldDetailForm')->setFields($husbandFields);
+
+        $gridField = new GridField('Husbands', 'Husbands', $this->Husbands(), $config);
+        $fields->findOrMakeTab('Root.Husbands')->replaceField('Husbands', $gridField);
 
         return $fields;
     }
