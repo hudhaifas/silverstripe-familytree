@@ -1361,11 +1361,13 @@ class Person
     public function getObjectTabs() {
         $lists = array();
 
-        $lists[] = array(
-            'Title' => _t('Genealogist.LIFESTORY', 'Life Story'),
-            'Content' => $this->renderWith('Person_Lifestory')
-        );
-
+        if ($this->Events()->Count()) {
+            $lists[] = array(
+                'Title' => _t('Genealogist.LIFESTORY', 'Life Story'),
+                'Content' => $this->renderWith('Person_Lifestory')
+            );
+        }
+        
         $lists[] = array(
             'Title' => _t('Genealogist.FAMILY', 'Family'),
             'Content' => $this->renderWith('Person_Family')

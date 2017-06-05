@@ -20,8 +20,8 @@ ar:
     PLURALNAME: 'الاقتراحات'
     SINGULARNAME: 'الاقتراحات'
   Town:
-    PLURALNAME: 'المدن'
-    SINGULARNAME: 'المدن'
+    PLURALNAME: 'البلدات'
+    SINGULARNAME: 'البلدات'
   Genealogist:
     PHOTO: 'الصورة'
     PREFIX: 'المزيد المقدم'
