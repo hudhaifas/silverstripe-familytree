@@ -118,6 +118,27 @@ class GenealogistHelper {
         return (new ArrayList($children));
     }
 
+    public static function get_all_descendants($person) {
+        if (!$person) {
+            return null;
+        }
+
+        return DataObject::get('Person')->filter(array(
+                    'IndexedAncestors:PartialMatch' => "|{$person->ID}|"
+        ));
+    }
+
+    public static function get_descendants_public_figures($person) {
+        if (!$person) {
+            return null;
+        }
+
+        return DataObject::get('Person')->filter(array(
+                    'IndexedAncestors:PartialMatch' => "|{$person->ID}|",
+                    'IsPublicFigure' => 1,
+        ));
+    }
+
     /// Find kinships between two persons ///
     /**
      * Returns a list of all ancestors ID's

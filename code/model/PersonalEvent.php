@@ -91,7 +91,8 @@ class PersonalEvent
     }
 
     public function canView($member = false) {
-        return $this->Person() && $this->Person()->canView($member) && $this->RelatedPerson() && $this->RelatedPerson()->canView($member);
+        return $this->Person() && ($this->Person()->canView($member) || $this->Person()->IsPublicFigure) &&
+                $this->RelatedPerson() && ($this->RelatedPerson()->canView($member) || $this->RelatedPerson()->IsPublicFigure);
     }
 
     public function canDelete($member = false) {

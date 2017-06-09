@@ -48,6 +48,7 @@ ar:
 
     BIOGRAPHY: 'السيرة'
     PUBLIC_FIGURE: 'شخصية عامة'
+    PUBLIC_FIGURES: 'شخصيات عامة'
     IS_PRIVATE: 'إخفاء المعلومات'
     DETAILS: 'التفاصيل'
     PAGE: 'الصفحة'

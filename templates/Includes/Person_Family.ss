@@ -6,7 +6,7 @@
         </p>
     <% end_if %>
 
-    <% if Mother && Mother.canView %>
+    <% if Mother && Mother.canView || Mother.IsPublicFigure %>
         <p>
             <b><%t Genealogist.MOTHER 'Mother' %></b><br />
 
@@ -20,7 +20,7 @@
 
             <ul>
                 <% loop Husbands.Sort(HusbandOrder) %>
-                    <% if canView %>
+                    <% if canView || IsPublicFigure %>
                         <li><a href="{$ObjectLink}">$FullName</a></li>
                     <% end_if %>
                 <% end_loop %>
@@ -33,7 +33,7 @@
 
             <ul>
                 <% loop Wives.Sort(WifeOrder) %>
-                    <% if canView %>
+                    <% if canView || IsPublicFigure %>
                         <li><a href="{$ObjectLink}">$FullName</a></li>
                     <% end_if %>
                 <% end_loop %>
@@ -46,7 +46,7 @@
             <b><%t Genealogist.SONS 'Sons' %></b>: $SonsCount<br />
 
             <% loop Sons %>
-                <% if canView %>
+                <% if canView || IsPublicFigure %>
                     <a href="{$ObjectLink}" title="$FullName">$AliasName</a><% if not Last %><%t Genealogist.COMMA ',' %><% end_if %>
                 <% end_if %>
             <% end_loop %>
@@ -58,7 +58,7 @@
             <b><%t Genealogist.DAUGHTERS 'Daughters' %></b>: $DaughtersCount<br />
 
             <% loop Daughters %>
-                <% if canView %>
+                <% if canView || IsPublicFigure %>
                     <a href="{$ObjectLink}" title="$FullName">$AliasName</a><% if not Last %><%t Genealogist.COMMA ',' %><% end_if %>
                 <% end_if %>
             <% end_loop %>

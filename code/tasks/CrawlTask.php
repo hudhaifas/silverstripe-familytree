@@ -111,7 +111,9 @@ class CrawlTask
             $stats = new PersonalStats();
         }
 
-        $stats->MinYear = GenealogistCrawlHelper::calculate_min_person_year($person);
+        $minYear = GenealogistCrawlHelper::calculate_min_person_year($person);
+        $stats->MinYear = $minYear;
+        $person->BirthYear = $minYear;
         if ($person->IsDead) {
             $stats->MaxYear = GenealogistCrawlHelper::calculate_max_person_year($person, $stats->MinYear);
         }

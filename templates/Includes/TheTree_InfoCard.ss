@@ -2,12 +2,14 @@
     <button id="close-card" type="button" class="close close-card" aria-label="Close"><span aria-hidden="true">×</span></button>
 </div>
 
-<% if $ObjectImage && not $isObjectDisabled %>
-    <div class="card-picture">
-        <div>
-            <img src="$ObjectImage.PaddedImage(300,300).Watermark.URL" data-origin="$ObjectImage.Watermark.URL">
+<% if $ObjectImage %>
+    <% if not $isObjectDisabled || IsPublicFigure %>
+        <div class="card-picture">
+            <div>
+                <img src="$ObjectImage.PaddedImage(300,300).Watermark.URL" data-origin="$ObjectImage.Watermark.URL">
+            </div>
         </div>
-    </div>
+    <% end_if %>
 <% end_if %>
 
 <div>
@@ -22,7 +24,7 @@
             <p><strong><%t Genealogist.FATHER 'Father' %></strong>: <a href="#" data-url="{$Father.InfoLink()}" class="info-item">$Father.FullName</a></p>
         <% end_if %>
 
-        <% if Mother && Mother.canView %>
+        <% if Mother && Mother.canView || Mother.IsPublicFigure %>
             <p><strong><%t Genealogist.MOTHER 'Mother' %></strong>: <a href="#" data-url="{$Mother.InfoLink()}" class="info-item">$Mother.FullName</a></p>
         <% end_if %>
 
@@ -30,13 +32,17 @@
             <% if Husbands && ViewableHusbands %>
                 <strong><%t Genealogist.HUSBANDS 'Husbands' %>: </strong>
                 <% loop Husbands.Sort(HusbandOrder) %>
-                    <a href="#" data-url="{$InfoLink}" class="info-item" title="$FullName">$ShortName</a><% if not Last %><%t Genealogist.COMMA ',' %><% end_if %>
+                    <% if canView || IsPublicFigure %>
+                        <a href="#" data-url="{$InfoLink}" class="info-item" title="$FullName">$ShortName</a><% if not Last %><%t Genealogist.COMMA ',' %><% end_if %>
+                    <% end_if %>
                 <% end_loop %>
 
             <% else_if Wives && ViewableWives %>
                 <strong><%t Genealogist.WIVES 'Wives' %>: </strong>
                 <% loop Wives.Sort(WifeOrder) %>
-                    <a href="#" data-url="{$InfoLink}" class="info-item" title="$FullName">$ShortName</a><% if not Last %><%t Genealogist.COMMA ',' %><% end_if %>
+                    <% if canView || IsPublicFigure %>
+                        <a href="#" data-url="{$InfoLink}" class="info-item" title="$FullName">$ShortName</a><% if not Last %><%t Genealogist.COMMA ',' %><% end_if %>
+                    <% end_if %>
                 <% end_loop %>
             <% end_if %>
         </p>

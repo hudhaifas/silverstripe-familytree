@@ -55,7 +55,9 @@ class Person
         'IndexedAncestors' => 'Text',
         // Order
         'ChildOrder' => 'Int',
+        'BirthYear' => 'Int',
         // Permession Level
+        'IsPublicFigure' => 'Boolean',
         "CanViewType" => "Enum('Anyone, LoggedInUsers, OnlyTheseUsers, Inherit', 'Inherit')",
         "CanEditType" => "Enum('LoggedInUsers, OnlyTheseUsers, Inherit', 'Inherit')",
     );
@@ -162,6 +164,7 @@ class Person
         $labels['Clans'] = _t('Genealogist.CLANS', 'Clans');
 
         // Settings
+        $labels['IsPublicFigure'] = _t('Genealogist.PUBLIC_FIGURE', 'Is Public Figure');
         $labels['CanViewType'] = _t('Genealogist.CAN_VIEW_TYPE', 'Who can view this person');
         $labels['CanEditType'] = _t('Genealogist.CAN_EDIT_TYPE', 'Who can edit this person');
 
@@ -254,6 +257,7 @@ class Person
         $settingsTab = new Tab('SettingsTab', _t('Genealogist.SETTINGS', 'Settings'));
         $fields->insertAfter('Main', $settingsTab);
 
+        $this->reorderField($fields, 'IsPublicFigure', 'Root.Main', 'Root.SettingsTab');
         $this->reorderField($fields, 'CanViewType', 'Root.Main', 'Root.SettingsTab');
 
         $viewerGroupsField = ListboxField::create("ViewerGroups", _t('Genealogist.VIEWER_GROUPS', "Viewer Groups"))
@@ -1001,7 +1005,15 @@ class Person
      * @return ArrayList
      */
     public function getChildren() {
-        GenealogistHelper::get_children($this);
+        return GenealogistHelper::get_children($this);
+    }
+
+    public function getAllDescendants() {
+        return GenealogistHelper::get_all_descendants($this);
+    }
+
+    public function getDescendantsPublicFigures() {
+        return GenealogistHelper::get_descendants_public_figures($this);
     }
 
     public function ThumbPhoto() {
@@ -1355,7 +1367,7 @@ class Person
     }
 
     public function isObjectDisabled() {
-        return !$this->canView();
+        return !$this->canView() && !$this->IsPublicFigure;
     }
 
     public function getObjectTabs() {
@@ -1367,7 +1379,7 @@ class Person
                 'Content' => $this->renderWith('Person_Lifestory')
             );
         }
-        
+
         $lists[] = array(
             'Title' => _t('Genealogist.FAMILY', 'Family'),
             'Content' => $this->renderWith('Person_Family')

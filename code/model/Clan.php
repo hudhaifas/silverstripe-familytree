@@ -45,7 +45,7 @@ class Clan
         "ClanTowns" => "Town",
     );
     private static $defaults = array(
-        "CanViewType" => "Anyone",
+        'IsPublicFigure' => 1,
     );
 
     public function getPersonName() {
@@ -93,6 +93,19 @@ class Clan
                 'Content' => $this
                         ->customise(array(
                             'Results' => $this->ClanTowns()
+                        ))
+                        ->renderWith('List_Grid')
+            );
+            $lists->add($item);
+        }
+
+        $publicFigures = $this->getDescendantsPublicFigures();
+        if ($publicFigures && $publicFigures->Count()) {
+            $item = array(
+                'Title' => _t('Genealogist.PUBLIC_FIGURES', 'Public Figures'),
+                'Content' => $this
+                        ->customise(array(
+                            'Results' => $publicFigures
                         ))
                         ->renderWith('List_Grid')
             );
