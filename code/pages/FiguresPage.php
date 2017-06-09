@@ -89,6 +89,7 @@ class FiguresPage_Controller
 
         Requirements::javascript("genealogist/js/vendors/jquery.modal.js");
         Requirements::javascript("genealogist/js/genealogy.ajax.js");
+        Requirements::javascript("genealogist/js/genealogy.forms.js");
         Requirements::customScript(<<<JS
             jQuery(document).ready(function () {
                 rebindAjaxmodal();
@@ -236,6 +237,7 @@ JS
                 TextField::create('Name', _t('Genealogist.NAME', 'Name'), $person->Name), //
                 TextField::create('NickName', _t('Genealogist.NICKNAME', 'NickName'), $person->NickName), //
                 TextField::create('Note', _t('Genealogist.NOTE', 'Note'), $person->Note), //
+                // Birth
                 TextField::create('BirthDate', _t('Genealogist.BIRTHDATE', 'Birth Date'), $person->BirthDate), //
                 DropdownField::create(
                         'BirthPlaceID', //
@@ -244,21 +246,28 @@ JS
                         $person->BirthPlaceID
                 )->setEmptyString(_t('Genealogist.BIRTHPLACE', 'Birth Place')), //
                 CheckboxField::create('BirthDateEstimated', _t('Genealogist.BIRTHDATE_ESTIMATED', 'Birth Date Estimated'), $person->BirthDateEstimated), //
-                TextField::create('DeathDate', _t('Genealogist.DEATHDATE', 'Death Date'), $person->DeathDate), //
-                DropdownField::create(
-                        'DeathPlaceID', //
-                        _t('Genealogist.DEATHPLACE', 'Death Place'), //
-                        $towns, //
-                        $person->DeathPlaceID
-                )->setEmptyString(_t('Genealogist.DEATHPLACE', 'Death Place')), //
-                DropdownField::create(
-                        'BurialPlaceID', //
-                        _t('Genealogist.BURIALPLACE', 'Burial Place'), //
-                        $towns, //
-                        $person->BurialPlaceID
-                )->setEmptyString(_t('Genealogist.BURIALPLACE', 'Burial Place')), //
-                CheckboxField::create('DeathDateEstimated', _t('Genealogist.DEATHDATE_ESTIMATED', 'Death Date Estimated'), $person->DeathDateEstimated), //
-                CheckboxField::create('IsDead', _t('Genealogist.ISDEAD', 'Is Dead'), $person->IsDead), //
+                // Death
+                CheckboxField::create('IsDead', _t('Genealogist.ISDEAD', 'Is Dead'), $person->IsDead)
+                        ->addExtraClass('death-options'), //
+                FieldGroup::create(
+                                TextField::create('DeathDate', _t('Genealogist.DEATHDATE', 'Death Date'), $person->DeathDate), //
+                                DropdownField::create(
+                                        'DeathPlaceID', //
+                                        _t('Genealogist.DEATHPLACE', 'Death Place'), //
+                                        $towns, //
+                                        $person->DeathPlaceID
+                                )->setEmptyString(_t('Genealogist.DEATHPLACE', 'Death Place')), //
+                                DropdownField::create(
+                                        'BurialPlaceID', //
+                                        _t('Genealogist.BURIALPLACE', 'Burial Place'), //
+                                        $towns, //
+                                        $person->BurialPlaceID
+                                )->setEmptyString(_t('Genealogist.BURIALPLACE', 'Burial Place')), //
+                                CheckboxField::create('DeathDateEstimated', _t('Genealogist.DEATHDATE_ESTIMATED', 'Death Date Estimated'), $person->DeathDateEstimated) //
+                        )
+                        ->setFieldHolderTemplate('FieldGroup_DefaultFieldHolder')
+                        ->addExtraClass('death-fields'), //
+                // Comments
                 TextareaField::create('Comments', _t('Genealogist.COMMENTS', 'Comments'), $person->Comments) //
         );
 
@@ -312,41 +321,48 @@ JS
                 ->setMultiple(true)
                 ->setSource($groupsMap)
                 ->setValue(null, $person)
-                ->setAttribute('data-placeholder', _t('Genealogist.GROUP_PLACEHOLDER', 'Click to select group'));
+                ->setAttribute('data-placeholder', _t('Genealogist.GROUP_PLACEHOLDER', 'Click to select group'))
+                ->addExtraClass('viewer-fields');
 
         $viewerMembersField = ListboxField::create("ViewerMembers", _t('Genealogist.VIEWER_MEMBERS', "Viewer Users"))
                 ->setMultiple(true)
                 ->setSource($membersMap)
                 ->setValue(null, $person)
-                ->setAttribute('data-placeholder', _t('Genealogist.MEMBER_PLACEHOLDER', 'Click to select user'));
+                ->setAttribute('data-placeholder', _t('Genealogist.MEMBER_PLACEHOLDER', 'Click to select user'))
+                ->addExtraClass('viewer-fields');
 
         $editorGroupsField = ListboxField::create("EditorGroups", _t('Genealogist.EDITOR_GROUPS', "Editor Groups"))
                 ->setMultiple(true)
                 ->setSource($groupsMap)
                 ->setValue(null, $person)
-                ->setAttribute('data-placeholder', _t('Genealogist.GROUP_PLACEHOLDER', 'Click to select group'));
+                ->setAttribute('data-placeholder', _t('Genealogist.GROUP_PLACEHOLDER', 'Click to select group'))
+                ->addExtraClass('editor-fields');
 
         $editorMembersField = ListboxField::create("EditorMembers", _t('Genealogist.EDITOR_MEMBERS', "Editor Users"))
                 ->setMultiple(true)
                 ->setSource($membersMap)
                 ->setValue(null, $person)
-                ->setAttribute('data-placeholder', _t('Genealogist.MEMBER_PLACEHOLDER', 'Click to select user'));
+                ->setAttribute('data-placeholder', _t('Genealogist.MEMBER_PLACEHOLDER', 'Click to select user'))
+                ->addExtraClass('editor-fields');
 
         // Create fields          
         $fields = new FieldList(
                 HiddenField::create('PersonID', 'PersonID', $id), //
+                CheckboxField::create('IsPublicFigure', _t('Genealogist.PUBLIC_FIGURE', 'Is Public Figure'), $person->IsPublicFigure), //
                 DropdownField::create(
-                        'CanViewType', //
-                        _t('Genealogist.MOTHER', 'Mother'), //
-                        singleton('Person')->dbObject('CanViewType')->enumValues(), $person->CanViewType
-                ), //
+                                'CanViewType', //
+                                _t('Genealogist.MOTHER', 'Mother'), //
+                                singleton('Person')->dbObject('CanViewType')->enumValues(), $person->CanViewType
+                        )
+                        ->addExtraClass('viewer-options'), //
                 $viewerGroupsField, //
                 $viewerMembersField, //
                 DropdownField::create(
-                        'CanEditType', //
-                        _t('Genealogist.MOTHER', 'Mother'), //
-                        singleton('Person')->dbObject('CanEditType')->enumValues(), $person->CanEditType
-                ), //
+                                'CanEditType', //
+                                _t('Genealogist.MOTHER', 'Mother'), //
+                                singleton('Person')->dbObject('CanEditType')->enumValues(), $person->CanEditType
+                        )
+                        ->addExtraClass('editor-options'), //
                 $editorGroupsField, //
                 $editorMembersField
         );

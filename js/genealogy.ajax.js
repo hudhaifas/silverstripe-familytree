@@ -10,6 +10,36 @@ var rebindAjaxmodal = function () {
 
 };
 
+var setElementVisible = function ($flag, element) {
+    if ($flag) {
+        $(element).slideDown();
+    } else {
+        $(element).slideUp();
+    }
+};
+
+var setVisible = function () {
+    setElementVisible($('.death-options').is(':checked'), '.death-fields');
+
+    $('.death-options').change(function () {
+        setElementVisible(this.checked, '.death-fields');
+    });
+
+    setElementVisible($('.viewer-options option:selected').val() === 'OnlyTheseUsers', '.viewer-fields');
+    $('.viewer-options').change(function () {
+        $(this).find('option:selected').each(function () {
+            setElementVisible($(this).val() === 'OnlyTheseUsers', '.viewer-fields');
+        });
+    });
+
+    setElementVisible($('.editor-options option:selected').val() === 'OnlyTheseUsers', '.editor-fields');
+    $('.editor-options').change(function () {
+        $(this).find('option:selected').each(function () {
+            setElementVisible($(this).val() === 'OnlyTheseUsers', '.editor-fields');
+        });
+    });
+};
+
 var rebindAutocomplete = function () {
     $('.field.autocomplete input.text').unbind('focus');
 
@@ -52,6 +82,7 @@ var rebindAutocomplete = function () {
         });
     });
 
+    setVisible();
 };
 
 var loadModal = function (url) {
