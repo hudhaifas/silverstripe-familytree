@@ -2,7 +2,6 @@
 
 <p class="details"><a href="{$TreeLink}"><%t Genealogist.SHOW_TREE 'Show genealogist tree' %></a></p>
 
-$YearOrder
 <% if not isTribe %>
     <% if canView || IsPublicFigure %>
         <p class="details edit">
