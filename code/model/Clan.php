@@ -34,7 +34,7 @@ class Clan
         extends Male {
 
     private static $db = array(
-        'IsAlias' => 'Boolean',
+        'IsAliasClan' => 'Boolean',
         'IsMainClan' => 'Boolean'
     );
     private static $has_one = array(
@@ -49,6 +49,40 @@ class Clan
     private static $defaults = array(
         'IsPublicFigure' => 1,
     );
+
+    public function getCMSFields() {
+        $fields = parent::getCMSFields();
+
+        $this->reorderField($fields, 'IsMainClan', 'Root.Main', 'Root.Main');
+        $this->reorderField($fields, 'IsAliasClan', 'Root.Main', 'Root.Main');
+
+        if ($this->IsAliasClan) {
+            $fields->removeFieldFromTab('Root.Main', 'FatherID');
+            $fields->removeFieldFromTab('Root.Main', 'MotherID');
+//            $fields->removeFieldFromTab('Root', 'DatesTab');
+        }
+
+        return $fields;
+    }
+
+    public function CSSClasses($stopAtClass = 'DataObject') {
+        $classes = strtolower(parent::CSSClasses($stopAtClass));
+
+        $classes .= $this->IsAliasClan ? ' tribe' : '';
+
+        return $classes;
+    }
+
+    public function isTribe() {
+        return parent::isTribe() || $this->IsAliasClan;
+    }
+
+    public function getClansList() {
+        return DataObject::get('Clan')->filter(array(
+                    'IndexedAncestors:PartialMatch' => "|{$this->ID}|",
+                    'ID:Negation' => $this->ID
+        ));
+    }
 
     public function getPersonName() {
         return $this->getAliasName();

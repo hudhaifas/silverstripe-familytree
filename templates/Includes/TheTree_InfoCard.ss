@@ -90,7 +90,7 @@
         <% end_if %>
         
     <% else %>
-        <% if Clans %>
+        <% if ClansList %>
         <table class="table">
             <tr>
                 <th></th>
@@ -103,7 +103,7 @@
             </tr>
             <tr>
                 <td><%t Genealogist.DESCENDANTS 'Descendants' %></td>
-                <td>$Clans.Count</td>
+                <td>$ClansList.Count</td>
                 <td>$MalesCount</td>
                 <% if canViewDaughters %>
                     <td>$FemalesCount</td>

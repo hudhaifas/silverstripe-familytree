@@ -102,4 +102,8 @@ class Tribe
         return "{$name} " . $this->Tribe()->getTribeName();
     }
 
+    public function getClansList() {
+        return $this->Clans();
+    }
+
 }

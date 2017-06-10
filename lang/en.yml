@@ -70,6 +70,8 @@ en:
     CLANS: 'Clans'
     TRIBES: 'Tribes'
     TRIBE: 'Tribe'
+    IS_ALIAS_CLAN: 'Is Alias Clan'
+    IS_MAIN_CLAN: 'Is Main Clan'
     ROOTS_LIST: 'Clans List'
     TRIBES_CLANS: 'Tribes & Clans'
     ROOTS_SEARCH: 'Search in Clans'
@@ -225,6 +227,7 @@ en:
     CHOOSE_PLACE: 'Choose Place'
     MARRIAGEDATE: 'Marriage Date'
     MARRIAGEPLACE: 'Marriage Place'
+    RESIDENCEPLACE: 'Residence Place'
 
     # Events
     EVENTS: 'Events'

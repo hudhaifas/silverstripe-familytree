@@ -134,6 +134,7 @@ class Person
         $labels['Husband'] = _t('Genealogist.HUSBAND', 'Husband');
         $labels['Wife'] = _t('Genealogist.WIFE', 'Wife');
 
+        $labels['ResidencePlace'] = _t('Genealogist.RESIDENCEPLACE', 'Residence Place');
         $labels['BirthDate'] = _t('Genealogist.BIRTHDATE', 'Birth Date');
         $labels['BirthPlace'] = _t('Genealogist.BIRTHPLACE', 'Birth Place');
         $labels['BirthDateEstimated'] = _t('Genealogist.BIRTHDATE_ESTIMATED', 'Birth Date Estimated');
@@ -151,6 +152,8 @@ class Person
         $labels['Biography'] = _t('Genealogist.BIOGRAPHY', 'Biography');
 
         $labels['Tribe'] = _t('Genealogist.TRIBE', 'Tribe');
+        $labels['IsAliasClan'] = _t('Genealogist.IS_ALIAS_CLAN', 'Is Alias Clan');
+        $labels['IsMainClan'] = _t('Genealogist.IS_MAIN_CLAN', 'Is Main Clan');
 
         // Tabs
         $labels['Children'] = _t('Genealogist.CHILDREN', 'Children');
@@ -308,6 +311,9 @@ class Person
 
         $datesTab = new Tab('DatesTab', _t('Genealogist.EVENTS', 'Events'));
         $fields->insertAfter('Main', $datesTab);
+
+        $this->reorderField($fields, 'ResidencePlaceID', 'Root.Main', 'Root.DatesTab');
+
         $this->reorderField($fields, 'BirthDate', 'Root.Main', 'Root.DatesTab');
         $this->reorderField($fields, 'BirthPlaceID', 'Root.Main', 'Root.DatesTab');
         $this->reorderField($fields, 'BirthDateEstimated', 'Root.Main', 'Root.DatesTab');
@@ -1375,17 +1381,28 @@ class Person
     public function getObjectTabs() {
         $lists = array();
 
-        if ($this->Events()->Count()) {
+        if ($this->isTribe()) {
             $lists[] = array(
-                'Title' => _t('Genealogist.LIFESTORY', 'Life Story'),
-                'Content' => $this->renderWith('Person_Lifestory')
+                'Title' => _t('Genealogist.CLANS', 'Clans'),
+                'Content' => $this
+                        ->customise(array(
+                            'Results' => $this->getClansList()
+                        ))
+                        ->renderWith('List_Grid')
+            );
+        } else {
+            if ($this->Events()->Count()) {
+                $lists[] = array(
+                    'Title' => _t('Genealogist.LIFESTORY', 'Life Story'),
+                    'Content' => $this->renderWith('Person_Lifestory')
+                );
+            }
+
+            $lists[] = array(
+                'Title' => _t('Genealogist.FAMILY', 'Family'),
+                'Content' => $this->renderWith('Person_Family')
             );
         }
-
-        $lists[] = array(
-            'Title' => _t('Genealogist.FAMILY', 'Family'),
-            'Content' => $this->renderWith('Person_Family')
-        );
 
         if ($this->Biography) {
             $lists[] = array(

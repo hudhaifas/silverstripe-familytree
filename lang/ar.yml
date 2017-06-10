@@ -70,6 +70,8 @@ ar:
     CLANS: 'الأفخاذ'
     TRIBES: 'القبائل'
     TRIBE: 'القبيلة'
+    IS_ALIAS_CLAN: 'اسم عشيرة؟'
+    IS_MAIN_CLAN: 'عشيرة رئيسية؟'
     ROOTS_LIST: 'قائمة العشائر والأفخاذ'
     TRIBES_CLANS: 'العشائر والأفخاذ'
     ROOTS_SEARCH: 'البحث في العشائر'
@@ -225,6 +227,7 @@ ar:
     CHOOSE_PLACE: 'اختر مكانا'
     MARRIAGEDATE: 'تاريخ الزواج'
     MARRIAGEPLACE: 'مكان الزواج'
+    RESIDENCEPLACE: 'مكان الإقامة'
 
     # Events
     EVENTS: 'الأحداث'
