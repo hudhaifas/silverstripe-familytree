@@ -81,7 +81,7 @@ class Clan
         return DataObject::get('Clan')->filter(array(
                     'IndexedAncestors:PartialMatch' => "|{$this->ID}|",
                     'ID:Negation' => $this->ID
-        ));
+                ))->sort('YearOrder ASC');
     }
 
     public function getPersonName() {
