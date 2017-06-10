@@ -125,7 +125,7 @@ class GenealogistHelper {
 
         return DataObject::get('Person')->filter(array(
                     'IndexedAncestors:PartialMatch' => "|{$person->ID}|"
-        ));
+                ))->Sort('YearOrder ASC');
     }
 
     public static function get_descendants_public_figures($person) {

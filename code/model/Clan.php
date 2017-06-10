@@ -34,7 +34,8 @@ class Clan
         extends Male {
 
     private static $db = array(
-        'IsAlias' => 'Boolean'
+        'IsAlias' => 'Boolean',
+        'IsMainClan' => 'Boolean'
     );
     private static $has_one = array(
     );

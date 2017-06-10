@@ -69,6 +69,7 @@ class Person
         'BirthPlace' => 'Town',
         'DeathPlace' => 'Town',
         'BurialPlace' => 'Town',
+        'ResidencePlace' => 'Town',
     );
     private static $has_many = array(
         // Descendants
