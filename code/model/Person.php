@@ -176,9 +176,10 @@ class Person
         $fields = parent::getCMSFields();
 
         $fields->removeFieldFromTab('Root.Main', 'ParentID');
-        $fields->removeFieldFromTab('Root.Main', 'IndexedName');
-        $fields->removeFieldFromTab('Root.Main', 'StatsID');
         $fields->removeFieldFromTab('Root.Main', 'ChildOrder');
+        $fields->removeFieldFromTab('Root.Main', 'YearOrder');
+        $fields->removeFieldFromTab('Root.Main', 'StatsID');
+        $fields->removeFieldFromTab('Root.Main', 'IndexedName');
         $fields->removeFieldFromTab('Root.Main', 'IndexedAncestors');
 
         $fields->removeFieldFromTab('Root.Main', 'FatherID');
