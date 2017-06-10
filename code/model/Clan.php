@@ -100,7 +100,7 @@ class Clan
             $lists->add($item);
         }
 
-        $publicFigures = $this->getDescendantsPublicFigures()->Sort('YearOrder ASC');
+        $publicFigures = $this->getDescendantsPublicFigures();
         if ($publicFigures && $publicFigures->Count()) {
             $item = array(
                 'Title' => _t('Genealogist.PUBLIC_FIGURES', 'Public Figures'),

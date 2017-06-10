@@ -136,7 +136,7 @@ class GenealogistHelper {
         return DataObject::get('Person')->filter(array(
                     'IndexedAncestors:PartialMatch' => "|{$person->ID}|",
                     'IsPublicFigure' => 1,
-        ));
+                ))->Sort('YearOrder ASC');
     }
 
     /// Find kinships between two persons ///
