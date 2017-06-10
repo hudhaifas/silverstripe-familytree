@@ -55,6 +55,7 @@ class Town
         'Births' => 'Person.BirthPlace',
         'Deaths' => 'Person.DeathPlace',
         'Buried' => 'Person.BurialPlace',
+        'Residents' => 'Person.ResidencePlace',
     );
     private static $many_many = array(
         'TownClans' => 'Clan',
