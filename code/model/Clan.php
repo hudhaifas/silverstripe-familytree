@@ -34,6 +34,7 @@ class Clan
         extends Male {
 
     private static $db = array(
+        'IsAlias' => 'Boolean'
     );
     private static $has_one = array(
     );
@@ -99,7 +100,7 @@ class Clan
             $lists->add($item);
         }
 
-        $publicFigures = $this->getDescendantsPublicFigures();
+        $publicFigures = $this->getDescendantsPublicFigures()->Sort('YearOrder ASC');
         if ($publicFigures && $publicFigures->Count()) {
             $item = array(
                 'Title' => _t('Genealogist.PUBLIC_FIGURES', 'Public Figures'),
