@@ -37,7 +37,7 @@ class PersonalExtension
     );
 
     public function extraTabs(&$lists) {
-        $people = $this->owner->People();
+        $people = $this->owner->People()->Sort('YearOrder ASC');
         if ($people->Count()) {
             $lists[] = array(
                 'Title' => _t('Genealogist.PEOPLE', 'People'),

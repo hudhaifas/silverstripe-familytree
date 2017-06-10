@@ -55,7 +55,7 @@ class Person
         'IndexedAncestors' => 'Text',
         // Order
         'ChildOrder' => 'Int',
-        'BirthYear' => 'Int',
+        'YearOrder' => 'Int',
         // Permession Level
         'IsPublicFigure' => 'Boolean',
         "CanViewType" => "Enum('Anyone, LoggedInUsers, OnlyTheseUsers, Inherit', 'Inherit')",

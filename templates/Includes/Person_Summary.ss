@@ -2,10 +2,6 @@
 
 <p class="details"><a href="{$TreeLink}"><%t Genealogist.SHOW_TREE 'Show genealogist tree' %></a></p>
 
-<% if canEdit %>
-    <p class="details edit"><a href="{$EditLink}"><%t Genealogist.EDIT_THIS_PERSON 'Edit this person' %></a></p>
-<% end_if %>
-
 <% if not isTribe %>
     <% if canView || IsPublicFigure %>
         <p class="details edit">
