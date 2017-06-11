@@ -28,29 +28,31 @@
                 <div class="user-brief">
                     <p class="user-title">$Title</p>
 
-                    <p class="user-info">
-                        <% if BirthDate && BirthDateEstimated %>
-                            <%t Genealogist.ESTIMATED_BIRTHDATE 'Birth Date (Estimated)' %>: $BirthYear
-                        <% else_if BirthDate %>
-                            <%t Genealogist.BIRTHDATE 'Birth Date' %>: $BirthDate
-                        <% else_if CalculatedBirthYear %>
-                            <%t Genealogist.CALCULATIONS_BIRTHDATE 'Birth Date (Calculations)' %>: $CalculatedBirthYear
-                        <% end_if %>
-                    </p>
+                    <% if not isTribe %>
+                        <p class="user-info">
+                            <% if BirthDate && BirthDateEstimated %>
+                                <%t Genealogist.ESTIMATED_BIRTHDATE 'Birth Date (Estimated)' %>: $BirthYear
+                            <% else_if BirthDate %>
+                                <%t Genealogist.BIRTHDATE 'Birth Date' %>: $BirthDate
+                            <% else_if CalculatedBirthYear %>
+                                <%t Genealogist.CALCULATIONS_BIRTHDATE 'Birth Date (Calculations)' %>: $CalculatedBirthYear
+                            <% end_if %>
+                        </p>
 
-                    <p class="user-info">
-                        <% if DeathDate && DeathDateEstimated %>
-                            <%t Genealogist.ESTIMATED_DEATHDATE 'Death Date (Estimated)' %>: $DeathYear
-                        <% else_if DeathDate %>
-                            <%t Genealogist.DEATHDATE 'Death Date' %>: $DeathDate
-                        <% else_if CalculatedDeathYear %>
-                            <%t Genealogist.CALCULATIONS_DEATHDATE 'Death Date (Calculations)' %>: $CalculatedDeathYear
-                        <% end_if %>
-                    </p>
+                        <p class="user-info">
+                            <% if DeathDate && DeathDateEstimated %>
+                                <%t Genealogist.ESTIMATED_DEATHDATE 'Death Date (Estimated)' %>: $DeathYear
+                            <% else_if DeathDate %>
+                                <%t Genealogist.DEATHDATE 'Death Date' %>: $DeathDate
+                            <% else_if CalculatedDeathYear %>
+                                <%t Genealogist.CALCULATIONS_DEATHDATE 'Death Date (Calculations)' %>: $CalculatedDeathYear
+                            <% end_if %>
+                        </p>
 
-                    <% if Age %>
-                        <p  class="user-info"><%t Genealogist.AGE 'Age' %>: $Age</p>
-                    <% end_if %>                
+                        <% if Age %>
+                            <p  class="user-info"><%t Genealogist.AGE 'Age' %>: $Age</p>
+                        <% end_if %>                
+                    <% end_if %>
                 </div>
             </div>
         </div>   
