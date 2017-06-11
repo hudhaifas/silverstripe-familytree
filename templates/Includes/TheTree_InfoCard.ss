@@ -90,11 +90,12 @@
         <% end_if %>
         
     <% else %>
-        <% if ClansList %>
         <table class="table">
             <tr>
                 <th></th>
-                <th><%t Genealogist.CLANS 'Clans' %></th>
+                <% if ClansList %>
+                    <th><%t Genealogist.CLANS 'Clans' %></th>
+                <% end_if %>
                 <th><%t Genealogist.MALES 'Males' %></th>
                 <% if canViewDaughters %>
                     <th><%t Genealogist.FEMALES 'Females' %></th>
@@ -103,7 +104,9 @@
             </tr>
             <tr>
                 <td><%t Genealogist.DESCENDANTS 'Descendants' %></td>
-                <td>$ClansList.Count</td>
+                <% if ClansList %>
+                    <td>$ClansList.Count</td>
+                <% end_if %>
                 <td>$MalesCount</td>
                 <% if canViewDaughters %>
                     <td>$FemalesCount</td>
@@ -112,9 +115,10 @@
             </tr>
             <tr>
                 <td><%t Genealogist.ALIVE 'Alive' %></td>
-                <td>--</td>
+                <% if ClansList %>
+                    <td>--</td>
+                <% end_if %>
                 <td>$MalesCount(1)</td>
-
                 <% if canViewDaughters %>
                     <td>$FemalesCount(1)</td>
                     <td>$DescendantsCount(1)</td>
