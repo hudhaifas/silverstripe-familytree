@@ -1,4 +1,4 @@
-<% with Person %>
+<% with Gender %>
 <article class="col-md-8 col-lg-8">
     <div class="row">
         <p><%t Genealogist.SUGGEST_EDIT_ON 'Suggest edit on' %></p>

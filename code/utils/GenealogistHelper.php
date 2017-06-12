@@ -97,7 +97,7 @@ class GenealogistHelper {
     }
 
     public static function get_person($id) {
-        return DataObject::get_by_id('Person', (int) $id);
+        return DataObject::get_by_id('Gender', (int) $id);
     }
 
     public static function get_children($person) {
@@ -235,7 +235,7 @@ class GenealogistHelper {
             if ($p->isMale()) {
                 $tribe = $p->Tribe();
                 if ($tribe && $tribe->exists()) {
-                    array_push($stack, $tribe);
+                    $ancestors_ids[] = $tribe->ID;
                 }
             }
         }
@@ -315,11 +315,11 @@ class GenealogistHelper {
     public static function search_all_people($request, $term) {
         if (is_numeric($term)) {
             die('Numeric: ' . $term);
-            return DataObject::get_by_id('Person', $term);
+            return DataObject::get_by_id('Gender', $term);
         }
 
         // to fetch books that's name contains the given search term
-        $people = DataObject::get('Person')
+        $people = DataObject::get('Gender')
                 ->filterAny(array(
                     'IndexedName:PartialMatch' => $term,
                     'Name:PartialMatch' => $term,
@@ -331,7 +331,7 @@ class GenealogistHelper {
     }
 
     public static function add_father($personID, $fatherName) {
-        $person = DataObject::get_by_id('Person', (int) $personID);
+        $person = DataObject::get_by_id('Gender', (int) $personID);
 
         echo 'Add parent (' . $fatherName . ') to: ' . $person->getTitle() . '<br />';
 
@@ -347,8 +347,8 @@ class GenealogistHelper {
     }
 
     public static function change_father($personID, $fatherID) {
-        $person = DataObject::get_by_id('Person', (int) $personID);
-        $father = DataObject::get_by_id('Person', (int) $fatherID);
+        $person = DataObject::get_by_id('Gender', (int) $personID);
+        $father = DataObject::get_by_id('Gender', (int) $fatherID);
 
         echo 'Change ' . $person->getTitle() . ' father to ' . $father->getTitle() . '<br />';
 
@@ -359,8 +359,8 @@ class GenealogistHelper {
     }
 
     public static function change_mother($personID, $methorID) {
-        $person = DataObject::get_by_id('Person', (int) $personID);
-        $methor = DataObject::get_by_id('Person', (int) $methorID);
+        $person = DataObject::get_by_id('Gender', (int) $personID);
+        $methor = DataObject::get_by_id('Gender', (int) $methorID);
 
         echo 'Change ' . $person->getTitle() . ' methor to ' . $methor->getTitle() . '<br />';
 
@@ -372,7 +372,7 @@ class GenealogistHelper {
     }
 
     public static function add_daughters($id, $names, $delimiter = "|") {
-        $parent = DataObject::get_by_id('Person', (int) $id);
+        $parent = DataObject::get_by_id('Gender', (int) $id);
         $namesList = explode($delimiter, $names);
 
         echo 'Add ' . count($namesList) . ' daughters to: ' . $parent->getTitle() . '<br />';
@@ -392,7 +392,7 @@ class GenealogistHelper {
     }
 
     public static function add_sons($id, $names, $delimiter = "|") {
-        $parent = DataObject::get_by_id('Person', (int) $id);
+        $parent = DataObject::get_by_id('Gender', (int) $id);
         $namesList = explode($delimiter, $names);
 
         echo 'Add ' . count($namesList) . ' sons to: ' . $parent->getTitle() . '<br />';
@@ -412,11 +412,11 @@ class GenealogistHelper {
     }
 
     public static function add_spouse($id, $spouseID = null, $spouseName = null) {
-        $person = DataObject::get_by_id('Person', (int) $id);
+        $person = DataObject::get_by_id('Gender', (int) $id);
         $isMale = $person->isMale();
 
         if ($spouseID) {
-            $spouce = DataObject::get_by_id('Person', (int) $spouseID);
+            $spouce = DataObject::get_by_id('Gender', (int) $spouseID);
         }
 
         if (!$spouce) {
@@ -434,7 +434,7 @@ class GenealogistHelper {
     }
 
     public static function delete_person($id, $reconnect = false) {
-        $person = DataObject::get_by_id('Person', (int) $id);
+        $person = DataObject::get_by_id('Gender', (int) $id);
 
         $person->delete();
     }
@@ -444,7 +444,7 @@ class GenealogistHelper {
      * @param type $id
      */
     public static function single_wife($id) {
-        $person = DataObject::get_by_id('Person', (int) $id);
+        $person = DataObject::get_by_id('Gender', (int) $id);
 
         if ($person->isMale() && $person->Wives()->Count() == 1) {
             $wife = $person->Wives()->first();

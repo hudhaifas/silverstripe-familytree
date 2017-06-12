@@ -30,10 +30,13 @@
  * @version 1.0, Mar 29, 2017 - 10:35:15 AM
  */
 class Tribe
-        extends Clan {
+        extends Gender {
 
     private static $has_many = array(
         'Clans' => 'Male.Tribe'
+    );
+    private static $belongs_many_many = array(
+        "TribeTowns" => "Town",
     );
 
     public function getCMSFields() {
@@ -49,23 +52,51 @@ class Tribe
         $field = $fields->fieldByName('Root.Clans.Clans');
         $field->setConfig($config);
 
-//        $fields->removeFieldFromTab('Root.Main', 'TribeID');
-//        $fields->removeFieldFromTab('Root', 'Children');
-//        $fields->removeFieldFromTab('Root', 'Sons');
-//        $fields->removeFieldFromTab('Root', 'Daughters');
-        $fields->removeFieldFromTab('Root', 'Wives');
-        $fields->removeFieldFromTab('Root.DatesTab', 'BirthDate');
-        $fields->removeFieldFromTab('Root.DatesTab', 'BirthPlace');
-        $fields->removeFieldFromTab('Root.DatesTab', 'BirthDateEstimated');
-        $fields->removeFieldFromTab('Root.DatesTab', 'DeathDate');
-        $fields->removeFieldFromTab('Root.DatesTab', 'DeathPlace');
-        $fields->removeFieldFromTab('Root.DatesTab', 'DeathDateEstimated');
-        $fields->removeFieldFromTab('Root.DatesTab', 'IsDead');
-        $fields->removeFieldFromTab('Root.DatesTab', 'Age');
-        $fields->removeFieldFromTab('Root.Main', 'FatherID');
-        $fields->removeFieldFromTab('Root.Main', 'MotherID');
-
         return $fields;
+    }
+
+    public function canCreate($member = null) {
+        if (!$member) {
+            $member = Member::currentUserID();
+        }
+
+        if ($member && is_numeric($member)) {
+            $member = DataObject::get_by_id('Member', $member);
+        }
+
+        $cachedPermission = self::cache_permission_check('create', $member, $this->ID);
+        if (isset($cachedPermission)) {
+            return $cachedPermission;
+        }
+
+        if ($member && Permission::checkMember($member, "ADMIN")) {
+            return true;
+        }
+
+        $extended = $this->extendedCan('canCreateMale', $member);
+        if ($extended !== null) {
+            return $extended;
+        }
+
+        return false;
+    }
+
+    public function canViewSons($member = false) {
+        return true;
+    }
+
+    public function canViewDaughters($member = false) {
+        return true;
+    }
+
+    public function ViewableSons() {
+        $count = 0;
+        return $count;
+    }
+
+    public function ViewableDaughters() {
+        $count = 0;
+        return $count;
     }
 
     public function getDescendantsLeaves() {
@@ -95,11 +126,7 @@ class Tribe
 
     public function getTribeName() {
         $name = $this->getPersonName();
-        if (!$this->Tribe()->exists()) {
-            return $name;
-        }
-
-        return "{$name} " . $this->Tribe()->getTribeName();
+        return $name;
     }
 
     public function getClansList() {

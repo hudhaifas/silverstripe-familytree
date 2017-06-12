@@ -59,6 +59,7 @@ class Town
     );
     private static $many_many = array(
         'TownClans' => 'Clan',
+        'TownTribes' => 'Tribe',
         "ViewerGroups" => "Group",
         "EditorGroups" => "Group",
         "ViewerMembers" => "Member",

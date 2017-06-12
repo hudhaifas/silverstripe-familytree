@@ -191,13 +191,13 @@ class GenealogyPage_Controller
         $person = null;
 
         if ($id) {
-            $person = DataObject::get_by_id('Person', (int) $id);
+            $person = DataObject::get_by_id('Gender', (int) $id);
         }
 
         if ($person) {
             return $this
                             ->customise(array(
-                                'Person' => $person,
+                                'Gender' => $person,
                                 'Title' => $person->FullName
                             ))
                             ->renderWith(array('GenealogyPage_Suggest', 'Page'));
@@ -211,7 +211,7 @@ class GenealogyPage_Controller
 
     /// Sub Pages ///
     private function tree($id) {
-        $person = $id ? DataObject::get_by_id('Person', (int) $id) : $this->getRootClans()->last();
+        $person = $id ? DataObject::get_by_id('Gender', (int) $id) : $this->getRootClans()->last();
 
         if (!$person) {
             return $this->httpError(404, 'No books could be found!');
@@ -234,11 +234,11 @@ class GenealogyPage_Controller
 
     private function kinship($id, $other) {
         if ($id) {
-            $p1 = DataObject::get_by_id('Person', (int) $id);
+            $p1 = DataObject::get_by_id('Gender', (int) $id);
         }
 
         if ($other) {
-            $p2 = DataObject::get_by_id('Person', (int) $other);
+            $p2 = DataObject::get_by_id('Gender', (int) $other);
         }
 
         if (!$p1 || !$p2) {
@@ -267,10 +267,10 @@ class GenealogyPage_Controller
 
     private function getSubTitle($p1, $p2 = null) {
         if (is_numeric($p1)) {
-            $p1 = $p1 ? DataObject::get_by_id('Person', (int) $p1) : $this->getRootClans()->last();
+            $p1 = $p1 ? DataObject::get_by_id('Gender', (int) $p1) : $this->getRootClans()->last();
         }
         if (is_numeric($p2)) {
-            $p2 = DataObject::get_by_id('Person', (int) $p2);
+            $p2 = DataObject::get_by_id('Gender', (int) $p2);
         }
 
         if ($p2) {
@@ -375,7 +375,7 @@ HTML;
     /// Forms ///
     public function Form_Kinship($personID = null) {
         // Create fields
-        $source = $this->isAdmin() ? 'Person' : 'Male';
+        $source = $this->isAdmin() ? 'Gender' : 'Male';
 
         $link = $this->AbsoluteLink();
         $fields = new FieldList(
@@ -477,7 +477,7 @@ HTML;
     }
 
     public function getFigures() {
-        return DataObject::get('Person')
+        return DataObject::get('Gender')
                         ->filterAny(array(
                             'ClassName:StartsWith' => 'Clan',
                             'ClassName:StartsWith' => 'Tribe',

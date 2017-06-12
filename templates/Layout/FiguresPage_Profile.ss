@@ -8,14 +8,14 @@
             <div class="col-md-4"></div>
 
             <div class="col-md-4">
-                <% with Person %>
+                <% with Gender %>
                     <% include Profile_Nav %>
                 <% end_with %>
             </div>
         </div>
     </div>
 
-    <% with Person %>
+    <% with Gender %>
     <div class="container">
         <div class="row user-header">
             <div class="user-card">

@@ -38,6 +38,78 @@ class GenealogistCountersHelper {
     /**
      * Counts the of all descendants.
      *
+     * @param Person $tribe person object
+     * @param int $state either 1/$STATE_ALIVE or 2/$STATE_DEAD or 0
+     * @return number
+     */
+    public static function count_tribe_descendants($tribe, $state = 0) {
+        if (!$tribe) {
+            return 0;
+        }
+
+        $cachedCount = self::cache_counters_check('count-tribe-descendants', $tribe->ID, $state);
+        if (isset($cachedCount)) {
+            return $cachedCount;
+        }
+
+        $count = self::count_tribe_males($tribe, $state) + self::count_tribe_females($tribe, $state);
+
+        return self::cache_counters_check('count-tribe-descendants', $tribe->ID, $state, $count);
+    }
+
+    /**
+     * Counts the of all male descendants.
+     *
+     * @param Person $tribe person object
+     * @param int $state either 1/$STATE_ALIVE or 2/$STATE_DEAD or 0
+     * @return number
+     */
+    public static function count_tribe_males($tribe, $state = 0) {
+        if (!$tribe) {
+            return 0;
+        }
+
+        $cachedCount = self::cache_counters_check('count-tribe-males', $tribe->ID, $state);
+        if (isset($cachedCount)) {
+            return $cachedCount;
+        }
+
+        $count = 0;
+        foreach ($tribe->Clans() as $clan) {
+            $count += self::count_males($clan);
+        }
+
+        return self::cache_counters_check('count-tribe-males', $tribe->ID, $state, $count);
+    }
+
+    /**
+     * Counts the of all male descendants.
+     *
+     * @param Person $tribe person object
+     * @param int $state either 1/$STATE_ALIVE or 2/$STATE_DEAD or 0
+     * @return number
+     */
+    public static function count_tribe_females($tribe, $state = 0) {
+        if (!$tribe) {
+            return 0;
+        }
+
+        $cachedCount = self::cache_counters_check('count-tribe-females', $tribe->ID, $state);
+        if (isset($cachedCount)) {
+            return $cachedCount;
+        }
+
+        $count = 0;
+        foreach ($tribe->Clans() as $clan) {
+            $count += self::count_females($clan);
+        }
+
+        return self::cache_counters_check('count-tribe-females', $tribe->ID, $state, $count);
+    }
+
+    /**
+     * Counts the of all descendants.
+     *
      * @param Person $person person object
      * @param int $state either 1/$STATE_ALIVE or 2/$STATE_DEAD or 0
      * @return number

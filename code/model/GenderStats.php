@@ -11,7 +11,7 @@
  * @author Hudhaifa Shatnawi <hudhaifa.shatnawi@gmail.com>
  * @version 1.0, Jan 8, 2017 - 7:20:28 AM
  */
-class PersonalStats
+class GenderStats
         extends DataObject {
 
     private static $db = array(
@@ -29,7 +29,7 @@ class PersonalStats
         'MaxYear' => 'Int',
     );
     private static $has_one = array(
-        'Person' => 'Person',
+        'Gender' => 'Gender',
     );
 
 }

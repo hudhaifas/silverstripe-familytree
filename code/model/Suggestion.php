@@ -24,7 +24,7 @@ class Suggestion
         'Proceeded' => 'Boolean',
     );
     private static $has_one = array(
-        'Person' => 'Person',
+        'Person' => 'Gender',
     );
     private static $has_many = array(
     );

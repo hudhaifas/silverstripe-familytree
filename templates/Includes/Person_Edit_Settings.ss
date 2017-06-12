@@ -1,4 +1,4 @@
-<% with Person %>
+<% with Gender %>
 <div class="panel panel-default">
     <div class="panel-heading">$FullName</div>
 

@@ -1,26 +1,28 @@
-<% with Person %>
+<% with Gender %>
 <div class="panel panel-default">
     <div class="panel-heading">$FullName</div>
 
     <div class="panel-body">
-        <% if $Father %>
+        <% if not isTribe %>
+            <% if $Father %>
+                <p>
+                    <b><%t Genealogist.FATHER 'Father' %></b><br />
+                    <a href="{$Father.EditLink(self)}" class="ajax-modal-nested">$Father.FullName</a>
+                </p>
+            <% end_if %>
+
             <p>
-                <b><%t Genealogist.FATHER 'Father' %></b><br />
-                <a href="{$Father.EditLink(self)}" class="ajax-modal-nested">$Father.FullName</a>
+                <%t Genealogist.ADD_FATHER 'Add Father' %>
+                $Up.Form_AddFather($ID)
             </p>
+
+            <p>
+                <%t Genealogist.CAHNGE_FATHER 'Change Father' %>
+                $Up.Form_ChangeFather($ID)
+            </p>
+
+            <hr />
         <% end_if %>
-
-        <p>
-            <%t Genealogist.ADD_FATHER 'Add Father' %>
-            $Up.Form_AddFather($ID)
-        </p>
-        
-        <p>
-            <%t Genealogist.CAHNGE_FATHER 'Change Father' %>
-            $Up.Form_ChangeFather($ID)
-        </p>
-
-        <hr />
         
         <% if Mother %>
             <p>
@@ -30,10 +32,12 @@
             </p>
         <% end_if %>
 
-        <p>
-            <%t Genealogist.CHANGE_MOTHER 'Change Mother' %>
-            $Up.Form_ChangeMother($ID)
-        </p>
+        <% if not isTribe %>
+            <p>
+                <%t Genealogist.CHANGE_MOTHER 'Change Mother' %>
+                $Up.Form_ChangeMother($ID)
+            </p>
+        <% end_if %>
     </div>
 </div>
 <% end_with %>

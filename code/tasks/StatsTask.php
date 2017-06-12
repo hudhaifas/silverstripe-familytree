@@ -79,7 +79,7 @@ class StatsTask
         if ($person->Stats()->exists() || $person->StatsID) {
             $stats = $person->Stats();
         } else {
-            $stats = new PersonalStats();
+            $stats = new GenderStats();
         }
 
         $stats->Sons = GenealogistCountersHelper::count_sons($person);
@@ -110,7 +110,7 @@ class StatsTask
             $person->write();
         }
 
-        $stats = PersonalStats::get();
+        $stats = GenderStats::get();
         $this->println('Deleting: ' . $stats->Count() . ' stats records...');
 
         foreach ($stats as $stat) {

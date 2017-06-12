@@ -100,10 +100,10 @@ JS
 
     protected function getObjectsList() {
         if ($this->isAdmin()) {
-            return DataObject::get('Person')
+            return DataObject::get('Gender')
                             ->sort('RAND()');
         } else {
-            return DataObject::get('Person')
+            return DataObject::get('Gender')
                             ->filterAny(array(
                                 'ClassName' => 'Clan',
                                 'CanViewType' => 'Anyone',
@@ -144,7 +144,7 @@ JS
         $form = $this->getRequest()->param('form');
 
         if ($id) {
-            $person = DataObject::get_by_id('Person', (int) $id);
+            $person = DataObject::get_by_id('Gender', (int) $id);
         } else {
             $person = $this->getClans()->first();
         }
@@ -173,7 +173,7 @@ JS
 
             return $this
                             ->customise(array(
-                                'Person' => $person,
+                                'Gender' => $person,
                                 'Title' => $person->Name
                             ))
                             ->renderWith($renderer);
@@ -184,7 +184,7 @@ JS
 
     public function show() {
         $id = $this->getRequest()->param('ID');
-        $single = DataObject::get('Person')->filter(array(
+        $single = DataObject::get('Gender')->filter(array(
                     'ID' => $id
                 ))->first();
 
@@ -210,7 +210,7 @@ JS
         if ($single) {
             return $this
                             ->customise(array(
-                                'Person' => $single,
+                                'Gender' => $single,
                                 'Title' => $single->Title
                             ))
                             ->renderWith(array('FiguresPage_Profile', 'FiguresPage'));
@@ -227,49 +227,54 @@ JS
             $id = $personID;
         }
 
-        $person = DataObject::get_by_id('Person', (int) $id);
-
+        $person = DataObject::get_by_id('Gender', (int) $id);
         $towns = DataObject::get('Town')->map();
 
-        // Create fields          
-        $fields = new FieldList(
-                HiddenField::create('PersonID', 'PersonID', $id), //
-                TextField::create('Name', _t('Genealogist.NAME', 'Name'), $person->Name), //
-                TextField::create('NickName', _t('Genealogist.NICKNAME', 'NickName'), $person->NickName), //
-                TextField::create('Note', _t('Genealogist.NOTE', 'Note'), $person->Note), //
-                // Birth
-                TextField::create('BirthDate', _t('Genealogist.BIRTHDATE', 'Birth Date'), $person->BirthDate), //
-                DropdownField::create(
-                        'BirthPlaceID', //
-                        _t('Genealogist.BIRTHPLACE', 'Birth Place'), //
-                        $towns, //
-                        $person->BirthPlaceID
-                )->setEmptyString(_t('Genealogist.BIRTHPLACE', 'Birth Place')), //
-                CheckboxField::create('BirthDateEstimated', _t('Genealogist.BIRTHDATE_ESTIMATED', 'Birth Date Estimated'), $person->BirthDateEstimated), //
-                // Death
-                CheckboxField::create('IsDead', _t('Genealogist.ISDEAD', 'Is Dead'), $person->IsDead)
-                        ->addExtraClass('death-options'), //
-                FieldGroup::create(
-                                TextField::create('DeathDate', _t('Genealogist.DEATHDATE', 'Death Date'), $person->DeathDate), //
-                                DropdownField::create(
-                                        'DeathPlaceID', //
-                                        _t('Genealogist.DEATHPLACE', 'Death Place'), //
-                                        $towns, //
-                                        $person->DeathPlaceID
-                                )->setEmptyString(_t('Genealogist.DEATHPLACE', 'Death Place')), //
-                                DropdownField::create(
-                                        'BurialPlaceID', //
-                                        _t('Genealogist.BURIALPLACE', 'Burial Place'), //
-                                        $towns, //
-                                        $person->BurialPlaceID
-                                )->setEmptyString(_t('Genealogist.BURIALPLACE', 'Burial Place')), //
-                                CheckboxField::create('DeathDateEstimated', _t('Genealogist.DEATHDATE_ESTIMATED', 'Death Date Estimated'), $person->DeathDateEstimated) //
-                        )
-                        ->setFieldHolderTemplate('FieldGroup_DefaultFieldHolder')
-                        ->addExtraClass('death-fields'), //
-                // Comments
-                TextareaField::create('Comments', _t('Genealogist.COMMENTS', 'Comments'), $person->Comments) //
+        $items = array(
+            HiddenField::create('PersonID', 'PersonID', $id), //
+            TextField::create('Name', _t('Genealogist.NAME', 'Name'), $person->Name), //
+            TextField::create('NickName', _t('Genealogist.NICKNAME', 'NickName'), $person->NickName), //
+            TextField::create('Note', _t('Genealogist.NOTE', 'Note'), $person->Note), //
         );
+
+        if (!$person->isTribe()) {
+
+            // Birth
+            $items[] = TextField::create('BirthDate', _t('Genealogist.BIRTHDATE', 'Birth Date'), $person->BirthDate);
+            $items[] = DropdownField::create(
+                            'BirthPlaceID', //
+                            _t('Genealogist.BIRTHPLACE', 'Birth Place'), //
+                            $towns, //
+                            $person->BirthPlaceID
+                    )->setEmptyString(_t('Genealogist.BIRTHPLACE', 'Birth Place'));
+            $items[] = CheckboxField::create('BirthDateEstimated', _t('Genealogist.BIRTHDATE_ESTIMATED', 'Birth Date Estimated'), $person->BirthDateEstimated);
+            // Death
+            $items[] = CheckboxField::create('IsDead', _t('Genealogist.ISDEAD', 'Is Dead'), $person->IsDead)
+                    ->addExtraClass('death-options');
+            $items[] = FieldGroup::create(
+                            TextField::create('DeathDate', _t('Genealogist.DEATHDATE', 'Death Date'), $person->DeathDate), //
+                            DropdownField::create(
+                                    'DeathPlaceID', //
+                                    _t('Genealogist.DEATHPLACE', 'Death Place'), //
+                                    $towns, //
+                                    $person->DeathPlaceID
+                            )->setEmptyString(_t('Genealogist.DEATHPLACE', 'Death Place')), //
+                            DropdownField::create(
+                                    'BurialPlaceID', //
+                                    _t('Genealogist.BURIALPLACE', 'Burial Place'), //
+                                    $towns, //
+                                    $person->BurialPlaceID
+                            )->setEmptyString(_t('Genealogist.BURIALPLACE', 'Burial Place')), //
+                            CheckboxField::create('DeathDateEstimated', _t('Genealogist.DEATHDATE_ESTIMATED', 'Death Date Estimated'), $person->DeathDateEstimated) //
+                    )
+                    ->setFieldHolderTemplate('FieldGroup_DefaultFieldHolder')
+                    ->addExtraClass('death-fields');
+            // Comments
+        }
+        $items[] = TextareaField::create('Comments', _t('Genealogist.COMMENTS', 'Comments'), $person->Comments);
+
+        // Create fields          
+        $fields = new FieldList($items);
 
         // Create action
         $actions = new FieldList(
@@ -285,7 +290,7 @@ JS
     public function doEditPerson($data, $form) {
         $id = $data['PersonID'];
 
-        $person = DataObject::get_by_id('Person', (int) $id);
+        $person = DataObject::get_by_id('Gender', (int) $id);
 
         $form->saveInto($person);
         $person->write();
@@ -300,7 +305,7 @@ JS
             $id = $personID;
         }
 
-        $person = DataObject::get_by_id('Person', (int) $id);
+        $person = DataObject::get_by_id('Gender', (int) $id);
 
         // Prepare groups and members lists
         $groupsMap = array();
@@ -345,27 +350,30 @@ JS
                 ->setAttribute('data-placeholder', _t('Genealogist.MEMBER_PLACEHOLDER', 'Click to select user'))
                 ->addExtraClass('editor-fields');
 
-        // Create fields          
-        $fields = new FieldList(
-                HiddenField::create('PersonID', 'PersonID', $id), //
-                CheckboxField::create('IsPublicFigure', _t('Genealogist.PUBLIC_FIGURE', 'Is Public Figure'), $person->IsPublicFigure), //
-                DropdownField::create(
-                                'CanViewType', //
-                                _t('Genealogist.MOTHER', 'Mother'), //
-                                singleton('Person')->dbObject('CanViewType')->enumValues(), $person->CanViewType
-                        )
-                        ->addExtraClass('viewer-options'), //
-                $viewerGroupsField, //
-                $viewerMembersField, //
-                DropdownField::create(
-                                'CanEditType', //
-                                _t('Genealogist.MOTHER', 'Mother'), //
-                                singleton('Person')->dbObject('CanEditType')->enumValues(), $person->CanEditType
-                        )
-                        ->addExtraClass('editor-options'), //
-                $editorGroupsField, //
-                $editorMembersField
-        );
+        // Create fields
+        $items = array(HiddenField::create('PersonID', 'PersonID', $id));
+        if (!$person->isTribe()) {
+            $items[] = CheckboxField::create('IsPublicFigure', _t('Genealogist.PUBLIC_FIGURE', 'Is Public Figure'), $person->IsPublicFigure);
+        }
+
+        $items[] = DropdownField::create(
+                        'CanViewType', //
+                        _t('Genealogist.MOTHER', 'Mother'), //
+                        singleton('Gender')->dbObject('CanViewType')->enumValues(), $person->CanViewType
+                )
+                ->addExtraClass('viewer-options');
+        $items[] = $viewerGroupsField;
+        $items[] = $viewerMembersField;
+        $items[] = DropdownField::create(
+                        'CanEditType', //
+                        _t('Genealogist.MOTHER', 'Mother'), //
+                        singleton('Gender')->dbObject('CanEditType')->enumValues(), $person->CanEditType
+                )
+                ->addExtraClass('editor-options');
+        $items[] = $editorGroupsField;
+        $items[] = $editorMembersField;
+
+        $fields = new FieldList($items);
 
         // Create action
         $actions = new FieldList(
@@ -381,7 +389,7 @@ JS
     public function doEditSettings($data, $form) {
         $id = $data['PersonID'];
 
-        $person = DataObject::get_by_id('Person', (int) $id);
+        $person = DataObject::get_by_id('Gender', (int) $id);
 //        var_dump($data['CanViewType']);
         $form->saveInto($person);
 //        var_dump($person->CanViewType);
@@ -678,7 +686,7 @@ JS
             $id = $personID;
         }
 
-//        $person = DataObject::get_by_id('Person', (int) $id);
+//        $person = DataObject::get_by_id('Gender', (int) $id);
         // Create fields          
         $fields = new FieldList(
                 HiddenField::create('PersonID', 'PersonID', $id)
@@ -700,7 +708,7 @@ JS
 
     public function doDeletePerson($data, $form) {
         $id = $data['PersonID'];
-        $person = DataObject::get_by_id('Person', (int) $id);
+        $person = DataObject::get_by_id('Gender', (int) $id);
 
         $parent = $person->FatherID;
 
@@ -712,10 +720,6 @@ JS
     /// Utils ///
     public function getClans() {
         return GenealogistHelper::get_all_clans();
-    }
-
-    public function getPerson($id) {
-        return GenealogistHelper::get_person($id);
     }
 
     public function getRootClans() {
