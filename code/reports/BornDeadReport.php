@@ -71,7 +71,7 @@ class BornDeadReport
                         "r", _t('Genealogist.REPORT_TYPE', 'Report Type'), $reports
                 ), // 
 //                DropdownField::create(
-//                        "c", _t('Genealogist.CLAN', 'Branch'), $branchs
+//                        "c", _t('Genealogist.BRANCH', 'Branch'), $branchs
 //                ), // 
                 DateField::create('d', _t('Genealogist.DATE', 'Date'))
                         ->setConfig('showcalendar', true) //

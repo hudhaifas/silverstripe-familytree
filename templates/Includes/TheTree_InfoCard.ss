@@ -94,7 +94,7 @@
             <tr>
                 <th></th>
                 <% if BranchesList %>
-                <th><%t Genealogist.CLANS 'Branches' %></th>
+                <th><%t Genealogist.BRANCHES 'Branches' %></th>
                 <% end_if %>
                 <th><%t Genealogist.MALES 'Males' %></th>
                 <% if canViewDaughters %>

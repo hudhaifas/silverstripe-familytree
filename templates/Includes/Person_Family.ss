@@ -68,7 +68,7 @@
     </div>
 <% else %>
     <p>
-        <b><%t Genealogist.CLANS 'Branches' %></b>: $Branches.Count<br />
+        <b><%t Genealogist.BRANCHES 'Branches' %></b>: $Branches.Count<br />
 
         <% loop Branches %>
             <% if canView || IsPublicFigure %>

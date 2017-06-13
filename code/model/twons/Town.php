@@ -93,7 +93,7 @@ class Town
         $labels['Births'] = _t('Genealogist.BIRTHS', 'Births');
         $labels['Deaths'] = _t('Genealogist.DEATHS', 'Deaths');
         $labels['Buried'] = _t('Genealogist.BURIED', 'Buried');
-        $labels['TownBranches'] = _t('Genealogist.TOWN_CLANS', 'Town Branches');
+        $labels['TownBranches'] = _t('Genealogist.TOWN_BRANCHES', 'Town Branches');
         $labels['Coordinates'] = _t('Genealogist.COORDINATES', 'Coordinates');
 
         // Settings
@@ -473,7 +473,7 @@ class Town
         $branchsCount = $branchs->Count();
         if ($branchsCount) {
             $lists[] = array(
-                'Title' => _t('Genealogist.TRIBES_CLANS', 'Tribes & Branches') . " ({$branchsCount})",
+                'Title' => _t('Genealogist.TRIBES_BRANCHES', 'Tribes & Branches') . " ({$branchsCount})",
                 'Content' => $this
                         ->customise(array(
                             'Results' => $branchs

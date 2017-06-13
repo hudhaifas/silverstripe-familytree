@@ -112,7 +112,7 @@ class Gender
         $labels['Biography'] = _t('Genealogist.BIOGRAPHY', 'Biography');
 
         $labels['Tribe'] = _t('Genealogist.TRIBE', 'Tribe');
-        $labels['IsBranch'] = _t('Genealogist.IS_MAIN_CLAN', 'Is Main Branch');
+        $labels['IsBranch'] = _t('Genealogist.IS_MAIN_BRANCH', 'Is Main Branch');
 
         // Tabs
         $labels['Children'] = _t('Genealogist.CHILDREN', 'Children');
@@ -124,7 +124,7 @@ class Gender
         $labels['Events'] = _t('Genealogist.EVENTS', 'Events');
         $labels['RelatedEvents'] = _t('Genealogist.RELATED_EVENTS', 'Related Events');
         $labels['Collectables'] = _t('Genealogist.COLLECTABLES', 'Collectables');
-        $labels['Branches'] = _t('Genealogist.CLANS', 'Branches');
+        $labels['Branches'] = _t('Genealogist.BRANCHES', 'Branches');
 
         // Settings
         $labels['IsPublicFigure'] = _t('Genealogist.PUBLIC_FIGURE', 'Is Public Figure');

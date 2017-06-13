@@ -156,7 +156,7 @@ class Tribe
         $branches = $this->getAllBranchesList();
         if ($branches->count()) {
             $item = array(
-                'Title' => _t('Genealogist.CLANS', 'Branches'),
+                'Title' => _t('Genealogist.BRANCHES', 'Branches'),
                 'Content' => $this
                         ->customise(array(
                             'Results' => $branches
