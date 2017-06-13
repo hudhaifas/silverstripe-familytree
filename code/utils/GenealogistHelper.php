@@ -128,6 +128,16 @@ class GenealogistHelper {
                 ))->Sort('YearOrder ASC');
     }
 
+    public static function get_all_branches($person) {
+        if (!$person) {
+            return null;
+        }
+
+        return DataObject::get('Clan')->filter(array(
+                    'IndexedAncestors:PartialMatch' => "|{$person->ID}|"
+                ))->Sort('YearOrder ASC');
+    }
+
     public static function get_descendants_public_figures($person) {
         if (!$person) {
             return null;

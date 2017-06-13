@@ -469,13 +469,14 @@ class Town
             );
         }
 
-        $clansCount = $this->TownClans()->Count();
+        $clans = $this->getTribesAndClans();
+        $clansCount = $clans->Count();
         if ($clansCount) {
             $lists[] = array(
                 'Title' => _t('Genealogist.TRIBES_CLANS', 'Tribes & Clans') . " ({$clansCount})",
                 'Content' => $this
                         ->customise(array(
-                            'Results' => $this->TownClans()
+                            'Results' => $clans
                         ))
                         ->renderWith('List_Grid')
             );
@@ -492,6 +493,12 @@ class Town
 
     public function isObjectDisabled() {
         return !$this->canView();
+    }
+
+    public function getTribesAndClans() {
+        $list = array_merge($this->TownTribes()->toArray(), $this->TownClans()->toArray());
+
+        return new ArrayList($list);
     }
 
 }

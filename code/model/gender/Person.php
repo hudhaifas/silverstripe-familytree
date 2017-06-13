@@ -427,14 +427,6 @@ class Person
         return GenealogistHelper::get_children($this);
     }
 
-    public function getAllDescendants() {
-        return GenealogistHelper::get_all_descendants($this);
-    }
-
-    public function getDescendantsPublicFigures() {
-        return GenealogistHelper::get_descendants_public_figures($this);
-    }
-
     /**
      * Checks if this person is older than 18 years
      * @return boolean

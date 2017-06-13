@@ -47,7 +47,7 @@ class Tribe
         }
 
         // Clans
-        $config = $this->personConfigs(false,false,false,false);
+        $config = $this->personConfigs(false, false, false, false);
 
         $field = $fields->fieldByName('Root.Clans.Clans');
         $field->setConfig($config);
@@ -131,6 +131,54 @@ class Tribe
 
     public function getClansList() {
         return $this->Clans();
+    }
+
+    public function getAllBranchesList() {
+        return GenealogistHelper::get_all_branches($this);
+    }
+
+    public function getObjectTabs() {
+        $lists = parent::getObjectTabs();
+
+        $townsCount = $this->TribeTowns()->Count();
+        if ($townsCount) {
+            $item = array(
+                'Title' => _t('Genealogist.TOWNS', 'Towns') . " ({$townsCount})",
+                'Content' => $this
+                        ->customise(array(
+                            'Results' => $this->TribeTowns()
+                        ))
+                        ->renderWith('List_Grid')
+            );
+            $lists->add($item);
+        }
+
+        $branches = $this->getAllBranchesList();
+        if ($branches->count()) {
+            $item = array(
+                'Title' => _t('Genealogist.CLANS', 'Clans'),
+                'Content' => $this
+                        ->customise(array(
+                            'Results' => $branches
+                        ))
+                        ->renderWith('List_Grid')
+            );
+            $lists->add($item);
+        }
+        $publicFigures = $this->getDescendantsPublicFigures();
+        if ($publicFigures && $publicFigures->Count()) {
+            $item = array(
+                'Title' => _t('Genealogist.PUBLIC_FIGURES', 'Public Figures'),
+                'Content' => $this
+                        ->customise(array(
+                            'Results' => $publicFigures
+                        ))
+                        ->renderWith('List_Grid')
+            );
+            $lists->add($item);
+        }
+
+        return $lists;
     }
 
 }

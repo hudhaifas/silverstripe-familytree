@@ -747,6 +747,15 @@ class Gender
         return $this instanceof Tribe;
     }
 
+    // Descendants
+    public function getAllDescendants() {
+        return GenealogistHelper::get_all_descendants($this);
+    }
+
+    public function getDescendantsPublicFigures() {
+        return GenealogistHelper::get_descendants_public_figures($this);
+    }
+
     /// Counters ///
     /**
      * Counts the of all descendants
@@ -1021,14 +1030,6 @@ class Gender
         $lists = array();
 
         if ($this->isTribe()) {
-            $lists[] = array(
-                'Title' => _t('Genealogist.CLANS', 'Clans'),
-                'Content' => $this
-                        ->customise(array(
-                            'Results' => $this->getClansList()
-                        ))
-                        ->renderWith('List_Grid')
-            );
         } else {
             if ($this->Events()->Count()) {
                 $lists[] = array(
