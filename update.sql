@@ -1,7 +1,20 @@
+/* Update _config.yml */
+-- Collectable:
+--   extensions:
+--     - GenderExtension
+--     - TownExtension
+--       
+-- Person:
+--   extensions:
+--     - CollectableExtension
+
 /* Before dev/build */
 /* Rename related fields */
 RENAME TABLE person_viewergroups TO gender_viewergroups;
+ALTER TABLE `gender_viewergroups` CHANGE `PersonID` `GenderID` INT(11) NOT NULL DEFAULT '0';
+
 RENAME TABLE person_viewermembers TO gender_viewermembers;
+ALTER TABLE `gender_viewermembers` CHANGE `PersonID` `GenderID` INT(11) NOT NULL DEFAULT '0';
 
 RENAME TABLE person_editorgroups TO gender_editorgroups;
 ALTER TABLE `gender_editorgroups` CHANGE `PersonID` `GenderID` INT(11) NOT NULL DEFAULT '0';
@@ -29,14 +42,11 @@ ALTER TABLE `branch` CHANGE `IsMainClan` `IsClan` TINYINT(1) UNSIGNED NOT NULL D
 RENAME TABLE tribe TO clan;
 RENAME TABLE `town_towntribes` TO `town_townbranchs`;
 
-ALTER TABLE `genderstats` CHANGE `PersonID` `GenderID` INT(11) NOT NULL DEFAULT '0';
-
-
 /* ****************************************************************************************** */
 /* After dev/build*/
 /* Copy all fields from the Person entity */
-INSERT INTO gender(ID, ClassName, LastEdited, Created, Prefix, Name, NickName, Postfix, Note, Comments, Biography, CanViewType, CanEditType, PhotoID, StatsID, IndexedName, IndexedAncestors)
-		   SELECT ID, ClassName, LastEdited, Created, Prefix, Name, NickName, Postfix, Note, Comments, Biography, CanViewType, CanEditType, PhotoID, StatsID, IndexedName, IndexedAncestors
+INSERT INTO gender(ID, ClassName, LastEdited, Created, Prefix, Name, NickName, Postfix, Note, Comments, Biography, CanViewType, CanEditType, PhotoID, StatsID, IndexedName, IndexedAncestors, YearOrder)
+		   SELECT ID, ClassName, LastEdited, Created, Prefix, Name, NickName, Postfix, Note, Comments, Biography, CanViewType, CanEditType, PhotoID, StatsID, IndexedName, IndexedAncestors, YearOrder
 FROM person
 
 /* Delete duplicated fields */
@@ -51,9 +61,10 @@ ALTER TABLE person
 	DROP COLUMN CanViewType,
 	DROP COLUMN CanEditType,
 	DROP COLUMN PhotoID,
-	DROP COLUMN StatsID;
+	DROP COLUMN StatsID,
 	DROP COLUMN IndexedName,
-	DROP COLUMN IndexedAncestors;
+	DROP COLUMN IndexedAncestors,
+	DROP COLUMN YearOrder;
 	
 UPDATE `gender` SET `ClassName` = 'Branch' WHERE `ClassName` = 'Clan'
 UPDATE `gender` SET `ClassName` = 'Clan' WHERE `ClassName` = 'Tribe'

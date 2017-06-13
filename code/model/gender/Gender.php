@@ -46,6 +46,8 @@ class Gender
         // Indexing
         'IndexedName' => 'Text',
         'IndexedAncestors' => 'Text',
+        // Order
+        'YearOrder' => 'Int',
         // Permession Level
         "CanViewType" => "Enum('Anyone, LoggedInUsers, OnlyTheseUsers, Inherit', 'Inherit')",
         "CanEditType" => "Enum('LoggedInUsers, OnlyTheseUsers, Inherit', 'Inherit')",
@@ -145,6 +147,9 @@ class Gender
     public function getCMSFields() {
         $fields = parent::getCMSFields();
         $fields->removeFieldFromTab('Root.Main', 'StatsID');
+        $fields->removeFieldFromTab('Root.Main', 'YearOrder');
+        $fields->removeFieldFromTab('Root.Main', 'IndexedName');
+        $fields->removeFieldFromTab('Root.Main', 'IndexedAncestors');
 
         $this->reorderField($fields, 'Photo', 'Root.Main', 'Root.Main');
         $this->reorderField($fields, 'Prefix', 'Root.Main', 'Root.Main');

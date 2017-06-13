@@ -342,7 +342,7 @@ HTML;
     }
 
     private function appendParents($person, $html3) {
-        if (!$person || !$person->Father()->exists()) {
+        if (!$person || $person->isClan() || !$person->Father()->exists()) {
             return $html3;
         }
 

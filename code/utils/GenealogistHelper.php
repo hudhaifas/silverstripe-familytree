@@ -193,16 +193,20 @@ class GenealogistHelper {
 
             $ancestors[] = $p->ID;
 
-            $mother = $p->Mother();
-            if ($mother && $mother->exists()) {
-                array_push($stack, $mother);
-                $paths[$mother->ID] = $p->ID . ',' . $paths[$p->ID];
-            }
+            if (!$p->isClan()) {
+                $mother = $p->Mother();
+                if ($mother && $mother->exists()) {
+                    array_push($stack, $mother);
+                    $paths[$mother->ID] = $p->ID . ',' . $paths[$p->ID];
+                }
 
-            $father = $p->Father();
-            if ($father && $father->exists()) {
-                array_push($stack, $father);
-                $paths[$father->ID] = $p->ID . ',' . $paths[$p->ID];
+                $father = $p->Father();
+                if ($father && $father->exists()) {
+                    array_push($stack, $father);
+                    $paths[$father->ID] = $p->ID . ',' . $paths[$p->ID];
+                }
+            } else {
+//                array_push($stack, $p);
             }
 
             if ($p->isMale()) {

@@ -42,7 +42,6 @@ class Person
         'IsDead' => 'Boolean',
         // Order
         'ChildOrder' => 'Int',
-        'YearOrder' => 'Int',
         // Permession Level
         'IsPublicFigure' => 'Boolean',
     );
@@ -86,9 +85,6 @@ class Person
 
         $fields->removeFieldFromTab('Root.Main', 'ParentID');
         $fields->removeFieldFromTab('Root.Main', 'ChildOrder');
-        $fields->removeFieldFromTab('Root.Main', 'YearOrder');
-        $fields->removeFieldFromTab('Root.Main', 'IndexedName');
-        $fields->removeFieldFromTab('Root.Main', 'IndexedAncestors');
 
         $fields->removeFieldFromTab('Root.Main', 'FatherID');
         $fields->addFieldsToTab('Root.Main', array(
