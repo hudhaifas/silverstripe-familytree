@@ -35,8 +35,8 @@ ALTER TABLE `genderstats` CHANGE `PersonID` `GenderID` INT(11) NOT NULL DEFAULT 
 /* ****************************************************************************************** */
 /* After dev/build*/
 /* Copy all fields from the Person entity */
-INSERT INTO gender(ID, ClassName, LastEdited, Created, Prefix, Name, NickName, Postfix, Note, Comments, Biography, CanViewType, CanEditType, PhotoID, StatsID)
-		   SELECT ID, ClassName, LastEdited, Created, Prefix, Name, NickName, Postfix, Note, Comments, Biography, CanViewType, CanEditType, PhotoID, StatsID
+INSERT INTO gender(ID, ClassName, LastEdited, Created, Prefix, Name, NickName, Postfix, Note, Comments, Biography, CanViewType, CanEditType, PhotoID, StatsID, IndexedName, IndexedAncestors)
+		   SELECT ID, ClassName, LastEdited, Created, Prefix, Name, NickName, Postfix, Note, Comments, Biography, CanViewType, CanEditType, PhotoID, StatsID, IndexedName, IndexedAncestors
 FROM person
 
 /* Delete duplicated fields */
@@ -52,6 +52,8 @@ ALTER TABLE person
 	DROP COLUMN CanEditType,
 	DROP COLUMN PhotoID,
 	DROP COLUMN StatsID;
+	DROP COLUMN IndexedName,
+	DROP COLUMN IndexedAncestors;
 	
 UPDATE `gender` SET `ClassName` = 'Branch' WHERE `ClassName` = 'Clan'
 UPDATE `gender` SET `ClassName` = 'Clan' WHERE `ClassName` = 'Tribe'

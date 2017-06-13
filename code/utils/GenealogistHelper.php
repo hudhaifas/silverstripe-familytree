@@ -118,33 +118,33 @@ class GenealogistHelper {
         return (new ArrayList($children));
     }
 
-    public static function get_all_descendants($person) {
-        if (!$person) {
+    public static function get_all_descendants($gender) {
+        if (!$gender) {
             return null;
         }
 
         return DataObject::get('Person')->filter(array(
-                    'IndexedAncestors:PartialMatch' => "|{$person->ID}|"
+                    'IndexedAncestors:PartialMatch' => "|{$gender->ID}|"
                 ))->Sort('YearOrder ASC');
     }
 
-    public static function get_all_branches($person) {
-        if (!$person) {
+    public static function get_all_branches($gender) {
+        if (!$gender) {
             return null;
         }
 
         return DataObject::get('Branch')->filter(array(
-                    'IndexedAncestors:PartialMatch' => "|{$person->ID}|"
+                    'IndexedAncestors:PartialMatch' => "|{$gender->ID}|"
                 ))->Sort('YearOrder ASC');
     }
 
-    public static function get_descendants_public_figures($person) {
-        if (!$person) {
+    public static function get_descendants_public_figures($gender) {
+        if (!$gender) {
             return null;
         }
 
         return DataObject::get('Person')->filter(array(
-                    'IndexedAncestors:PartialMatch' => "|{$person->ID}|",
+                    'IndexedAncestors:PartialMatch' => "|{$gender->ID}|",
                     'IsPublicFigure' => 1,
                 ))->Sort('YearOrder ASC');
     }

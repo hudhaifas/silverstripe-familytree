@@ -40,9 +40,6 @@ class Person
         'DeathDate' => 'Date',
         'DeathDateEstimated' => 'Boolean',
         'IsDead' => 'Boolean',
-        // Indexing
-        'IndexedName' => 'Text',
-        'IndexedAncestors' => 'Text',
         // Order
         'ChildOrder' => 'Int',
         'YearOrder' => 'Int',

@@ -156,7 +156,7 @@ class Clan
             $lists->add($item);
         }
 
-        $branches = $this->getAllBranchesList();
+        $branches = $this->getBranchesList();
         if ($branches->count()) {
             $item = array(
                 'Title' => _t('Genealogist.BRANCHES', 'Branches'),

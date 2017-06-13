@@ -43,6 +43,9 @@ class Gender
         'Comments' => 'Text',
         // Biography
         'Biography' => 'HTMLText',
+        // Indexing
+        'IndexedName' => 'Text',
+        'IndexedAncestors' => 'Text',
         // Permession Level
         "CanViewType" => "Enum('Anyone, LoggedInUsers, OnlyTheseUsers, Inherit', 'Inherit')",
         "CanEditType" => "Enum('LoggedInUsers, OnlyTheseUsers, Inherit', 'Inherit')",
