@@ -204,7 +204,7 @@ class GenealogistEventsHelper {
         return $type . '_' . $relation;
     }
 
-    private static function get_personal_date($person, $type, $isAccurate) {
+    private static function get_genderal_date($person, $type, $isAccurate) {
         $date = $type == 'Birth' ? self::get_birth_date($person) : self::get_death_date($person);
         return $isAccurate ? $date : strtok($date, '-');
     }

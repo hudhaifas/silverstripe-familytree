@@ -21,8 +21,11 @@
 
                 <div class="panel-body text-center" style="max-height: 240px; overflow-y: auto;">
                     <ul id="filter-list" class="filter-list">
-                        <% loop RootBranches.Sort(Name, ASC) %>
-                        <li><a href="{$TreeLink}" class="options-item">$BriefName</a></li>
+                        <% loop MainClansAndBranches.Sort(Name, ASC) %>
+                            <li><a href="{$TreeLink}" class="options-item">$BriefName</a></li>
+                            <% loop BranchesList.Sort(Name, ASC) %>
+                                <li><a href="{$TreeLink}" class="options-item">$BriefName</a></li>
+                            <% end_loop %>
                         <% end_loop %>
                     </ul>                       
                 </div>

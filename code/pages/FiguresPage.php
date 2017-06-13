@@ -484,7 +484,7 @@ JS
             $id = $personID;
         }
 
-        $person = GenealogistHelper::get_person($id);
+        $person = GenealogistHelper::get_gender($id);
         $mothers = array();
         if ($person->Father()->exists()) {
 //            die($person->Name);
@@ -719,11 +719,11 @@ JS
 
     /// Utils ///
     public function getBranches() {
-        return GenealogistHelper::get_all_branchs();
+        return GenealogistHelper::get_all_clans_and_branches();
     }
 
-    public function getRootBranches() {
-        return GenealogistHelper::get_root_branchs();
+    public function getMainClansAndBranches() {
+        return GenealogistHelper::get_main_clans_and_branches();
     }
 
 }

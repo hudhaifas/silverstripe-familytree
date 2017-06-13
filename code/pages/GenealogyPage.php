@@ -181,7 +181,7 @@ class GenealogyPage_Controller
 
     public function info() {
         $id = $this->getRequest()->param('ID');
-        $person = GenealogistHelper::get_person($id);
+        $person = GenealogistHelper::get_gender($id);
 
         if (!$person) {
             return $this->httpError(404, 'That person could not be found!');
@@ -215,7 +215,7 @@ class GenealogyPage_Controller
 
     /// Sub Pages ///
     private function tree($id) {
-        $person = $id ? DataObject::get_by_id('Gender', (int) $id) : $this->getRootBranches()->last();
+        $person = $id ? DataObject::get_by_id('Gender', (int) $id) : $this->getMainClansAndBranches()->last();
 
         if (!$person) {
             return $this->httpError(404, 'That person could not be found!');
@@ -271,7 +271,7 @@ class GenealogyPage_Controller
 
     private function getSubTitle($p1, $p2 = null) {
         if (is_numeric($p1)) {
-            $p1 = $p1 ? DataObject::get_by_id('Gender', (int) $p1) : $this->getRootBranches()->last();
+            $p1 = $p1 ? DataObject::get_by_id('Gender', (int) $p1) : $this->getMainClansAndBranches()->last();
         }
         if (is_numeric($p2)) {
             $p2 = DataObject::get_by_id('Gender', (int) $p2);
@@ -280,7 +280,7 @@ class GenealogyPage_Controller
         if (!$p1 && !$p2) {
             return $this->httpError(404, 'That person could not be found!');
         }
-        
+
         if ($p2) {
             $title = _t('Genealogist.KINSHIP_OF', //
                     "Kinships Between {value1} & {value2}", //
@@ -476,12 +476,8 @@ HTML;
         return DB::get_conn()->getVersion();
     }
 
-    public function getBranches() {
-        return GenealogistHelper::get_all_branchs();
-    }
-
     public function getPerson($id) {
-        return GenealogistHelper::get_person($id);
+        return GenealogistHelper::get_gender($id);
     }
 
     public function getFigures() {
@@ -492,9 +488,13 @@ HTML;
         ));
     }
 
-    public function getRootBranches() {
-//        return GenealogistHelper::get_root_branchs();
-        return GenealogistHelper::get_all_branchs();
+    public function getAllClansAndBranches() {
+        return GenealogistHelper::get_all_clans_and_branches();
+    }
+
+    public function getMainClansAndBranches() {
+//        return GenealogistHelper::get_main_clans_and_branches();
+        return GenealogistHelper::get_main_clans_and_branches();
     }
 
     /**
