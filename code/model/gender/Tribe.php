@@ -47,7 +47,7 @@ class Tribe
         }
 
         // Clans
-        $config = $this->personConfigs();
+        $config = $this->personConfigs(false,false,false,false);
 
         $field = $fields->fieldByName('Root.Clans.Clans');
         $field->setConfig($config);
