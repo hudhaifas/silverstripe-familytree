@@ -22,35 +22,38 @@ ALTER TABLE `gender_editorgroups` CHANGE `PersonID` `GenderID` INT(11) NOT NULL 
 RENAME TABLE person_editormembers TO gender_editormembers;
 ALTER TABLE `gender_editormembers` CHANGE `PersonID` `GenderID` INT(11) NOT NULL DEFAULT '0';
 
-RENAME TABLE `town_townclans` TO `town_townbranches`;
-ALTER TABLE `town_townbranches` CHANGE `ClanID` `BranchID` INT(11) NOT NULL DEFAULT '0';
+RENAME TABLE `Town_TownClans` TO `Town_TownBranches`;
+ALTER TABLE `Town_TownBranches` CHANGE `ClanID` `BranchID` INT(11) NOT NULL DEFAULT '0';
 
 /* PersonlaStats */
-RENAME TABLE personalstats TO genderstats;
-ALTER TABLE `genderstats` CHANGE `PersonID` `GenderID` INT(11) NOT NULL DEFAULT '0';
+RENAME TABLE PersonalStats TO GenderStats;
+ALTER TABLE `GenderStats` CHANGE `PersonID` `GenderID` INT(11) NOT NULL DEFAULT '0';
 
 /* Collectable_People */
-ALTER TABLE `collectable_people` CHANGE `PersonID` `GenderID` INT(11) NOT NULL DEFAULT '0';
+ALTER TABLE `Collectable_People` CHANGE `PersonID` `GenderID` INT(11) NOT NULL DEFAULT '0';
 
-ALTER TABLE `male` CHANGE `TribeID` `ClanID` INT(11) NOT NULL DEFAULT '0';
+ALTER TABLE `Male` CHANGE `TribeID` `ClanID` INT(11) NOT NULL DEFAULT '0';
 
 /* Clan to Branch */
-RENAME TABLE clan TO branch;
-ALTER TABLE `branch` CHANGE `IsMainClan` `IsClan` TINYINT(1) UNSIGNED NOT NULL DEFAULT '0';
+RENAME TABLE Clan TO Branch;
+ALTER TABLE `Branch` CHANGE `IsMainClan` `IsClan` TINYINT(1) UNSIGNED NOT NULL DEFAULT '0';
 
 /* Tribe to Clan*/
-RENAME TABLE tribe TO clan;
-RENAME TABLE `town_towntribes` TO `town_townbranchs`;
+RENAME TABLE Tribe TO Clan;
+RENAME TABLE `Town_TownTribes` TO `Town_TownBranchs`;
 
+/* ****************************************************************************************** */
+/* ****************************************************************************************** */
+/* ****************************************************************************************** */
 /* ****************************************************************************************** */
 /* After dev/build*/
 /* Copy all fields from the Person entity */
-INSERT INTO gender(ID, ClassName, LastEdited, Created, Prefix, Name, NickName, Postfix, Note, Comments, Biography, CanViewType, CanEditType, PhotoID, StatsID, IndexedName, IndexedAncestors, YearOrder)
+INSERT INTO Gender(ID, ClassName, LastEdited, Created, Prefix, Name, NickName, Postfix, Note, Comments, Biography, CanViewType, CanEditType, PhotoID, StatsID, IndexedName, IndexedAncestors, YearOrder)
 		   SELECT ID, ClassName, LastEdited, Created, Prefix, Name, NickName, Postfix, Note, Comments, Biography, CanViewType, CanEditType, PhotoID, StatsID, IndexedName, IndexedAncestors, YearOrder
-FROM person
+FROM Person
 
 /* Delete duplicated fields */
-ALTER TABLE person
+ALTER TABLE Person
 	DROP COLUMN Prefix,
 	DROP COLUMN Name,
 	DROP COLUMN NickName,
@@ -66,6 +69,6 @@ ALTER TABLE person
 	DROP COLUMN IndexedAncestors,
 	DROP COLUMN YearOrder;
 	
-UPDATE `gender` SET `ClassName` = 'Branch' WHERE `ClassName` = 'Clan'
-UPDATE `gender` SET `ClassName` = 'Clan' WHERE `ClassName` = 'Tribe'
-UPDATE `genderstats` SET `ClassName` = 'GenderStats';
+UPDATE `Gender` SET `ClassName` = 'Branch' WHERE `ClassName` = 'Clan'
+UPDATE `Gender` SET `ClassName` = 'Clan' WHERE `ClassName` = 'Tribe'
+UPDATE `GenderStats` SET `ClassName` = 'GenderStats';
