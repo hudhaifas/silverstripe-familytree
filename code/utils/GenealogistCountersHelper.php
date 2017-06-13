@@ -38,73 +38,73 @@ class GenealogistCountersHelper {
     /**
      * Counts the of all descendants.
      *
-     * @param Person $tribe person object
+     * @param Person $clan person object
      * @param int $state either 1/$STATE_ALIVE or 2/$STATE_DEAD or 0
      * @return number
      */
-    public static function count_tribe_descendants($tribe, $state = 0) {
-        if (!$tribe) {
+    public static function count_clan_descendants($clan, $state = 0) {
+        if (!$clan) {
             return 0;
         }
 
-        $cachedCount = self::cache_counters_check('count-tribe-descendants', $tribe->ID, $state);
+        $cachedCount = self::cache_counters_check('count-clan-descendants', $clan->ID, $state);
         if (isset($cachedCount)) {
             return $cachedCount;
         }
 
-        $count = self::count_tribe_males($tribe, $state) + self::count_tribe_females($tribe, $state);
+        $count = self::count_clan_males($clan, $state) + self::count_clan_females($clan, $state);
 
-        return self::cache_counters_check('count-tribe-descendants', $tribe->ID, $state, $count);
+        return self::cache_counters_check('count-clan-descendants', $clan->ID, $state, $count);
     }
 
     /**
      * Counts the of all male descendants.
      *
-     * @param Person $tribe person object
+     * @param Person $clan person object
      * @param int $state either 1/$STATE_ALIVE or 2/$STATE_DEAD or 0
      * @return number
      */
-    public static function count_tribe_males($tribe, $state = 0) {
-        if (!$tribe) {
+    public static function count_clan_males($clan, $state = 0) {
+        if (!$clan) {
             return 0;
         }
 
-        $cachedCount = self::cache_counters_check('count-tribe-males', $tribe->ID, $state);
+        $cachedCount = self::cache_counters_check('count-clan-males', $clan->ID, $state);
         if (isset($cachedCount)) {
             return $cachedCount;
         }
 
         $count = 0;
-        foreach ($tribe->Clans() as $clan) {
-            $count += self::count_males($clan);
+        foreach ($clan->Corporations() as $corporation) {
+            $count += self::count_males($corporation, $state);
         }
 
-        return self::cache_counters_check('count-tribe-males', $tribe->ID, $state, $count);
+        return self::cache_counters_check('count-clan-males', $clan->ID, $state, $count);
     }
 
     /**
      * Counts the of all male descendants.
      *
-     * @param Person $tribe person object
+     * @param Person $clan person object
      * @param int $state either 1/$STATE_ALIVE or 2/$STATE_DEAD or 0
      * @return number
      */
-    public static function count_tribe_females($tribe, $state = 0) {
-        if (!$tribe) {
+    public static function count_clan_females($clan, $state = 0) {
+        if (!$clan) {
             return 0;
         }
 
-        $cachedCount = self::cache_counters_check('count-tribe-females', $tribe->ID, $state);
+        $cachedCount = self::cache_counters_check('count-clan-females', $clan->ID, $state);
         if (isset($cachedCount)) {
             return $cachedCount;
         }
 
         $count = 0;
-        foreach ($tribe->Clans() as $clan) {
-            $count += self::count_females($clan);
+        foreach ($clan->Corporations() as $corporation) {
+            $count += self::count_females($corporation, $state);
         }
 
-        return self::cache_counters_check('count-tribe-females', $tribe->ID, $state, $count);
+        return self::cache_counters_check('count-clan-females', $clan->ID, $state, $count);
     }
 
     /**
@@ -245,17 +245,17 @@ class GenealogistCountersHelper {
         foreach ($person->Sons() as $child) {
             switch ($state) {
                 case self::$STATE_ALIVE:
-//                    $count += !$child->IsDead && !$child->isClan() ? 1 : 0;
+//                    $count += !$child->IsDead && !$child->isBranch() ? 1 : 0;
                     $count += !$child->IsDead ? 1 : 0;
                     break;
 
                 case self::$STATE_DEAD:
-//                    $count += $child->IsDead && !$child->isClan() ? 1 : 0;
+//                    $count += $child->IsDead && !$child->isBranch() ? 1 : 0;
                     $count += $child->IsDead ? 1 : 0;
                     break;
 
                 default:
-//                    $count += !$child->isClan() ? 1 : 0;
+//                    $count += !$child->isBranch() ? 1 : 0;
                     $count++;
                     break;
             }

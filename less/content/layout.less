@@ -135,6 +135,25 @@ body.modal-open {
                 }
             }
         }
+        
+        &.branch {
+            background-color: @color-bg-branch;
+            &, a {
+                color: @color-fg-branch;
+            }
+
+            &.dead {
+                background-color: @color-bg-branch;
+                &, a {
+                    color: @color-fg-branch;
+                }
+
+            }
+
+            &:after {
+                border-top: none;
+            }
+        }
 
         &.clan {
             background-color: @color-bg-clan;
@@ -146,25 +165,6 @@ body.modal-open {
                 background-color: @color-bg-clan;
                 &, a {
                     color: @color-fg-clan;
-                }
-
-            }
-
-            &:after {
-                border-top: none;
-            }
-        }
-
-        &.tribe {
-            background-color: @color-bg-tribe;
-            &, a {
-                color: @color-fg-tribe;
-            }
-
-            &.dead {
-                background-color: @color-bg-tribe;
-                &, a {
-                    color: @color-fg-tribe;
                 }
 
             }

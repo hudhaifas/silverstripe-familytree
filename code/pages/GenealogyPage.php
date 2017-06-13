@@ -159,7 +159,7 @@ class GenealogyPage_Controller
         if (!$id) {
             return array(
                 'LandingPage' => true,
-                'RandClan' => $this->getClans()->sort('rand()')->first(),
+                'RandBranch' => $this->getBranches()->sort('rand()')->first(),
                 'RandFigure' => $this->getFigures()->sort('rand()')->first()
             );
         }
@@ -183,7 +183,11 @@ class GenealogyPage_Controller
         $id = $this->getRequest()->param('ID');
         $person = GenealogistHelper::get_person($id);
 
-        return $person->renderWith("TheTree_InfoCard");
+        if (!$person) {
+            return $this->httpError(404, 'That person could not be found!');
+        } else {
+            return $person->renderWith("TheTree_InfoCard");
+        }
     }
 
     public function suggest() {
@@ -211,10 +215,10 @@ class GenealogyPage_Controller
 
     /// Sub Pages ///
     private function tree($id) {
-        $person = $id ? DataObject::get_by_id('Gender', (int) $id) : $this->getRootClans()->last();
+        $person = $id ? DataObject::get_by_id('Gender', (int) $id) : $this->getRootBranches()->last();
 
         if (!$person) {
-            return $this->httpError(404, 'No books could be found!');
+            return $this->httpError(404, 'That person could not be found!');
         }
 
         $isAncestral = $this->getRequest()->getVar('ancestral') ? 1 : 0;
@@ -242,7 +246,7 @@ class GenealogyPage_Controller
         }
 
         if (!$p1 || !$p2) {
-            return $this->httpError(404, 'No books could be found!');
+            return $this->httpError(404, 'That person could not be found!');
         }
 
         $kinships = GenealogistHelper::get_kinships($p1, $p2);
@@ -267,12 +271,16 @@ class GenealogyPage_Controller
 
     private function getSubTitle($p1, $p2 = null) {
         if (is_numeric($p1)) {
-            $p1 = $p1 ? DataObject::get_by_id('Gender', (int) $p1) : $this->getRootClans()->last();
+            $p1 = $p1 ? DataObject::get_by_id('Gender', (int) $p1) : $this->getRootBranches()->last();
         }
         if (is_numeric($p2)) {
             $p2 = DataObject::get_by_id('Gender', (int) $p2);
         }
 
+        if (!$p1 && !$p2) {
+            return $this->httpError(404, 'That person could not be found!');
+        }
+        
         if ($p2) {
             $title = _t('Genealogist.KINSHIP_OF', //
                     "Kinships Between {value1} & {value2}", //
@@ -334,7 +342,7 @@ HTML;
     }
 
     private function appendParents($person, $html3) {
-        if (!$person || !$person->Father()->exists()) {
+        if (!$person || $person->isClan() || !$person->Father()->exists()) {
             return $html3;
         }
 
@@ -468,8 +476,8 @@ HTML;
         return DB::get_conn()->getVersion();
     }
 
-    public function getClans() {
-        return GenealogistHelper::get_all_clans();
+    public function getBranches() {
+        return GenealogistHelper::get_all_branchs();
     }
 
     public function getPerson($id) {
@@ -479,14 +487,14 @@ HTML;
     public function getFigures() {
         return DataObject::get('Gender')
                         ->filterAny(array(
+                            'ClassName:StartsWith' => 'Branch',
                             'ClassName:StartsWith' => 'Clan',
-                            'ClassName:StartsWith' => 'Tribe',
         ));
     }
 
-    public function getRootClans() {
-//        return GenealogistHelper::get_root_clans();
-        return GenealogistHelper::get_all_clans();
+    public function getRootBranches() {
+//        return GenealogistHelper::get_root_branchs();
+        return GenealogistHelper::get_all_branchs();
     }
 
     /**

@@ -105,7 +105,7 @@ JS
         } else {
             return DataObject::get('Gender')
                             ->filterAny(array(
-                                'ClassName' => 'Clan',
+                                'ClassName' => 'Branch',
                                 'CanViewType' => 'Anyone',
                             ))->sort('IndexedName ASC');
         }
@@ -118,7 +118,7 @@ JS
     protected function searchObjects($list, $keywords) {
         $pieces = GenealogistSearchHelper::explode_keywords($keywords);
 
-        return GenealogistSearchHelper::search_objects($list, $pieces['NameSeries'], $pieces['ClanID']);
+        return GenealogistSearchHelper::search_objects($list, $pieces['NameSeries'], $pieces['BranchID']);
     }
 
     /**
@@ -146,7 +146,7 @@ JS
         if ($id) {
             $person = DataObject::get_by_id('Gender', (int) $id);
         } else {
-            $person = $this->getClans()->first();
+            $person = $this->getBranches()->first();
         }
 
         if (!$person || !$person->canEdit()) {
@@ -237,7 +237,7 @@ JS
             TextField::create('Note', _t('Genealogist.NOTE', 'Note'), $person->Note), //
         );
 
-        if (!$person->isTribe()) {
+        if (!$person->isClan()) {
 
             // Birth
             $items[] = TextField::create('BirthDate', _t('Genealogist.BIRTHDATE', 'Birth Date'), $person->BirthDate);
@@ -352,7 +352,7 @@ JS
 
         // Create fields
         $items = array(HiddenField::create('PersonID', 'PersonID', $id));
-        if (!$person->isTribe()) {
+        if (!$person->isClan()) {
             $items[] = CheckboxField::create('IsPublicFigure', _t('Genealogist.PUBLIC_FIGURE', 'Is Public Figure'), $person->IsPublicFigure);
         }
 
@@ -718,12 +718,12 @@ JS
     }
 
     /// Utils ///
-    public function getClans() {
-        return GenealogistHelper::get_all_clans();
+    public function getBranches() {
+        return GenealogistHelper::get_all_branchs();
     }
 
-    public function getRootClans() {
-        return GenealogistHelper::get_root_clans();
+    public function getRootBranches() {
+        return GenealogistHelper::get_root_branchs();
     }
 
 }

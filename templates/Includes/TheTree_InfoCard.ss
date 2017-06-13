@@ -19,7 +19,7 @@
 
     <p><% if Note %><%t Genealogist.NOTE 'Note' %>: $Note<% end_if %></p>
 
-    <% if not isTribe %>
+    <% if not isClan %>
         <% if Father %>
             <p><strong><%t Genealogist.FATHER 'Father' %></strong>: <a href="#" data-url="{$Father.InfoLink()}" class="info-item">$Father.FullName</a></p>
         <% end_if %>
@@ -93,8 +93,8 @@
         <table class="table">
             <tr>
                 <th></th>
-                <% if ClansList %>
-                <th><%t Genealogist.CLANS 'Clans' %></th>
+                <% if BranchesList %>
+                <th><%t Genealogist.BRANCHES 'Branches' %></th>
                 <% end_if %>
                 <th><%t Genealogist.MALES 'Males' %></th>
                 <% if canViewDaughters %>
@@ -104,8 +104,8 @@
             </tr>
             <tr>
                 <td><%t Genealogist.DESCENDANTS 'Descendants' %></td>
-                <% if ClansList %>
-                <td>$ClansList.Count</td>
+                <% if BranchesList %>
+                <td>$BranchesList.Count</td>
                 <% end_if %>
                 <td>$MalesCount</td>
                 <% if canViewDaughters %>
@@ -115,7 +115,7 @@
             </tr>
             <tr>
                 <td><%t Genealogist.ALIVE 'Alive' %></td>
-                <% if ClansList %>
+                <% if BranchesList %>
                 <td>--</td>
                 <% end_if %>
                 <td>$MalesCount(1)</td>

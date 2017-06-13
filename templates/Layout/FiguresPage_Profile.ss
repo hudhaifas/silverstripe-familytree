@@ -28,7 +28,7 @@
                 <div class="user-brief">
                     <p class="user-title">$Title</p>
 
-                    <% if not isTribe %>
+                    <% if not isClan %>
                         <p class="user-info">
                             <% if BirthDate && BirthDateEstimated %>
                                 <%t Genealogist.ESTIMATED_BIRTHDATE 'Birth Date (Estimated)' %>: $BirthYear

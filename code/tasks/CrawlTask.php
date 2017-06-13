@@ -105,7 +105,7 @@ class CrawlTask
     }
 
     private function indexDates($person) {
-        if ($person->isTribe()) {
+        if ($person->isClan()) {
             return;
         }
 
@@ -136,13 +136,13 @@ class CrawlTask
             $stats = new GenderStats();
         }
 
-        if ($person->isTribe()) {
-            $stats->Males = GenealogistCountersHelper::count_tribe_males($person);
-            $stats->Females = GenealogistCountersHelper::count_tribe_females($person);
-            $stats->Total = GenealogistCountersHelper::count_tribe_descendants($person);
-            $stats->LiveMales = GenealogistCountersHelper::count_tribe_males($person, 1);
-            $stats->LiveFemales = GenealogistCountersHelper::count_tribe_females($person, 1);
-            $stats->LiveTotal = GenealogistCountersHelper::count_tribe_descendants($person, 1);
+        if ($person->isClan()) {
+            $stats->Males = GenealogistCountersHelper::count_clan_males($person);
+            $stats->Females = GenealogistCountersHelper::count_clan_females($person);
+            $stats->Total = GenealogistCountersHelper::count_clan_descendants($person);
+            $stats->LiveMales = GenealogistCountersHelper::count_clan_males($person, 1);
+            $stats->LiveFemales = GenealogistCountersHelper::count_clan_females($person, 1);
+            $stats->LiveTotal = GenealogistCountersHelper::count_clan_descendants($person, 1);
         } else {
             $stats->Sons = GenealogistCountersHelper::count_sons($person);
             $stats->Daughters = GenealogistCountersHelper::count_daughters($person);

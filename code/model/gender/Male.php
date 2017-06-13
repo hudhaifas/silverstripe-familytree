@@ -39,7 +39,7 @@ class Male
     );
     private static $has_one = array(
         'Parent' => 'Person',
-        'Tribe' => 'Tribe',
+        'Clan' => 'Clan',
     );
     private static $has_many = array(
         'Children' => 'Person',
@@ -132,23 +132,23 @@ class Male
         return $fields;
     }
 
-    public function getTribeName() {
-        $cachedName = self::cache_name_check('tribe-name', $this->ID);
+    public function getClanName() {
+        $cachedName = self::cache_name_check('clan-name', $this->ID);
         if (isset($cachedName)) {
             return $cachedName;
         }
 
         $name = '';
 
-        if ($this->Tribe()->exists()) {
-            $name .= $this->Tribe()->getTribeName();
+        if ($this->Clan()->exists()) {
+            $name .= $this->Clan()->getClanName();
         }
 
-        if ($this->Father()->exists() && $this->Father()->getTribeName()) {
-            $name .= $this->Father()->getTribeName();
+        if ($this->Father()->exists() && $this->Father()->getClanName()) {
+            $name .= $this->Father()->getClanName();
         }
 
-        return self::cache_name_check('tribe-name', $this->ID, $name);
+        return self::cache_name_check('clan-name', $this->ID, $name);
     }
 
     public function getObjectDefaultImage() {

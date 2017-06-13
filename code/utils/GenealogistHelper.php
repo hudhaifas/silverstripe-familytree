@@ -88,12 +88,12 @@ class GenealogistHelper {
     }
 
     /// Getters ///
-    public static function get_all_clans() {
-        return Clan::get();
+    public static function get_all_branchs() {
+        return Branch::get();
     }
 
-    public static function get_root_clans() {
-        return Clan::get()->filter(array('FatherID' => 0));
+    public static function get_root_branchs() {
+        return Branch::get()->filter(array('FatherID' => 0));
     }
 
     public static function get_person($id) {
@@ -118,23 +118,33 @@ class GenealogistHelper {
         return (new ArrayList($children));
     }
 
-    public static function get_all_descendants($person) {
-        if (!$person) {
+    public static function get_all_descendants($gender) {
+        if (!$gender) {
             return null;
         }
 
         return DataObject::get('Person')->filter(array(
-                    'IndexedAncestors:PartialMatch' => "|{$person->ID}|"
+                    'IndexedAncestors:PartialMatch' => "|{$gender->ID}|"
                 ))->Sort('YearOrder ASC');
     }
 
-    public static function get_descendants_public_figures($person) {
-        if (!$person) {
+    public static function get_all_branches($gender) {
+        if (!$gender) {
+            return null;
+        }
+
+        return DataObject::get('Branch')->filter(array(
+                    'IndexedAncestors:PartialMatch' => "|{$gender->ID}|"
+                ))->Sort('YearOrder ASC');
+    }
+
+    public static function get_descendants_public_figures($gender) {
+        if (!$gender) {
             return null;
         }
 
         return DataObject::get('Person')->filter(array(
-                    'IndexedAncestors:PartialMatch' => "|{$person->ID}|",
+                    'IndexedAncestors:PartialMatch' => "|{$gender->ID}|",
                     'IsPublicFigure' => 1,
                 ))->Sort('YearOrder ASC');
     }
@@ -183,23 +193,27 @@ class GenealogistHelper {
 
             $ancestors[] = $p->ID;
 
-            $mother = $p->Mother();
-            if ($mother && $mother->exists()) {
-                array_push($stack, $mother);
-                $paths[$mother->ID] = $p->ID . ',' . $paths[$p->ID];
-            }
+            if (!$p->isClan()) {
+                $mother = $p->Mother();
+                if ($mother && $mother->exists()) {
+                    array_push($stack, $mother);
+                    $paths[$mother->ID] = $p->ID . ',' . $paths[$p->ID];
+                }
 
-            $father = $p->Father();
-            if ($father && $father->exists()) {
-                array_push($stack, $father);
-                $paths[$father->ID] = $p->ID . ',' . $paths[$p->ID];
+                $father = $p->Father();
+                if ($father && $father->exists()) {
+                    array_push($stack, $father);
+                    $paths[$father->ID] = $p->ID . ',' . $paths[$p->ID];
+                }
+            } else {
+//                array_push($stack, $p);
             }
 
             if ($p->isMale()) {
-                $tribe = $p->Tribe();
-                if ($tribe && $tribe->exists()) {
-                    array_push($stack, $tribe);
-                    $paths[$tribe->ID] = $p->ID . ',' . $paths[$p->ID];
+                $clan = $p->Clan();
+                if ($clan && $clan->exists()) {
+                    array_push($stack, $clan);
+                    $paths[$clan->ID] = $p->ID . ',' . $paths[$p->ID];
                 }
             }
         }
@@ -233,9 +247,9 @@ class GenealogistHelper {
             }
 
             if ($p->isMale()) {
-                $tribe = $p->Tribe();
-                if ($tribe && $tribe->exists()) {
-                    $ancestors_ids[] = $tribe->ID;
+                $clan = $p->Clan();
+                if ($clan && $clan->exists()) {
+                    $ancestors_ids[] = $clan->ID;
                 }
             }
         }

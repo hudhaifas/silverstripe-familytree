@@ -33,7 +33,7 @@
                             </div>
                         </div>
 
-                        <% if not isTribe %>
+                        <% if not isClan %>
                             <div class="panel panel-default">
                                 <div class="panel-heading">
                                     <h4 class="panel-title">
@@ -117,7 +117,7 @@
                             </div>
                         <% end_if %>
 
-                        <% if not isTribe %>
+                        <% if not isClan %>
                             <div class="panel panel-default">
                                 <div class="panel-heading">
                                     <h4 class="panel-title">

@@ -33,8 +33,8 @@ class GenealogistAdmin
         extends ModelAdmin {
 
     private static $managed_models = array(
-        'Tribe',
         'Clan',
+        'Branch',
         'Male',
         'Female',
         'Person',

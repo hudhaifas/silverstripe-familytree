@@ -43,6 +43,11 @@ class Gender
         'Comments' => 'Text',
         // Biography
         'Biography' => 'HTMLText',
+        // Indexing
+        'IndexedName' => 'Text',
+        'IndexedAncestors' => 'Text',
+        // Order
+        'YearOrder' => 'Int',
         // Permession Level
         "CanViewType" => "Enum('Anyone, LoggedInUsers, OnlyTheseUsers, Inherit', 'Inherit')",
         "CanEditType" => "Enum('LoggedInUsers, OnlyTheseUsers, Inherit', 'Inherit')",
@@ -111,8 +116,13 @@ class Gender
 
         $labels['Biography'] = _t('Genealogist.BIOGRAPHY', 'Biography');
 
-        $labels['Tribe'] = _t('Genealogist.TRIBE', 'Tribe');
-        $labels['IsMainClan'] = _t('Genealogist.IS_MAIN_CLAN', 'Is Main Clan');
+        $labels['Clan'] = _t('Genealogist.CLAN', 'Clan');
+        $labels['Corporation'] = _t('Genealogist.CORPORATION', 'Corporation');
+        $labels['Corporations'] = _t('Genealogist.CORPORATIONS', 'Corporations');
+        $labels['BranchTowns'] = _t('Genealogist.TOWNS', 'Towns');
+        $labels['ClanTowns'] = _t('Genealogist.TOWNS', 'Towns');
+        $labels['ClanTowns'] = _t('Genealogist.TOWNS', 'Towns');
+        $labels['IsClan'] = _t('Genealogist.IS_CLAN', 'Is Clan');
 
         // Tabs
         $labels['Children'] = _t('Genealogist.CHILDREN', 'Children');
@@ -124,7 +134,7 @@ class Gender
         $labels['Events'] = _t('Genealogist.EVENTS', 'Events');
         $labels['RelatedEvents'] = _t('Genealogist.RELATED_EVENTS', 'Related Events');
         $labels['Collectables'] = _t('Genealogist.COLLECTABLES', 'Collectables');
-        $labels['Clans'] = _t('Genealogist.CLANS', 'Clans');
+        $labels['Branches'] = _t('Genealogist.BRANCHES', 'Branches');
 
         // Settings
         $labels['IsPublicFigure'] = _t('Genealogist.PUBLIC_FIGURE', 'Is Public Figure');
@@ -137,6 +147,9 @@ class Gender
     public function getCMSFields() {
         $fields = parent::getCMSFields();
         $fields->removeFieldFromTab('Root.Main', 'StatsID');
+        $fields->removeFieldFromTab('Root.Main', 'YearOrder');
+        $fields->removeFieldFromTab('Root.Main', 'IndexedName');
+        $fields->removeFieldFromTab('Root.Main', 'IndexedAncestors');
 
         $this->reorderField($fields, 'Photo', 'Root.Main', 'Root.Main');
         $this->reorderField($fields, 'Prefix', 'Root.Main', 'Root.Main');
@@ -359,7 +372,7 @@ class Gender
 
         // check for inherit
         if ($this->CanViewType == 'Inherit') {
-            if ($this->FatherID && !$this->Father()->isClan()) {
+            if ($this->FatherID && !$this->Father()->isBranch()) {
                 return self::cache_permission_check('view', $member, $this->ID, $this->Father()->canView($member));
             }
         }
@@ -732,6 +745,14 @@ class Gender
     }
 
     /**
+     * Checks if this person is a branch
+     * @return boolean
+     */
+    public function isBranch() {
+        return $this instanceof Branch;
+    }
+
+    /**
      * Checks if this person is a clan
      * @return boolean
      */
@@ -739,12 +760,13 @@ class Gender
         return $this instanceof Clan;
     }
 
-    /**
-     * Checks if this person is a tribe
-     * @return boolean
-     */
-    public function isTribe() {
-        return $this instanceof Tribe;
+    // Descendants
+    public function getAllDescendants() {
+        return GenealogistHelper::get_all_descendants($this);
+    }
+
+    public function getDescendantsPublicFigures() {
+        return GenealogistHelper::get_descendants_public_figures($this);
     }
 
     /// Counters ///
@@ -1009,7 +1031,7 @@ class Gender
     }
 
     public function getObjectRelated() {
-//        return DataObject::get('Person', "`PublicFigure` = 1 OR `ClassName` = 'Clan'")->sort('RAND()');
+//        return DataObject::get('Person', "`PublicFigure` = 1 OR `ClassName` = 'Branch'")->sort('RAND()');
         return null;
     }
 
@@ -1019,29 +1041,6 @@ class Gender
 
     public function getObjectTabs() {
         $lists = array();
-
-        if ($this->isTribe()) {
-            $lists[] = array(
-                'Title' => _t('Genealogist.CLANS', 'Clans'),
-                'Content' => $this
-                        ->customise(array(
-                            'Results' => $this->getClansList()
-                        ))
-                        ->renderWith('List_Grid')
-            );
-        } else {
-            if ($this->Events()->Count()) {
-                $lists[] = array(
-                    'Title' => _t('Genealogist.LIFESTORY', 'Life Story'),
-                    'Content' => $this->renderWith('Person_Lifestory')
-                );
-            }
-
-            $lists[] = array(
-                'Title' => _t('Genealogist.FAMILY', 'Family'),
-                'Content' => $this->renderWith('Person_Family')
-            );
-        }
 
         if ($this->Biography) {
             $lists[] = array(

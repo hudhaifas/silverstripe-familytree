@@ -29,14 +29,14 @@
  * @author Hudhaifa Shatnawi <hudhaifa.shatnawi@gmail.com>
  * @version 1.0, Mar 29, 2017 - 10:35:15 AM
  */
-class Tribe
+class Clan
         extends Gender {
 
     private static $has_many = array(
-        'Clans' => 'Male.Tribe'
+        'Corporations' => 'Male.Clan'
     );
     private static $belongs_many_many = array(
-        "TribeTowns" => "Town",
+        "ClanTowns" => "Town",
     );
 
     public function getCMSFields() {
@@ -46,12 +46,15 @@ class Tribe
             return $fields;
         }
 
-        // Clans
-        $config = $this->personConfigs();
+        // Corporations
+        $config = $this->personConfigs(false, false, false, false);
 
-        $field = $fields->fieldByName('Root.Clans.Clans');
+        $field = $fields->fieldByName('Root.Corporations.Corporations');
         $field->setConfig($config);
 
+        $field = $fields->fieldByName('Root.ClanTowns.ClanTowns');
+        Town::updateGridField($field);
+        
         return $fields;
     }
 
@@ -101,7 +104,7 @@ class Tribe
 
     public function getDescendantsLeaves() {
         $html = '';
-        foreach ($this->Clans() as $child) {
+        foreach ($this->Corporations() as $child) {
             $html .= $child->getDescendants();
         }
 
@@ -113,7 +116,7 @@ class Tribe
      * @return string
      */
     public function getShortName() {
-        return $this->getTribeName();
+        return $this->getClanName();
     }
 
     /**
@@ -121,16 +124,64 @@ class Tribe
      * @return string
      */
     public function getBriefName() {
-        return $this->getTribeName();
+        return $this->getClanName();
     }
 
-    public function getTribeName() {
+    public function getClanName() {
         $name = $this->getPersonName();
         return $name;
     }
 
-    public function getClansList() {
-        return $this->Clans();
+    public function getCorporationsList() {
+        return $this->Corporations();
+    }
+
+    public function getBranchesList() {
+        return GenealogistHelper::get_all_branches($this);
+    }
+
+    public function getObjectTabs() {
+        $lists = parent::getObjectTabs();
+
+        $townsCount = $this->ClanTowns()->Count();
+        if ($townsCount) {
+            $item = array(
+                'Title' => _t('Genealogist.TOWNS', 'Towns') . " ({$townsCount})",
+                'Content' => $this
+                        ->customise(array(
+                            'Results' => $this->ClanTowns()
+                        ))
+                        ->renderWith('List_Grid')
+            );
+            $lists->add($item);
+        }
+
+        $branches = $this->getBranchesList();
+        if ($branches->count()) {
+            $item = array(
+                'Title' => _t('Genealogist.BRANCHES', 'Branches'),
+                'Content' => $this
+                        ->customise(array(
+                            'Results' => $branches
+                        ))
+                        ->renderWith('List_Grid')
+            );
+            $lists->add($item);
+        }
+        $publicFigures = $this->getDescendantsPublicFigures();
+        if ($publicFigures && $publicFigures->Count()) {
+            $item = array(
+                'Title' => _t('Genealogist.PUBLIC_FIGURES', 'Public Figures'),
+                'Content' => $this
+                        ->customise(array(
+                            'Results' => $publicFigures
+                        ))
+                        ->renderWith('List_Grid')
+            );
+            $lists->add($item);
+        }
+
+        return $lists;
     }
 
 }

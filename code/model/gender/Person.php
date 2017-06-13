@@ -40,12 +40,8 @@ class Person
         'DeathDate' => 'Date',
         'DeathDateEstimated' => 'Boolean',
         'IsDead' => 'Boolean',
-        // Indexing
-        'IndexedName' => 'Text',
-        'IndexedAncestors' => 'Text',
         // Order
         'ChildOrder' => 'Int',
-        'YearOrder' => 'Int',
         // Permession Level
         'IsPublicFigure' => 'Boolean',
     );
@@ -89,9 +85,6 @@ class Person
 
         $fields->removeFieldFromTab('Root.Main', 'ParentID');
         $fields->removeFieldFromTab('Root.Main', 'ChildOrder');
-        $fields->removeFieldFromTab('Root.Main', 'YearOrder');
-        $fields->removeFieldFromTab('Root.Main', 'IndexedName');
-        $fields->removeFieldFromTab('Root.Main', 'IndexedAncestors');
 
         $fields->removeFieldFromTab('Root.Main', 'FatherID');
         $fields->addFieldsToTab('Root.Main', array(
@@ -120,7 +113,7 @@ class Person
 
         $this->getCMSEvents($fields);
 
-        $this->reorderField($fields, 'TribeID', 'Root.Main', 'Root.Main');
+        $this->reorderField($fields, 'ClanID', 'Root.Main', 'Root.Main');
         $this->reorderField($fields, 'FatherID', 'Root.Main', 'Root.Main');
         $this->reorderField($fields, 'MotherID', 'Root.Main', 'Root.Main');
 
@@ -237,8 +230,8 @@ class Person
 
         $name = $this->getPersonName();
 
-        if ($this->isMale() && $this->Tribe()->exists()) {
-            $name .= ' ' . $this->Tribe()->getTribeName();
+        if ($this->isMale() && $this->Clan()->exists()) {
+            $name .= ' ' . $this->Clan()->getClanName();
         }
 
         if (!$this->Father()->exists()) {
@@ -247,7 +240,7 @@ class Person
 
         if ($withChildOf) {
             $childOf = '';
-            if ($this->Father()->isClan()) {
+            if ($this->Father()->isBranch()) {
                 $childOf = _t('Genealogist.SONS_OF');
             } else {
                 $childOf = $this->isFemale() ? _t('Genealogist.DAUGHTER_OF') : _t('Genealogist.SON_OF');
@@ -271,7 +264,7 @@ class Person
         }
 
         $name = $this->getPersonName();
-        $name .= " {$this->getClanName()}{$this->getTribeName()}";
+        $name .= " {$this->getBranchName()}{$this->getClanName()}";
 
         return self::cache_name_check('brief-name', $this->ID, $name);
     }
@@ -288,19 +281,33 @@ class Person
 
         $name = $this->getPersonName();
 
-        if ($this->getTribeName()) {
-            $name .= " {$this->getTribeName()}";
+        if ($this->getClanName()) {
+            $name .= " {$this->getClanName()}";
         } else {
-            $name .= " {$this->getRootClan()}";
+            $name .= " {$this->getRootBranch()}";
         }
 
         return self::cache_name_check('short-name', $this->ID, $name);
     }
 
     /**
-     * Returns the person's clan names
+     * Returns the person's branch names
      * @return string
      */
+    public function getBranchName() {
+        $cachedName = self::cache_name_check('branch-name', $this->ID);
+        if (isset($cachedName)) {
+            return $cachedName;
+        }
+
+        $name = '';
+        if ($this->Father()->exists()) {
+            $name .= " {$this->Father()->getBranchName()}";
+        }
+
+        return self::cache_name_check('branch-name', $this->ID, $name);
+    }
+
     public function getClanName() {
         $cachedName = self::cache_name_check('clan-name', $this->ID);
         if (isset($cachedName)) {
@@ -308,26 +315,12 @@ class Person
         }
 
         $name = '';
-        if ($this->Father()->exists()) {
-            $name .= " {$this->Father()->getClanName()}";
+
+        if ($this->Father()->exists() && $this->Father()->getClanName()) {
+            $name .= $this->Father()->getClanName();
         }
 
         return self::cache_name_check('clan-name', $this->ID, $name);
-    }
-
-    public function getTribeName() {
-        $cachedName = self::cache_name_check('tribe-name', $this->ID);
-        if (isset($cachedName)) {
-            return $cachedName;
-        }
-
-        $name = '';
-
-        if ($this->Father()->exists() && $this->Father()->getTribeName()) {
-            $name .= $this->Father()->getTribeName();
-        }
-
-        return self::cache_name_check('tribe-name', $this->ID, $name);
     }
 
     /**
@@ -369,24 +362,24 @@ class Person
         return self::cache_name_check('parents-name', $this->ID, $name);
     }
 
-    public function getRootClan() {
-        $cachedName = self::cache_name_check('root-clan', $this->ID);
+    public function getRootBranch() {
+        $cachedName = self::cache_name_check('root-branch', $this->ID);
         if (isset($cachedName)) {
             return $cachedName;
         }
 
         $person = $this;
 
-        $clan = null;
+        $branch = null;
         while ($person->Father()->exists()) {
             $person = $person->Father();
-            if ($person->isClan()) {
-                $clan = $person;
+            if ($person->isBranch()) {
+                $branch = $person;
             }
         }
 
-        $name = $clan ? $clan->Name : '';
-        return self::cache_name_check('root-clan', $this->ID, $name);
+        $name = $branch ? $branch->Name : '';
+        return self::cache_name_check('root-branch', $this->ID, $name);
     }
 
     /**
@@ -425,14 +418,6 @@ class Person
      */
     public function getChildren() {
         return GenealogistHelper::get_children($this);
-    }
-
-    public function getAllDescendants() {
-        return GenealogistHelper::get_all_descendants($this);
-    }
-
-    public function getDescendantsPublicFigures() {
-        return GenealogistHelper::get_descendants_public_figures($this);
     }
 
     /**
@@ -482,6 +467,26 @@ class Person
 
     public function getDeathEventDate() {
         return GenealogistEventsHelper::get_death_date($this);
+    }
+
+    public function getObjectTabs() {
+        $lists = parent::getObjectTabs();
+
+        if ($this->Events()->Count()) {
+            $item = array(
+                'Title' => _t('Genealogist.LIFESTORY', 'Life Story'),
+                'Content' => $this->renderWith('Person_Lifestory')
+            );
+            $lists->add($item);
+        }
+
+        $item = array(
+            'Title' => _t('Genealogist.FAMILY', 'Family'),
+            'Content' => $this->renderWith('Person_Family')
+        );
+        $lists->add($item);
+
+        return $lists;
     }
 
 }

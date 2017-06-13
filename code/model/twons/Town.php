@@ -58,8 +58,8 @@ class Town
         'Residents' => 'Person.ResidencePlace',
     );
     private static $many_many = array(
+        'TownBranches' => 'Branch',
         'TownClans' => 'Clan',
-        'TownTribes' => 'Tribe',
         "ViewerGroups" => "Group",
         "EditorGroups" => "Group",
         "ViewerMembers" => "Member",
@@ -93,7 +93,7 @@ class Town
         $labels['Births'] = _t('Genealogist.BIRTHS', 'Births');
         $labels['Deaths'] = _t('Genealogist.DEATHS', 'Deaths');
         $labels['Buried'] = _t('Genealogist.BURIED', 'Buried');
-        $labels['TownClans'] = _t('Genealogist.TOWN_CLANS', 'Town Clans');
+        $labels['TownBranches'] = _t('Genealogist.TOWN_BRANCHES', 'Town Branches');
         $labels['Coordinates'] = _t('Genealogist.COORDINATES', 'Coordinates');
 
         // Settings
@@ -469,13 +469,14 @@ class Town
             );
         }
 
-        $clansCount = $this->TownClans()->Count();
-        if ($clansCount) {
+        $branchs = $this->getClansAndBranches();
+        $branchsCount = $branchs->Count();
+        if ($branchsCount) {
             $lists[] = array(
-                'Title' => _t('Genealogist.TRIBES_CLANS', 'Tribes & Clans') . " ({$clansCount})",
+                'Title' => _t('Genealogist.CLANS_BRANCHES', 'Clans & Branches') . " ({$branchsCount})",
                 'Content' => $this
                         ->customise(array(
-                            'Results' => $this->TownClans()
+                            'Results' => $branchs
                         ))
                         ->renderWith('List_Grid')
             );
@@ -492,6 +493,31 @@ class Town
 
     public function isObjectDisabled() {
         return !$this->canView();
+    }
+
+    public function getClansAndBranches() {
+        $list = array_merge($this->TownClans()->toArray(), $this->TownBranches()->toArray());
+
+        return new ArrayList($list);
+    }
+
+    public static function updateGridField($field) {
+        if ($field != null) {
+            $config = $field->getConfig();
+
+            $config->removeComponentsByType('GridFieldAddExistingAutocompleter');
+            $config->addComponent(new GridFieldAddExistingAutocompleter('buttons-before-right', array(
+                'TownID',
+                'DefaultName',
+                // Map
+                'Latitude',
+                'Longitude',
+                // Biography
+                'Biography',
+            )));
+
+            $field->setConfig($config);
+        }
     }
 
 }
