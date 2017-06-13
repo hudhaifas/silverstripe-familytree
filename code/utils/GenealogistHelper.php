@@ -88,15 +88,21 @@ class GenealogistHelper {
     }
 
     /// Getters ///
-    public static function get_all_branchs() {
-        return Branch::get();
+    public static function get_all_clans_and_branchs() {
+        $list = array_merge(DataObject::get('Clan')->toArray(), DataObject::get('Branch')->toArray());
+
+        return new ArrayList($list);
     }
 
-    public static function get_root_branchs() {
-        return Branch::get()->filter(array('FatherID' => 0));
+    public static function get_main_clans_and_branchs() {
+        $list = array_merge(
+                DataObject::get('Clan')->toArray(), //
+                DataObject::get('Branch')->filter(array('FatherID' => 0))->toArray()
+        );
+        return new ArrayList($list);
     }
 
-    public static function get_person($id) {
+    public static function get_gender($id) {
         return DataObject::get_by_id('Gender', (int) $id);
     }
 
@@ -296,7 +302,7 @@ class GenealogistHelper {
             }
 
             $k = array();
-            $k[] = self::get_person($id);
+            $k[] = self::get_gender($id);
             $k[] = self::create_kinship($id, $list1);
             $k[] = self::create_kinship($id, $list2);
 
@@ -311,16 +317,16 @@ class GenealogistHelper {
 
     private static function create_kinship($id, $list) {
         $series = array();
-//        $series[] = self::get_person($id);
+//        $series[] = self::get_gender($id);
         foreach ($list as $value) {
-            $series[] = self::get_person($value);
+            $series[] = self::get_gender($value);
         }
 
         return $series;
     }
 
     private static function is_cild_of($id1, $id2) {
-        $p1 = self::get_person($id1);
+        $p1 = self::get_gender($id1);
 
         return ($p1->FatherID == $id2 || $p1->MotherID == $id2);
     }

@@ -181,7 +181,7 @@ class GenealogyPage_Controller
 
     public function info() {
         $id = $this->getRequest()->param('ID');
-        $person = GenealogistHelper::get_person($id);
+        $person = GenealogistHelper::get_gender($id);
 
         if (!$person) {
             return $this->httpError(404, 'That person could not be found!');
@@ -477,11 +477,11 @@ HTML;
     }
 
     public function getBranches() {
-        return GenealogistHelper::get_all_branchs();
+        return GenealogistHelper::get_all_clans_and_branchs();
     }
 
     public function getPerson($id) {
-        return GenealogistHelper::get_person($id);
+        return GenealogistHelper::get_gender($id);
     }
 
     public function getFigures() {
@@ -493,8 +493,8 @@ HTML;
     }
 
     public function getRootBranches() {
-//        return GenealogistHelper::get_root_branchs();
-        return GenealogistHelper::get_all_branchs();
+//        return GenealogistHelper::get_main_clans_and_branchs();
+        return GenealogistHelper::get_all_clans_and_branchs();
     }
 
     /**
