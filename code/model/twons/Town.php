@@ -58,7 +58,7 @@ class Town
         'Residents' => 'Person.ResidencePlace',
     );
     private static $many_many = array(
-        'TownClans' => 'Clan',
+        'TownBranches' => 'Branch',
         'TownTribes' => 'Tribe',
         "ViewerGroups" => "Group",
         "EditorGroups" => "Group",
@@ -93,7 +93,7 @@ class Town
         $labels['Births'] = _t('Genealogist.BIRTHS', 'Births');
         $labels['Deaths'] = _t('Genealogist.DEATHS', 'Deaths');
         $labels['Buried'] = _t('Genealogist.BURIED', 'Buried');
-        $labels['TownClans'] = _t('Genealogist.TOWN_CLANS', 'Town Clans');
+        $labels['TownBranches'] = _t('Genealogist.TOWN_CLANS', 'Town Branches');
         $labels['Coordinates'] = _t('Genealogist.COORDINATES', 'Coordinates');
 
         // Settings
@@ -469,14 +469,14 @@ class Town
             );
         }
 
-        $clans = $this->getTribesAndClans();
-        $clansCount = $clans->Count();
-        if ($clansCount) {
+        $branchs = $this->getTribesAndBranches();
+        $branchsCount = $branchs->Count();
+        if ($branchsCount) {
             $lists[] = array(
-                'Title' => _t('Genealogist.TRIBES_CLANS', 'Tribes & Clans') . " ({$clansCount})",
+                'Title' => _t('Genealogist.TRIBES_CLANS', 'Tribes & Branches') . " ({$branchsCount})",
                 'Content' => $this
                         ->customise(array(
-                            'Results' => $clans
+                            'Results' => $branchs
                         ))
                         ->renderWith('List_Grid')
             );
@@ -495,8 +495,8 @@ class Town
         return !$this->canView();
     }
 
-    public function getTribesAndClans() {
-        $list = array_merge($this->TownTribes()->toArray(), $this->TownClans()->toArray());
+    public function getTribesAndBranches() {
+        $list = array_merge($this->TownTribes()->toArray(), $this->TownBranches()->toArray());
 
         return new ArrayList($list);
     }

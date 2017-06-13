@@ -75,8 +75,8 @@ class GenealogistCountersHelper {
         }
 
         $count = 0;
-        foreach ($tribe->Clans() as $clan) {
-            $count += self::count_males($clan);
+        foreach ($tribe->Branches() as $branch) {
+            $count += self::count_males($branch);
         }
 
         return self::cache_counters_check('count-tribe-males', $tribe->ID, $state, $count);
@@ -100,8 +100,8 @@ class GenealogistCountersHelper {
         }
 
         $count = 0;
-        foreach ($tribe->Clans() as $clan) {
-            $count += self::count_females($clan);
+        foreach ($tribe->Branches() as $branch) {
+            $count += self::count_females($branch);
         }
 
         return self::cache_counters_check('count-tribe-females', $tribe->ID, $state, $count);
@@ -245,17 +245,17 @@ class GenealogistCountersHelper {
         foreach ($person->Sons() as $child) {
             switch ($state) {
                 case self::$STATE_ALIVE:
-//                    $count += !$child->IsDead && !$child->isClan() ? 1 : 0;
+//                    $count += !$child->IsDead && !$child->isBranch() ? 1 : 0;
                     $count += !$child->IsDead ? 1 : 0;
                     break;
 
                 case self::$STATE_DEAD:
-//                    $count += $child->IsDead && !$child->isClan() ? 1 : 0;
+//                    $count += $child->IsDead && !$child->isBranch() ? 1 : 0;
                     $count += $child->IsDead ? 1 : 0;
                     break;
 
                 default:
-//                    $count += !$child->isClan() ? 1 : 0;
+//                    $count += !$child->isBranch() ? 1 : 0;
                     $count++;
                     break;
             }

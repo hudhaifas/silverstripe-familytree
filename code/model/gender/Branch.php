@@ -25,16 +25,16 @@
  */
 
 /**
- * This class presents every clan or origin of a family in the genealogy tree.
+ * This class presents every branch or origin of a family in the genealogy tree.
  *
  * @author Hudhaifa Shatnawi <hudhaifa.shatnawi@gmail.com>
  * @version 1.0, Nov 2, 2016 - 11:56:42 AM
  */
-class Clan
+class Branch
         extends Male {
 
     private static $db = array(
-        'IsMainClan' => 'Boolean'
+        'IsBranch' => 'Boolean'
     );
     private static $has_one = array(
     );
@@ -43,7 +43,7 @@ class Clan
     private static $many_many = array(
     );
     private static $belongs_many_many = array(
-        "ClanTowns" => "Town",
+        "BranchTowns" => "Town",
     );
     private static $defaults = array(
         'IsPublicFigure' => 1,
@@ -52,13 +52,13 @@ class Clan
     public function getCMSFields() {
         $fields = parent::getCMSFields();
 
-        $this->reorderField($fields, 'IsMainClan', 'Root.Main', 'Root.Main');
+        $this->reorderField($fields, 'IsBranch', 'Root.Main', 'Root.Main');
 
         return $fields;
     }
 
-    public function getClansList() {
-        return DataObject::get('Clan')->filter(array(
+    public function getBranchesList() {
+        return DataObject::get('Branch')->filter(array(
                     'IndexedAncestors:PartialMatch' => "|{$this->ID}|",
                     'ID:Negation' => $this->ID
                 ))->sort('YearOrder ASC');
@@ -73,14 +73,14 @@ class Clan
      * @return string
      */
     public function getBriefName() {
-        return "{$this->getClanName()} {$this->getTribeName()}";
+        return "{$this->getBranchName()} {$this->getTribeName()}";
     }
 
     /**
-     * Returns the person's clan names
+     * Returns the person's branch names
      * @return string
      */
-    public function getClanName() {
+    public function getBranchName() {
         $childOf = _t('Genealogist.SONS_OF');
         $name = "{$childOf} {$this->getPersonName()}";
 
@@ -88,7 +88,7 @@ class Clan
             return $name;
         }
 
-        return "{$name} {$this->Father()->getClanName()}";
+        return "{$name} {$this->Father()->getBranchName()}";
     }
 
     public function isObjectDisabled() {
@@ -102,13 +102,13 @@ class Clan
     public function getObjectTabs() {
         $lists = parent::getObjectTabs();
 
-        $townsCount = $this->ClanTowns()->Count();
+        $townsCount = $this->BranchTowns()->Count();
         if ($townsCount) {
             $item = array(
                 'Title' => _t('Genealogist.TOWNS', 'Towns') . " ({$townsCount})",
                 'Content' => $this
                         ->customise(array(
-                            'Results' => $this->ClanTowns()
+                            'Results' => $this->BranchTowns()
                         ))
                         ->renderWith('List_Grid')
             );

@@ -112,7 +112,7 @@ class Gender
         $labels['Biography'] = _t('Genealogist.BIOGRAPHY', 'Biography');
 
         $labels['Tribe'] = _t('Genealogist.TRIBE', 'Tribe');
-        $labels['IsMainClan'] = _t('Genealogist.IS_MAIN_CLAN', 'Is Main Clan');
+        $labels['IsBranch'] = _t('Genealogist.IS_MAIN_CLAN', 'Is Main Branch');
 
         // Tabs
         $labels['Children'] = _t('Genealogist.CHILDREN', 'Children');
@@ -124,7 +124,7 @@ class Gender
         $labels['Events'] = _t('Genealogist.EVENTS', 'Events');
         $labels['RelatedEvents'] = _t('Genealogist.RELATED_EVENTS', 'Related Events');
         $labels['Collectables'] = _t('Genealogist.COLLECTABLES', 'Collectables');
-        $labels['Clans'] = _t('Genealogist.CLANS', 'Clans');
+        $labels['Branches'] = _t('Genealogist.CLANS', 'Branches');
 
         // Settings
         $labels['IsPublicFigure'] = _t('Genealogist.PUBLIC_FIGURE', 'Is Public Figure');
@@ -359,7 +359,7 @@ class Gender
 
         // check for inherit
         if ($this->CanViewType == 'Inherit') {
-            if ($this->FatherID && !$this->Father()->isClan()) {
+            if ($this->FatherID && !$this->Father()->isBranch()) {
                 return self::cache_permission_check('view', $member, $this->ID, $this->Father()->canView($member));
             }
         }
@@ -732,11 +732,11 @@ class Gender
     }
 
     /**
-     * Checks if this person is a clan
+     * Checks if this person is a branch
      * @return boolean
      */
-    public function isClan() {
-        return $this instanceof Clan;
+    public function isBranch() {
+        return $this instanceof Branch;
     }
 
     /**
@@ -1018,7 +1018,7 @@ class Gender
     }
 
     public function getObjectRelated() {
-//        return DataObject::get('Person', "`PublicFigure` = 1 OR `ClassName` = 'Clan'")->sort('RAND()');
+//        return DataObject::get('Person', "`PublicFigure` = 1 OR `ClassName` = 'Branch'")->sort('RAND()');
         return null;
     }
 
@@ -1028,21 +1028,6 @@ class Gender
 
     public function getObjectTabs() {
         $lists = array();
-
-        if ($this->isTribe()) {
-        } else {
-            if ($this->Events()->Count()) {
-                $lists[] = array(
-                    'Title' => _t('Genealogist.LIFESTORY', 'Life Story'),
-                    'Content' => $this->renderWith('Person_Lifestory')
-                );
-            }
-
-            $lists[] = array(
-                'Title' => _t('Genealogist.FAMILY', 'Family'),
-                'Content' => $this->renderWith('Person_Family')
-            );
-        }
 
         if ($this->Biography) {
             $lists[] = array(

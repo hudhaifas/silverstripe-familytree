@@ -247,7 +247,7 @@ class Person
 
         if ($withChildOf) {
             $childOf = '';
-            if ($this->Father()->isClan()) {
+            if ($this->Father()->isBranch()) {
                 $childOf = _t('Genealogist.SONS_OF');
             } else {
                 $childOf = $this->isFemale() ? _t('Genealogist.DAUGHTER_OF') : _t('Genealogist.SON_OF');
@@ -271,7 +271,7 @@ class Person
         }
 
         $name = $this->getPersonName();
-        $name .= " {$this->getClanName()}{$this->getTribeName()}";
+        $name .= " {$this->getBranchName()}{$this->getTribeName()}";
 
         return self::cache_name_check('brief-name', $this->ID, $name);
     }
@@ -291,28 +291,28 @@ class Person
         if ($this->getTribeName()) {
             $name .= " {$this->getTribeName()}";
         } else {
-            $name .= " {$this->getRootClan()}";
+            $name .= " {$this->getRootBranch()}";
         }
 
         return self::cache_name_check('short-name', $this->ID, $name);
     }
 
     /**
-     * Returns the person's clan names
+     * Returns the person's branch names
      * @return string
      */
-    public function getClanName() {
-        $cachedName = self::cache_name_check('clan-name', $this->ID);
+    public function getBranchName() {
+        $cachedName = self::cache_name_check('branch-name', $this->ID);
         if (isset($cachedName)) {
             return $cachedName;
         }
 
         $name = '';
         if ($this->Father()->exists()) {
-            $name .= " {$this->Father()->getClanName()}";
+            $name .= " {$this->Father()->getBranchName()}";
         }
 
-        return self::cache_name_check('clan-name', $this->ID, $name);
+        return self::cache_name_check('branch-name', $this->ID, $name);
     }
 
     public function getTribeName() {
@@ -369,24 +369,24 @@ class Person
         return self::cache_name_check('parents-name', $this->ID, $name);
     }
 
-    public function getRootClan() {
-        $cachedName = self::cache_name_check('root-clan', $this->ID);
+    public function getRootBranch() {
+        $cachedName = self::cache_name_check('root-branch', $this->ID);
         if (isset($cachedName)) {
             return $cachedName;
         }
 
         $person = $this;
 
-        $clan = null;
+        $branch = null;
         while ($person->Father()->exists()) {
             $person = $person->Father();
-            if ($person->isClan()) {
-                $clan = $person;
+            if ($person->isBranch()) {
+                $branch = $person;
             }
         }
 
-        $name = $clan ? $clan->Name : '';
-        return self::cache_name_check('root-clan', $this->ID, $name);
+        $name = $branch ? $branch->Name : '';
+        return self::cache_name_check('root-branch', $this->ID, $name);
     }
 
     /**
@@ -474,6 +474,26 @@ class Person
 
     public function getDeathEventDate() {
         return GenealogistEventsHelper::get_death_date($this);
+    }
+
+    public function getObjectTabs() {
+        $lists = parent::getObjectTabs();
+
+        if ($this->Events()->Count()) {
+            $item = array(
+                'Title' => _t('Genealogist.LIFESTORY', 'Life Story'),
+                'Content' => $this->renderWith('Person_Lifestory')
+            );
+            $lists->add($item);
+        }
+
+        $item = array(
+            'Title' => _t('Genealogist.FAMILY', 'Family'),
+            'Content' => $this->renderWith('Person_Family')
+        );
+        $lists->add($item);
+
+        return $lists;
     }
 
 }

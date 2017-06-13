@@ -128,21 +128,21 @@ body.modal-open {
 .chart-container .node.dead.exporting:after {
   display: none;
 }
-.chart-container .node.clan {
+.chart-container .node.branch {
   background-color: #dff0d8;
 }
-.chart-container .node.clan,
-.chart-container .node.clan a {
+.chart-container .node.branch,
+.chart-container .node.branch a {
   color: #3c763d;
 }
-.chart-container .node.clan.dead {
+.chart-container .node.branch.dead {
   background-color: #dff0d8;
 }
-.chart-container .node.clan.dead,
-.chart-container .node.clan.dead a {
+.chart-container .node.branch.dead,
+.chart-container .node.branch.dead a {
   color: #3c763d;
 }
-.chart-container .node.clan:after {
+.chart-container .node.branch:after {
   border-top: none;
 }
 .chart-container .node.tribe {

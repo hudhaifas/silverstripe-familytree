@@ -68,9 +68,9 @@
     </div>
 <% else %>
     <p>
-        <b><%t Genealogist.CLANS 'Clans' %></b>: $Clans.Count<br />
+        <b><%t Genealogist.CLANS 'Branches' %></b>: $Branches.Count<br />
 
-        <% loop Clans %>
+        <% loop Branches %>
             <% if canView || IsPublicFigure %>
                 <a href="{$ObjectLink}" title="$FullName">$AliasName</a><% if not Last %><%t Genealogist.COMMA ',' %><% end_if %>
             <% end_if %>

@@ -7,7 +7,7 @@ ar:
   Tribe:
     PLURALNAME: 'القبائل'
     SINGULARNAME: 'القبائل'
-  Clan:
+  Branch:
     PLURALNAME: 'العشائر'
     SINGULARNAME: 'العشائر'
   Male:

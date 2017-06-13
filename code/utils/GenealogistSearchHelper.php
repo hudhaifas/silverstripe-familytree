@@ -254,23 +254,23 @@ class GenealogistSearchHelper {
         preg_match_all('/"([^"]+)"/', $keywords, $pieces);
 //        print_r($pieces);
 //        die();
-        $clanName = $pieces[1];
+        $branchName = $pieces[1];
 
         $nameSeries = str_replace($pieces[0], "", $keywords);
 
-        $clan = DataObject::get('Clan')->filter(array('Name' => $clanName))->first();
-        $clanID = null;
+        $branch = DataObject::get('Branch')->filter(array('Name' => $branchName))->first();
+        $branchID = null;
 
-        if ($clan) {
-//            var_dump($clanName);
-//            var_dump($clan->Name);
-            $clanID = $clan->ID;
+        if ($branch) {
+//            var_dump($branchName);
+//            var_dump($branch->Name);
+            $branchID = $branch->ID;
         }
 
 //        var_dump($nameSeries);
 
         return array(
-            'ClanID' => $clanID,
+            'BranchID' => $branchID,
             'NameSeries' => $nameSeries,
         );
     }

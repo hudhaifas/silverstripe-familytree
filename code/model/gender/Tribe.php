@@ -33,7 +33,7 @@ class Tribe
         extends Gender {
 
     private static $has_many = array(
-        'Clans' => 'Male.Tribe'
+        'Branches' => 'Male.Tribe'
     );
     private static $belongs_many_many = array(
         "TribeTowns" => "Town",
@@ -46,10 +46,10 @@ class Tribe
             return $fields;
         }
 
-        // Clans
+        // Branches
         $config = $this->personConfigs(false, false, false, false);
 
-        $field = $fields->fieldByName('Root.Clans.Clans');
+        $field = $fields->fieldByName('Root.Branches.Branches');
         $field->setConfig($config);
 
         return $fields;
@@ -101,7 +101,7 @@ class Tribe
 
     public function getDescendantsLeaves() {
         $html = '';
-        foreach ($this->Clans() as $child) {
+        foreach ($this->Branches() as $child) {
             $html .= $child->getDescendants();
         }
 
@@ -129,8 +129,8 @@ class Tribe
         return $name;
     }
 
-    public function getClansList() {
-        return $this->Clans();
+    public function getBranchesList() {
+        return $this->Branches();
     }
 
     public function getAllBranchesList() {
@@ -156,7 +156,7 @@ class Tribe
         $branches = $this->getAllBranchesList();
         if ($branches->count()) {
             $item = array(
-                'Title' => _t('Genealogist.CLANS', 'Clans'),
+                'Title' => _t('Genealogist.CLANS', 'Branches'),
                 'Content' => $this
                         ->customise(array(
                             'Results' => $branches

@@ -8,10 +8,10 @@
 
         <li class="separator"></li>
 
-        <li class="dropdown arrow arrow-top-center dropdown-label hide-on-timeline" data-intro="<%t Genealogist.TUTORIAL_ROOTS_LIST 'Choose a tree from the clans list' %>" data-position="bottom">
+        <li class="dropdown arrow arrow-top-center dropdown-label hide-on-timeline" data-intro="<%t Genealogist.TUTORIAL_ROOTS_LIST 'Choose a tree from the branchs list' %>" data-position="bottom">
             <a href="/#" data-toggle="dropdown" class="icon-holder aside-disabled" title="<%t Genealogist.ROOTS_LIST 'Roots List' %>" aria-expanded="true">
                 <span class="nav-icon"><i class="fa fa-code-fork"></i></span>
-                <span class="hidden-phone"><%t Genealogist.ROOTS 'Clans' %></span>
+                <span class="hidden-phone"><%t Genealogist.ROOTS 'Branches' %></span>
             </a>
 
             <div class="dropdown-menu md panel panel-default">
@@ -21,7 +21,7 @@
 
                 <div class="panel-body text-center" style="max-height: 240px; overflow-y: auto;">
                     <ul id="filter-list" class="filter-list">
-                        <% loop RootClans.Sort(Name, ASC) %>
+                        <% loop RootBranches.Sort(Name, ASC) %>
                         <li><a href="{$TreeLink}" class="options-item">$BriefName</a></li>
                         <% end_loop %>
                     </ul>                       

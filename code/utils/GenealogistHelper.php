@@ -88,12 +88,12 @@ class GenealogistHelper {
     }
 
     /// Getters ///
-    public static function get_all_clans() {
-        return Clan::get();
+    public static function get_all_branchs() {
+        return Branch::get();
     }
 
-    public static function get_root_clans() {
-        return Clan::get()->filter(array('FatherID' => 0));
+    public static function get_root_branchs() {
+        return Branch::get()->filter(array('FatherID' => 0));
     }
 
     public static function get_person($id) {
@@ -133,7 +133,7 @@ class GenealogistHelper {
             return null;
         }
 
-        return DataObject::get('Clan')->filter(array(
+        return DataObject::get('Branch')->filter(array(
                     'IndexedAncestors:PartialMatch' => "|{$person->ID}|"
                 ))->Sort('YearOrder ASC');
     }

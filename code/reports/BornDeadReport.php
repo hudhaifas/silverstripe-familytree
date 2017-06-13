@@ -64,14 +64,14 @@ class BornDeadReport
             4 => 'Dead on this year',
         );
 
-//        $clans = GenealogistHelper::get_root_clans()->map();
+//        $branchs = GenealogistHelper::get_root_branchs()->map();
 
         $params = new FieldList(
                 DropdownField::create(
                         "r", _t('Genealogist.REPORT_TYPE', 'Report Type'), $reports
                 ), // 
 //                DropdownField::create(
-//                        "c", _t('Genealogist.CLAN', 'Clan'), $clans
+//                        "c", _t('Genealogist.CLAN', 'Branch'), $branchs
 //                ), // 
                 DateField::create('d', _t('Genealogist.DATE', 'Date'))
                         ->setConfig('showcalendar', true) //
