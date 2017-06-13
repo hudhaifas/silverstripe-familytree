@@ -967,6 +967,13 @@ class Gender
             $html .= $father->getAncestors();
         }
 
+        if ($this->isMale()) {
+            $clan = $this->Clan();
+            if ($clan && $clan->exists()) {
+                $html .= $clan->getAncestors();
+            }
+        }
+
         $mother = $this->Mother();
         if ($mother && $mother->exists()) {
             $html .= $mother->getAncestors();

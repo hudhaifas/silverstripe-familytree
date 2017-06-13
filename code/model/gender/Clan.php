@@ -54,7 +54,7 @@ class Clan
 
         $field = $fields->fieldByName('Root.ClanTowns.ClanTowns');
         Town::updateGridField($field);
-        
+
         return $fields;
     }
 
@@ -182,6 +182,27 @@ class Clan
         }
 
         return $lists;
+    }
+
+    public function AncestorsLeaves() {
+        $html = '';
+
+//        $father = $this->Father();
+//        if ($father && $father->exists()) {
+//            $html .= $father->getAncestors();
+//        }
+//
+//        $clan = $this->Clan();
+//        if ($clan && $clan->exists()) {
+//            $html .= $clan->getAncestors();
+//        }
+//
+//        $mother = $this->Mother();
+//        if ($mother && $mother->exists()) {
+//            $html .= $mother->getAncestors();
+//        }
+
+        return $html;
     }
 
 }
