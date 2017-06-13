@@ -111,7 +111,12 @@ class Gender
 
         $labels['Biography'] = _t('Genealogist.BIOGRAPHY', 'Biography');
 
-        $labels['Tribe'] = _t('Genealogist.TRIBE', 'Tribe');
+        $labels['Clan'] = _t('Genealogist.CLAN', 'Clan');
+        $labels['Corporation'] = _t('Genealogist.CORPORATION', 'Corporation');
+        $labels['Corporations'] = _t('Genealogist.CORPORATIONS', 'Corporations');
+        $labels['BranchTowns'] = _t('Genealogist.TOWNS', 'Towns');
+        $labels['ClanTowns'] = _t('Genealogist.TOWNS', 'Towns');
+        $labels['ClanTowns'] = _t('Genealogist.TOWNS', 'Towns');
         $labels['IsClan'] = _t('Genealogist.IS_CLAN', 'Is Clan');
 
         // Tabs
@@ -740,11 +745,11 @@ class Gender
     }
 
     /**
-     * Checks if this person is a tribe
+     * Checks if this person is a clan
      * @return boolean
      */
-    public function isTribe() {
-        return $this instanceof Tribe;
+    public function isClan() {
+        return $this instanceof Clan;
     }
 
     // Descendants

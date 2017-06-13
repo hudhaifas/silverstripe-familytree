@@ -480,7 +480,7 @@ HTML;
         return DataObject::get('Gender')
                         ->filterAny(array(
                             'ClassName:StartsWith' => 'Branch',
-                            'ClassName:StartsWith' => 'Tribe',
+                            'ClassName:StartsWith' => 'Clan',
         ));
     }
 

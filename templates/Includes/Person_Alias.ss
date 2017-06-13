@@ -1,6 +1,6 @@
 <strong>$ShortName</strong>
 
-<% if not isTribe %>
+<% if not isClan %>
     <% if canView || IsPublicFigure %>
         <span style="font-size: 82%;">
             <% if BirthDate %>

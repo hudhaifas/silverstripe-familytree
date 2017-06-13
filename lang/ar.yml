@@ -4,7 +4,7 @@ ar:
   Person:
     PLURALNAME: 'الأشخاص'
     SINGULARNAME: 'الأشخاص'
-  Tribe:
+  Clan:
     PLURALNAME: 'العشائر'
     SINGULARNAME: 'العشائر'
   Branch:
@@ -68,11 +68,13 @@ ar:
     INFORMATION: 'معلومات'
     ROOTS: 'العشائر والأفخاذ'
     BRANCHES: 'الأفخاذ'
-    TRIBES: 'العشائر'
-    TRIBE: 'القبيلة'
+    CLANS: 'العشائر'
+    CLAN: 'العشيرة'
+    CORPORATION: 'البطن'
+    CORPORATIONS: 'البطون'
     IS_CLAN: 'عشيرة رئيسية؟'
     ROOTS_LIST: 'قائمة العشائر والأفخاذ'
-    TRIBES_BRANCHES: 'العشائر والأفخاذ'
+    CLANS_BRANCHES: 'العشائر والأفخاذ'
     ROOTS_SEARCH: 'البحث في العشائر'
     SEARCH_IN_TREE: 'ابحث في الشجرة'
     DESCENDANTS: 'الذرية'

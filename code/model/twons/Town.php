@@ -59,7 +59,7 @@ class Town
     );
     private static $many_many = array(
         'TownBranches' => 'Branch',
-        'TownTribes' => 'Tribe',
+        'TownClans' => 'Clan',
         "ViewerGroups" => "Group",
         "EditorGroups" => "Group",
         "ViewerMembers" => "Member",
@@ -469,11 +469,11 @@ class Town
             );
         }
 
-        $branchs = $this->getTribesAndBranches();
+        $branchs = $this->getClansAndBranches();
         $branchsCount = $branchs->Count();
         if ($branchsCount) {
             $lists[] = array(
-                'Title' => _t('Genealogist.TRIBES_BRANCHES', 'Tribes & Branches') . " ({$branchsCount})",
+                'Title' => _t('Genealogist.CLANS_BRANCHES', 'Clans & Branches') . " ({$branchsCount})",
                 'Content' => $this
                         ->customise(array(
                             'Results' => $branchs
@@ -495,10 +495,29 @@ class Town
         return !$this->canView();
     }
 
-    public function getTribesAndBranches() {
-        $list = array_merge($this->TownTribes()->toArray(), $this->TownBranches()->toArray());
+    public function getClansAndBranches() {
+        $list = array_merge($this->TownClans()->toArray(), $this->TownBranches()->toArray());
 
         return new ArrayList($list);
+    }
+
+    public static function updateGridField($field) {
+        if ($field != null) {
+            $config = $field->getConfig();
+
+            $config->removeComponentsByType('GridFieldAddExistingAutocompleter');
+            $config->addComponent(new GridFieldAddExistingAutocompleter('buttons-before-right', array(
+                'TownID',
+                'DefaultName',
+                // Map
+                'Latitude',
+                'Longitude',
+                // Biography
+                'Biography',
+            )));
+
+            $field->setConfig($config);
+        }
     }
 
 }

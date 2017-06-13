@@ -237,7 +237,7 @@ JS
             TextField::create('Note', _t('Genealogist.NOTE', 'Note'), $person->Note), //
         );
 
-        if (!$person->isTribe()) {
+        if (!$person->isClan()) {
 
             // Birth
             $items[] = TextField::create('BirthDate', _t('Genealogist.BIRTHDATE', 'Birth Date'), $person->BirthDate);
@@ -352,7 +352,7 @@ JS
 
         // Create fields
         $items = array(HiddenField::create('PersonID', 'PersonID', $id));
-        if (!$person->isTribe()) {
+        if (!$person->isClan()) {
             $items[] = CheckboxField::create('IsPublicFigure', _t('Genealogist.PUBLIC_FIGURE', 'Is Public Figure'), $person->IsPublicFigure);
         }
 

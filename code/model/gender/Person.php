@@ -120,7 +120,7 @@ class Person
 
         $this->getCMSEvents($fields);
 
-        $this->reorderField($fields, 'TribeID', 'Root.Main', 'Root.Main');
+        $this->reorderField($fields, 'ClanID', 'Root.Main', 'Root.Main');
         $this->reorderField($fields, 'FatherID', 'Root.Main', 'Root.Main');
         $this->reorderField($fields, 'MotherID', 'Root.Main', 'Root.Main');
 
@@ -237,8 +237,8 @@ class Person
 
         $name = $this->getPersonName();
 
-        if ($this->isMale() && $this->Tribe()->exists()) {
-            $name .= ' ' . $this->Tribe()->getTribeName();
+        if ($this->isMale() && $this->Clan()->exists()) {
+            $name .= ' ' . $this->Clan()->getClanName();
         }
 
         if (!$this->Father()->exists()) {
@@ -271,7 +271,7 @@ class Person
         }
 
         $name = $this->getPersonName();
-        $name .= " {$this->getBranchName()}{$this->getTribeName()}";
+        $name .= " {$this->getBranchName()}{$this->getClanName()}";
 
         return self::cache_name_check('brief-name', $this->ID, $name);
     }
@@ -288,8 +288,8 @@ class Person
 
         $name = $this->getPersonName();
 
-        if ($this->getTribeName()) {
-            $name .= " {$this->getTribeName()}";
+        if ($this->getClanName()) {
+            $name .= " {$this->getClanName()}";
         } else {
             $name .= " {$this->getRootBranch()}";
         }
@@ -315,19 +315,19 @@ class Person
         return self::cache_name_check('branch-name', $this->ID, $name);
     }
 
-    public function getTribeName() {
-        $cachedName = self::cache_name_check('tribe-name', $this->ID);
+    public function getClanName() {
+        $cachedName = self::cache_name_check('clan-name', $this->ID);
         if (isset($cachedName)) {
             return $cachedName;
         }
 
         $name = '';
 
-        if ($this->Father()->exists() && $this->Father()->getTribeName()) {
-            $name .= $this->Father()->getTribeName();
+        if ($this->Father()->exists() && $this->Father()->getClanName()) {
+            $name .= $this->Father()->getClanName();
         }
 
-        return self::cache_name_check('tribe-name', $this->ID, $name);
+        return self::cache_name_check('clan-name', $this->ID, $name);
     }
 
     /**

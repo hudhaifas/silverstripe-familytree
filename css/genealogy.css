@@ -386,21 +386,21 @@ body.modal-open {
 .chart-container .node.branch:after {
   border-top: none;
 }
-.chart-container .node.tribe {
+.chart-container .node.clan {
   background-color: #c1e2b3;
 }
-.chart-container .node.tribe,
-.chart-container .node.tribe a {
+.chart-container .node.clan,
+.chart-container .node.clan a {
   color: #3a733b;
 }
-.chart-container .node.tribe.dead {
+.chart-container .node.clan.dead {
   background-color: #c1e2b3;
 }
-.chart-container .node.tribe.dead,
-.chart-container .node.tribe.dead a {
+.chart-container .node.clan.dead,
+.chart-container .node.clan.dead a {
   color: #3a733b;
 }
-.chart-container .node.tribe:after {
+.chart-container .node.clan:after {
   border-top: none;
 }
 .chart-container .node.timeline-node {

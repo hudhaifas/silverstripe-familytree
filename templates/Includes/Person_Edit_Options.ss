@@ -1,7 +1,7 @@
 <ul class="dropdown-menu pull-right" role="menu">
     <li><a href="{$EditLink(self)}" class="ajax-modal"><%t Genealogist.EDIT_THIS_PERSON 'Edit this Person' %></a></li>
     <li><a href="{$EditLink(settings)}" class="ajax-modal"><%t Genealogist.EDIT_SETTINGS 'Edit Settings' %></a></li>
-    <% if not isTribe %>
+    <% if not isClan %>
         <li><a href="{$EditLink(parents)}" class="ajax-modal"><%t Genealogist.EDIT_PARENTS 'Edit Parents' %></a></li>
         <% if isMale %>
             <li><a href="{$EditLink(children)}" class="ajax-modal"><%t Genealogist.EDIT_CHILDREN 'Edit Children' %></a></li>

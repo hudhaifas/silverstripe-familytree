@@ -2,7 +2,7 @@
 
 <p class="details"><a href="{$TreeLink}"><%t Genealogist.SHOW_TREE 'Show genealogist tree' %></a></p>
 
-<% if not isTribe %>
+<% if not isClan %>
     <% if canView || IsPublicFigure %>
         <p class="details edit">
             <% if BirthDate && BirthDateEstimated %>

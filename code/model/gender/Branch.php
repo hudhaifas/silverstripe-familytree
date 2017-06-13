@@ -54,6 +54,9 @@ class Branch
 
         $this->reorderField($fields, 'IsClan', 'Root.Main', 'Root.Main');
 
+        $field = $fields->fieldByName('Root.ClanTowns.ClanTowns');
+        Town::updateGridField($field);
+
         return $fields;
     }
 
@@ -73,7 +76,7 @@ class Branch
      * @return string
      */
     public function getBriefName() {
-        return "{$this->getBranchName()} {$this->getTribeName()}";
+        return "{$this->getBranchName()} {$this->getClanName()}";
     }
 
     /**

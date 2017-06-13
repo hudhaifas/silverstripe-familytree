@@ -3,7 +3,7 @@
     <div class="panel-heading">$FullName</div>
 
     <div class="panel-body">
-        <% if not isTribe %>
+        <% if not isClan %>
             <% if $Father %>
                 <p>
                     <b><%t Genealogist.FATHER 'Father' %></b><br />
@@ -32,7 +32,7 @@
             </p>
         <% end_if %>
 
-        <% if not isTribe %>
+        <% if not isClan %>
             <p>
                 <%t Genealogist.CHANGE_MOTHER 'Change Mother' %>
                 $Up.Form_ChangeMother($ID)

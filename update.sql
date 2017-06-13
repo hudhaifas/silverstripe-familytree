@@ -36,7 +36,7 @@ ALTER TABLE person
 /* Phase 2 */
 
 /* Clan to Branch */
-RENAME TABLE branch TO branch;
+RENAME TABLE clan TO branch;
 UPDATE `gender` SET `ClassName` = 'Branch' WHERE `ClassName` = 'Clan'
 ALTER TABLE `branch` CHANGE `IsMainClan` `IsClan` TINYINT(1) UNSIGNED NOT NULL DEFAULT '0';
 
@@ -44,7 +44,7 @@ RENAME TABLE `town_townbranchs` TO `ss4test`.`town_townbranches`;
 RENAME TABLE `branch_towns` TO `ss4test`.`branch_towns`;
 
 /* Tribe to Clan*/
-RENAME TABLE tribe TO branch;
+RENAME TABLE tribe TO clan;
 UPDATE `gender` SET `ClassName` = 'Clan' WHERE `ClassName` = 'Tribe'
 RENAME TABLE `ss4test`.`town_towntribes` TO `ss4test`.`town_townbranchs`;
 

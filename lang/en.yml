@@ -4,9 +4,9 @@ en:
   Person:
     PLURALNAME: 'Persons'
     SINGULARNAME: 'Persons'
-  Tribe:
-    PLURALNAME: 'Tribe'
-    SINGULARNAME: 'Tribes'
+  Clan:
+    PLURALNAME: 'Clan'
+    SINGULARNAME: 'Clans'
   Branch:
     PLURALNAME: 'Branches'
     SINGULARNAME: 'Branches'
@@ -68,11 +68,13 @@ en:
     INFORMATION: 'Information'
     ROOTS: 'Branches'
     BRANCHES: 'Branches'
-    TRIBES: 'Tribes'
-    TRIBE: 'Tribe'
+    CLANS: 'Clans'
+    CLAN: 'Clan'
+    CORPORATION: 'Corporation'
+    CORPORATIONS: 'Corporations'
     IS_CLAN: 'Is Main Branch'
     ROOTS_LIST: 'Branches List'
-    TRIBES_BRANCHES: 'Tribes & Branches'
+    CLANS_BRANCHES: 'Clans & Branches'
     ROOTS_SEARCH: 'Search in Branches'
     SEARCH_IN_TREE: 'Search for a person in the tree'
     DESCENDANTS: 'Descendants'

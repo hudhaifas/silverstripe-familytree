@@ -19,7 +19,7 @@
 
     <p><% if Note %><%t Genealogist.NOTE 'Note' %>: $Note<% end_if %></p>
 
-    <% if not isTribe %>
+    <% if not isClan %>
         <% if Father %>
             <p><strong><%t Genealogist.FATHER 'Father' %></strong>: <a href="#" data-url="{$Father.InfoLink()}" class="info-item">$Father.FullName</a></p>
         <% end_if %>

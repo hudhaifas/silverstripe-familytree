@@ -1,4 +1,4 @@
-<% if not isTribe %>
+<% if not isClan %>
     <div>
         <% if $Father %>
             <p>

@@ -206,10 +206,10 @@ class GenealogistHelper {
             }
 
             if ($p->isMale()) {
-                $tribe = $p->Tribe();
-                if ($tribe && $tribe->exists()) {
-                    array_push($stack, $tribe);
-                    $paths[$tribe->ID] = $p->ID . ',' . $paths[$p->ID];
+                $clan = $p->Clan();
+                if ($clan && $clan->exists()) {
+                    array_push($stack, $clan);
+                    $paths[$clan->ID] = $p->ID . ',' . $paths[$p->ID];
                 }
             }
         }
@@ -243,9 +243,9 @@ class GenealogistHelper {
             }
 
             if ($p->isMale()) {
-                $tribe = $p->Tribe();
-                if ($tribe && $tribe->exists()) {
-                    $ancestors_ids[] = $tribe->ID;
+                $clan = $p->Clan();
+                if ($clan && $clan->exists()) {
+                    $ancestors_ids[] = $clan->ID;
                 }
             }
         }
