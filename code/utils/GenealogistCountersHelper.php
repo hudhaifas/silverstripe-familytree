@@ -75,8 +75,8 @@ class GenealogistCountersHelper {
         }
 
         $count = 0;
-        foreach ($clan->Branches() as $branch) {
-            $count += self::count_males($branch);
+        foreach ($clan->Corporations() as $corporation) {
+            $count += self::count_males($corporation, $state);
         }
 
         return self::cache_counters_check('count-clan-males', $clan->ID, $state, $count);
@@ -100,8 +100,8 @@ class GenealogistCountersHelper {
         }
 
         $count = 0;
-        foreach ($clan->Branches() as $branch) {
-            $count += self::count_females($branch);
+        foreach ($clan->Corporations() as $corporation) {
+            $count += self::count_females($corporation, $state);
         }
 
         return self::cache_counters_check('count-clan-females', $clan->ID, $state, $count);

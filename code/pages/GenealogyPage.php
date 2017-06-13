@@ -183,7 +183,11 @@ class GenealogyPage_Controller
         $id = $this->getRequest()->param('ID');
         $person = GenealogistHelper::get_person($id);
 
-        return $person->renderWith("TheTree_InfoCard");
+        if (!$person) {
+            return $this->httpError(404, 'That person could not be found!');
+        } else {
+            return $person->renderWith("TheTree_InfoCard");
+        }
     }
 
     public function suggest() {
@@ -214,7 +218,7 @@ class GenealogyPage_Controller
         $person = $id ? DataObject::get_by_id('Gender', (int) $id) : $this->getRootBranches()->last();
 
         if (!$person) {
-            return $this->httpError(404, 'No books could be found!');
+            return $this->httpError(404, 'That person could not be found!');
         }
 
         $isAncestral = $this->getRequest()->getVar('ancestral') ? 1 : 0;
@@ -242,7 +246,7 @@ class GenealogyPage_Controller
         }
 
         if (!$p1 || !$p2) {
-            return $this->httpError(404, 'No books could be found!');
+            return $this->httpError(404, 'That person could not be found!');
         }
 
         $kinships = GenealogistHelper::get_kinships($p1, $p2);
@@ -273,6 +277,10 @@ class GenealogyPage_Controller
             $p2 = DataObject::get_by_id('Gender', (int) $p2);
         }
 
+        if (!$p1 && !$p2) {
+            return $this->httpError(404, 'That person could not be found!');
+        }
+        
         if ($p2) {
             $title = _t('Genealogist.KINSHIP_OF', //
                     "Kinships Between {value1} & {value2}", //

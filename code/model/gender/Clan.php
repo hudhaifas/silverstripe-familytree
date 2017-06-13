@@ -136,7 +136,7 @@ class Clan
         return $this->Corporations();
     }
 
-    public function getAllBranchesList() {
+    public function getBranchesList() {
         return GenealogistHelper::get_all_branches($this);
     }
 
