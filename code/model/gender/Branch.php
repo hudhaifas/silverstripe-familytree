@@ -34,7 +34,7 @@ class Branch
         extends Male {
 
     private static $db = array(
-        'IsBranch' => 'Boolean'
+        'IsClan' => 'Boolean'
     );
     private static $has_one = array(
     );
@@ -52,7 +52,7 @@ class Branch
     public function getCMSFields() {
         $fields = parent::getCMSFields();
 
-        $this->reorderField($fields, 'IsBranch', 'Root.Main', 'Root.Main');
+        $this->reorderField($fields, 'IsClan', 'Root.Main', 'Root.Main');
 
         return $fields;
     }

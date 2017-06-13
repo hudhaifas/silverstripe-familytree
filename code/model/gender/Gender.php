@@ -112,7 +112,7 @@ class Gender
         $labels['Biography'] = _t('Genealogist.BIOGRAPHY', 'Biography');
 
         $labels['Tribe'] = _t('Genealogist.TRIBE', 'Tribe');
-        $labels['IsBranch'] = _t('Genealogist.IS_MAIN_BRANCH', 'Is Main Branch');
+        $labels['IsClan'] = _t('Genealogist.IS_CLAN', 'Is Clan');
 
         // Tabs
         $labels['Children'] = _t('Genealogist.CHILDREN', 'Children');
