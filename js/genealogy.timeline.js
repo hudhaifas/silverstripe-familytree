@@ -179,17 +179,17 @@ var updateTimePeriod = function (start, end) {
 
 var updateTimePoint = function (time) {
     resetTimeline();
-    $('.node').addClass('timeline-node');
+    $('.node').not( ".clan" ).addClass('timeline-node');
 
     var $born = $('.node').filter(function () {
         isDead = $(this).data('birth') <= time && $(this).data('birth');
         return isDead;
     });
-    var $notBorb = $('.node').filter(function () {
+    var $notBorb = $('.node').not( ".clan" ).filter(function () {
         isDead = $(this).data('birth') <= time;
         return !isDead;
     });
-    var $isDead = $('.node').filter(function () {
+    var $isDead = $('.node').not( ".clan" ).filter(function () {
         isDead = $(this).data('death') <= time && $(this).data('death');
         return isDead;
     });
@@ -221,7 +221,7 @@ var updateTimePoint = function (time) {
 //    }).removeClass('empty-node');
     $born.removeClass('empty-node');
 
-    $('.node').filter(function () {
+    $('.node').not( ".clan" ).filter(function () {
         isDead = !$(this).data('birth');
 
         return isDead;
