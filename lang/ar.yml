@@ -134,6 +134,10 @@ ar:
     EDIT_SPOUSES: 'تعديل الأزواج'
     EDIT_HUSBANDS: 'تعديل الأزواج'
     EDIT_WIVES: 'تعديل الزوجات'
+    INDEX_THIS_PERSON: 'فهرسة هذا الشخص'
+    INDEX_STATISTICS: 'فهرسة الإحصائيات'
+    INDEX_DATES: 'فهرسة التواريخ'
+    INDEX_EVENTS: 'فهرسة الأحداث'
     DELETE_THIS_PERSON: 'حذف هذا الشخص'
 
     # Settings

@@ -39,6 +39,10 @@ class GenealogistEventsHelper {
     }
 
     public static function create_all_events($person) {
+        if ($person->isClan()) {
+            return;
+        }
+
         self::create_relative_events($person, $person);
         self::create_relative_events($person, $person->Father(), 'Father');
         self::create_relative_events($person, $person->Mother(), 'Mother');

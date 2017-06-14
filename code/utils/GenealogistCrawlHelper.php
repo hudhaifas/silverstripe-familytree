@@ -41,7 +41,7 @@ class GenealogistCrawlHelper {
         if ($person->BirthDate) {
             return $person->getBirthYear();
         }
-        
+
         $eldestChild = self::calculate_eldest_child_year($person, $space . '-');
         $youngestParent = self::calculate_youngest_parent_year($person, $space . '-');
 
@@ -162,6 +162,83 @@ class GenealogistCrawlHelper {
         if (self::$DEBUG) {
             print_r($msg . '<br />');
         }
+    }
+
+    public static function index_reset($person) {
+        $person->StatsID = 0;
+        $person->write();
+    }
+
+    public static function index_all($person) {
+        self::index_stats($person);
+        self::index_name($person);
+    }
+
+    public static function index_name($person) {
+        $person->IndexedName = $person->toIndexName();
+        $person->write();
+    }
+
+    public static function index_dates($person) {
+        if ($person->isClan()) {
+            return;
+        }
+
+        if ($person->Stats()->exists() || $person->StatsID) {
+            $stats = $person->Stats();
+        } else {
+            $stats = new GenderStats();
+        }
+
+        $minYear = GenealogistCrawlHelper::calculate_min_person_year($person);
+        $stats->MinYear = $minYear;
+        $person->YearOrder = $minYear;
+
+        if ($person->IsDead) {
+            $stats->MaxYear = GenealogistCrawlHelper::calculate_max_person_year($person, $stats->MinYear);
+        }
+
+        $stats->GenderID = $person->ID;
+        $stats->write();
+
+        $person->StatsID = $stats->ID;
+        $person->write();
+    }
+
+    public static function index_stats($person) {
+        if ($person->Stats()->exists() || $person->StatsID) {
+            $stats = $person->Stats();
+        } else {
+            $stats = new GenderStats();
+        }
+
+        if ($person->isClan()) {
+            $stats->Males = GenealogistCountersHelper::count_clan_males($person);
+            $stats->Females = GenealogistCountersHelper::count_clan_females($person);
+            $stats->Total = GenealogistCountersHelper::count_clan_descendants($person);
+            $stats->LiveMales = GenealogistCountersHelper::count_clan_males($person, 1);
+            $stats->LiveFemales = GenealogistCountersHelper::count_clan_females($person, 1);
+            $stats->LiveTotal = GenealogistCountersHelper::count_clan_descendants($person, 1);
+        } else {
+            $stats->Sons = GenealogistCountersHelper::count_sons($person);
+            $stats->Daughters = GenealogistCountersHelper::count_daughters($person);
+            $stats->Males = GenealogistCountersHelper::count_males($person);
+            $stats->Females = GenealogistCountersHelper::count_females($person);
+            $stats->Total = GenealogistCountersHelper::count_descendants($person);
+            $stats->LiveSons = GenealogistCountersHelper::count_sons($person, 1);
+            $stats->LiveDaughters = GenealogistCountersHelper::count_daughters($person, 1);
+            $stats->LiveMales = GenealogistCountersHelper::count_males($person, 1);
+            $stats->LiveFemales = GenealogistCountersHelper::count_females($person, 1);
+            $stats->LiveTotal = GenealogistCountersHelper::count_descendants($person, 1);
+            $ancestors = GenealogistHelper::get_ancestors_ids($person);
+            $person->IndexedAncestors = '|' . implode("|", $ancestors) . '|';
+        }
+
+        $stats->GenderID = $person->ID;
+        $stats->write();
+
+        $person->StatsID = $stats->ID;
+        $person->write();
     }
 
 }

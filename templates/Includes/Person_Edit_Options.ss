@@ -16,6 +16,8 @@
             </a>
         </li>
     <% end_if %>
+        
+    <li><a href="{$EditLink(index)}" class="ajax-modal"><%t Genealogist.INDEX_THIS_PERSON 'Index this Person' %></a></li>
     
     <% if canDelete %>
         <li><a href="{$EditLink(delete)}" class="ajax-modal"><%t Genealogist.DELETE_THIS_PERSON 'Delete this Person' %></a></li>

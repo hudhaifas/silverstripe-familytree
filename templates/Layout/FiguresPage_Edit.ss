@@ -178,6 +178,22 @@
                             <% end_if %>
                         <% end_if %>
 
+                        <div class="panel panel-default">
+                            <div class="panel-heading">
+                                <h4 class="panel-title">
+                                    <a data-toggle="collapse" data-parent="#accordion" href="#collapse-index-person">
+                                        <%t Genealogist.INDEX_THIS_PERSON 'Index this Person' %>
+                                    </a>
+                                </h4>
+                            </div>
+
+                            <div id="collapse-index-person" class="panel-collapse collapse">
+                                <div class="panel-body">
+                                    $Up.Form_IndexPerson($ID)
+                                </div>
+                            </div>
+                        </div>
+
                         <div class="panel panel-danger">
                             <div class="panel-heading">
                                 <h4 class="panel-title">

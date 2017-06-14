@@ -134,6 +134,10 @@ en:
     EDIT_SPOUSES: 'Edit Spouses'
     EDIT_HUSBANDS: 'Edit Husbands'
     EDIT_WIVES: 'Edit Wives'
+    INDEX_THIS_PERSON: 'Index this Person'
+    INDEX_STATISTICS: 'Index Statistics'
+    INDEX_DATES: 'Index Dates'
+    INDEX_EVENTS: 'Index Events'
     DELETE_THIS_PERSON: 'Delete this Person'
     
     # Settings

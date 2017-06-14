@@ -104,7 +104,7 @@ class Clan
 
     public function getDescendantsLeaves() {
         $html = '';
-        foreach ($this->Corporations() as $child) {
+        foreach ($this->getCorporationsList() as $child) {
             $html .= $child->getDescendants();
         }
 
@@ -133,7 +133,7 @@ class Clan
     }
 
     public function getCorporationsList() {
-        return $this->Corporations();
+        return $this->Corporations()->sort('YearOrder ASC');
     }
 
     public function getBranchesList() {

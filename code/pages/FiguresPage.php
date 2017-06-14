@@ -68,6 +68,10 @@ class FiguresPage_Controller
         'doAddSpouse',
         'Form_DeletePerson',
         'doDeletePerson',
+        'Form_IndexPerson',
+        'doIndexPersonStatistics',
+        'doIndexPersonDates',
+        'doIndexPersonEvents',
     );
     private static $url_handlers = array(
         'edit/$ID/$form' => 'edit',
@@ -135,6 +139,7 @@ JS
         'parents' => 'Person_Edit_Parents',
         'children' => 'Person_Edit_Children',
         'spouses' => 'Person_Edit_Spouses',
+        'index' => 'Person_Index',
         'delete' => 'Person_Delete'
     );
 
@@ -160,6 +165,7 @@ JS
                 case 'parents':
                 case 'children':
                 case 'spouses':
+                case 'index':
                 case 'delete':
                     $renderer = array($this->formTemplates[$form]);
                     break;
@@ -238,7 +244,6 @@ JS
         );
 
         if (!$person->isClan()) {
-
             // Birth
             $items[] = TextField::create('BirthDate', _t('Genealogist.BIRTHDATE', 'Birth Date'), $person->BirthDate);
             $items[] = DropdownField::create(
@@ -715,6 +720,60 @@ JS
         GenealogistHelper::delete_person($id);
 
         return $this->owner->redirect($this->Link('edit/' . $parent));
+    }
+
+    /// Delete Person ///
+    public function Form_IndexPerson($personID) {
+        if ($personID instanceof SS_HTTPRequest) {
+            $id = $personID->postVar('PersonID');
+        } else {
+            $id = $personID;
+        }
+
+//        $person = DataObject::get_by_id('Gender', (int) $id);
+        // Create fields          
+        $fields = new FieldList(
+                HiddenField::create('PersonID', 'PersonID', $id)
+        );
+
+        // Create action
+        $actions = new FieldList(
+                new FormAction('doIndexPersonStatistics', _t('Genealogist.INDEX_STATISTICS', 'Index Statistics')), //
+                new FormAction('doIndexPersonDates', _t('Genealogist.INDEX_DATES', 'Index Dates')), //
+                new FormAction('doIndexPersonEvents', _t('Genealogist.INDEX_EVENTS', 'Index Events'))
+        );
+
+        // Create Validators
+        $validator = new RequiredFields();
+
+        return new Form($this, 'Form_IndexPerson', $fields, $actions, $validator);
+    }
+
+    public function doIndexPersonStatistics($data, $form) {
+        $id = $data['PersonID'];
+        $person = DataObject::get_by_id('Gender', (int) $id);
+
+        GenealogistCrawlHelper::index_stats($person);
+
+        return $this->owner->redirectBack();
+    }
+
+    public function doIndexPersonDates($data, $form) {
+        $id = $data['PersonID'];
+        $person = DataObject::get_by_id('Gender', (int) $id);
+
+        GenealogistCrawlHelper::index_dates($person);
+
+        return $this->owner->redirectBack();
+    }
+
+    public function doIndexPersonEvents($data, $form) {
+        $id = $data['PersonID'];
+        $person = DataObject::get_by_id('Gender', (int) $id);
+
+        GenealogistEventsHelper::create_all_events($person);
+
+        return $this->owner->redirectBack();
     }
 
     /// Utils ///
